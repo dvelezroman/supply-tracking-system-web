@@ -1,0 +1,175 @@
+<app-page-header
+  [title]="lot()?.lotCode ?? ('lots.detailFallback' | transloco)"
+  [subtitle]="lot()?.product?.name"
+  backRoute="/lots"
+>
+  @if (lot()) {
+    <a mat-stroked-button [href]="publicTraceUrl(lot()!.lotCode)" target="_blank">
+      <mat-icon>open_in_new</mat-icon> {{ 'common.publicTrace' | transloco }}
+    </a>
+  }
+</app-page-header>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (lot(); as l) {
+  <div class="detail-layout">
+
+    <!-- Left column: specs + QR -->
+    <div class="left-col">
+
+      <!-- QR card -->
+      <mat-card class="qr-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>qr_code_2</mat-icon>
+          <mat-card-title>QR Code</mat-card-title>
+          <mat-card-subtitle>Print on product packaging</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="qr-preview">
+            @if (qrDataUrl()) {
+              <img [src]="qrDataUrl()" [alt]="'QR ' + l.lotCode" />
+            } @else {
+              <div class="qr-placeholder"><mat-icon>qr_code_2</mat-icon></div>
+            }
+            <code class="lot-code-label">{{ l.lotCode }}</code>
+          </div>
+
+          <mat-divider />
+
+          <div class="pdf-section">
+            <p class="pdf-label">
+              <mat-icon inline>picture_as_pdf</mat-icon>
+              Generate printable PDF sheet
+            </p>
+            <app-qr-pdf-download [lotCode]="l.lotCode" />
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Lot specs -->
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>inventory_2</mat-icon>
+          <mat-card-title>Lot Specifications</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <dl class="spec-list">
+            <dt>Presentation</dt>
+            <dd>{{ presentationLabels[l.presentation] ?? l.presentation }}</dd>
+            <dt>Packaging</dt>
+            <dd>{{ packagingLabels[l.packaging] ?? l.packaging }}</dd>
+            <dt>Weight / unit</dt>
+            <dd>{{ l.weightKg }} Kg</dd>
+            <dt>Size</dt>
+            <dd>{{ sizeLabels[l.sizeClassification] ?? l.sizeClassification }} u/lb</dd>
+            <dt>Color SalmoFan</dt>
+            <dd>{{ l.colorSalmoFan }}</dd>
+            <dt>Texture</dt>
+            <dd>{{ l.texture ?? '—' }}</dd>
+            <dt>Lot size</dt>
+            <dd>{{ l.lotSizeLbs }} lbs</dd>
+            <dt>Certifications</dt>
+            <dd>
+              @if (l.certifications.length) {
+                @for (c of l.certifications; track c) {
+                  <mat-chip>{{ c }}</mat-chip>
+                }
+              } @else {
+                —
+              }
+            </dd>
+          </dl>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Right column: harvest + participants -->
+    <div class="right-col">
+
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>agriculture</mat-icon>
+          <mat-card-title>Harvest Data</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <dl class="spec-list">
+            <dt>Harvest date</dt>
+            <dd>{{ l.harvestDate | date:'longDate' }}</dd>
+            <dt>Pool #</dt>
+            <dd>{{ l.poolNumber }}</dd>
+            <dt>Harvest weight</dt>
+            <dd>{{ l.harvestWeightGrams }} gr.</dd>
+            <dt>Farm</dt>
+            <dd>{{ l.farm.name }}</dd>
+            <dt>Location</dt>
+            <dd>{{ l.farm.location ?? '—' }}</dd>
+          </dl>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-icon mat-card-avatar>groups</mat-icon>
+          <mat-card-title>Chain Participants</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="participants">
+            @for (p of [
+              { role: 'Lab', icon: 'science', actor: l.lab },
+              { role: 'Maturation', icon: 'water', actor: l.maturation },
+              { role: 'Co-packer', icon: 'factory', actor: l.coPacker }
+            ]; track p.role) {
+              <div class="participant-row">
+                <mat-icon>{{ p.icon }}</mat-icon>
+                <div>
+                  <span class="participant-role">{{ p.role }}</span>
+                  <span class="participant-name">{{ p.actor.name }}</span>
+                  @if (p.actor.location) {
+                    <span class="participant-loc">
+                      <mat-icon inline>location_on</mat-icon>{{ p.actor.location }}
+                    </span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      @if (isAdmin()) {
+        <mat-card class="visibility-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>visibility</mat-icon>
+            <mat-card-title>{{ 'publicVisibility.lotSectionTitle' | transloco }}</mat-card-title>
+            <mat-card-subtitle>{{ 'publicVisibility.lotSectionHint' | transloco }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="visibility-grid">
+              @for (row of visibilityFields; track row.key) {
+                <mat-slide-toggle
+                  [checked]="vis()[row.key]"
+                  (change)="onVisibilityToggle(row.key, $event.checked)"
+                >
+                  {{ row.labelKey | transloco }}
+                </mat-slide-toggle>
+              }
+            </div>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              (click)="savePublicVisibility()"
+              [disabled]="isSavingVis()"
+            >
+              {{ 'publicVisibility.save' | transloco }}
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+
+    </div>
+  </div>
+}

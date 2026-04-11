@@ -1,0 +1,31 @@
+.search-field { width: 100%; max-width: 400px; margin-bottom: 16px; }
+
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+
+  table { width: 100%; }
+}
+
+.actions-cell {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.product-link {
+  color: #3f51b5;
+  text-decoration: none;
+  font-weight: 500;
+  &:hover { text-decoration: underline; }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  color: rgba(0,0,0,0.38);
+  gap: 8px;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; }
+}

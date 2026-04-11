@@ -1,0 +1,70 @@
+<app-page-header
+  [title]="product()?.name ?? ('products.detailFallback' | transloco)"
+  [subtitle]="product()?.sku"
+  backRoute="/products"
+>
+  @if (product()) {
+    <a mat-stroked-button [routerLink]="['..', id, 'edit']">
+      <mat-icon>edit</mat-icon> {{ 'common.edit' | transloco }}
+    </a>
+  }
+</app-page-header>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (product(); as p) {
+  <div class="detail-layout">
+    <div class="detail-sidebar">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'products.infoCardTitle' | transloco }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <dl class="info-grid">
+          <dt>{{ 'products.colSku' | transloco }}</dt>
+          <dd><code>{{ p.sku }}</code></dd>
+          <dt>{{ 'products.colName' | transloco }}</dt>
+          <dd>{{ p.name }}</dd>
+          <dt>{{ 'products.colCategory' | transloco }}</dt>
+          <dd>{{ p.category ?? '—' }}</dd>
+          <dt>{{ 'products.form.description' | transloco }}</dt>
+          <dd>{{ p.description ?? '—' }}</dd>
+          <dt>{{ 'products.colCreated' | transloco }}</dt>
+          <dd>{{ p.createdAt | date:'medium' }}</dd>
+        </dl>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="lots-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'products.productionLots' | transloco }}</mat-card-title>
+        <mat-card-subtitle>{{ p.lots?.length ?? 0 }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        @if ((p.lots?.length ?? 0) === 0) {
+          <p class="muted">{{ 'products.lotsEmpty' | transloco }}</p>
+        } @else {
+          <ul class="lots-list">
+            @for (lot of p.lots; track lot.id) {
+              <li>
+                <a [routerLink]="['/lots', lot.id]" class="lot-link">{{ lot.lotCode }}</a>
+                <span class="lot-meta">
+                  · {{ lot.harvestDate | date:'mediumDate' }}
+                  · {{ lot.lotSizeLbs | number:'1.0-0' }} lb
+                  · {{ ('presentation.' + lot.presentation) | transloco }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </mat-card-content>
+    </mat-card>
+    </div>
+
+    <div class="history-panel">
+      <app-product-history [productId]="id" />
+    </div>
+  </div>
+}

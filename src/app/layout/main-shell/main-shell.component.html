@@ -1,0 +1,66 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [opened]="sidenavOpen()"
+    [mode]="isMobile() ? 'over' : 'side'"
+    (openedChange)="sidenavOpen.set($event)"
+    class="sidenav"
+  >
+    <div class="sidenav-header">
+      <a routerLink="/" class="sidenav-brand" [matTooltip]="'shell.tooltip.publicHome' | transloco">
+        <mat-icon class="brand-icon">local_shipping</mat-icon>
+        <span class="brand-name">SupplyTrack</span>
+      </a>
+    </div>
+
+    <mat-divider />
+
+    <mat-nav-list>
+      @for (item of navItems; track item.labelKey) {
+        @if (!item.adminOnly || isAdmin()) {
+          <a
+            mat-list-item
+            [routerLink]="item.route"
+            routerLinkActive="active-link"
+            (click)="isMobile() && sidenav.close()"
+          >
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span matListItemTitle>{{ item.labelKey | transloco }}</span>
+          </a>
+        }
+      }
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <mat-divider />
+      <div class="user-info">
+        <mat-icon>account_circle</mat-icon>
+        <div class="user-details">
+          <span class="user-name">{{ currentUser()?.name }}</span>
+          <span class="user-role">{{ currentUser()?.role }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="toolbar">
+      <button
+        mat-icon-button
+        (click)="toggleSidenav()"
+        [matTooltip]="'shell.tooltip.toggleMenu' | transloco"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="spacer"></span>
+      <app-language-toggle />
+      <button mat-icon-button (click)="logout()" [matTooltip]="'shell.tooltip.logout' | transloco">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

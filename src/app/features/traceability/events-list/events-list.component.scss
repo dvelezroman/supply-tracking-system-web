@@ -1,0 +1,82 @@
+.filters-card {
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: #fff;
+  box-sizing: border-box;
+
+  &__title {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  &__hint {
+    margin: 0 0 16px;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: rgba(0, 0, 0, 0.56);
+  }
+}
+
+.filters-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.filter-field {
+  width: 100%;
+
+  &--span {
+    @media (min-width: 600px) {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+.filters-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+  table { width: 100%; }
+}
+
+.notes-cell {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.entity-link {
+  color: #3f51b5;
+  text-decoration: none;
+  font-weight: 500;
+  &:hover { text-decoration: underline; }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  color: rgba(0,0,0,0.38);
+  gap: 8px;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; }
+}

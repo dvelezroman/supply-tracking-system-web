@@ -1,0 +1,209 @@
+<div class="trace-page">
+  <header class="trace-header">
+    <a routerLink="/" class="trace-header__brand">
+      <mat-icon>local_shipping</mat-icon>
+      <span>SupplyTrack</span>
+    </a>
+    <p class="trace-header__tagline">
+      {{ 'publicTrace.tagline' | transloco }}
+    </p>
+    <app-language-toggle class="trace-header__lang" />
+  </header>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+    <p class="loading-text">{{ 'publicTrace.loading' | transloco }}</p>
+  }
+
+  @if (hasError()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
+      <p>{{ 'publicTrace.notFoundBody' | transloco: { lotCode: lotCode } }}</p>
+    </div>
+  }
+
+  @if (trace(); as t) {
+    <div class="trace-content">
+      <mat-card class="hero-card">
+        <mat-card-content>
+          <div class="hero-inner">
+            <div class="hero-info">
+              <p class="hero-category">{{ t.lot.product.category }}</p>
+              <h1 class="hero-name">{{ t.lot.product.name }}</h1>
+              <p class="hero-sku">SKU: {{ t.lot.product.sku }}</p>
+
+              <div class="hero-chips">
+                <mat-chip>{{ presentationLabel(t.lot.presentation) }}</mat-chip>
+                <mat-chip>{{ packagingLabel(t.lot.packaging) }}</mat-chip>
+                <mat-chip
+                  >{{ sizeLabelDisplay(t.lot.sizeClassification) }}
+                  {{ 'common.unitsPerLb' | transloco }}</mat-chip
+                >
+                <mat-chip color="primary" highlighted
+                  >Color SalmoFan {{ t.lot.colorSalmoFan }}</mat-chip
+                >
+              </div>
+
+              @if ((t.lot.certifications?.length ?? 0) > 0) {
+                <div class="certifications">
+                  @for (cert of t.lot.certifications ?? []; track cert) {
+                    <span class="cert-badge">
+                      <mat-icon inline>verified</mat-icon> {{ cert }}
+                    </span>
+                  }
+                </div>
+              }
+            </div>
+
+            @if (t.qrCode) {
+              <div class="hero-qr">
+                <img
+                  [src]="t.qrCode"
+                  [alt]="'publicTrace.qrAlt' | transloco: { lotCode: t.lot.lotCode ?? lotCode }"
+                />
+                <p class="lot-code">{{ t.lot.lotCode }}</p>
+                <button mat-stroked-button (click)="downloadQr()" class="qr-btn">
+                  <mat-icon>download</mat-icon> {{ 'publicTrace.downloadQr' | transloco }}
+                </button>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="detail-grid">
+        <mat-card>
+          <mat-card-header>
+            <mat-icon mat-card-avatar>inventory_2</mat-icon>
+            <mat-card-title>{{ 'publicTrace.specsTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <dl class="spec-list">
+              <dt>{{ 'publicTrace.dtLotCode' | transloco }}</dt>
+              <dd><code>{{ t.lot.lotCode }}</code></dd>
+              <dt>{{ 'publicTrace.dtWeightUnit' | transloco }}</dt>
+              <dd>{{ t.lot.weightKg }} Kg</dd>
+              <dt>{{ 'publicTrace.dtLotSize' | transloco }}</dt>
+              <dd>{{ t.lot.lotSizeLbs | number: '1.0-0' }} lbs</dd>
+              <dt>{{ 'publicTrace.dtSizeGrade' | transloco }}</dt>
+              <dd>
+                {{ sizeLabelDisplay(t.lot.sizeClassification) }}
+                {{ 'common.unitsPerLb' | transloco }}
+              </dd>
+              <dt>{{ 'publicTrace.dtSalmoFan' | transloco }}</dt>
+              <dd>{{ t.lot.colorSalmoFan }}</dd>
+              <dt>{{ 'publicTrace.dtTexture' | transloco }}</dt>
+              <dd>{{ t.lot.texture ?? '—' }}</dd>
+            </dl>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-header>
+            <mat-icon mat-card-avatar>agriculture</mat-icon>
+            <mat-card-title>{{ 'publicTrace.harvestTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <dl class="spec-list">
+              <dt>{{ 'publicTrace.dtHarvestDate' | transloco }}</dt>
+              <dd>{{ t.lot.harvestDate | date: 'longDate' }}</dd>
+              <dt>{{ 'publicTrace.dtPool' | transloco }}</dt>
+              <dd>{{ t.lot.poolNumber }}</dd>
+              <dt>{{ 'publicTrace.dtIndivWeight' | transloco }}</dt>
+              <dd>{{ t.lot.harvestWeightGrams }} gr.</dd>
+              <dt>{{ 'publicTrace.dtFarm' | transloco }}</dt>
+              <dd>{{ t.lot.origin.farm.name }}</dd>
+              <dt>{{ 'publicTrace.dtLocation' | transloco }}</dt>
+              <dd>{{ t.lot.origin.farm.location ?? '—' }}</dd>
+            </dl>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="span-2">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>groups</mat-icon>
+            <mat-card-title>{{ 'publicTrace.participantsTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="participants-grid">
+              @for (slot of participantSlots(t); track slot.roleKey) {
+                <div class="participant-card">
+                  <mat-icon>{{ slot.icon }}</mat-icon>
+                  <div>
+                    <p class="participant-role">{{ slot.roleKey | transloco }}</p>
+                    <p class="participant-name">{{ slot.data.name }}</p>
+                    @if (slot.data.location) {
+                      <p class="participant-location">
+                        <mat-icon inline>location_on</mat-icon>
+                        {{ slot.data.location }}
+                      </p>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <mat-card class="timeline-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>route</mat-icon>
+          <mat-card-title>{{ 'publicTrace.timelineTitle' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'publicTrace.timelineSubtitle' | transloco }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="timeline">
+            @for (event of t.events; track event.timestamp; let last = $last) {
+              <div class="timeline-item">
+                <div class="timeline-connector">
+                  <div class="timeline-dot">
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </div>
+                  @if (!last) {
+                    <div class="timeline-line"></div>
+                  }
+                </div>
+                <div class="timeline-content">
+                  <div class="timeline-top">
+                    <mat-chip [color]="eventTypeColors[event.eventType] || 'primary'" highlighted>
+                      {{ eventTypeLabel(event.eventType) }}
+                    </mat-chip>
+                    <span class="timeline-time">{{ event.timestamp | date: 'medium' }}</span>
+                  </div>
+                  <p class="timeline-actor">
+                    <mat-icon inline>person</mat-icon>
+                    {{ event.actor.name }}
+                    @if (event.actor.type) {
+                      <span class="actor-type">({{ actorTypeLabel(event.actor.type) }})</span>
+                    }
+                  </p>
+                  @if (event.location) {
+                    <p class="timeline-location">
+                      <mat-icon inline>location_on</mat-icon> {{ event.location }}
+                    </p>
+                  }
+                  @if (event.notes) {
+                    <p class="timeline-notes">{{ event.notes }}</p>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <footer class="trace-footer">
+        <p>{{ 'publicTrace.footerGenerated' | transloco }} {{ t.generatedAt | date: 'medium' }}</p>
+        <p>
+          {{ 'publicTrace.footerVerified' | transloco }}
+          <strong>SupplyTrack</strong> · {{ 'publicTrace.footerSystem' | transloco }}
+        </p>
+        <button mat-button (click)="printPage()">
+          <mat-icon>print</mat-icon> {{ 'publicTrace.print' | transloco }}
+        </button>
+      </footer>
+    </div>
+  }
+</div>

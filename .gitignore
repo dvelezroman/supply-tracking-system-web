@@ -2,13 +2,5 @@
 /dist
 /build
 /public
-/src
-/test
-/docs
-/examples
-/scripts
-/tests
-/tools
-/utils
 /.angular
 .env

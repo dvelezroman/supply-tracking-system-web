@@ -1,0 +1,62 @@
+<app-page-header
+  [title]="(isEditMode() ? 'actors.editTitle' : 'actors.newTitle') | transloco"
+  backRoute="/actors"
+/>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<mat-card class="form-card">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'actors.form.name' | transloco }}</mat-label>
+          <input matInput formControlName="name" />
+          @if (form.controls.name.hasError('required')) {
+            <mat-error>{{ 'actors.form.nameRequired' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'actors.form.type' | transloco }}</mat-label>
+          <mat-select formControlName="type">
+            @for (typeKey of actorTypeKeys; track typeKey) {
+              <mat-option [value]="typeKey">{{ ('actorTypes.' + typeKey) | transloco }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.type.hasError('required')) {
+            <mat-error>{{ 'actors.form.typeRequired' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'actors.form.location' | transloco }}</mat-label>
+          <input matInput formControlName="location" [placeholder]="'actors.form.locationPlaceholder' | transloco" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'actors.form.contact' | transloco }}</mat-label>
+          <input matInput formControlName="contact" [placeholder]="'actors.form.contactPlaceholder' | transloco" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isSaving()"
+        >
+          @if (isSaving()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ isEditMode() ? ('common.saveChanges' | transloco) : ('common.createActor' | transloco) }}
+          }
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

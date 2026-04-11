@@ -1,0 +1,96 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+
+  .sidenav-header {
+    padding: 20px 16px;
+  }
+
+  .sidenav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+
+    .brand-icon {
+      color: #3f51b5;
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 500;
+      color: #3f51b5;
+    }
+  }
+
+  mat-nav-list {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .active-link {
+    background-color: rgba(63, 81, 181, 0.12) !important;
+    color: #3f51b5 !important;
+
+    mat-icon {
+      color: #3f51b5;
+    }
+  }
+
+  .sidenav-footer {
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+
+      mat-icon {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 32px;
+        width: 32px;
+        height: 32px;
+      }
+
+      .user-details {
+        display: flex;
+        flex-direction: column;
+
+        .user-name {
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .user-role {
+          font-size: 11px;
+          color: rgba(0, 0, 0, 0.54);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  app-language-toggle ::ng-deep .mat-mdc-icon-button {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.content {
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+}

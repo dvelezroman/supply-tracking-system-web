@@ -1,0 +1,262 @@
+<app-page-header
+  [title]="'lots.newTitle' | transloco"
+  [subtitle]="'lots.newSubtitle' | transloco"
+  backRoute="/lots"
+/>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (!isLoading()) {
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>label</mat-icon>
+        <mat-card-title>{{ 'lots.form.identityTitle' | transloco }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.lotCode' | transloco }}</mat-label>
+            <input matInput formControlName="lotCode" [placeholder]="'lots.form.lotCodePlaceholder' | transloco" />
+            @if (form.controls.lotCode.hasError('required')) {
+              <mat-error>{{ 'lots.form.lotCodeRequired' | transloco }}</mat-error>
+            }
+            @if (form.controls.lotCode.hasError('pattern')) {
+              <mat-error>{{ 'lots.form.lotCodePattern' | transloco }}</mat-error>
+            }
+            <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.product' | transloco }}</mat-label>
+            <mat-select formControlName="productId">
+              @for (p of products(); track p.id) {
+                <mat-option [value]="p.id">{{ p.name }} ({{ p.sku }})</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.productId.hasError('required')) {
+              <mat-error>{{ 'lots.form.productRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>inventory_2</mat-icon>
+        <mat-card-title>{{ 'lots.form.specificationsTitle' | transloco }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.presentation' | transloco }}</mat-label>
+            <mat-select formControlName="presentation">
+              @for (v of presentationValues; track v) {
+                <mat-option [value]="v">{{ ('presentation.' + v) | transloco }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.presentation.hasError('required')) {
+              <mat-error>{{ 'lots.form.presentationRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.packaging' | transloco }}</mat-label>
+            <mat-select formControlName="packaging">
+              @for (v of packagingValues; track v) {
+                <mat-option [value]="v">{{ ('packaging.' + v) | transloco }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.packaging.hasError('required')) {
+              <mat-error>{{ 'lots.form.packagingRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.sizeClassification' | transloco }}</mat-label>
+            <mat-select formControlName="sizeClassification">
+              @for (v of sizeValues; track v) {
+                <mat-option [value]="v">{{ ('sizeGrade.' + v) | transloco }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.sizeClassification.hasError('required')) {
+              <mat-error>{{ 'lots.form.sizeRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.colorSalmoFan' | transloco }}</mat-label>
+            <mat-select formControlName="colorSalmoFan">
+              @for (v of colorValues; track v) {
+                <mat-option [value]="v">{{ v }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.colorSalmoFan.hasError('required')) {
+              <mat-error>{{ 'lots.form.colorRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.weightKg' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="weightKg" placeholder="2.27" />
+            @if (form.controls.weightKg.hasError('required')) {
+              <mat-error>{{ 'lots.form.weightRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.lotSizeLbs' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="lotSizeLbs" placeholder="952" />
+            @if (form.controls.lotSizeLbs.hasError('required')) {
+              <mat-error>{{ 'lots.form.lotSizeRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.texture' | transloco }}</mat-label>
+            <input matInput formControlName="texture" [placeholder]="'lots.form.texturePlaceholder' | transloco" />
+          </mat-form-field>
+
+          <div class="cert-field span-2">
+            <mat-label class="cert-label">{{ 'lots.form.certifications' | transloco }}</mat-label>
+            <mat-chip-set>
+              @for (cert of form.controls.certifications.value ?? []; track cert) {
+                <mat-chip (removed)="removeCertification(cert)">
+                  {{ cert }}
+                  <button matChipRemove><mat-icon>cancel</mat-icon></button>
+                </mat-chip>
+              }
+            </mat-chip-set>
+            <mat-form-field appearance="outline" class="cert-input">
+              <mat-label>{{ 'lots.form.addCertification' | transloco }}</mat-label>
+              <input
+                matInput
+                [formControl]="certInput"
+                [placeholder]="'lots.form.certPlaceholder' | transloco"
+                (keydown)="onCertKeydown($event)"
+              />
+              <button mat-icon-button matSuffix type="button" (click)="addCertification()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>agriculture</mat-icon>
+        <mat-card-title>{{ 'lots.form.harvestTitle' | transloco }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.harvestDate' | transloco }}</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="harvestDate" />
+            <mat-datepicker-toggle matIconSuffix [for]="picker" />
+            <mat-datepicker #picker />
+            @if (form.controls.harvestDate.hasError('required')) {
+              <mat-error>{{ 'lots.form.harvestDateRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.poolNumber' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="poolNumber" placeholder="2" />
+            @if (form.controls.poolNumber.hasError('required')) {
+              <mat-error>{{ 'lots.form.poolRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.harvestWeightGrams' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="harvestWeightGrams" placeholder="20.5" />
+            @if (form.controls.harvestWeightGrams.hasError('required')) {
+              <mat-error>{{ 'lots.form.harvestWeightRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.farm' | transloco }}</mat-label>
+            <mat-select formControlName="farmId">
+              @for (a of actors(); track a.id) {
+                <mat-option [value]="a.id">{{ a.name }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.farmId.hasError('required')) {
+              <mat-error>{{ 'lots.form.farmRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>groups</mat-icon>
+        <mat-card-title>{{ 'lots.form.chainTitle' | transloco }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.lab' | transloco }}</mat-label>
+            <mat-select formControlName="labId">
+              @for (a of actors(); track a.id) {
+                <mat-option [value]="a.id">{{ a.name }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.labId.hasError('required')) {
+              <mat-error>{{ 'lots.form.labRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.maturation' | transloco }}</mat-label>
+            <mat-select formControlName="maturationId">
+              @for (a of actors(); track a.id) {
+                <mat-option [value]="a.id">{{ a.name }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.maturationId.hasError('required')) {
+              <mat-error>{{ 'lots.form.maturationRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'lots.form.coPacker' | transloco }}</mat-label>
+            <mat-select formControlName="coPackerId">
+              @for (a of actors(); track a.id) {
+                <mat-option [value]="a.id">{{ a.name }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.coPackerId.hasError('required')) {
+              <mat-error>{{ 'lots.form.coPackerRequired' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid || isSaving()"
+      >
+        @if (isSaving()) {
+          <mat-spinner diameter="20" />
+        } @else {
+          {{ 'common.createLot' | transloco }}
+        }
+      </button>
+    </div>
+
+  </form>
+}

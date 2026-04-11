@@ -1,0 +1,151 @@
+<app-page-header [title]="'traceability.eventsTitle' | transloco" [subtitle]="'traceability.eventsSubtitle' | transloco">
+  <a mat-flat-button color="primary" routerLink="events/new">
+    <mat-icon>add</mat-icon> {{ 'traceability.recordEventBtn' | transloco }}
+  </a>
+</app-page-header>
+
+<section class="filters-card mat-elevation-z1">
+  <h2 class="filters-card__title">{{ 'traceability.filtersTitle' | transloco }}</h2>
+  <p class="filters-card__hint">{{ 'traceability.filtersHint' | transloco }}</p>
+
+  <div class="filters-grid">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field filter-field--span">
+      <mat-label>{{ 'traceability.filterProduct' | transloco }}</mat-label>
+      <mat-select [ngModel]="filterProductId()" (ngModelChange)="filterProductId.set($event)">
+        <mat-option value="">{{ 'traceability.filterAllProducts' | transloco }}</mat-option>
+        @for (p of products(); track p.id) {
+          <mat-option [value]="p.id">{{ p.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+      <mat-label>{{ 'traceability.filterEventType' | transloco }}</mat-label>
+      <mat-select [ngModel]="filterEventType()" (ngModelChange)="filterEventType.set($event)">
+        <mat-option value="">{{ 'traceability.filterAllEventTypes' | transloco }}</mat-option>
+        @for (t of eventTypeFilterOptions; track t) {
+          <mat-option [value]="t">{{ eventTypeLabel(t) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+      <mat-label>{{ 'traceability.filterEventDateFrom' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [ngModel]="filterEventDateFrom()"
+        (ngModelChange)="filterEventDateFrom.set($event)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+      <mat-label>{{ 'traceability.filterEventDateTo' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [ngModel]="filterEventDateTo()"
+        (ngModelChange)="filterEventDateTo.set($event)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+      <mat-label>{{ 'traceability.filterHarvestDateFrom' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [ngModel]="filterHarvestDateFrom()"
+        (ngModelChange)="filterHarvestDateFrom.set($event)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+      <mat-label>{{ 'traceability.filterHarvestDateTo' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [ngModel]="filterHarvestDateTo()"
+        (ngModelChange)="filterHarvestDateTo.set($event)"
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="filters-actions">
+    <button mat-stroked-button type="button" (click)="clearFilters()">
+      {{ 'traceability.filterClear' | transloco }}
+    </button>
+    <button mat-flat-button color="primary" type="button" (click)="applyFilters()">
+      <mat-icon>filter_alt</mat-icon>
+      {{ 'traceability.filterApply' | transloco }}
+    </button>
+  </div>
+</section>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<div class="table-container mat-elevation-z1">
+  <table mat-table [dataSource]="events()">
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colTime' | transloco }}</th>
+      <td mat-cell *matCellDef="let e">{{ e.timestamp | date:'short' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="eventType">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colEvent' | transloco }}</th>
+      <td mat-cell *matCellDef="let e">
+        <mat-chip [color]="eventTypeColors[e.eventType] || 'primary'" highlighted>
+          {{ eventTypeLabel(e.eventType) }}
+        </mat-chip>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colProduct' | transloco }}</th>
+      <td mat-cell *matCellDef="let e">
+        @if (e.product) {
+          <a [routerLink]="['/products', e.productId]" class="entity-link">
+            {{ e.product.name }}
+          </a>
+        } @else {
+          —
+        }
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actor">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colActor' | transloco }}</th>
+      <td mat-cell *matCellDef="let e">{{ e.actor?.name ?? '—' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colLocation' | transloco }}</th>
+      <td mat-cell *matCellDef="let e">{{ e.location ?? '—' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="notes">
+      <th mat-header-cell *matHeaderCellDef>{{ 'traceability.colNotes' | transloco }}</th>
+      <td mat-cell *matCellDef="let e" class="notes-cell">{{ e.notes ?? '—' }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  @if (!isLoading() && events().length === 0) {
+    <div class="empty-state">
+      <mat-icon>route</mat-icon>
+      <p>{{ 'traceability.emptyEvents' | transloco }}</p>
+    </div>
+  }
+
+  <mat-paginator
+    [length]="totalItems()"
+    [pageIndex]="currentPage() - 1"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  />
+</div>

@@ -1,0 +1,83 @@
+<div class="auth-page">
+  <div class="auth-top">
+    <a mat-button routerLink="/">{{ 'common.home' | transloco }}</a>
+    <app-language-toggle />
+  </div>
+
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <div class="auth-card__header">
+        <mat-icon class="brand-icon">local_shipping</mat-icon>
+        <mat-card-title>SupplyTrack</mat-card-title>
+        <mat-card-subtitle>{{ 'auth.register.subtitle' | transloco }}</mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.register.name' | transloco }}</mat-label>
+          <input matInput formControlName="name" autocomplete="name" />
+          <mat-icon matSuffix>person</mat-icon>
+          @if (form.controls.name.hasError('required')) {
+            <mat-error>{{ 'auth.register.nameRequired' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.register.email' | transloco }}</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="email" />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (form.controls.email.hasError('required')) {
+            <mat-error>{{ 'auth.login.emailRequired' | transloco }}</mat-error>
+          }
+          @if (form.controls.email.hasError('email')) {
+            <mat-error>{{ 'auth.login.emailInvalid' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'auth.register.password' | transloco }}</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="new-password"
+          />
+          <button mat-icon-button matSuffix type="button" (click)="hidePassword.set(!hidePassword())">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (form.controls.password.hasError('required')) {
+            <mat-error>{{ 'auth.login.passwordRequired' | transloco }}</mat-error>
+          }
+          @if (form.controls.password.hasError('minlength')) {
+            <mat-error>{{ 'auth.register.passwordMin' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="full-width submit-btn"
+          [disabled]="form.invalid || isLoading()"
+        >
+          @if (isLoading()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ 'auth.register.createAccount' | transloco }}
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <p class="auth-footer-links">
+        <a routerLink="/">{{ 'common.home' | transloco }}</a>
+        <span class="dot">·</span>
+        {{ 'auth.register.hasAccount' | transloco }}
+        <a routerLink="/auth/login">{{ 'auth.register.signIn' | transloco }}</a>
+      </p>
+    </mat-card-actions>
+  </mat-card>
+</div>

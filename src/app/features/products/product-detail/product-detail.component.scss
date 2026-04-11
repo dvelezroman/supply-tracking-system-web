@@ -1,0 +1,59 @@
+.detail-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lots-card {
+  .muted {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+  }
+
+  .lots-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .lot-link {
+    font-weight: 500;
+    color: #3f51b5;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .lot-meta {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 13px;
+  }
+}
+
+.info-card {
+  dl.info-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px 16px;
+    margin: 0;
+
+    dt { color: rgba(0,0,0,0.54); font-size: 13px; font-weight: 500; }
+    dd { margin: 0; font-size: 14px; word-break: break-word; }
+  }
+}

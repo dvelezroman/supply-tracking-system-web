@@ -1,0 +1,79 @@
+<app-page-header
+  [title]="'dashboard.title' | transloco"
+  [subtitle]="'dashboard.subtitle' | transloco"
+/>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<div class="stats-grid">
+  @for (card of statCards; track card.key) {
+    <mat-card class="stat-card" [routerLink]="card.route">
+      <mat-card-content>
+        <div class="stat-card__inner">
+          <div class="stat-card__icon" [style.background-color]="card.color + '1a'">
+            <mat-icon [style.color]="card.color">{{ card.icon }}</mat-icon>
+          </div>
+          <div class="stat-card__data">
+            <span class="stat-card__value">{{ stats()[card.key] }}</span>
+            <span class="stat-card__label">{{ card.labelKey | transloco }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>
+
+<mat-card class="recent-card">
+  <mat-card-header>
+    <mat-card-title>{{ 'dashboard.recentEvents' | transloco }}</mat-card-title>
+    <mat-card-subtitle>{{ 'dashboard.recentSubtitle' | transloco }}</mat-card-subtitle>
+    <span class="spacer"></span>
+    <a mat-button color="primary" routerLink="/traceability">{{ 'dashboard.viewAll' | transloco }}</a>
+  </mat-card-header>
+
+  <mat-card-content>
+    <table mat-table [dataSource]="recentEvents()" class="full-width">
+      <ng-container matColumnDef="timestamp">
+        <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.colTime' | transloco }}</th>
+        <td mat-cell *matCellDef="let e">{{ e.timestamp | date:'short' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="eventType">
+        <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.colEvent' | transloco }}</th>
+        <td mat-cell *matCellDef="let e">
+          <mat-chip>{{ eventTypeLabel(e.eventType) }}</mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="product">
+        <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.colProduct' | transloco }}</th>
+        <td mat-cell *matCellDef="let e">{{ e.product?.name ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actor">
+        <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.colActor' | transloco }}</th>
+        <td mat-cell *matCellDef="let e">{{ e.actor?.name ?? '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.colLocation' | transloco }}</th>
+        <td mat-cell *matCellDef="let e">{{ e.location ?? '—' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="recentColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: recentColumns;"></tr>
+    </table>
+
+    @if (!isLoading() && recentEvents().length === 0) {
+      <div class="empty-state">
+        <mat-icon>inbox</mat-icon>
+        <p>{{ 'dashboard.emptyEvents' | transloco }}</p>
+        <a mat-flat-button color="primary" routerLink="/traceability/events/new">
+          {{ 'dashboard.recordFirstEvent' | transloco }}
+        </a>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,189 @@
+<div class="landing">
+  <mat-toolbar color="primary" class="landing__toolbar">
+    <div class="landing__toolbar-inner">
+      <div class="landing__brandLine">
+        <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
+        <span class="landing__title">SupplyTrack</span>
+      </div>
+      <div class="landing__actionsLine">
+        <app-language-toggle class="landing__langToggle" />
+        <div class="landing__operatorBtns">
+          <a
+            mat-button
+            routerLink="/auth/login"
+            class="landing__op-btn landing__op-btn--signin"
+          >
+            {{ 'landing.toolbar.operatorSignIn' | transloco }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <main class="landing__main">
+    <section class="hero">
+      <h1>{{ 'landing.hero.title' | transloco }}</h1>
+      <p class="hero__lead">{{ 'landing.hero.lead' | transloco }}</p>
+    </section>
+
+    <section class="lookup-section" aria-labelledby="lookup-title">
+      <mat-card class="lookup-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="lookup-card__avatar">qr_code_scanner</mat-icon>
+          <mat-card-title id="lookup-title">{{ 'landing.lookup.title' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'landing.lookup.subtitle' | transloco }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="lookup-scan">
+            <h3 class="lookup-scan__title">
+              <mat-icon>smartphone</mat-icon>
+              {{ 'landing.lookup.scanTitle' | transloco }}
+            </h3>
+            <p class="lookup-scan__body">{{ 'landing.lookup.scanBody' | transloco }}</p>
+          </div>
+
+          <mat-divider class="lookup-divider" />
+
+          <h3 class="lookup-manual__title">
+            <mat-icon>keyboard</mat-icon>
+            {{ 'landing.lookup.manualTitle' | transloco }}
+          </h3>
+          <p class="lookup-manual__hint">{{ 'landing.lookup.hint' | transloco }}</p>
+
+          <div class="lookup-row">
+            <mat-form-field appearance="outline" class="lookup-field" subscriptSizing="dynamic">
+              <mat-label>{{ 'landing.lookup.label' | transloco }}</mat-label>
+              <input
+                matInput
+                name="lotCode"
+                [ngModel]="lotCode()"
+                (ngModelChange)="lotCode.set($event)"
+                [placeholder]="'landing.lookup.placeholder' | transloco"
+                (keyup.enter)="goToPublicTrace()"
+                autocomplete="off"
+                autocapitalize="characters"
+              />
+            </mat-form-field>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              class="lookup-btn"
+              [disabled]="!canLookup()"
+              (click)="goToPublicTrace()"
+            >
+              <mat-icon>travel_explore</mat-icon>
+              {{ 'landing.lookup.view' | transloco }}
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <section class="section" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="section__title">
+        <mat-icon class="section__title-icon">info</mat-icon>
+        {{ 'landing.about.title' | transloco }}
+      </h2>
+      <div class="section__body">
+        <p>{{ 'landing.about.p1' | transloco }}</p>
+        <p>{{ 'landing.about.p2' | transloco }}</p>
+      </div>
+    </section>
+
+    <section class="section section--highlight" aria-labelledby="public-heading">
+      <h2 id="public-heading" class="section__title">
+        <mat-icon class="section__title-icon section__title-icon--public">qr_code_scanner</mat-icon>
+        {{ 'landing.public.title' | transloco }}
+      </h2>
+      <p class="section__intro">{{ 'landing.public.intro' | transloco }}</p>
+      <ul class="feature-list">
+        <li>
+          <mat-icon class="feature-list__icon">qr_code_2</mat-icon>
+          <div>{{ 'landing.public.f1' | transloco }}</div>
+        </li>
+        <li>
+          <mat-icon class="feature-list__icon">inventory_2</mat-icon>
+          <div>{{ 'landing.public.f2' | transloco }}</div>
+        </li>
+        <li>
+          <mat-icon class="feature-list__icon">agriculture</mat-icon>
+          <div>{{ 'landing.public.f3' | transloco }}</div>
+        </li>
+        <li>
+          <mat-icon class="feature-list__icon">timeline</mat-icon>
+          <div>{{ 'landing.public.f4' | transloco }}</div>
+        </li>
+        <li>
+          <mat-icon class="feature-list__icon">download</mat-icon>
+          <div>{{ 'landing.public.f5' | transloco }}</div>
+        </li>
+        <li>
+          <mat-icon class="feature-list__icon">visibility</mat-icon>
+          <div>{{ 'landing.public.f6' | transloco }}</div>
+        </li>
+      </ul>
+      <p class="section__note">
+        <mat-icon inline>link</mat-icon>
+        {{ 'landing.public.note' | transloco }}
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="steps-heading">
+      <h2 id="steps-heading" class="section__title">
+        <mat-icon class="section__title-icon">touch_app</mat-icon>
+        {{ 'landing.steps.title' | transloco }}
+      </h2>
+      <ol class="steps">
+        <li>
+          <span class="steps__num">1</span>
+          <div>{{ 'landing.steps.s1' | transloco }}</div>
+        </li>
+        <li>
+          <span class="steps__num">2</span>
+          <div>{{ 'landing.steps.s2' | transloco }}</div>
+        </li>
+        <li>
+          <span class="steps__num">3</span>
+          <div>{{ 'landing.steps.s3' | transloco }}</div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="audiences" aria-label="Compare public and operator access">
+      <mat-card class="audience audience--public">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-avatar card-avatar--public">qr_code_scanner</mat-icon>
+          <mat-card-title>{{ 'landing.cards.publicTitle' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'landing.cards.publicSubtitle' | transloco }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ 'landing.cards.publicBody' | transloco }}</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="audience audience--ops">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-avatar card-avatar--ops">lock</mat-icon>
+          <mat-card-title>{{ 'landing.cards.opsTitle' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'landing.cards.opsSubtitle' | transloco }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ 'landing.cards.opsBody' | transloco }}</p>
+          <div class="audience__actions">
+            <a mat-flat-button color="primary" routerLink="/auth/login">
+              <mat-icon>login</mat-icon>
+              {{ 'landing.cards.signInConsole' | transloco }}
+            </a>
+            <a mat-button routerLink="/auth/register">{{ 'landing.cards.createOperator' | transloco }}</a>
+          </div>
+          <p class="audience__fineprint">{{ 'landing.cards.opsFineprint' | transloco }}</p>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  </main>
+
+  <footer class="landing__footer">
+    <span>{{ 'landing.footer' | transloco }}</span>
+  </footer>
+</div>

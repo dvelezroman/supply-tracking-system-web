@@ -1,0 +1,21 @@
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+  table { width: 100%; }
+}
+
+.actions-cell {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+  color: rgba(0,0,0,0.38);
+  gap: 8px;
+  mat-icon { font-size: 48px; width: 48px; height: 48px; }
+}

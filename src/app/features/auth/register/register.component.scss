@@ -1,0 +1,91 @@
+@use '../login/login.component' as login;
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.auth-top {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  a {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 8px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 16px 0 8px;
+    text-align: center;
+
+    .brand-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #3f51b5;
+      margin-bottom: 8px;
+    }
+  }
+
+  mat-card-content {
+    padding-top: 16px;
+  }
+}
+
+.full-width { width: 100%; }
+
+.submit-btn {
+  margin-top: 8px;
+  height: 44px;
+  font-size: 15px;
+}
+
+.auth-footer-links {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+  margin: 0;
+
+  .dot {
+    margin: 0 6px;
+    opacity: 0.5;
+  }
+
+  a {
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

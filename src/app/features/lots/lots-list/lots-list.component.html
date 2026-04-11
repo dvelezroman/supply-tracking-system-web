@@ -1,0 +1,168 @@
+<app-page-header [title]="'lots.listTitle' | transloco" [subtitle]="'lots.listSubtitle' | transloco">
+  <a mat-flat-button color="primary" routerLink="new">
+    <mat-icon>add</mat-icon> {{ 'lots.newLot' | transloco }}
+  </a>
+</app-page-header>
+
+<section class="filters mat-elevation-z1">
+  <h2 class="filters__title">{{ 'lots.filters.title' | transloco }}</h2>
+  <div class="filters__grid">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters__field filters__field--search">
+      <mat-label>{{ 'lots.filters.search' | transloco }}</mat-label>
+      <input
+        matInput
+        type="search"
+        [value]="filterSearch()"
+        (input)="filterSearch.set($any($event.target).value)"
+        (keydown.enter)="applyFilters()"
+        [placeholder]="'lots.filters.searchPlaceholder' | transloco"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters__field">
+      <mat-label>{{ 'lots.filters.product' | transloco }}</mat-label>
+      <mat-select
+        [value]="filterProductId() ?? ''"
+        (selectionChange)="filterProductId.set($event.value || null)"
+      >
+        <mat-option value="">{{ 'lots.filters.allProducts' | transloco }}</mat-option>
+        @for (p of productOptions(); track p.id) {
+          <mat-option [value]="p.id">{{ p.name }} ({{ p.sku }})</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters__field">
+      <mat-label>{{ 'lots.filters.harvestFrom' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [value]="filterHarvestFrom() ?? ''"
+        (change)="filterHarvestFrom.set($any($event.target).value || undefined)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filters__field">
+      <mat-label>{{ 'lots.filters.harvestTo' | transloco }}</mat-label>
+      <input
+        matInput
+        type="date"
+        [value]="filterHarvestTo() ?? ''"
+        (change)="filterHarvestTo.set($any($event.target).value || undefined)"
+      />
+    </mat-form-field>
+
+    <div class="filters__actions">
+      <button mat-flat-button color="primary" type="button" (click)="applyFilters()">
+        <mat-icon>filter_alt</mat-icon>
+        {{ 'lots.filters.apply' | transloco }}
+      </button>
+      <button mat-stroked-button type="button" (click)="clearFilters()" [disabled]="!hasActiveFilters()">
+        <mat-icon>clear</mat-icon>
+        {{ 'lots.filters.clear' | transloco }}
+      </button>
+    </div>
+  </div>
+</section>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<div class="table-container mat-elevation-z1">
+  <table mat-table [dataSource]="lots()">
+
+    <ng-container matColumnDef="lotCode">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colLotCode' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">
+        <a [routerLink]="l.id" class="lot-link">
+          <mat-icon inline>qr_code_2</mat-icon> {{ l.lotCode }}
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="product">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colProduct' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">{{ l.product.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="presentation">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colPresentation' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">
+        <mat-chip>{{ ('presentation.' + l.presentation) | transloco }}</mat-chip>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="colorSalmoFan">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colColor' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">{{ l.colorSalmoFan }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="harvestDate">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colHarvest' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">{{ l.harvestDate | date:'mediumDate' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lotSizeLbs">
+      <th mat-header-cell *matHeaderCellDef>{{ 'lots.colSizeLbs' | transloco }}</th>
+      <td mat-cell *matCellDef="let l">{{ l.lotSizeLbs | number:'1.0-0' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let l" class="actions-cell">
+        <a mat-icon-button [routerLink]="l.id" [matTooltip]="'lots.tooltipViewDetail' | transloco">
+          <mat-icon>visibility</mat-icon>
+        </a>
+        <button
+          mat-icon-button
+          color="primary"
+          [matTooltip]="'lots.tooltipQrPdf' | transloco"
+          (click)="toggleQrPanel(l.lotCode)"
+        >
+          <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  @if (expandedLotCode(); as expandedCode) {
+    <div class="qr-panel-below">
+      <div class="qr-panel">
+        <span class="qr-panel__label">
+          <mat-icon>qr_code_2</mat-icon>
+          {{ 'lots.qrLabelsFor' | transloco: { lotCode: expandedCode } }}
+        </span>
+        <app-qr-pdf-download [lotCode]="expandedCode" />
+      </div>
+    </div>
+  }
+
+  @if (!isLoading() && lots().length === 0) {
+    <div class="empty-state">
+      <mat-icon>view_list</mat-icon>
+      @if (hasActiveFilters()) {
+        <p>{{ 'lots.emptyLotsFiltered' | transloco }}</p>
+        <button mat-stroked-button type="button" (click)="clearFilters()">
+          {{ 'lots.filters.clear' | transloco }}
+        </button>
+      } @else {
+        <p>{{ 'lots.emptyLots' | transloco }}</p>
+        <a mat-flat-button color="primary" routerLink="new">{{ 'lots.registerFirstLot' | transloco }}</a>
+      }
+    </div>
+  }
+
+  <mat-paginator
+    [pageIndex]="currentPage() - 1"
+    [length]="totalItems()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  />
+</div>

@@ -1,0 +1,84 @@
+<app-page-header [title]="'products.listTitle' | transloco" [subtitle]="'products.listSubtitle' | transloco">
+  <a mat-flat-button color="primary" routerLink="new">
+    <mat-icon>add</mat-icon> {{ 'products.addProduct' | transloco }}
+  </a>
+</app-page-header>
+
+<mat-form-field appearance="outline" class="search-field">
+  <mat-label>{{ 'form.searchProducts' | transloco }}</mat-label>
+  <input
+    matInput
+    [ngModel]="searchTerm()"
+    (ngModelChange)="onSearch($event)"
+    [placeholder]="'form.searchNameOrSku' | transloco"
+  />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<div class="table-container mat-elevation-z1">
+  <table mat-table [dataSource]="products()">
+    <ng-container matColumnDef="sku">
+      <th mat-header-cell *matHeaderCellDef>{{ 'products.colSku' | transloco }}</th>
+      <td mat-cell *matCellDef="let p"><code>{{ p.sku }}</code></td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>{{ 'products.colName' | transloco }}</th>
+      <td mat-cell *matCellDef="let p">
+        <a [routerLink]="p.id" class="product-link">{{ p.name }}</a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>{{ 'products.colCategory' | transloco }}</th>
+      <td mat-cell *matCellDef="let p">{{ p.category ?? '—' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lotCount">
+      <th mat-header-cell *matHeaderCellDef>{{ 'products.colLots' | transloco }}</th>
+      <td mat-cell *matCellDef="let p">{{ p.lotCount ?? 0 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>{{ 'products.colCreated' | transloco }}</th>
+      <td mat-cell *matCellDef="let p">{{ p.createdAt | date:'mediumDate' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let p" class="actions-cell">
+        <a mat-icon-button [routerLink]="[p.id, 'edit']" [matTooltip]="'common.edit' | transloco">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a mat-icon-button [routerLink]="p.id" [matTooltip]="'products.tooltipViewHistory' | transloco">
+          <mat-icon>route</mat-icon>
+        </a>
+        <button mat-icon-button color="warn" [matTooltip]="'common.delete' | transloco" (click)="deleteProduct(p)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  @if (!isLoading() && products().length === 0) {
+    <div class="empty-state">
+      <mat-icon>inventory_2</mat-icon>
+      <p>{{ 'products.emptyList' | transloco }}</p>
+    </div>
+  }
+
+  <mat-paginator
+    [length]="totalItems()"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  />
+</div>
