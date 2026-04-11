@@ -52,7 +52,7 @@ If the API is mounted under a different prefix or version, update `apiBase` in b
 
 ## i18n
 
-Translations live under `src/assets/i18n/` (for example `en.json`, `es.json`). The app uses Transloco.
+Translations live under `src/assets/i18n/` (`es.json`, `en.json`). The app uses Transloco with **Spanish (`es`) as the default** language; users can switch to English via the language control, and the choice is stored in `localStorage` under `lang`. Missing keys in Spanish fall back to English.
 
 ## Project layout
 

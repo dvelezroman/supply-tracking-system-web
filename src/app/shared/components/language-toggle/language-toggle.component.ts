@@ -24,13 +24,13 @@ import { MatMenuModule } from '@angular/material/menu';
       <mat-icon>translate</mat-icon>
     </button>
     <mat-menu #langMenu="matMenu">
-      <button mat-menu-item (click)="setLang('en')">
-        English @if (active() === 'en') {
+      <button mat-menu-item (click)="setLang('es')">
+        Español @if (active() === 'es') {
           <span class="check">✓</span>
         }
       </button>
-      <button mat-menu-item (click)="setLang('es')">
-        Español @if (active() === 'es') {
+      <button mat-menu-item (click)="setLang('en')">
+        English @if (active() === 'en') {
           <span class="check">✓</span>
         }
       </button>

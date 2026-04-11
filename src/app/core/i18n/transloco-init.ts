@@ -11,10 +11,8 @@ export function translocoAppInit(
     const saved = localStorage.getItem(LANG_KEY);
     if (saved === 'es' || saved === 'en') {
       transloco.setActiveLang(saved);
-    } else if (
-      typeof navigator !== 'undefined' &&
-      navigator.language?.toLowerCase().startsWith('es')
-    ) {
+    } else {
+      // Default UI language: Spanish (first visit or cleared storage).
       transloco.setActiveLang('es');
     }
 
