@@ -187,6 +187,9 @@
                   @if (event.notes) {
                     <p class="timeline-notes">{{ event.notes }}</p>
                   }
+                  @if (dispatchMetaLine(event.metadata); as dline) {
+                    <p class="timeline-meta">{{ dline }}</p>
+                  }
                 </div>
               </div>
             }

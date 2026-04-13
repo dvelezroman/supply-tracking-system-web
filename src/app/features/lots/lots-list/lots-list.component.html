@@ -117,9 +117,17 @@
         </a>
         <button
           mat-icon-button
+          [color]="expandedLotCode() === l.lotCode && lotPanelTabIndex() === 0 ? 'accent' : undefined"
+          [matTooltip]="'lots.tooltipTracePanel' | transloco"
+          (click)="openLotPanel(l.lotCode, 0)"
+        >
+          <mat-icon>timeline</mat-icon>
+        </button>
+        <button
+          mat-icon-button
           color="primary"
           [matTooltip]="'lots.tooltipQrPdf' | transloco"
-          (click)="toggleQrPanel(l.lotCode)"
+          (click)="openLotPanel(l.lotCode, 1)"
         >
           <mat-icon>picture_as_pdf</mat-icon>
         </button>
@@ -130,15 +138,46 @@
     <tr mat-row *matRowDef="let row; columns: columns;"></tr>
   </table>
 
-  @if (expandedLotCode(); as expandedCode) {
-    <div class="qr-panel-below">
-      <div class="qr-panel">
-        <span class="qr-panel__label">
-          <mat-icon>qr_code_2</mat-icon>
-          {{ 'lots.qrLabelsFor' | transloco: { lotCode: expandedCode } }}
-        </span>
-        <app-qr-pdf-download [lotCode]="expandedCode" />
-      </div>
+  @if (expandedLotCode(); as panelCode) {
+    <div class="lot-panel-below">
+      <mat-tab-group
+        class="lot-panel-tabs"
+        [selectedIndex]="lotPanelTabIndex()"
+        (selectedIndexChange)="onLotTabChange($event)"
+        animationDuration="0ms"
+      >
+        <mat-tab [label]="'lots.panelTabTrace' | transloco">
+          <div class="lot-panel__tab-body">
+            <div class="lot-panel__actions">
+              @if (lotByCode(panelCode); as row) {
+                <a mat-stroked-button [routerLink]="['/lots', row.id]">
+                  <mat-icon>open_in_new</mat-icon>
+                  {{ 'lots.viewFullDetail' | transloco }}
+                </a>
+                <a
+                  mat-flat-button
+                  color="primary"
+                  [routerLink]="['/traceability', 'events', 'new']"
+                  [queryParams]="registerEventQuery(panelCode)"
+                >
+                  <mat-icon>add</mat-icon>
+                  {{ 'lots.registerEventForLot' | transloco }}
+                </a>
+              }
+            </div>
+            <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+          </div>
+        </mat-tab>
+        <mat-tab [label]="'lots.panelTabLabels' | transloco">
+          <div class="lot-panel__tab-body lot-panel__tab-body--labels">
+            <span class="qr-panel__label">
+              <mat-icon>qr_code_2</mat-icon>
+              {{ 'lots.qrLabelsFor' | transloco: { lotCode: panelCode } }}
+            </span>
+            <app-qr-pdf-download [lotCode]="panelCode" />
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   }
 

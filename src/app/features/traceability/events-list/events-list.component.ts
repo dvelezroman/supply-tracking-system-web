@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { TraceabilityService, type TraceabilityEventsFilters } from '../services/traceability.service';
 import { ProductsService } from '../../products/services/products.service';
+import { LotsAdminService, type LotSummary } from '../../lots/services/lots.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { TranslocoService } from '@jsverse/transloco';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
@@ -60,6 +61,7 @@ import type { Product } from '../../../core/models/product.model';
 export class EventsListComponent implements OnInit {
   private traceabilityService = inject(TraceabilityService);
   private productsService = inject(ProductsService);
+  private lotsService = inject(LotsAdminService);
   private destroyRef = inject(DestroyRef);
   private transloco = inject(TranslocoService);
 
@@ -72,8 +74,10 @@ export class EventsListComponent implements OnInit {
   pageSize = signal(20);
 
   products = signal<Product[]>([]);
+  lotFilterOptions = signal<LotSummary[]>([]);
 
   filterProductId = signal('');
+  filterLotId = signal('');
   filterEventDateFrom = signal('');
   filterEventDateTo = signal('');
   filterHarvestDateFrom = signal('');
@@ -83,7 +87,7 @@ export class EventsListComponent implements OnInit {
   readonly eventTypeFilterOptions = TRACEABILITY_FILTER_EVENT_TYPES;
   readonly eventTypeColors = EVENT_TYPE_COLORS;
 
-  readonly columns = ['timestamp', 'eventType', 'product', 'actor', 'location', 'notes'];
+  readonly columns = ['timestamp', 'eventType', 'product', 'lot', 'actor', 'location', 'notes'];
 
   eventTypeLabel(type: string): string {
     const key = `eventTypes.${type}`;
@@ -119,15 +123,30 @@ export class EventsListComponent implements OnInit {
     this.triggerLoad();
   }
 
+  onProductFilterChange(pid: string): void {
+    this.filterProductId.set(pid);
+    this.filterLotId.set('');
+    if (!pid) {
+      this.lotFilterOptions.set([]);
+      return;
+    }
+    this.lotsService.getAll({ productId: pid, page: 1, limit: 200 }).subscribe({
+      next: (res) => this.lotFilterOptions.set(res.data.items),
+      error: () => this.lotFilterOptions.set([]),
+    });
+  }
+
   private buildFilters(): TraceabilityEventsFilters {
     const f: TraceabilityEventsFilters = {};
     const pid = this.filterProductId().trim();
+    const lid = this.filterLotId().trim();
     const df = this.filterEventDateFrom().trim();
     const dt = this.filterEventDateTo().trim();
     const hf = this.filterHarvestDateFrom().trim();
     const ht = this.filterHarvestDateTo().trim();
     const et = this.filterEventType().trim();
     if (pid) f.productId = pid;
+    if (lid) f.lotId = lid;
     if (df) f.dateFrom = df;
     if (dt) f.dateTo = dt;
     if (hf) f.harvestDateFrom = hf;
@@ -148,6 +167,8 @@ export class EventsListComponent implements OnInit {
 
   clearFilters(): void {
     this.filterProductId.set('');
+    this.filterLotId.set('');
+    this.lotFilterOptions.set([]);
     this.filterEventDateFrom.set('');
     this.filterEventDateTo.set('');
     this.filterHarvestDateFrom.set('');

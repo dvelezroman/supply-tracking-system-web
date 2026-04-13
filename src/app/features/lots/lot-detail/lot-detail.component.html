@@ -3,8 +3,11 @@
   [subtitle]="lot()?.product?.name"
   backRoute="/lots"
 >
-  @if (lot()) {
-    <a mat-stroked-button [href]="publicTraceUrl(lot()!.lotCode)" target="_blank">
+  @if (lot(); as hdrLot) {
+    <a mat-flat-button color="primary" [routerLink]="['/traceability', 'events', 'new']" [queryParams]="registerEventQuery()">
+      <mat-icon>add</mat-icon> {{ 'lots.registerEvent' | transloco }}
+    </a>
+    <a mat-stroked-button [href]="publicTraceUrl(hdrLot.lotCode)" target="_blank">
       <mat-icon>open_in_new</mat-icon> {{ 'common.publicTrace' | transloco }}
     </a>
   }
@@ -15,7 +18,10 @@
 }
 
 @if (lot(); as l) {
-  <div class="detail-layout">
+  <div class="lot-detail-page">
+    <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+
+    <div class="detail-layout">
 
     <!-- Left column: specs + QR -->
     <div class="left-col">
@@ -171,5 +177,6 @@
       }
 
     </div>
+  </div>
   </div>
 }

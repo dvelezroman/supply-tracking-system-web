@@ -28,6 +28,8 @@ import {
   resolvePublicVisibility,
 } from '../../../core/config/public-visibility';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
+import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
 const PRESENTATION_LABELS: Record<string, string | undefined> = {
   SHELL_ON: 'Shell On', BUTTERFLY: 'Butterfly',
@@ -59,6 +61,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     MatSlideToggleModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
+    LotTraceTimelineComponent,
   ],
   templateUrl: './lot-detail.component.html',
   styleUrl: './lot-detail.component.scss',
@@ -75,6 +78,8 @@ export class LotDetailComponent implements OnInit {
   lot = signal<LotSummary | null>(null);
   qrDataUrl = signal<string | null>(null);
   isSavingVis = signal(false);
+  historyEvents = signal<TraceabilityEvent[]>([]);
+  historyLoading = signal(false);
 
   readonly isAdmin = this.auth.isAdmin;
   readonly visibilityFields = PUBLIC_VISIBILITY_FIELD_META;
@@ -96,10 +101,38 @@ export class LotDetailComponent implements OnInit {
         this.vis.set(resolvePublicVisibility(res.data.publicVisibility));
         // Load QR preview as data URL via the PNG endpoint
         this.loadQrPreview(res.data.lotCode);
+        this.loadHistory(res.data.lotCode, res.data);
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  private loadHistory(lotCode: string, lot: LotSummary): void {
+    this.historyLoading.set(true);
+    this.lotsService.getHistory(lotCode).subscribe({
+      next: (res) => {
+        const mapped = (res.data.events as TraceabilityEvent[]).map((e) => ({
+          ...e,
+          productId: lot.product.id,
+          lotCode: lot.lotCode,
+          timestamp:
+            typeof e.timestamp === 'string'
+              ? e.timestamp
+              : (e.timestamp as unknown as Date).toISOString?.() ?? String(e.timestamp),
+        }));
+        this.historyEvents.set(mapped);
+        this.historyLoading.set(false);
+      },
+      error: () => {
+        this.historyEvents.set([]);
+        this.historyLoading.set(false);
+      },
+    });
+  }
+
+  registerEventQuery(): Record<string, string> {
+    return { lotId: this.id, returnUrl: `/lots/${this.id}` };
   }
 
   private loadQrPreview(lotCode: string): void {

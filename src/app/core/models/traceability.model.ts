@@ -1,6 +1,7 @@
 import { Actor } from './actor.model';
 import { Product } from './product.model';
 
+/** Mirrors Prisma `EventType` — keep in sync with API. */
 export type EventType =
   | 'CREATED'
   | 'HARVESTED'
@@ -12,10 +13,9 @@ export type EventType =
   | 'STORED'
   | 'SHIPPED'
   | 'SOLD'
-  | 'DELIVERED'
-  | 'INSPECTED';
+  | 'DELIVERED';
 
-export const EVENT_TYPE_LABELS: Record<string, string> = {
+export const EVENT_TYPE_LABELS: Record<EventType, string> = {
   CREATED: 'Created',
   HARVESTED: 'Harvested',
   TRANSPORTED: 'Transported',
@@ -25,7 +25,6 @@ export const EVENT_TYPE_LABELS: Record<string, string> = {
   PACKAGED: 'Packaged',
   SHIPPED: 'Shipped',
   STORED: 'Stored',
-  INSPECTED: 'Inspected',
   SOLD: 'Sold',
   DELIVERED: 'Delivered',
 };
@@ -40,7 +39,6 @@ export const EVENT_TYPE_COLORS: Record<string, 'primary' | 'accent' | 'warn'> = 
   PACKAGED: 'accent',
   SHIPPED: 'accent',
   STORED: 'primary',
-  INSPECTED: 'accent',
   SOLD: 'warn',
   DELIVERED: 'primary',
 };
@@ -62,7 +60,10 @@ export const TRACEABILITY_FILTER_EVENT_TYPES: readonly EventType[] = [
 
 export interface TraceabilityEvent {
   id: string;
-  productId: string;
+  lotId?: string;
+  /** Present when returned from list/detail APIs that join `lot`. */
+  lotCode?: string;
+  productId?: string;
   actorId: string;
   eventType: EventType;
   location?: string;
@@ -74,7 +75,7 @@ export interface TraceabilityEvent {
 }
 
 export interface CreateEventPayload {
-  productId: string;
+  lotId: string;
   actorId: string;
   eventType: EventType;
   location?: string;

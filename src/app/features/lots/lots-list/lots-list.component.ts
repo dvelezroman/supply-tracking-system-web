@@ -5,6 +5,7 @@ import {
   signal,
   ChangeDetectionStrategy,
   DestroyRef,
+  effect,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -20,12 +21,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { finalize, take } from 'rxjs/operators';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
 import { ProductsService } from '../../products/services/products.service';
 import type { Product } from '../../../core/models/product.model';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { QrPdfDownloadComponent } from '../../../shared/components/qr-pdf-download/qr-pdf-download.component';
+import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
+import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
 @Component({
   selector: 'app-lots-list',
@@ -46,8 +50,10 @@ import { QrPdfDownloadComponent } from '../../../shared/components/qr-pdf-downlo
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatTabsModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
+    LotTraceTimelineComponent,
   ],
   templateUrl: './lots-list.component.html',
   styleUrl: './lots-list.component.scss',
@@ -62,7 +68,12 @@ export class LotsListComponent implements OnInit {
   totalItems = signal(0);
   currentPage = signal(1);
   pageSize = signal(20);
+  /** Lot code for the expanded panel below the table (null = closed). */
   expandedLotCode = signal<string | null>(null);
+  /** Active tab in the panel: 0 = traceability, 1 = PDF labels. */
+  lotPanelTabIndex = signal(0);
+  historyEvents = signal<TraceabilityEvent[]>([]);
+  historyLoading = signal(false);
 
   /** Applied filters (also sent to API). */
   filterSearch = signal('');
@@ -73,6 +84,38 @@ export class LotsListComponent implements OnInit {
   productOptions = signal<Product[]>([]);
 
   readonly columns = ['lotCode', 'product', 'presentation', 'colorSalmoFan', 'harvestDate', 'lotSizeLbs', 'actions'];
+
+  constructor() {
+    effect(() => {
+      const code = this.expandedLotCode();
+      if (!code) {
+        this.historyEvents.set([]);
+        this.historyLoading.set(false);
+        return;
+      }
+      this.historyLoading.set(true);
+      this.lotsService.getHistory(code).subscribe({
+        next: (res) => {
+          const lot = res.data.lot;
+          const mapped = (res.data.events as TraceabilityEvent[]).map((e: TraceabilityEvent) => ({
+            ...e,
+            productId: lot.product.id,
+            lotCode: lot.lotCode,
+            timestamp:
+              typeof e.timestamp === 'string'
+                ? e.timestamp
+                : (e.timestamp as unknown as Date).toISOString?.() ?? String(e.timestamp),
+          }));
+          this.historyEvents.set(mapped);
+          this.historyLoading.set(false);
+        },
+        error: () => {
+          this.historyEvents.set([]);
+          this.historyLoading.set(false);
+        },
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.productsService
@@ -138,9 +181,27 @@ export class LotsListComponent implements OnInit {
     this.loadLots();
   }
 
-  toggleQrPanel(lotCode: string): void {
-    this.expandedLotCode.set(
-      this.expandedLotCode() === lotCode ? null : lotCode,
-    );
+  lotByCode(code: string): LotSummary | undefined {
+    return this.lots().find((l) => l.lotCode === code);
+  }
+
+  openLotPanel(lotCode: string, tabIndex: number): void {
+    const cur = this.expandedLotCode();
+    if (cur === lotCode && this.lotPanelTabIndex() === tabIndex) {
+      this.expandedLotCode.set(null);
+    } else {
+      this.expandedLotCode.set(lotCode);
+      this.lotPanelTabIndex.set(tabIndex);
+    }
+  }
+
+  onLotTabChange(index: number): void {
+    if (this.expandedLotCode()) this.lotPanelTabIndex.set(index);
+  }
+
+  registerEventQuery(lotCode: string): Record<string, string> {
+    const l = this.lotByCode(lotCode);
+    if (!l) return { returnUrl: '/lots' };
+    return { lotId: l.id, returnUrl: '/lots' };
   }
 }

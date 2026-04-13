@@ -143,4 +143,15 @@ export class PublicTraceComponent implements OnInit {
   printPage(): void {
     window.print();
   }
+
+  /** Human-readable dispatch line when operators store quantity/unit/channel in metadata. */
+  dispatchMetaLine(meta: Record<string, unknown> | null | undefined): string | null {
+    if (!meta || typeof meta !== 'object') return null;
+    const qty = meta['quantity'];
+    const unit = meta['unit'];
+    if (qty == null || qty === '' || unit == null || unit === '') return null;
+    const channel = meta['channel'];
+    const base = `${qty} ${unit}`;
+    return channel ? `${base} · ${channel}` : base;
+  }
 }

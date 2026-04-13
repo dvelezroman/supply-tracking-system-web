@@ -1,0 +1,61 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ 'traceability.timelineTitle' | transloco }}</mat-card-title>
+    <mat-card-subtitle>{{ 'traceability.timelineSubtitle' | transloco }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (isLoading) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+
+    @if (!isLoading && events.length === 0) {
+      <div class="empty-state">
+        <mat-icon>route</mat-icon>
+        <p>{{ 'traceability.timelineEmpty' | transloco }}</p>
+      </div>
+    }
+
+    <div class="timeline">
+      @for (event of events; track event.id; let last = $last) {
+        <div class="timeline-item">
+          <div class="timeline-connector">
+            <div class="timeline-dot" [attr.data-color]="eventTypeColors[event.eventType]">
+              <mat-icon>fiber_manual_record</mat-icon>
+            </div>
+            @if (!last) {
+              <div class="timeline-line"></div>
+            }
+          </div>
+
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <mat-chip [color]="eventTypeColors[event.eventType] || 'primary'" highlighted>
+                {{ ('eventTypes.' + event.eventType) | transloco }}
+              </mat-chip>
+              <span class="timestamp">{{ event.timestamp | date: 'medium' }}</span>
+            </div>
+            <p class="actor-name">
+              <mat-icon inline>person</mat-icon>
+              {{ event.actor?.name ?? ('traceability.unknownActor' | transloco) }}
+              @if (event.actor?.type) {
+                <span class="actor-type">({{ ('actorTypes.' + event.actor!.type) | transloco }})</span>
+              }
+            </p>
+            @if (event.location) {
+              <p class="location">
+                <mat-icon inline>location_on</mat-icon> {{ event.location }}
+              </p>
+            }
+            @if (event.notes) {
+              <p class="notes">{{ event.notes }}</p>
+            }
+            @if (metadataLine(event.metadata); as line) {
+              <p class="metadata-line">{{ line }}</p>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
