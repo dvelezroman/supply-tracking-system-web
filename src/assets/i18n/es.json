@@ -441,7 +441,7 @@
   },
   "qrPdf": {
     "copies": "Copias",
-    "hint": "15 etiquetas por hoja · máx. 500 · {{pages}} página(s)",
+    "hint": "25 etiquetas por hoja · máx. 500 · {{pages}} página(s)",
     "download": "Descargar etiquetas de empaque (PDF)",
     "tooltip": "Descargar PDF A4 con {{n}} etiquetas de trazabilidad para el lote {{lotCode}}",
     "success": "PDF con {{n}} etiquetas de empaque descargado"
