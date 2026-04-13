@@ -203,6 +203,8 @@
     "tooltipQrPdf": "Download QR PDF",
     "tooltipTracePanel": "View lot traceability",
     "panelTabTrace": "Traceability",
+    "traceHistoryPanelTitle": "Traceability history",
+    "traceHistoryPanelHint": "Click to expand or collapse the timeline",
     "panelTabLabels": "PDF labels",
     "registerEventForLot": "Record event",
     "viewFullDetail": "Lot detail page",

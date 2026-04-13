@@ -203,6 +203,8 @@
     "tooltipQrPdf": "Descargar PDF con QR",
     "tooltipTracePanel": "Ver trazabilidad del lote",
     "panelTabTrace": "Trazabilidad",
+    "traceHistoryPanelTitle": "Historial de trazabilidad",
+    "traceHistoryPanelHint": "Pulse para desplegar o retraer la línea de tiempo",
     "panelTabLabels": "Etiquetas PDF",
     "registerEventForLot": "Registrar evento",
     "viewFullDetail": "Ficha del lote",

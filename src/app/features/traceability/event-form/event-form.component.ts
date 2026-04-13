@@ -118,7 +118,7 @@ export class EventFormComponent implements OnInit {
         this.lotsForProduct.set([]);
         return;
       }
-      this.lotsService.getAll({ productId: pid, page: 1, limit: 200 }).subscribe({
+      this.lotsService.getAll({ productId: pid, page: 1, limit: 100 }).subscribe({
         next: (res) => this.lotsForProduct.set(res.data.items),
         error: () => this.lotsForProduct.set([]),
       });

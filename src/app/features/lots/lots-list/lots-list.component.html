@@ -165,7 +165,17 @@
                 </a>
               }
             </div>
-            <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+            <mat-expansion-panel
+              class="trace-history-panel"
+              [expanded]="traceHistoryPanelExpanded()"
+              (expandedChange)="onTraceHistoryExpandedChange($event)"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
+                <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
+              </mat-expansion-panel-header>
+              <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+            </mat-expansion-panel>
           </div>
         </mat-tab>
         <mat-tab [label]="'lots.panelTabLabels' | transloco">

@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { finalize, take } from 'rxjs/operators';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
 import { ProductsService } from '../../products/services/products.service';
@@ -51,6 +52,7 @@ import type { TraceabilityEvent } from '../../../core/models/traceability.model'
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
+    MatExpansionModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
     LotTraceTimelineComponent,
@@ -72,6 +74,8 @@ export class LotsListComponent implements OnInit {
   expandedLotCode = signal<string | null>(null);
   /** Active tab in the panel: 0 = traceability, 1 = PDF labels. */
   lotPanelTabIndex = signal(0);
+  /** Desplegar / retraer el bloque de historial de trazabilidad (pestaña Trazabilidad). */
+  traceHistoryPanelExpanded = signal(true);
   historyEvents = signal<TraceabilityEvent[]>([]);
   historyLoading = signal(false);
 
@@ -190,13 +194,25 @@ export class LotsListComponent implements OnInit {
     if (cur === lotCode && this.lotPanelTabIndex() === tabIndex) {
       this.expandedLotCode.set(null);
     } else {
+      const isNewLot = cur !== lotCode;
       this.expandedLotCode.set(lotCode);
       this.lotPanelTabIndex.set(tabIndex);
+      if (isNewLot || tabIndex === 0) {
+        this.traceHistoryPanelExpanded.set(true);
+      }
     }
   }
 
   onLotTabChange(index: number): void {
-    if (this.expandedLotCode()) this.lotPanelTabIndex.set(index);
+    if (!this.expandedLotCode()) return;
+    this.lotPanelTabIndex.set(index);
+    if (index === 0) {
+      this.traceHistoryPanelExpanded.set(true);
+    }
+  }
+
+  onTraceHistoryExpandedChange(expanded: boolean): void {
+    this.traceHistoryPanelExpanded.set(expanded);
   }
 
   registerEventQuery(lotCode: string): Record<string, string> {
