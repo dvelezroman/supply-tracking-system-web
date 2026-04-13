@@ -2,8 +2,25 @@
   <mat-toolbar color="primary" class="landing__toolbar">
     <div class="landing__toolbar-inner">
       <div class="landing__brandLine">
-        <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
-        <span class="landing__title">SupplyTrack</span>
+        @if (branding(); as br) {
+          @if (br.logoUrl) {
+            <img
+              class="landing__logo"
+              [src]="br.logoUrl"
+              alt=""
+              width="140"
+              height="40"
+              loading="eager"
+              decoding="async"
+            />
+          } @else {
+            <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
+          }
+          <span class="landing__title">{{ br.headerTitle }}</span>
+        } @else {
+          <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
+          <span class="landing__title">{{ 'landing.toolbar.brandTitle' | transloco }}</span>
+        }
       </div>
       <div class="landing__actionsLine">
         <app-language-toggle class="landing__langToggle" />
@@ -21,9 +38,85 @@
   </mat-toolbar>
 
   <main class="landing__main">
-    <section class="hero">
-      <h1>{{ 'landing.hero.title' | transloco }}</h1>
+    <section class="hero" aria-labelledby="hero-heading">
+      <p class="hero__kicker">{{ 'landing.hero.kicker' | transloco }}</p>
+      <h1 id="hero-heading">{{ 'landing.hero.title' | transloco }}</h1>
       <p class="hero__lead">{{ 'landing.hero.lead' | transloco }}</p>
+    </section>
+
+    <section class="diagram diagram--consumer" aria-labelledby="diagram-consumer-title">
+      <div class="diagram__header">
+        <h2 id="diagram-consumer-title" class="diagram__title">
+          {{ 'landing.diagram.consumerTitle' | transloco }}
+        </h2>
+        <p class="diagram__lead">{{ 'landing.diagram.consumerLead' | transloco }}</p>
+      </div>
+
+      <div class="diagram__visual" role="group" [attr.aria-label]="'landing.diagram.consumerAria' | transloco">
+        <svg class="diagram__svg diagram__svg--consumer-bg" viewBox="0 0 360 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="consumerFlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color: #e8f5e9; stop-opacity: 0.9" />
+              <stop offset="100%" style="stop-color: #e3f2fd; stop-opacity: 0.85" />
+            </linearGradient>
+          </defs>
+          <rect x="8" y="8" width="344" height="504" rx="20" fill="url(#consumerFlowGrad)" stroke="rgba(46,125,50,0.15)" stroke-width="1" />
+        </svg>
+
+        <ol class="diagram-flow diagram-flow--consumer">
+          <li class="diagram-flow__node">
+            <span class="diagram-flow__icon-wrap" aria-hidden="true">
+              <mat-icon>inventory_2</mat-icon>
+            </span>
+            <span class="diagram-flow__text">
+              <span class="diagram-flow__label">{{ 'landing.diagram.c1Title' | transloco }}</span>
+              <span class="diagram-flow__hint">{{ 'landing.diagram.c1Body' | transloco }}</span>
+            </span>
+          </li>
+          <li class="diagram-flow__arrow" role="presentation" aria-hidden="true">
+            <svg width="28" height="36" viewBox="0 0 28 36">
+              <path
+                d="M14 6 L14 26 M6 18 L14 26 L22 18"
+                fill="none"
+                stroke="rgba(25,118,210,0.5)"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+          <li class="diagram-flow__node">
+            <span class="diagram-flow__icon-wrap" aria-hidden="true">
+              <mat-icon>qr_code_scanner</mat-icon>
+            </span>
+            <span class="diagram-flow__text">
+              <span class="diagram-flow__label">{{ 'landing.diagram.c2Title' | transloco }}</span>
+              <span class="diagram-flow__hint">{{ 'landing.diagram.c2Body' | transloco }}</span>
+            </span>
+          </li>
+          <li class="diagram-flow__arrow" role="presentation" aria-hidden="true">
+            <svg width="28" height="36" viewBox="0 0 28 36">
+              <path
+                d="M14 6 L14 26 M6 18 L14 26 L22 18"
+                fill="none"
+                stroke="rgba(25,118,210,0.5)"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+          <li class="diagram-flow__node">
+            <span class="diagram-flow__icon-wrap" aria-hidden="true">
+              <mat-icon>travel_explore</mat-icon>
+            </span>
+            <span class="diagram-flow__text">
+              <span class="diagram-flow__label">{{ 'landing.diagram.c3Title' | transloco }}</span>
+              <span class="diagram-flow__hint">{{ 'landing.diagram.c3Body' | transloco }}</span>
+            </span>
+          </li>
+        </ol>
+      </div>
     </section>
 
     <section class="lookup-section" aria-labelledby="lookup-title">
@@ -80,6 +173,71 @@
       </mat-card>
     </section>
 
+    <section class="diagram diagram--chain" aria-labelledby="diagram-chain-title">
+      <div class="diagram__header">
+        <h2 id="diagram-chain-title" class="diagram__title">
+          {{ 'landing.diagram.chainTitle' | transloco }}
+        </h2>
+        <p class="diagram__lead">{{ 'landing.diagram.chainLead' | transloco }}</p>
+      </div>
+
+      <figure class="diagram__figure">
+        <svg
+          class="diagram__svg diagram__svg--chain"
+          viewBox="0 0 640 200"
+          preserveAspectRatio="xMidYMid meet"
+          role="img"
+          [attr.aria-label]="'landing.diagram.chainSvgAria' | transloco"
+        >
+          <defs>
+            <marker id="landingChainArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 Z" fill="rgba(55,71,79,0.45)" />
+            </marker>
+            <linearGradient id="landingNodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color: #ffffff; stop-opacity: 1" />
+              <stop offset="100%" style="stop-color: #f5f5f5; stop-opacity: 1" />
+            </linearGradient>
+          </defs>
+          <!-- connectors -->
+          <line x1="118" y1="100" x2="168" y2="100" stroke="rgba(55,71,79,0.35)" stroke-width="2" marker-end="url(#landingChainArrow)" />
+          <line x1="298" y1="100" x2="348" y2="100" stroke="rgba(55,71,79,0.35)" stroke-width="2" marker-end="url(#landingChainArrow)" />
+          <line x1="478" y1="100" x2="528" y2="100" stroke="rgba(55,71,79,0.35)" stroke-width="2" marker-end="url(#landingChainArrow)" />
+          <!-- nodes -->
+          <rect x="28" y="52" width="90" height="96" rx="12" fill="url(#landingNodeGrad)" stroke="rgba(46,125,50,0.35)" stroke-width="1.5" />
+          <rect x="178" y="52" width="90" height="96" rx="12" fill="url(#landingNodeGrad)" stroke="rgba(25,118,210,0.35)" stroke-width="1.5" />
+          <rect x="328" y="52" width="90" height="96" rx="12" fill="url(#landingNodeGrad)" stroke="rgba(123,31,162,0.3)" stroke-width="1.5" />
+          <rect x="478" y="52" width="90" height="96" rx="12" fill="url(#landingNodeGrad)" stroke="rgba(46,125,50,0.45)" stroke-width="1.5" />
+          <!-- icons as simple shapes -->
+          <circle cx="73" cy="82" r="10" fill="none" stroke="#2e7d32" stroke-width="2" />
+          <path d="M73 92 L73 108 M63 100 L83 100" stroke="#2e7d32" stroke-width="2" fill="none" />
+          <rect x="208" y="76" width="30" height="22" rx="3" fill="none" stroke="#1565c0" stroke-width="2" />
+          <path d="M208 98 L223 108 L238 98" fill="none" stroke="#1565c0" stroke-width="2" />
+          <rect x="352" y="78" width="42" height="30" rx="2" fill="none" stroke="#6a1b9a" stroke-width="1.8" />
+          <rect x="360" y="86" width="12" height="12" fill="#1a1a1a" rx="1" />
+          <circle cx="523" cy="88" r="12" fill="none" stroke="#2e7d32" stroke-width="2" />
+          <path d="M518 102 L528 112 M528 102 L518 112" stroke="#2e7d32" stroke-width="2" />
+        </svg>
+        <ol class="diagram-chain-legend">
+          <li>
+            <strong>{{ 'landing.diagram.h1' | transloco }}</strong>
+            <span>{{ 'landing.diagram.h1Detail' | transloco }}</span>
+          </li>
+          <li>
+            <strong>{{ 'landing.diagram.p1' | transloco }}</strong>
+            <span>{{ 'landing.diagram.p1Detail' | transloco }}</span>
+          </li>
+          <li>
+            <strong>{{ 'landing.diagram.p2' | transloco }}</strong>
+            <span>{{ 'landing.diagram.p2Detail' | transloco }}</span>
+          </li>
+          <li>
+            <strong>{{ 'landing.diagram.scan' | transloco }}</strong>
+            <span>{{ 'landing.diagram.scanDetail' | transloco }}</span>
+          </li>
+        </ol>
+      </figure>
+    </section>
+
     <section class="section" aria-labelledby="about-heading">
       <h2 id="about-heading" class="section__title">
         <mat-icon class="section__title-icon">info</mat-icon>
@@ -129,21 +287,24 @@
       </p>
     </section>
 
-    <section class="section" aria-labelledby="steps-heading">
+    <section class="section section--steps" aria-labelledby="steps-heading">
       <h2 id="steps-heading" class="section__title">
         <mat-icon class="section__title-icon">touch_app</mat-icon>
         {{ 'landing.steps.title' | transloco }}
       </h2>
-      <ol class="steps">
+      <ol class="steps steps--timeline">
         <li>
+          <span class="steps__rail" aria-hidden="true"></span>
           <span class="steps__num">1</span>
           <div>{{ 'landing.steps.s1' | transloco }}</div>
         </li>
         <li>
+          <span class="steps__rail" aria-hidden="true"></span>
           <span class="steps__num">2</span>
           <div>{{ 'landing.steps.s2' | transloco }}</div>
         </li>
         <li>
+          <span class="steps__rail steps__rail--end" aria-hidden="true"></span>
           <span class="steps__num">3</span>
           <div>{{ 'landing.steps.s3' | transloco }}</div>
         </li>

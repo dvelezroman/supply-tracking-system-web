@@ -50,11 +50,35 @@
   },
   "landing": {
     "toolbar": {
+      "brandTitle": "MAREA ALTA Supply Tracking",
       "operatorSignIn": "Operator sign in"
     },
     "hero": {
+      "kicker": "Transparent supply chain",
       "title": "Lot traceability you can verify",
       "lead": "SupplyTrack helps producers share the story of each production lot—from farm or pond through processing to the shelf. As a member of the public, you can confirm what you’re buying by scanning a code on the package. No account is required."
+    },
+    "diagram": {
+      "consumerTitle": "From package to proof",
+      "consumerLead": "Three simple steps—no app and no login.",
+      "consumerAria": "Consumer flow: packaging, scan, trace page",
+      "c1Title": "QR on the package",
+      "c1Body": "Each production lot has a unique code on the label or box.",
+      "c2Title": "Scan with your phone",
+      "c2Body": "The camera reads the link and opens this site in your browser.",
+      "c3Title": "Trace page opens",
+      "c3Body": "See specifications, partners, and the published timeline for that batch.",
+      "chainTitle": "How data reaches your phone",
+      "chainLead": "Operators record each checkpoint; you only see what they publish for that lot.",
+      "chainSvgAria": "Diagram: harvest and pond, processing, label with QR, consumer scan",
+      "h1": "Harvest & pond",
+      "h1Detail": "Pool, dates, farm",
+      "p1": "Processing",
+      "p1Detail": "Lab, maturation, co-packing",
+      "p2": "Label & QR",
+      "p2Detail": "Public URL on each package",
+      "scan": "You scan",
+      "scanDetail": "Read-only trace page"
     },
     "lookup": {
       "title": "See information for a lot (public)",
@@ -388,10 +412,10 @@
   },
   "qrPdf": {
     "copies": "Copies",
-    "hint": "Max 500 · {{pages}} page(s)",
-    "download": "Download QR PDF",
-    "tooltip": "Download PDF with {{n}} QR labels for lot {{lotCode}}",
-    "success": "PDF with {{n}} QR labels downloaded"
+    "hint": "25 labels per sheet · max 500 · {{pages}} page(s)",
+    "download": "Download packaging labels (PDF)",
+    "tooltip": "Download A4 PDF with {{n}} traceability labels for lot {{lotCode}}",
+    "success": "PDF with {{n}} packaging labels downloaded"
   },
   "eventTypes": {
     "CREATED": "Created",

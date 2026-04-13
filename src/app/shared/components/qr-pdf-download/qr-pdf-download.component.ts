@@ -79,10 +79,11 @@ export class QrPdfDownloadComponent {
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
 
-  copies = 30;               // default: one full page
+  copies = 25;               // default: one full page (5×5 packaging labels)
   isDownloading = signal(false);
 
-  readonly QR_PER_PAGE = 30;
+  /** Must match API `QR_PER_PAGE` in pdf.service.ts */
+  readonly QR_PER_PAGE = 25;
   pagesNeeded = () => Math.ceil(this.copies / this.QR_PER_PAGE);
 
   download(): void {
