@@ -197,7 +197,9 @@ export class LotsListComponent implements OnInit {
       const isNewLot = cur !== lotCode;
       this.expandedLotCode.set(lotCode);
       this.lotPanelTabIndex.set(tabIndex);
-      if (isNewLot || tabIndex === 0) {
+      // Solo expandir historial al elegir otro lote; si el usuario lo minimizó,
+      // no forzar al cambiar de pestaña ni al volver a Trazabilidad del mismo lote.
+      if (isNewLot) {
         this.traceHistoryPanelExpanded.set(true);
       }
     }
@@ -206,9 +208,6 @@ export class LotsListComponent implements OnInit {
   onLotTabChange(index: number): void {
     if (!this.expandedLotCode()) return;
     this.lotPanelTabIndex.set(index);
-    if (index === 0) {
-      this.traceHistoryPanelExpanded.set(true);
-    }
   }
 
   onTraceHistoryExpandedChange(expanded: boolean): void {

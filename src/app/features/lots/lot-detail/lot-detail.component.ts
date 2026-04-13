@@ -28,6 +28,7 @@ import {
   resolvePublicVisibility,
 } from '../../../core/config/public-visibility';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
@@ -59,6 +60,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     MatProgressBarModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatExpansionModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
     LotTraceTimelineComponent,
@@ -80,6 +82,8 @@ export class LotDetailComponent implements OnInit {
   isSavingVis = signal(false);
   historyEvents = signal<TraceabilityEvent[]>([]);
   historyLoading = signal(false);
+  /** Colapsado por defecto para que la ficha del lote quede visible sin scroll largo. */
+  traceHistoryExpanded = signal(false);
 
   readonly isAdmin = this.auth.isAdmin;
   readonly visibilityFields = PUBLIC_VISIBILITY_FIELD_META;
@@ -150,6 +154,10 @@ export class LotDetailComponent implements OnInit {
 
   onVisibilityToggle(key: PublicVisibilityKey, checked: boolean): void {
     this.vis.update((s) => ({ ...s, [key]: checked }));
+  }
+
+  onTraceHistoryExpandedChange(expanded: boolean): void {
+    this.traceHistoryExpanded.set(expanded);
   }
 
   savePublicVisibility(): void {

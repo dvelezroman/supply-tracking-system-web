@@ -19,8 +19,6 @@
 
 @if (lot(); as l) {
   <div class="lot-detail-page">
-    <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
-
     <div class="detail-layout">
 
     <!-- Left column: specs + QR -->
@@ -177,6 +175,18 @@
       }
 
     </div>
-  </div>
+    </div>
+
+    <mat-expansion-panel
+      class="trace-history-panel"
+      [expanded]="traceHistoryExpanded()"
+      (expandedChange)="onTraceHistoryExpandedChange($event)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
+        <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+    </mat-expansion-panel>
   </div>
 }
