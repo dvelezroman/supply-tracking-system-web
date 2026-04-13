@@ -441,7 +441,7 @@
   },
   "qrPdf": {
     "copies": "Copies",
-    "hint": "25 labels per sheet · max 500 · {{pages}} page(s)",
+    "hint": "15 labels per sheet · max 500 · {{pages}} page(s)",
     "download": "Download packaging labels (PDF)",
     "tooltip": "Download A4 PDF with {{n}} traceability labels for lot {{lotCode}}",
     "success": "PDF with {{n}} packaging labels downloaded"
