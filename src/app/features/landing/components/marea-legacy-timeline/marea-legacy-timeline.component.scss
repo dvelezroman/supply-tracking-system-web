@@ -1,0 +1,132 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-timeline {
+  padding: $section-pad-y 0;
+  background: $marea-gris-claro;
+  margin: 0 -1rem;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+
+  @media (min-width: 600px) {
+    margin: 0 -1.25rem;
+    border-radius: 20px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  &__header {
+    max-width: $marea-container;
+    margin: 0 auto 2rem;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__lead {
+    margin: 0;
+    font-family: $font-marea-body;
+    font-size: 1rem;
+    color: $marea-gris-medio;
+    max-width: 36rem;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    position: relative;
+
+    &:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 48px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, $marea-azul-claro, rgba(44, 116, 179, 0.2));
+    }
+  }
+
+  &__marker {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: $marea-blanco;
+    border: 2px solid $marea-azul-claro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    mat-icon {
+      color: $marea-azul-principal;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__card {
+    background: $marea-blanco;
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(10, 38, 71, 0.08);
+  }
+
+  &__thumb {
+    display: block;
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+  }
+
+  &__year {
+    display: block;
+    padding: 0.85rem 1.15rem 0;
+    font-family: $font-marea-body;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $marea-azul-claro;
+    margin-bottom: 0.35rem;
+  }
+
+  &__item-title {
+    margin: 0 0 0.5rem;
+    padding: 0 1.15rem;
+    font-family: $font-marea-heading;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $marea-azul-profundo;
+  }
+
+  &__desc {
+    margin: 0;
+    padding: 0 1.15rem 1.1rem;
+    font-family: $font-marea-body;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: $marea-gris-oscuro;
+  }
+}

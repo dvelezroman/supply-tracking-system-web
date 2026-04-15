@@ -8,7 +8,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
-import { environment } from '../../../environments/environment';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,11 +16,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
-
-export interface PublicBrandingDto {
-  logoUrl: string | null;
-  headerTitle: string;
-}
+import { PublicBrandingService } from '../../core/services/public-branding.service';
+import { MareaHeroSectionComponent } from './components/marea-hero-section/marea-hero-section.component';
+import { MareaStoryOriginComponent } from './components/marea-story-origin/marea-story-origin.component';
+import { MareaLegacyTimelineComponent } from './components/marea-legacy-timeline/marea-legacy-timeline.component';
+import { MareaTraceabilityFlowComponent } from './components/marea-traceability-flow/marea-traceability-flow.component';
+import { MareaValuesGridComponent } from './components/marea-values-grid/marea-values-grid.component';
+import { MareaTestimonialsComponent } from './components/marea-testimonials/marea-testimonials.component';
+import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
 
 @Component({
   selector: 'app-landing',
@@ -39,40 +41,25 @@ export interface PublicBrandingDto {
     MatInputModule,
     MatDividerModule,
     LanguageToggleComponent,
+    MareaHeroSectionComponent,
+    MareaStoryOriginComponent,
+    MareaLegacyTimelineComponent,
+    MareaTraceabilityFlowComponent,
+    MareaValuesGridComponent,
+    MareaTestimonialsComponent,
+    MareaFinalCtaComponent,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
 })
 export class LandingComponent {
   private router = inject(Router);
-
-  /** From API `GET /public/branding` (LABEL_LOGO_URL + PUBLIC_HEADER_TITLE). */
-  branding = signal<PublicBrandingDto | null>(null);
+  protected brand = inject(PublicBrandingService);
 
   /** Lot code typed by the user (same destination as scanning the QR). */
   lotCode = signal('');
 
   canLookup = computed(() => this.lotCode().trim().length > 0);
-
-  constructor() {
-    void this.loadBranding();
-  }
-
-  private async loadBranding(): Promise<void> {
-    try {
-      const url = `${environment.apiBase}/public/branding`;
-      const res = await fetch(url, { credentials: 'omit' });
-      if (!res.ok) return;
-      const data = (await res.json()) as PublicBrandingDto;
-      if (typeof data?.headerTitle !== 'string') return;
-      this.branding.set({
-        logoUrl: typeof data.logoUrl === 'string' ? data.logoUrl : null,
-        headerTitle: data.headerTitle.trim() || 'MAREA ALTA Supply Tracking',
-      });
-    } catch {
-      /* API unreachable — keep toolbar fallback from i18n */
-    }
-  }
 
   /**
    * Navigate to public trace — same route as QR: /trace/:lotCode.

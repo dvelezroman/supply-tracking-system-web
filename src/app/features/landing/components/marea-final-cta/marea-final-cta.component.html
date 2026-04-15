@@ -1,0 +1,26 @@
+<section class="marea-final" id="marea-cta" aria-labelledby="marea-final-title">
+  <div class="marea-final__inner">
+    <h2 id="marea-final-title" class="marea-final__title">{{ 'landing.marea.finalCta.title' | transloco }}</h2>
+    <p class="marea-final__subtitle">{{ 'landing.marea.finalCta.subtitle' | transloco }}</p>
+    <div class="marea-final__actions">
+      <a
+        mat-flat-button
+        class="marea-final__wa"
+        [href]="'landing.marea.finalCta.whatsappUrl' | transloco"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <mat-icon>chat</mat-icon>
+        {{ 'landing.marea.finalCta.whatsapp' | transloco }}
+      </a>
+      <button type="button" mat-stroked-button class="marea-final__lookup" (click)="scrollTo('consulta-lote')">
+        <mat-icon>qr_code_scanner</mat-icon>
+        {{ 'landing.marea.finalCta.lookup' | transloco }}
+      </button>
+      <a mat-button routerLink="/auth/login" class="marea-final__ops">
+        <mat-icon>lock</mat-icon>
+        {{ 'landing.marea.finalCta.operators' | transloco }}
+      </a>
+    </div>
+  </div>
+</section>

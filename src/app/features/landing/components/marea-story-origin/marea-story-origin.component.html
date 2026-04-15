@@ -1,0 +1,24 @@
+<section class="marea-story" id="marea-story" aria-labelledby="marea-story-title">
+  <div class="marea-story__grid">
+    <figure class="marea-story__figure">
+      <img
+        class="marea-story__photo"
+        [src]="img.story"
+        width="640"
+        height="800"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.images.story' | transloco"
+      />
+    </figure>
+    <div class="marea-story__text">
+      <p class="marea-story__kicker">{{ 'landing.marea.story.kicker' | transloco }}</p>
+      <h2 id="marea-story-title" class="marea-story__title">{{ 'landing.marea.story.title' | transloco }}</h2>
+      <p class="marea-story__role">{{ 'landing.marea.story.role' | transloco }}</p>
+      <blockquote class="marea-story__quote">
+        <p>«{{ 'landing.marea.story.quote' | transloco }}»</p>
+      </blockquote>
+      <p class="marea-story__body">{{ 'landing.marea.story.body' | transloco }}</p>
+    </div>
+  </div>
+</section>

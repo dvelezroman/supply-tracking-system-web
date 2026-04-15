@@ -1,0 +1,40 @@
+<section class="marea-hero" id="marea-hero" aria-labelledby="marea-hero-title">
+  <div class="marea-hero__bg" aria-hidden="true"></div>
+  <div class="marea-hero__inner">
+    <div class="marea-hero__layout">
+      <div class="marea-hero__copy">
+        <p class="marea-hero__badge">{{ 'landing.marea.hero.badge' | transloco }}</p>
+        <h1 id="marea-hero-title" class="marea-hero__title">{{ 'landing.marea.hero.title' | transloco }}</h1>
+        <p class="marea-hero__subtitle">{{ 'landing.marea.hero.subtitle' | transloco }}</p>
+        <div class="marea-hero__ctas">
+          <button type="button" class="marea-btn marea-btn--primary" (click)="scrollTo('marea-story')">
+            {{ 'landing.marea.hero.ctaStory' | transloco }}
+          </button>
+          <button type="button" class="marea-btn marea-btn--ghost" (click)="scrollTo('consulta-lote')">
+            {{ 'landing.marea.hero.ctaTrace' | transloco }}
+          </button>
+        </div>
+        <button
+          type="button"
+          class="marea-hero__scroll"
+          (click)="scrollTo('marea-story')"
+          [attr.aria-label]="'landing.marea.hero.scrollHint' | transloco"
+        >
+          <span>{{ 'landing.marea.hero.scrollHint' | transloco }}</span>
+          <mat-icon class="marea-hero__scroll-icon">expand_more</mat-icon>
+        </button>
+      </div>
+      <figure class="marea-hero__figure">
+        <img
+          class="marea-hero__product"
+          [src]="img.heroProduct"
+          width="640"
+          height="800"
+          loading="eager"
+          decoding="async"
+          [alt]="'landing.marea.images.heroProduct' | transloco"
+        />
+      </figure>
+    </div>
+  </div>
+</section>

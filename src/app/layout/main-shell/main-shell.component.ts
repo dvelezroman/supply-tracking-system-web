@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
+import { PublicBrandingService } from '../../core/services/public-branding.service';
 
 @Component({
   selector: 'app-main-shell',
@@ -43,6 +44,7 @@ import { LanguageToggleComponent } from '../../shared/components/language-toggle
 export class MainShellComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   protected authService = inject(AuthService);
+  protected branding = inject(PublicBrandingService);
 
   sidenavOpen = signal(true);
   isMobile = signal(false);

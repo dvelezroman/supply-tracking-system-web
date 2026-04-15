@@ -1,0 +1,24 @@
+// Marea Alta — design tokens (plan marea-alta-landing-plan.md)
+$marea-azul-profundo: #0a2647;
+$marea-azul-principal: #144272;
+$marea-azul-claro: #2c74b3;
+$marea-celeste: #205295;
+$marea-coral: #ff6b6b;
+$marea-coral-hover: #ff5252;
+$marea-amarillo: #ffd93d;
+$marea-blanco: #ffffff;
+$marea-arena: #f5e6d3;
+$marea-gris-claro: #f7f9fc;
+$marea-gris-medio: #718096;
+$marea-gris-oscuro: #2d3748;
+$marea-negro: #1a202c;
+
+$gradient-ocean: linear-gradient(135deg, $marea-azul-profundo 0%, $marea-azul-principal 55%, #1e3a5f 100%);
+$gradient-hero-overlay: linear-gradient(180deg, rgba(10, 38, 71, 0.88) 0%, rgba(10, 38, 71, 0.55) 45%, rgba(247, 249, 252, 0.96) 100%);
+
+$font-marea-heading: 'Montserrat', 'Roboto', system-ui, sans-serif;
+$font-marea-body: 'Open Sans', 'Roboto', system-ui, sans-serif;
+$font-marea-quote: 'Playfair Display', Georgia, serif;
+
+$marea-container: 1200px;
+$section-pad-y: clamp(3rem, 6vw, 5rem);

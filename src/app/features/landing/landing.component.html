@@ -2,25 +2,20 @@
   <mat-toolbar color="primary" class="landing__toolbar">
     <div class="landing__toolbar-inner">
       <div class="landing__brandLine">
-        @if (branding(); as br) {
-          @if (br.logoUrl) {
-            <img
-              class="landing__logo"
-              [src]="br.logoUrl"
-              alt=""
-              width="140"
-              height="40"
-              loading="eager"
-              decoding="async"
-            />
-          } @else {
-            <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
-          }
-          <span class="landing__title">{{ br.headerTitle }}</span>
+        @if (brand.logoUrl(); as logoSrc) {
+          <img
+            class="landing__logo"
+            [src]="logoSrc"
+            alt=""
+            width="140"
+            height="40"
+            loading="eager"
+            decoding="async"
+          />
         } @else {
           <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>
-          <span class="landing__title">{{ 'landing.toolbar.brandTitle' | transloco }}</span>
         }
+        <span class="landing__title">{{ brand.landingTitle() }}</span>
       </div>
       <div class="landing__actionsLine">
         <app-language-toggle class="landing__langToggle" />
@@ -38,11 +33,15 @@
   </mat-toolbar>
 
   <main class="landing__main">
-    <section class="hero" aria-labelledby="hero-heading">
-      <p class="hero__kicker">{{ 'landing.hero.kicker' | transloco }}</p>
-      <h1 id="hero-heading">{{ 'landing.hero.title' | transloco }}</h1>
-      <p class="hero__lead">{{ 'landing.hero.lead' | transloco }}</p>
-    </section>
+    <div class="landing__marea">
+      <app-marea-hero-section />
+      <app-marea-story-origin />
+      <app-marea-legacy-timeline />
+      <app-marea-traceability-flow />
+      <app-marea-values-grid />
+      <app-marea-testimonials />
+      <app-marea-final-cta />
+    </div>
 
     <section class="diagram diagram--consumer" aria-labelledby="diagram-consumer-title">
       <div class="diagram__header">
@@ -119,7 +118,7 @@
       </div>
     </section>
 
-    <section class="lookup-section" aria-labelledby="lookup-title">
+    <section class="lookup-section" id="consulta-lote" aria-labelledby="lookup-title">
       <mat-card class="lookup-card">
         <mat-card-header>
           <mat-icon mat-card-avatar class="lookup-card__avatar">qr_code_scanner</mat-icon>

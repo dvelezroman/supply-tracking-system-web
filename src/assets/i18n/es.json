@@ -1,6 +1,6 @@
 {
   "app": {
-    "documentTitle": "SupplyTrack — Trazabilidad por lote"
+    "documentTitle": "Marea Alta — Trazabilidad y origen"
   },
   "errors": {
     "apiUnreachable": "No podemos conectar con el servidor. Compruebe su conexión, que el servicio esté en marcha e inténtelo de nuevo.",
@@ -50,13 +50,110 @@
   },
   "landing": {
     "toolbar": {
-      "brandTitle": "MAREA ALTA Supply Tracking",
+      "brandTitle": "MAREA ALTA",
       "operatorSignIn": "Acceso operadores"
     },
     "hero": {
       "kicker": "Cadena de suministro transparente",
       "title": "Trazabilidad del lote que puede verificar",
       "lead": "SupplyTrack ayuda a los productores a contar la historia de cada lote de producción—desde la granja o piscina hasta el punto de venta. Como público puede confirmar lo que compra escaneando el código del envase. No necesita cuenta."
+    },
+    "marea": {
+      "hero": {
+        "badge": "Ecuador · El Oro",
+        "title": "Camarones con historia, calidad con origen",
+        "subtitle": "Más de 40 años de tradición familiar, trazabilidad real desde la genética hasta tu mesa y el sabor del mejor camarón que Ecuador puede ofrecer.",
+        "ctaStory": "Nuestra historia",
+        "ctaTrace": "Consultar un lote",
+        "scrollHint": "Descubra Marea Alta"
+      },
+      "story": {
+        "kicker": "Por qué existe Marea Alta",
+        "title": "Confianza en cada bocado",
+        "role": "Biólogo marino y productor camaronero",
+        "quote": "Mi esposa y yo siempre hemos disfrutado de una buena mesa; lo que me limitaba era la libertad y la confianza de consumir mariscos de forma segura. Mucha gente deja de comer camarón por dudas sobre procedencia, lotes o caducidad.",
+        "body": "Así nace Marea Alta: del deseo de que quien come pueda confiar en lo que lleva al plato y vivir una gran experiencia. Unimos ciencia, campo y familia para ofrecer camarón premium con origen verificable.",
+        "imageAlt": "Origen y mar — Marea Alta"
+      },
+      "timeline": {
+        "title": "Cuatro décadas de legado",
+        "lead": "De Huaquillas y Santa Rosa a una marca que honra el pasado y mira al futuro.",
+        "e1Year": "Fines de los 60 – inicios de los 70",
+        "e1Title": "Nace la industria",
+        "e1Desc": "En Huaquillas y Santa Rosa el cultivo de camarón en cautiverio se consolida tras los grandes aguajes: nace una industria que marcaría al Ecuador.",
+        "e2Year": "Hace más de 40 años",
+        "e2Title": "Granja Rossana Aurelia",
+        "e2Desc": "Inicio del legado familiar, nombrada por la hija menor: futuro y cuidado en cada ciclo de cultivo.",
+        "e3Year": "Evolución",
+        "e3Title": "Cultivo semiextensivo",
+        "e3Desc": "Del método rudimentario al cultivo que respeta los tiempos de la naturaleza y la salinidad de El Oro.",
+        "e4Year": "Hoy",
+        "e4Title": "Marea Alta",
+        "e4Desc": "Conectamos dedicación de campo con resultado: camarón con origen, textura excelente y trazabilidad de punta a punta."
+      },
+      "trace": {
+        "title": "Trazabilidad que puede comprobar",
+        "lead": "Cada etapa cuenta con socios que comparten nuestros estándares.",
+        "badge": "Socio",
+        "s1Title": "Genética y larvas",
+        "s1Partner": "Grupo Lardelce — Manta",
+        "s1Desc": "La trazabilidad empieza antes de la piscina.",
+        "s1d1": "Cuatro módulos de producción y rigor técnico",
+        "s1d2": "Larvas de alta calidad y monitoreo estricto",
+        "s2Title": "Cultivo semiextensivo",
+        "s2Partner": "Granja Rossana Aurelia — El Oro",
+        "s2Desc": "Crianza que respeta los ritmos naturales.",
+        "s2d1": "Aguas salobres y ecosistema cuidado",
+        "s2d2": "Sabor y textura que distinguen al producto",
+        "s3Title": "Transformación y empaque",
+        "s3Partner": "Coinmarpez S.A.",
+        "s3Desc": "Co-packing con estándares de excelencia.",
+        "s3d1": "Empresa familiar desde 2017, servicio cercano",
+        "s3d2": "Del campo al empaque con frescura y confianza"
+      },
+      "values": {
+        "title": "Lo que nos define",
+        "v1Title": "Trazabilidad 100 %",
+        "v1Desc": "Del origen genético a la etiqueta: sabe qué hay detrás de cada lote.",
+        "v2Title": "Empresa familiar",
+        "v2Desc": "Más de 40 años de compromiso generacional en la camaronera ecuatoriana.",
+        "v3Title": "100 % ecuatoriano",
+        "v3Desc": "Orgullo de El Oro, cuna de un camarón reconocido en el mundo.",
+        "v4Title": "Calidad premium",
+        "v4Desc": "Metodología semiextensiva y estándares que buscan la mejor textura y sabor."
+      },
+      "testimonials": {
+        "title": "Quienes ya confían",
+        "lead": "Voces del sector gastronómico y la mesa familiar.",
+        "t1Quote": "Por fin puedo explicar a mis comensales de dónde viene el camarón y respaldarlo con datos. La textura y el sabor hablan solos.",
+        "t1Author": "Chef ejecutivo",
+        "t1Role": "Restaurante — Guayaquil",
+        "t2Quote": "En casa buscamos marisco sin dudas. Con Marea Alta recuperamos la confianza para cocinar camarón más seguido.",
+        "t2Author": "Familia M.",
+        "t2Role": "Consumidores — Quito"
+      },
+      "images": {
+        "heroBg": "Mar y horizonte",
+        "heroProduct": "Camarón en plato — producto premium",
+        "story": "Mariscos frescos sobre hielo en la vitrina",
+        "timelineE1": "Costa y mar — raíz de la acuicultura",
+        "timelineE2": "Cultivo y campo — trabajo en la granja",
+        "timelineE3": "Vista aérea de estanques de acuicultura",
+        "timelineE4": "Camarón — calidad en el plato",
+        "traceS1": "Laboratorio — control y calidad",
+        "traceS2": "Estanques de cultivo semiextensivo",
+        "traceS3": "Almacén y logística de producto",
+        "testimonial1": "Retrato de chef en cocina",
+        "testimonial2": "Mesa con comida casera"
+      },
+      "finalCta": {
+        "title": "Lleve el legado a su mesa",
+        "subtitle": "Hable con nosotros por WhatsApp o verifique un lote con el código del envase.",
+        "whatsapp": "Escríbanos por WhatsApp",
+        "whatsappUrl": "https://wa.me/593999999999",
+        "lookup": "Verificar código de lote",
+        "operators": "Acceso operadores de cadena"
+      }
     },
     "diagram": {
       "consumerTitle": "Del envase a la prueba",
@@ -124,7 +221,7 @@
       "createOperator": "Crear cuenta de operador",
       "opsFineprint": "Su organización puede restringir el registro; use credenciales de su administrador si el auto-registro está desactivado."
     },
-    "footer": "SupplyTrack · Trazabilidad transparente a nivel de lote para consumidores y operadores"
+    "footer": "Marea Alta · Camarones con origen · Trazabilidad transparente para consumidores y operadores"
   },
   "auth": {
     "login": {

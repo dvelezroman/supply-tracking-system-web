@@ -1,0 +1,79 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-values {
+  padding: $section-pad-y 0;
+  background: linear-gradient(180deg, rgba(245, 230, 211, 0.35) 0%, transparent 100%);
+  margin: 0 -1rem;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+
+  @media (min-width: 600px) {
+    margin: 0 -1.25rem;
+    border-radius: 20px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  &__title {
+    margin: 0 0 1.75rem;
+    text-align: center;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1rem;
+    max-width: $marea-container;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__card {
+    background: $marea-blanco;
+    border-radius: 14px;
+    padding: 1.35rem 1.15rem;
+    border: 1px solid rgba(20, 66, 114, 0.1);
+    box-shadow: 0 4px 16px rgba(10, 38, 71, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(10, 38, 71, 0.12);
+    }
+  }
+
+  &__icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: $marea-coral;
+    margin-bottom: 0.75rem;
+  }
+
+  &__card-title {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__desc {
+    margin: 0;
+    font-family: $font-marea-body;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: $marea-gris-oscuro;
+  }
+}

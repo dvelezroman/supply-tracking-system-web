@@ -1,0 +1,150 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-trace {
+  padding: $section-pad-y 0;
+
+  &__header {
+    max-width: $marea-container;
+    margin: 0 auto 2rem;
+    text-align: center;
+  }
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__lead {
+    margin: 0 auto;
+    max-width: 38rem;
+    font-family: $font-marea-body;
+    font-size: 1rem;
+    color: $marea-gris-medio;
+    line-height: 1.6;
+  }
+
+  &__flow {
+    max-width: $marea-container;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  &__connector {
+    display: none;
+    align-items: center;
+    color: $marea-azul-claro;
+    opacity: 0.6;
+
+    mat-icon {
+      font-size: 28px;
+    }
+
+    @media (min-width: 960px) {
+      display: flex;
+    }
+  }
+
+  &__photo {
+    display: block;
+    width: calc(100% + 2.5rem);
+    margin: -1.25rem -1.25rem 0.85rem;
+    height: 128px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+  }
+
+  &__card {
+    flex: 1 1 280px;
+    max-width: 360px;
+    position: relative;
+    padding: 1.25rem 1.25rem 1.35rem;
+    border-radius: 14px;
+    overflow: hidden;
+    background: $marea-blanco;
+    border: 2px solid rgba(20, 66, 114, 0.12);
+    box-shadow: 0 4px 14px rgba(10, 38, 71, 0.06);
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+
+    &:hover,
+    &--active {
+      border-color: rgba(44, 116, 179, 0.45);
+      box-shadow: 0 8px 28px rgba(10, 38, 71, 0.12);
+    }
+
+    &--active {
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 3px solid $marea-azul-claro;
+      outline-offset: 2px;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $marea-coral;
+    background: rgba(255, 107, 107, 0.12);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  &__icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: $marea-azul-principal;
+    margin-bottom: 0.75rem;
+  }
+
+  &__card-title {
+    margin: 0 0 0.35rem;
+    font-family: $font-marea-heading;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__partner {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-body;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $marea-azul-claro;
+  }
+
+  &__desc {
+    margin: 0 0 0.75rem;
+    font-family: $font-marea-body;
+    font-size: 0.9rem;
+    color: $marea-gris-oscuro;
+    line-height: 1.5;
+  }
+
+  &__details {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-family: $font-marea-body;
+    font-size: 0.85rem;
+    color: $marea-gris-medio;
+    line-height: 1.55;
+
+    li + li {
+      margin-top: 0.35rem;
+    }
+  }
+}

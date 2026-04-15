@@ -1,6 +1,6 @@
 {
   "app": {
-    "documentTitle": "SupplyTrack — Lot traceability"
+    "documentTitle": "Marea Alta — Traceability & origin"
   },
   "errors": {
     "apiUnreachable": "We can't reach the server right now. Check your connection, make sure the service is running, and try again.",
@@ -50,13 +50,110 @@
   },
   "landing": {
     "toolbar": {
-      "brandTitle": "MAREA ALTA Supply Tracking",
+      "brandTitle": "MAREA ALTA",
       "operatorSignIn": "Operator sign in"
     },
     "hero": {
       "kicker": "Transparent supply chain",
       "title": "Lot traceability you can verify",
       "lead": "SupplyTrack helps producers share the story of each production lot—from farm or pond through processing to the shelf. As a member of the public, you can confirm what you’re buying by scanning a code on the package. No account is required."
+    },
+    "marea": {
+      "hero": {
+        "badge": "Ecuador · El Oro",
+        "title": "Shrimp with a story, quality with origin",
+        "subtitle": "Over 40 years of family tradition, real traceability from genetics to your table, and the taste of the finest shrimp Ecuador can offer.",
+        "ctaStory": "Our story",
+        "ctaTrace": "Look up a lot",
+        "scrollHint": "Discover Marea Alta"
+      },
+      "story": {
+        "kicker": "Why Marea Alta exists",
+        "title": "Trust in every bite",
+        "role": "Marine biologist & shrimp producer",
+        "quote": "My wife and I have always loved a good dinner; what held me back was the freedom and confidence to enjoy seafood safely. Many people stop eating shrimp because of doubts about origin, lots, or shelf life.",
+        "body": "That is how Marea Alta was born: from the wish that anyone eating shrimp can trust what is on the plate and enjoy a great experience. We bring together science, the farm, and family to deliver premium shrimp with verifiable origin.",
+        "imageAlt": "Origin and sea — Marea Alta"
+      },
+      "timeline": {
+        "title": "Four decades of legacy",
+        "lead": "From Huaquillas and Santa Rosa to a brand that honors the past and looks to the future.",
+        "e1Year": "Late 60s – early 70s",
+        "e1Title": "Industry is born",
+        "e1Desc": "In Huaquillas and Santa Rosa, captive shrimp farming takes hold after major floods—an industry that would define Ecuador.",
+        "e2Year": "40+ years ago",
+        "e2Title": "Rossana Aurelia farm",
+        "e2Desc": "The family legacy begins, named for the youngest daughter: future and care in every grow-out cycle.",
+        "e3Year": "Evolution",
+        "e3Title": "Semi-intensive farming",
+        "e3Desc": "From rudimentary methods to farming that respects nature’s timing and El Oro’s brackish waters.",
+        "e4Year": "Today",
+        "e4Title": "Marea Alta",
+        "e4Desc": "We connect field dedication with results: shrimp with origin, excellent texture, and end-to-end traceability."
+      },
+      "trace": {
+        "title": "Traceability you can verify",
+        "lead": "Each stage works with partners who share our standards.",
+        "badge": "Partner",
+        "s1Title": "Genetics & larvae",
+        "s1Partner": "Grupo Lardelce — Manta",
+        "s1Desc": "Traceability starts before the pond.",
+        "s1d1": "Four production modules and technical rigor",
+        "s1d2": "High-quality larvae under strict monitoring",
+        "s2Title": "Semi-intensive grow-out",
+        "s2Partner": "Rossana Aurelia farm — El Oro",
+        "s2Desc": "Grow-out that respects natural rhythms.",
+        "s2d1": "Brackish waters and a cared-for ecosystem",
+        "s2d2": "Flavor and texture that set the product apart",
+        "s3Title": "Processing & packing",
+        "s3Partner": "Coinmarpez S.A.",
+        "s3Desc": "Co-packing to excellence standards.",
+        "s3d1": "Family company since 2017, personal service",
+        "s3d2": "From pond to pack with freshness and trust"
+      },
+      "values": {
+        "title": "What defines us",
+        "v1Title": "100% traceability",
+        "v1Desc": "From genetic origin to the label: you know what stands behind each lot.",
+        "v2Title": "Family business",
+        "v2Desc": "40+ years of generational commitment in Ecuador’s shrimp sector.",
+        "v3Title": "100% Ecuadorian",
+        "v3Desc": "Pride of El Oro, home of world-renowned shrimp.",
+        "v4Title": "Premium quality",
+        "v4Desc": "Semi-intensive methods and standards that target the best texture and flavor."
+      },
+      "testimonials": {
+        "title": "People who already trust us",
+        "lead": "From professional kitchens to family tables.",
+        "t1Quote": "I can finally tell my guests where the shrimp comes from and back it with data. Texture and flavor speak for themselves.",
+        "t1Author": "Executive chef",
+        "t1Role": "Restaurant — Guayaquil",
+        "t2Quote": "At home we wanted seafood without doubts. With Marea Alta we trust serving shrimp more often.",
+        "t2Author": "Family M.",
+        "t2Role": "Consumers — Quito"
+      },
+      "images": {
+        "heroBg": "Sea and horizon",
+        "heroProduct": "Shrimp on a plate — premium product",
+        "story": "Fresh seafood on ice at display",
+        "timelineE1": "Coast and ocean — roots of aquaculture",
+        "timelineE2": "Farming and field work",
+        "timelineE3": "Aerial view of aquaculture ponds",
+        "timelineE4": "Shrimp — quality on the plate",
+        "traceS1": "Laboratory — quality control",
+        "traceS2": "Semi-intensive grow-out ponds",
+        "traceS3": "Warehouse and cold-chain logistics",
+        "testimonial1": "Chef portrait in kitchen",
+        "testimonial2": "Family meal on the table"
+      },
+      "finalCta": {
+        "title": "Bring the legacy to your table",
+        "subtitle": "Reach us on WhatsApp or verify a lot with the code on the package.",
+        "whatsapp": "Message us on WhatsApp",
+        "whatsappUrl": "https://wa.me/593999999999",
+        "lookup": "Verify lot code",
+        "operators": "Supply-chain operator access"
+      }
     },
     "diagram": {
       "consumerTitle": "From package to proof",
@@ -124,7 +221,7 @@
       "createOperator": "Create operator account",
       "opsFineprint": "Your organization may restrict registration; use credentials from your administrator if self-sign-up is turned off."
     },
-    "footer": "SupplyTrack · Transparent lot-level traceability for consumers and operators"
+    "footer": "Marea Alta · Shrimp with origin · Transparent traceability for consumers and operators"
   },
   "auth": {
     "login": {

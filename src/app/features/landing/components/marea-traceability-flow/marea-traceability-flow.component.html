@@ -1,0 +1,103 @@
+<section class="marea-trace" id="marea-trace" aria-labelledby="marea-trace-title">
+  <div class="marea-trace__header">
+    <h2 id="marea-trace-title" class="marea-trace__title">{{ 'landing.marea.trace.title' | transloco }}</h2>
+    <p class="marea-trace__lead">{{ 'landing.marea.trace.lead' | transloco }}</p>
+  </div>
+
+  <div class="marea-trace__flow" role="tablist" [attr.aria-label]="'landing.marea.trace.title' | transloco">
+    <article
+      class="marea-trace__card"
+      [class.marea-trace__card--active]="isActive('s1')"
+      role="tab"
+      [attr.aria-selected]="isActive('s1')"
+      tabindex="0"
+      (click)="select('s1')"
+      (keyup.enter)="select('s1')"
+    >
+      <img
+        class="marea-trace__photo"
+        [src]="photos.s1"
+        width="800"
+        height="420"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.images.traceS1' | transloco"
+      />
+      <span class="marea-trace__badge">{{ 'landing.marea.trace.badge' | transloco }}</span>
+      <mat-icon class="marea-trace__icon" aria-hidden="true">science</mat-icon>
+      <h3 class="marea-trace__card-title">{{ 'landing.marea.trace.s1Title' | transloco }}</h3>
+      <p class="marea-trace__partner">{{ 'landing.marea.trace.s1Partner' | transloco }}</p>
+      <p class="marea-trace__desc">{{ 'landing.marea.trace.s1Desc' | transloco }}</p>
+      <ul class="marea-trace__details">
+        <li>{{ 'landing.marea.trace.s1d1' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.s1d2' | transloco }}</li>
+      </ul>
+    </article>
+
+    <div class="marea-trace__connector" aria-hidden="true">
+      <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+    <article
+      class="marea-trace__card"
+      [class.marea-trace__card--active]="isActive('s2')"
+      role="tab"
+      [attr.aria-selected]="isActive('s2')"
+      tabindex="0"
+      (click)="select('s2')"
+      (keyup.enter)="select('s2')"
+    >
+      <img
+        class="marea-trace__photo"
+        [src]="photos.s2"
+        width="800"
+        height="420"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.images.traceS2' | transloco"
+      />
+      <span class="marea-trace__badge">{{ 'landing.marea.trace.badge' | transloco }}</span>
+      <mat-icon class="marea-trace__icon" aria-hidden="true">water_drop</mat-icon>
+      <h3 class="marea-trace__card-title">{{ 'landing.marea.trace.s2Title' | transloco }}</h3>
+      <p class="marea-trace__partner">{{ 'landing.marea.trace.s2Partner' | transloco }}</p>
+      <p class="marea-trace__desc">{{ 'landing.marea.trace.s2Desc' | transloco }}</p>
+      <ul class="marea-trace__details">
+        <li>{{ 'landing.marea.trace.s2d1' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.s2d2' | transloco }}</li>
+      </ul>
+    </article>
+
+    <div class="marea-trace__connector" aria-hidden="true">
+      <mat-icon>arrow_forward</mat-icon>
+    </div>
+
+    <article
+      class="marea-trace__card"
+      [class.marea-trace__card--active]="isActive('s3')"
+      role="tab"
+      [attr.aria-selected]="isActive('s3')"
+      tabindex="0"
+      (click)="select('s3')"
+      (keyup.enter)="select('s3')"
+    >
+      <img
+        class="marea-trace__photo"
+        [src]="photos.s3"
+        width="800"
+        height="420"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.images.traceS3' | transloco"
+      />
+      <span class="marea-trace__badge">{{ 'landing.marea.trace.badge' | transloco }}</span>
+      <mat-icon class="marea-trace__icon" aria-hidden="true">inventory_2</mat-icon>
+      <h3 class="marea-trace__card-title">{{ 'landing.marea.trace.s3Title' | transloco }}</h3>
+      <p class="marea-trace__partner">{{ 'landing.marea.trace.s3Partner' | transloco }}</p>
+      <p class="marea-trace__desc">{{ 'landing.marea.trace.s3Desc' | transloco }}</p>
+      <ul class="marea-trace__details">
+        <li>{{ 'landing.marea.trace.s3d1' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.s3d2' | transloco }}</li>
+      </ul>
+    </article>
+  </div>
+</section>

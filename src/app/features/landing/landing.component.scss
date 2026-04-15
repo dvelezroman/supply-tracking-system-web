@@ -146,10 +146,15 @@ $bp-lg: 900px;
 }
 
 // ── Main column ─────────────────────────────────────────────────────────────
+.landing__marea {
+  width: 100%;
+  margin: 0 auto 12px;
+}
+
 .landing__main {
   flex: 1;
   width: 100%;
-  max-width: min(100%, 920px);
+  max-width: min(100%, 1200px);
   margin: 0 auto;
   box-sizing: border-box;
   /* Mobile-first padding */

@@ -1,0 +1,100 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-testimonials {
+  padding: $section-pad-y 0;
+
+  &__header {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto 2rem;
+  }
+
+  &__title {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.45rem, 3vw, 1.85rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__lead {
+    margin: 0;
+    font-family: $font-marea-body;
+    font-size: 1rem;
+    color: $marea-gris-medio;
+    line-height: 1.55;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 1.25rem;
+    max-width: $marea-container;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__card {
+    margin: 0;
+    padding: 1.5rem 1.35rem;
+    background: $marea-blanco;
+    border-radius: 14px;
+    border: 1px solid rgba(20, 66, 114, 0.1);
+    box-shadow: 0 6px 20px rgba(10, 38, 71, 0.07);
+  }
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 0.75rem;
+    border: 3px solid rgba(44, 116, 179, 0.25);
+  }
+
+  &__stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0.75rem;
+    color: $marea-amarillo;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__quote {
+    margin: 0 0 1rem;
+
+    p {
+      margin: 0;
+      font-family: $font-marea-quote;
+      font-size: 1.05rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: $marea-gris-oscuro;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-family: $font-marea-body;
+    font-size: 0.88rem;
+  }
+
+  &__author {
+    font-weight: 700;
+    color: $marea-azul-principal;
+  }
+
+  &__role {
+    color: $marea-gris-medio;
+  }
+}

@@ -1,0 +1,83 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-story {
+  padding: $section-pad-y 0;
+
+  &__grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    max-width: $marea-container;
+    margin: 0 auto;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1.1fr;
+    }
+  }
+
+  &__figure {
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(10, 38, 71, 0.2);
+  }
+
+  &__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 240px;
+    max-height: 520px;
+    object-fit: cover;
+    aspect-ratio: 4 / 5;
+  }
+
+  &__kicker {
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-body;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $marea-azul-claro;
+  }
+
+  &__title {
+    margin: 0 0 0.35rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+    line-height: 1.2;
+  }
+
+  &__role {
+    margin: 0 0 1rem;
+    font-family: $font-marea-body;
+    font-size: 0.95rem;
+    color: $marea-gris-medio;
+  }
+
+  &__quote {
+    margin: 0 0 1.25rem;
+    padding: 0 0 0 1rem;
+    border-left: 4px solid $marea-coral;
+
+    p {
+      margin: 0;
+      font-family: $font-marea-quote;
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-style: italic;
+      line-height: 1.65;
+      color: $marea-azul-principal;
+    }
+  }
+
+  &__body {
+    margin: 0;
+    font-family: $font-marea-body;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: $marea-gris-oscuro;
+  }
+}
