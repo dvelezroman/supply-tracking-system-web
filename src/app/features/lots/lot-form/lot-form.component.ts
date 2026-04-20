@@ -4,16 +4,23 @@ import {
   inject,
   signal,
   ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ReactiveFormsModule,
   FormBuilder,
   Validators,
   FormControl,
+  AsyncValidatorFn,
+  AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { forkJoin } from 'rxjs';
+import { forkJoin, merge, EMPTY, Observable, of, timer } from 'rxjs';
+import { debounceTime, switchMap, map, catchError } from 'rxjs/operators';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -64,12 +71,16 @@ export class LotFormComponent implements OnInit {
   private router = inject(Router);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
 
   isLoading = signal(true);
   isSaving = signal(false);
 
   products = signal<Product[]>([]);
   actors = signal<Actor[]>([]);
+
+  private static readonly LOT_CODE_REGEX =
+    /^P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?$/;
 
   readonly presentationValues = ['SHELL_ON', 'BUTTERFLY', 'PD_TAIL_OFF', 'PD_TAIL_ON'] as const;
   readonly packagingValues = ['IQF', 'CAJAS'] as const;
@@ -78,8 +89,34 @@ export class LotFormComponent implements OnInit {
 
   certInput = new FormControl('');
 
+  private readonly lotCodeAvailabilityValidator: AsyncValidatorFn = (
+    control: AbstractControl,
+  ): Observable<ValidationErrors | null> =>
+    timer(400).pipe(
+      switchMap(() => {
+        const code = String(control.value ?? '').trim();
+        if (!code) return of(null);
+        if (!LotFormComponent.LOT_CODE_REGEX.test(code)) return of(null);
+        return this.lotsService.getByCode(code).pipe(
+          map(() => ({ lotCodeTaken: true })),
+          catchError((err: unknown) => {
+            if (err instanceof HttpErrorResponse && err.status === 404) return of(null);
+            return of(null);
+          }),
+        );
+      }),
+    );
+
   form = this.fb.group({
-    lotCode:            ['', [Validators.required, Validators.pattern(/^P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?$/)]],
+    lotCode: [
+      '',
+      [
+        Validators.pattern(
+          /^($|P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?)$/,
+        ),
+      ],
+      [this.lotCodeAvailabilityValidator],
+    ],
     productId:          ['', Validators.required],
     presentation:       ['', Validators.required],
     packaging:          ['', Validators.required],
@@ -112,6 +149,52 @@ export class LotFormComponent implements OnInit {
         this.isLoading.set(false);
       },
     });
+
+    merge(
+      this.form.controls.productId.valueChanges,
+      this.form.controls.poolNumber.valueChanges,
+      this.form.controls.harvestDate.valueChanges,
+      this.form.controls.presentation.valueChanges,
+      this.form.controls.packaging.valueChanges,
+    )
+      .pipe(
+        debounceTime(400),
+        switchMap(() => {
+          const v = this.form.getRawValue();
+          if (
+            !v.productId ||
+            v.poolNumber == null ||
+            !v.harvestDate ||
+            !v.presentation ||
+            !v.packaging
+          ) {
+            return EMPTY;
+          }
+          const harvest = (v.harvestDate as Date).toISOString().split('T')[0];
+          return this.lotsService.getSuggestedLotCode({
+            productId: v.productId,
+            poolNumber: v.poolNumber,
+            harvestDate: harvest,
+            presentation: v.presentation,
+            packaging: v.packaging,
+          });
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (res) => {
+          const code = res.data.lotCode;
+          if (!code) return;
+          const ctrl = this.form.controls.lotCode;
+          if (!ctrl.dirty || !String(ctrl.value ?? '').trim()) {
+            ctrl.patchValue(code, { emitEvent: false });
+            ctrl.markAsPristine();
+          }
+        },
+        error: () => {
+          /* keep field as-is; user can type manually */
+        },
+      });
   }
 
   addCertification(): void {
@@ -141,13 +224,16 @@ export class LotFormComponent implements OnInit {
     this.isSaving.set(true);
 
     const raw = this.form.getRawValue();
-    const payload = {
+    const payload: Record<string, unknown> = {
       ...raw,
       harvestDate: (raw.harvestDate as Date).toISOString().split('T')[0],
       certifications: raw.certifications ?? [],
     };
+    const lotCode = String(payload['lotCode'] ?? '').trim();
+    if (lotCode) payload['lotCode'] = lotCode;
+    else delete payload['lotCode'];
 
-    this.lotsService.create(payload as any).subscribe({
+    this.lotsService.create(payload).subscribe({
       next: () => {
         this.snackbar.success(this.transloco.translate('form.toast.lotCreated'));
         this.router.navigate(['/lots']);

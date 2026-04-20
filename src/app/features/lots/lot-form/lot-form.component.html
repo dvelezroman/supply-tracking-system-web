@@ -21,11 +21,14 @@
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.lotCode' | transloco }}</mat-label>
             <input matInput formControlName="lotCode" [placeholder]="'lots.form.lotCodePlaceholder' | transloco" />
-            @if (form.controls.lotCode.hasError('required')) {
-              <mat-error>{{ 'lots.form.lotCodeRequired' | transloco }}</mat-error>
+            @if (form.controls.lotCode.pending) {
+              <mat-spinner matSuffix diameter="20" />
             }
             @if (form.controls.lotCode.hasError('pattern')) {
               <mat-error>{{ 'lots.form.lotCodePattern' | transloco }}</mat-error>
+            }
+            @if (form.controls.lotCode.hasError('lotCodeTaken')) {
+              <mat-error>{{ 'lots.form.lotCodeTaken' | transloco }}</mat-error>
             }
             <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
           </mat-form-field>
@@ -248,7 +251,7 @@
         mat-flat-button
         color="primary"
         type="submit"
-        [disabled]="form.invalid || isSaving()"
+        [disabled]="form.invalid || form.pending || isSaving()"
       >
         @if (isSaving()) {
           <mat-spinner diameter="20" />

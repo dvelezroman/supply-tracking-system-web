@@ -36,6 +36,24 @@ export class LotsAdminService {
     return this.http.post<ApiResponse<LotSummary>>(this.base, payload);
   }
 
+  getSuggestedLotCode(params: {
+    productId: string;
+    poolNumber: number;
+    harvestDate: string;
+    presentation: string;
+    packaging: string;
+  }) {
+    let httpParams = new HttpParams()
+      .set('productId', params.productId)
+      .set('poolNumber', params.poolNumber)
+      .set('harvestDate', params.harvestDate)
+      .set('presentation', params.presentation)
+      .set('packaging', params.packaging);
+    return this.http.get<ApiResponse<{ lotCode: string }>>(`${this.base}/suggest-lot-code`, {
+      params: httpParams,
+    });
+  }
+
   getAll(params: {
     page?: number;
     limit?: number;
@@ -68,18 +86,21 @@ export class LotsAdminService {
   }
 
   getByCode(lotCode: string) {
-    return this.http.get<ApiResponse<LotSummary>>(`${this.base}/code/${lotCode}`);
+    const encoded = encodeURIComponent(lotCode);
+    return this.http.get<ApiResponse<LotSummary>>(`${this.base}/code/${encoded}`);
   }
 
   getHistory(lotCode: string) {
+    const encoded = encodeURIComponent(lotCode);
     return this.http.get<ApiResponse<{ lot: LotSummary; events: any[] }>>(
-      `${this.base}/code/${lotCode}/history`
+      `${this.base}/code/${encoded}/history`
     );
   }
 
   /** Returns the PDF download URL — used to trigger browser download directly */
   getQrPdfUrl(lotCode: string, copies: number): string {
-    return `${this.base}/code/${lotCode}/qr/pdf?copies=${copies}`;
+    const encoded = encodeURIComponent(lotCode);
+    return `${this.base}/code/${encoded}/qr/pdf?copies=${copies}`;
   }
 
   patchPublicVisibility(id: string, patch: Record<string, boolean>) {
