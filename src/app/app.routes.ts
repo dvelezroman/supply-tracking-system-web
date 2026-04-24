@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { defaultEntryGuard } from './core/guards/default-entry.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { MainShellComponent } from './layout/main-shell/main-shell.component';
 
@@ -7,7 +8,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    canActivate: [guestGuard],
+    canActivate: [defaultEntryGuard],
     loadComponent: () =>
       import('./features/landing/landing.component').then(
         (m) => m.LandingComponent,
@@ -34,6 +35,7 @@ export const routes: Routes = [
     component: MainShellComponent,
     canActivate: [authGuard],
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'dashboard',
         loadComponent: () =>

@@ -328,8 +328,12 @@
       "lotCode": "Código de lote",
       "lotCodePlaceholder": "Se completa solo; cámbielo si hace falta (ej. P2-0226-PD-IQF-A)",
       "lotCodePattern": "Formato: P{piscina}-{MMYY}-{PRESENTACIÓN}-{EMPAQUE}",
-      "lotCodeHint": "Propuesto según producto, piscina, fecha de cosecha, presentación y empaque. Déjelo en blanco o bórrelo para actualizar; edítelo para un código manual.",
-      "lotCodeTaken": "Este código de lote ya existe. Elija otro o déjelo en blanco para el siguiente código automático.",
+      "lotCodeHint": "Se completa solo según producto, piscina, fecha de cosecha, presentación y empaque (siguiente código libre para ese producto). Puede editarlo; al salir del campo comprobamos que el código no exista ya.",
+      "lotCodeTaken": "Este código de lote ya existe en el sistema. Cámbielo o use el botón junto al campo para generar el siguiente código disponible.",
+      "lotCodeGenerateTooltip": "Generar el siguiente código de lote disponible para este producto (mismo formato que los existentes)",
+      "lotCodeGenerateAriaLabel": "Generar siguiente código de lote disponible",
+      "lotCodeGenerateMissingDeps": "Primero seleccione producto, piscina, fecha de cosecha, presentación y empaque.",
+      "lotCodeGenerateFailed": "No se pudo generar el código de lote. Inténtelo de nuevo.",
       "product": "Producto",
       "productRequired": "El producto es obligatorio",
       "presentation": "Presentación",
@@ -363,7 +367,12 @@
       "maturation": "Maduración",
       "maturationRequired": "La planta de maduración es obligatoria",
       "coPacker": "Co-empacador",
-      "coPackerRequired": "El co-empacador es obligatorio"
+      "coPackerRequired": "El co-empacador es obligatorio",
+      "chainIdInvalid": "Cada participante debe elegirse de la lista (ID de actor válido).",
+      "noFarmActors": "Aún no hay actores tipo granja. Cree uno en Actores con tipo Granja.",
+      "noLabActors": "Aún no hay actores tipo laboratorio. Cree uno en Actores con tipo Laboratorio.",
+      "noMaturationActors": "Aún no hay actores tipo maduración. Cree uno en Actores con tipo Maduración.",
+      "noCoPackerActors": "Aún no hay actores tipo co-empacador. Cree uno en Actores con tipo Co-empacador."
     }
   },
   "products": {

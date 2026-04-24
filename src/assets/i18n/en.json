@@ -328,8 +328,12 @@
       "lotCode": "Lot code",
       "lotCodePlaceholder": "Auto-filled; override if needed (e.g. P2-0226-PD-IQF-A)",
       "lotCodePattern": "Format: P{pool}-{MMYY}-{PRESENTATION}-{PACKAGING}",
-      "lotCodeHint": "Suggested from product, pool, harvest date, presentation and packaging. Leave blank or clear to refresh; edit to use a custom code.",
-      "lotCodeTaken": "This lot code already exists. Choose another or leave blank for the next auto-assigned code.",
+      "lotCodeHint": "Auto-filled from product, pool, harvest date, presentation and packaging (next free code for that product). You can edit it; when you leave this field, we check that the code is not already in use.",
+      "lotCodeTaken": "This lot code already exists in the system. Change it or use the button beside the field to generate the next available code.",
+      "lotCodeGenerateTooltip": "Generate the next available lot code for this product (same format as existing codes)",
+      "lotCodeGenerateAriaLabel": "Generate next available lot code",
+      "lotCodeGenerateMissingDeps": "Select product, pool, harvest date, presentation, and packaging first.",
+      "lotCodeGenerateFailed": "Could not generate a lot code. Try again.",
       "product": "Product",
       "productRequired": "Product is required",
       "presentation": "Presentation",
@@ -363,7 +367,12 @@
       "maturation": "Maturation",
       "maturationRequired": "Maturation facility is required",
       "coPacker": "Co-packer",
-      "coPackerRequired": "Co-packer is required"
+      "coPackerRequired": "Co-packer is required",
+      "chainIdInvalid": "Each participant must be selected from the list (valid actor ID).",
+      "noFarmActors": "No farm actors yet. Add one under Actors with type Farm.",
+      "noLabActors": "No laboratory actors yet. Add one under Actors with type Laboratory.",
+      "noMaturationActors": "No maturation actors yet. Add one under Actors with type Maturation.",
+      "noCoPackerActors": "No co-packer actors yet. Add one under Actors with type Co-packer."
     }
   },
   "products": {

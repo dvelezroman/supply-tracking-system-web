@@ -18,22 +18,7 @@
       </mat-card-header>
       <mat-card-content>
         <div class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>{{ 'lots.form.lotCode' | transloco }}</mat-label>
-            <input matInput formControlName="lotCode" [placeholder]="'lots.form.lotCodePlaceholder' | transloco" />
-            @if (form.controls.lotCode.pending) {
-              <mat-spinner matSuffix diameter="20" />
-            }
-            @if (form.controls.lotCode.hasError('pattern')) {
-              <mat-error>{{ 'lots.form.lotCodePattern' | transloco }}</mat-error>
-            }
-            @if (form.controls.lotCode.hasError('lotCodeTaken')) {
-              <mat-error>{{ 'lots.form.lotCodeTaken' | transloco }}</mat-error>
-            }
-            <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="span-2">
             <mat-label>{{ 'lots.form.product' | transloco }}</mat-label>
             <mat-select formControlName="productId">
               @for (p of products(); track p.id) {
@@ -44,6 +29,43 @@
               <mat-error>{{ 'lots.form.productRequired' | transloco }}</mat-error>
             }
           </mat-form-field>
+
+          <div class="lot-code-row span-2">
+            <mat-form-field appearance="outline" class="lot-code-field">
+              <mat-label>{{ 'lots.form.lotCode' | transloco }}</mat-label>
+              <input
+                matInput
+                formControlName="lotCode"
+                [placeholder]="'lots.form.lotCodePlaceholder' | transloco"
+                (blur)="onLotCodeBlur()"
+              />
+              @if (lotCodeCheckPending()) {
+                <mat-spinner matSuffix diameter="20" />
+              }
+              @if (form.controls.lotCode.hasError('pattern')) {
+                <mat-error>{{ 'lots.form.lotCodePattern' | transloco }}</mat-error>
+              }
+              @if (form.controls.lotCode.hasError('lotCodeTaken')) {
+                <mat-error>{{ 'lots.form.lotCodeTaken' | transloco }}</mat-error>
+              }
+              <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
+            </mat-form-field>
+            <button
+              mat-icon-button
+              type="button"
+              class="lot-code-generate-btn"
+              [disabled]="!canSuggestLotCode() || lotCodeGenerating() || lotCodeCheckPending()"
+              [matTooltip]="'lots.form.lotCodeGenerateTooltip' | transloco"
+              [attr.aria-label]="'lots.form.lotCodeGenerateAriaLabel' | transloco"
+              (click)="generateSuggestedLotCode()"
+            >
+              @if (lotCodeGenerating()) {
+                <mat-spinner diameter="22" />
+              } @else {
+                <mat-icon>autorenew</mat-icon>
+              }
+            </button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -187,12 +209,17 @@
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.farm' | transloco }}</mat-label>
             <mat-select formControlName="farmId">
-              @for (a of actors(); track a.id) {
+              @for (a of farmActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
             </mat-select>
+            @if (farmActors().length === 0) {
+              <mat-hint>{{ 'lots.form.noFarmActors' | transloco }}</mat-hint>
+            }
             @if (form.controls.farmId.hasError('required')) {
               <mat-error>{{ 'lots.form.farmRequired' | transloco }}</mat-error>
+            } @else if (form.controls.farmId.hasError('pattern')) {
+              <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
         </div>
@@ -209,36 +236,51 @@
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.lab' | transloco }}</mat-label>
             <mat-select formControlName="labId">
-              @for (a of actors(); track a.id) {
+              @for (a of labActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
             </mat-select>
+            @if (labActors().length === 0) {
+              <mat-hint>{{ 'lots.form.noLabActors' | transloco }}</mat-hint>
+            }
             @if (form.controls.labId.hasError('required')) {
               <mat-error>{{ 'lots.form.labRequired' | transloco }}</mat-error>
+            } @else if (form.controls.labId.hasError('pattern')) {
+              <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.maturation' | transloco }}</mat-label>
             <mat-select formControlName="maturationId">
-              @for (a of actors(); track a.id) {
+              @for (a of maturationActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
             </mat-select>
+            @if (maturationActors().length === 0) {
+              <mat-hint>{{ 'lots.form.noMaturationActors' | transloco }}</mat-hint>
+            }
             @if (form.controls.maturationId.hasError('required')) {
               <mat-error>{{ 'lots.form.maturationRequired' | transloco }}</mat-error>
+            } @else if (form.controls.maturationId.hasError('pattern')) {
+              <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.coPacker' | transloco }}</mat-label>
             <mat-select formControlName="coPackerId">
-              @for (a of actors(); track a.id) {
+              @for (a of coPackerActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
             </mat-select>
+            @if (coPackerActors().length === 0) {
+              <mat-hint>{{ 'lots.form.noCoPackerActors' | transloco }}</mat-hint>
+            }
             @if (form.controls.coPackerId.hasError('required')) {
               <mat-error>{{ 'lots.form.coPackerRequired' | transloco }}</mat-error>
+            } @else if (form.controls.coPackerId.hasError('pattern')) {
+              <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
         </div>
@@ -251,7 +293,7 @@
         mat-flat-button
         color="primary"
         type="submit"
-        [disabled]="form.invalid || form.pending || isSaving()"
+        [disabled]="form.invalid || lotCodeCheckPending() || lotCodeGenerating() || isSaving()"
       >
         @if (isSaving()) {
           <mat-spinner diameter="20" />

@@ -2,6 +2,8 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { redirectToDashboardIfAuthed } from './auth-session.util';
 
-/** Rutas solo para no autenticados (p. ej. auth): con sesión → app. */
-export const guestGuard: CanActivateFn = () =>
+/**
+ * Ruta raíz `/`: sin token → landing; con token (sesión activa) → `/dashboard`.
+ */
+export const defaultEntryGuard: CanActivateFn = () =>
   redirectToDashboardIfAuthed(inject(Router));

@@ -13,6 +13,23 @@
   .span-2 { grid-column: 1 / -1; }
 }
 
+.lot-code-row {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+
+  .lot-code-field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lot-code-generate-btn {
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+}
+
 .cert-field {
   display: flex;
   flex-direction: column;
