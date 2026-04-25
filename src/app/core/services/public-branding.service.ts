@@ -7,15 +7,22 @@ export interface PublicBrandingDto {
   headerTitle: string;
   /** Main shell — brand + Supply Tracking */
   platformTitle: string;
+  developer?: {
+    name?: string;
+    logoUrl?: string | null;
+    siteUrl?: string | null;
+    contactEmail?: string | null;
+  };
 }
 
 const FALLBACK_LANDING = 'MAREA ALTA';
 const FALLBACK_PLATFORM = 'MAREA ALTA Supply Tracking';
+const FALLBACK_DEVELOPER_NAME = 'BITFLOW';
+const SUPPLY_TRACKING_SUFFIX = 'Supply Tracking';
 
 @Injectable({ providedIn: 'root' })
 export class PublicBrandingService {
-  private branding = signal<PublicBrandingDto | null>(null);
-  private loadPromise: Promise<void> | null = null;
+  private readonly branding = signal<PublicBrandingDto>(this.loadFromEnvironment());
 
   readonly landingTitle = computed(
     () => this.branding()?.headerTitle?.trim() || FALLBACK_LANDING,
@@ -24,35 +31,37 @@ export class PublicBrandingService {
     () => this.branding()?.platformTitle?.trim() || FALLBACK_PLATFORM,
   );
   readonly logoUrl = computed(() => this.branding()?.logoUrl ?? null);
+  readonly developerName = computed(
+    () => this.branding()?.developer?.name?.trim() || FALLBACK_DEVELOPER_NAME,
+  );
+  readonly developerLogoUrl = computed(
+    () => this.branding()?.developer?.logoUrl?.trim() || null,
+  );
+  readonly developerSiteUrl = computed(
+    () => this.branding()?.developer?.siteUrl?.trim() || null,
+  );
+  readonly developerContactEmail = computed(
+    () => this.branding()?.developer?.contactEmail?.trim() || null,
+  );
 
-  constructor() {
-    void this.ensureLoaded();
-  }
-
-  /** Idempotent: single fetch shared by landing and main shell. */
+  /** Keeps existing API but branding now comes directly from environment.ts. */
   ensureLoaded(): Promise<void> {
-    if (!this.loadPromise) {
-      this.loadPromise = this.load();
-    }
-    return this.loadPromise;
+    return Promise.resolve();
   }
 
-  private async load(): Promise<void> {
-    try {
-      const url = `${environment.apiBase}/public/branding`;
-      const res = await fetch(url, { credentials: 'omit' });
-      if (!res.ok) return;
-      const data = (await res.json()) as PublicBrandingDto;
-      if (typeof data?.headerTitle !== 'string' || typeof data?.platformTitle !== 'string') {
-        return;
-      }
-      this.branding.set({
-        logoUrl: typeof data.logoUrl === 'string' ? data.logoUrl : null,
-        headerTitle: data.headerTitle.trim() || FALLBACK_LANDING,
-        platformTitle: data.platformTitle.trim() || FALLBACK_PLATFORM,
-      });
-    } catch {
-      /* API unreachable — fallbacks above */
-    }
+  private loadFromEnvironment(): PublicBrandingDto {
+    const brandName = environment.labelBrandName?.trim() || FALLBACK_LANDING;
+    const logoUrl = environment.labelLogoUrl?.trim() || null;
+    return {
+      logoUrl,
+      headerTitle: brandName.toUpperCase(),
+      platformTitle: `${brandName.toUpperCase()} ${SUPPLY_TRACKING_SUFFIX}`.trim(),
+      developer: {
+        name: FALLBACK_DEVELOPER_NAME,
+        logoUrl: environment.bitflowLogoUrl?.trim() || null,
+        siteUrl: environment.bitflowSiteUrl?.trim() || null,
+        contactEmail: environment.contactEmail?.trim() || null,
+      },
+    };
   }
 }

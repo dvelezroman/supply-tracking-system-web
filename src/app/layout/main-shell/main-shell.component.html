@@ -43,7 +43,7 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="shell-content">
     <mat-toolbar color="primary" class="toolbar">
       <button
         mat-icon-button
@@ -62,5 +62,42 @@
     <main class="content">
       <router-outlet />
     </main>
+    <footer class="platform-footer">
+      <span class="platform-footer__label">{{ 'common.developedBy' | transloco }}</span>
+      @if (branding.developerSiteUrl(); as bitflowSite) {
+        <a class="platform-footer__brand-link" [href]="bitflowSite" target="_blank" rel="noopener noreferrer">
+          @if (branding.developerLogoUrl(); as bitflowLogo) {
+            <img
+              class="platform-footer__logo"
+              [src]="bitflowLogo"
+              [alt]="branding.developerName()"
+              width="180"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+          } @else {
+            <span>{{ branding.developerName() }}</span>
+          }
+        </a>
+        <a class="platform-footer__link platform-footer__web" [href]="bitflowSite" target="_blank" rel="noopener noreferrer">
+          {{ bitflowSite }}
+        </a>
+      } @else {
+        @if (branding.developerLogoUrl(); as bitflowLogoNoLink) {
+          <img
+            class="platform-footer__logo"
+            [src]="bitflowLogoNoLink"
+            [alt]="branding.developerName()"
+            width="180"
+            height="48"
+            loading="lazy"
+            decoding="async"
+          />
+        } @else {
+          <span>{{ branding.developerName() }}</span>
+        }
+      }
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>

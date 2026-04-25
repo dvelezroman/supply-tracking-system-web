@@ -22,6 +22,7 @@ import {
 } from './services/public-trace.service';
 import { EVENT_TYPE_COLORS } from '../../core/models/traceability.model';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
+import { PublicBrandingService } from '../../core/services/public-branding.service';
 
 const SIZE_LABELS: Record<string, string | undefined> = {
   S16_20: '16/20',
@@ -58,6 +59,7 @@ export class PublicTraceComponent implements OnInit {
 
   private publicTraceService = inject(PublicTraceService);
   private transloco = inject(TranslocoService);
+  protected branding = inject(PublicBrandingService);
 
   isLoading = signal(true);
   hasError = signal(false);

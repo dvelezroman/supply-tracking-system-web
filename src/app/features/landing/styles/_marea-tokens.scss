@@ -1,4 +1,4 @@
-// Marea Alta — design tokens (plan marea-alta-landing-plan.md)
+// Marea Alta — design tokens (plan marea-alta-landing-plan.md, alineada a logo: azul océano + coral + sol/arena)
 $marea-azul-profundo: #0a2647;
 $marea-azul-principal: #144272;
 $marea-azul-claro: #2c74b3;
@@ -12,9 +12,15 @@ $marea-gris-claro: #f7f9fc;
 $marea-gris-medio: #718096;
 $marea-gris-oscuro: #2d3748;
 $marea-negro: #1a202c;
+// Trazabilidad / “éxito” con la misma familia fría (sin verde Material)
+$marea-aguamarina: #2d9a8f;
+// Acento terciario (diagramas, un nodo de cadena) — mantiene armonía con azules
+$marea-indigo-mar: #4a5fc1;
 
 $gradient-ocean: linear-gradient(135deg, $marea-azul-profundo 0%, $marea-azul-principal 55%, #1e3a5f 100%);
 $gradient-hero-overlay: linear-gradient(180deg, rgba(10, 38, 71, 0.88) 0%, rgba(10, 38, 71, 0.55) 45%, rgba(247, 249, 252, 0.96) 100%);
+$gradient-surface: linear-gradient(165deg, $marea-gris-claro 0%, #eef2f6 40%, #e8ecf2 100%);
+$gradient-cta-warm: linear-gradient(120deg, rgba(245, 230, 211, 0.55) 0%, $marea-gris-claro 55%);
 
 $font-marea-heading: 'Montserrat', 'Roboto', system-ui, sans-serif;
 $font-marea-body: 'Open Sans', 'Roboto', system-ui, sans-serif;
@@ -22,3 +28,7 @@ $font-marea-quote: 'Playfair Display', Georgia, serif;
 
 $marea-container: 1200px;
 $section-pad-y: clamp(3rem, 6vw, 5rem);
+
+// Uso semántico (texto, bordes, MDC)
+$shadow-ocean-sm: 0 4px 20px rgba(10, 38, 71, 0.07);
+$border-ocean: rgba(20, 66, 114, 0.12);

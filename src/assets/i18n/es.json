@@ -19,6 +19,7 @@
   },
   "common": {
     "languageMenu": "Idioma",
+    "developedBy": "Desarrollado por",
     "edit": "Editar",
     "back": "Volver",
     "home": "Inicio",
@@ -167,7 +168,7 @@
       "c3Body": "Vea especificaciones, socios y la línea de tiempo publicada de ese batch.",
       "chainTitle": "Cómo llegan los datos a su teléfono",
       "chainLead": "Los operadores registran cada hito; usted solo ve lo publicado para ese lote.",
-      "chainSvgAria": "Diagrama: cosecha y piscina, procesado, etiqueta con QR, escaneo del consumidor",
+      "chainSvgAria": "Cuatro etapas: cosecha y piscina, procesado, etiqueta con QR, y escaneo en su teléfono",
       "h1": "Cosecha y piscina",
       "h1Detail": "Piscina, fechas, granja",
       "p1": "Procesado",
@@ -547,9 +548,9 @@
   },
   "qrPdf": {
     "copies": "Copias",
-    "hint": "25 etiquetas por hoja · máx. 500 · {{pages}} página(s)",
+    "hint": "10x8 cm (ancho x alto) · 4 etiquetas por hoja A4 · máx. 500 · {{pages}} página(s)",
     "download": "Descargar etiquetas de empaque (PDF)",
-    "tooltip": "Descargar PDF A4 con {{n}} etiquetas de trazabilidad para el lote {{lotCode}}",
+    "tooltip": "Descargar PDF A4 con etiquetas de 10x8 cm (ancho x alto) ({{n}} etiqueta(s)) para el lote {{lotCode}}",
     "success": "PDF con {{n}} etiquetas de empaque descargado"
   },
   "eventTypes": {

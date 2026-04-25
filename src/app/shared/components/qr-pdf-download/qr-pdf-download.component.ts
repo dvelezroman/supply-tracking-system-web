@@ -46,6 +46,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
       </mat-form-field>
 
       <button
+        class="download-btn"
         mat-flat-button
         color="primary"
         (click)="download()"
@@ -73,6 +74,28 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
       width: 100%;
       max-width: 200px;
     }
+    .qr-pdf-container > button {
+      margin-top: 8px;
+    }
+    .download-btn {
+      width: 100%;
+      min-height: 56px;
+      padding: 12px 20px;
+      font-size: 18px;
+      line-height: 1.25;
+      white-space: normal;
+      text-align: center;
+    }
+    .download-btn .mdc-button__label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .download-btn mat-icon {
+      margin: 0;
+      flex-shrink: 0;
+    }
     button mat-spinner { display: inline-block; }
   `],
 })
@@ -83,11 +106,11 @@ export class QrPdfDownloadComponent {
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
 
-  copies = 25;               // default: one full page (5×5 packaging labels)
+  copies = 4;
   isDownloading = signal(false);
 
   /** Must match API `QR_PER_PAGE` in pdf.service.ts */
-  readonly QR_PER_PAGE = 25;
+  readonly QR_PER_PAGE = 4;
   pagesNeeded = () => Math.ceil(this.copies / this.QR_PER_PAGE);
 
   download(): void {

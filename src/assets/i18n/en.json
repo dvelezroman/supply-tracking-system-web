@@ -19,6 +19,7 @@
   },
   "common": {
     "languageMenu": "Language",
+    "developedBy": "Developed by",
     "edit": "Edit",
     "back": "Back",
     "home": "Home",
@@ -167,7 +168,7 @@
       "c3Body": "See specifications, partners, and the published timeline for that batch.",
       "chainTitle": "How data reaches your phone",
       "chainLead": "Operators record each checkpoint; you only see what they publish for that lot.",
-      "chainSvgAria": "Diagram: harvest and pond, processing, label with QR, consumer scan",
+      "chainSvgAria": "Four stages: harvest, processing, label with QR, and scan on your phone",
       "h1": "Harvest & pond",
       "h1Detail": "Pool, dates, farm",
       "p1": "Processing",
@@ -547,9 +548,9 @@
   },
   "qrPdf": {
     "copies": "Copies",
-    "hint": "25 labels per sheet · max 500 · {{pages}} page(s)",
+    "hint": "10x8 cm (width x height) · 4 labels per A4 sheet · max 500 · {{pages}} page(s)",
     "download": "Download packaging labels (PDF)",
-    "tooltip": "Download A4 PDF with {{n}} traceability labels for lot {{lotCode}}",
+    "tooltip": "Download A4 PDF with 10x8 cm labels (width x height) ({{n}} label(s)) for lot {{lotCode}}",
     "success": "PDF with {{n}} packaging labels downloaded"
   },
   "eventTypes": {

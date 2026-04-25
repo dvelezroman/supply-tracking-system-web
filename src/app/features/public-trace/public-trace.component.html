@@ -203,6 +203,43 @@
           {{ 'publicTrace.footerVerified' | transloco }}
           <strong>SupplyTrack</strong> · {{ 'publicTrace.footerSystem' | transloco }}
         </p>
+        <p class="trace-footer__developer">
+          <span class="trace-footer__label">{{ 'common.developedBy' | transloco }}</span>
+          @if (branding.developerSiteUrl(); as bitflowSite) {
+            <a class="trace-footer__brand-link" [href]="bitflowSite" target="_blank" rel="noopener noreferrer">
+              @if (branding.developerLogoUrl(); as bitflowLogo) {
+                <img
+                  class="trace-footer__logo"
+                  [src]="bitflowLogo"
+                  [alt]="branding.developerName()"
+                  width="180"
+                  height="48"
+                  loading="lazy"
+                  decoding="async"
+                />
+              } @else {
+                <span>{{ branding.developerName() }}</span>
+              }
+            </a>
+            <a class="trace-footer__link trace-footer__web" [href]="bitflowSite" target="_blank" rel="noopener noreferrer">
+              {{ bitflowSite }}
+            </a>
+          } @else {
+            @if (branding.developerLogoUrl(); as bitflowLogoNoLink) {
+              <img
+                class="trace-footer__logo"
+                [src]="bitflowLogoNoLink"
+                [alt]="branding.developerName()"
+                width="180"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+            } @else {
+              <span>{{ branding.developerName() }}</span>
+            }
+          }
+        </p>
         <button mat-button (click)="printPage()">
           <mat-icon>print</mat-icon> {{ 'publicTrace.print' | transloco }}
         </button>

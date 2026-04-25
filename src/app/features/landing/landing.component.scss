@@ -1,3 +1,5 @@
+@use './styles/marea-tokens' as *;
+
 // Mobile-first: base styles for narrow viewports; enhance from ~600–768px up.
 
 $bp-sm: 600px;
@@ -14,13 +16,16 @@ $bp-lg: 900px;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(165deg, #f8fafc 0%, #eceff1 42%, #e8eaf0 100%);
+  background: $gradient-surface;
+  color: $marea-gris-oscuro;
   /* iOS safe area for standalone / notch */
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
-// ── Toolbar (stacked on phones, single row on tablet+) ─────────────────────
+// ── Toolbar (stacked on phones, single row on tablet+) — paleta Marea, no indigo de Material
 .landing__toolbar {
+  --mat-toolbar-container-text-color: #{$marea-blanco};
+  --mat-toolbar-standard-height: 56px;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -28,10 +33,21 @@ $bp-lg: 900px;
   min-height: 56px;
   padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
   padding-top: max(12px, env(safe-area-inset-top));
+  background: $marea-azul-profundo !important;
+  color: $marea-blanco;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 2px 12px rgba(10, 38, 71, 0.2);
 
   app-language-toggle ::ng-deep .mat-mdc-icon-button {
     color: rgba(255, 255, 255, 0.95);
     @include touch-target;
+  }
+
+  .landing__title {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .landing__op-btn {
+    color: rgba(255, 255, 255, 0.9) !important;
   }
 }
 
@@ -179,8 +195,8 @@ $bp-lg: 900px;
 }
 
 .lookup-card {
-  border: 1px solid rgba(46, 125, 50, 0.28);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid $border-ocean;
+  box-shadow: $shadow-ocean-sm;
 
   ::ng-deep .mat-mdc-card-header {
     padding: 16px 16px 0;
@@ -201,8 +217,8 @@ $bp-lg: 900px;
   }
 
   &__avatar {
-    background: rgba(46, 125, 50, 0.12);
-    color: #2e7d32;
+    background: rgba(44, 116, 179, 0.1);
+    color: $marea-azul-claro;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -220,13 +236,13 @@ $bp-lg: 900px;
     margin: 0 0 8px;
     font-size: 1rem;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.87);
+    color: $marea-negro;
 
     mat-icon {
       font-size: 24px;
       width: 24px;
       height: 24px;
-      color: #2e7d32;
+      color: $marea-azul-claro;
     }
   }
 
@@ -249,13 +265,13 @@ $bp-lg: 900px;
   margin: 0 0 8px;
   font-size: 1rem;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.87);
+  color: $marea-negro;
 
   mat-icon {
     font-size: 24px;
     width: 24px;
     height: 24px;
-    color: #3f51b5;
+    color: $marea-celeste;
   }
 }
 
@@ -291,6 +307,18 @@ $bp-lg: 900px;
   }
 }
 
+// CTA principal de consulta — coral (coherente con hero / final-cta)
+.lookup-section {
+  .lookup-btn.mat-mdc-unelevated-button {
+    --mdc-filled-button-container-color: #{$marea-coral};
+    --mdc-filled-button-label-text-color: #{$marea-blanco};
+
+    &:hover {
+      --mdc-filled-button-container-color: #{$marea-coral-hover};
+    }
+  }
+}
+
 @media (min-width: 560px) {
   .lookup-row {
     flex-direction: row;
@@ -317,9 +345,9 @@ $bp-lg: 900px;
   text-align: left;
   padding: 20px 18px 22px;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 100%);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94) 0%, rgba(247, 249, 252, 0.88) 100%);
+  border: 1px solid $border-ocean;
+  box-shadow: $shadow-ocean-sm;
 
   @media (min-width: $bp-sm) {
     margin-bottom: 32px;
@@ -338,7 +366,7 @@ $bp-lg: 900px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #2e7d32;
+    color: $marea-azul-claro;
     line-height: 1.3;
 
     @media (min-width: $bp-sm) {
@@ -351,14 +379,14 @@ $bp-lg: 900px;
     font-weight: 600;
     line-height: 1.22;
     margin: 0 0 12px;
-    color: rgba(15, 23, 42, 0.94);
+    color: $marea-azul-profundo;
     letter-spacing: -0.02em;
   }
 
   .hero__lead {
     font-size: 1rem;
     line-height: 1.65;
-    color: rgba(30, 41, 59, 0.78);
+    color: rgba(45, 55, 72, 0.9);
     margin: 0 auto;
     max-width: 42rem;
     text-align: left;
@@ -369,7 +397,7 @@ $bp-lg: 900px;
     }
 
     strong {
-      color: rgba(0, 0, 0, 0.87);
+      color: $marea-negro;
       font-weight: 500;
     }
   }
@@ -391,7 +419,7 @@ $bp-lg: 900px;
     font-weight: 500;
     line-height: 1.35;
     margin: 0 0 14px;
-    color: rgba(0, 0, 0, 0.87);
+    color: $marea-azul-profundo;
 
     @media (min-width: $bp-sm) {
       font-size: 1.25rem;
@@ -404,7 +432,7 @@ $bp-lg: 900px;
     font-size: 26px;
     width: 26px;
     height: 26px;
-    color: #3f51b5;
+    color: $marea-celeste;
 
     @media (min-width: $bp-sm) {
       font-size: 28px;
@@ -413,7 +441,7 @@ $bp-lg: 900px;
     }
 
     &--public {
-      color: #2e7d32;
+      color: $marea-aguamarina;
     }
   }
 
@@ -471,10 +499,10 @@ $bp-lg: 900px;
 
   &--highlight {
     padding: 18px 16px 22px;
-    background: rgba(255, 255, 255, 0.85);
+    background: $gradient-cta-warm;
     border-radius: 12px;
-    border: 1px solid rgba(46, 125, 50, 0.2);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid $border-ocean;
+    box-shadow: 0 1px 3px rgba(10, 38, 71, 0.04);
 
     @media (min-width: $bp-sm) {
       padding: 24px 22px 28px;
@@ -549,8 +577,8 @@ $bp-lg: 900px;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(63, 81, 181, 0.12);
-    color: #3f51b5;
+    background: rgba(44, 116, 179, 0.12);
+    color: $marea-azul-principal;
     font-weight: 600;
     font-size: 1rem;
     display: flex;
@@ -569,7 +597,7 @@ $bp-lg: 900px;
     top: 44px;
     bottom: -18px;
     width: 2px;
-    background: linear-gradient(180deg, rgba(63, 81, 181, 0.35), rgba(63, 81, 181, 0.12));
+    background: linear-gradient(180deg, rgba(44, 116, 179, 0.4), rgba(32, 82, 149, 0.12));
     border-radius: 1px;
   }
 
@@ -656,24 +684,68 @@ $bp-lg: 900px;
   font-size: 22px;
 
   &--public {
-    background: rgba(46, 125, 50, 0.12);
-    color: #2e7d32;
+    background: rgba(45, 154, 143, 0.1);
+    color: $marea-aguamarina;
   }
 
   &--ops {
-    background: rgba(63, 81, 181, 0.12);
-    color: #3f51b5;
+    background: rgba(44, 116, 179, 0.1);
+    color: $marea-azul-principal;
   }
 }
 
 .landing__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   padding: 16px max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
   text-align: center;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(0, 0, 0, 0.45);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  background: #0f2f4f;
+  border-top: 0;
+}
+
+.landing__footer-dev {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.landing__footer-dev-label {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.landing__footer-brand-link {
+  line-height: 1;
+}
+
+.landing__footer-logo {
+  display: block;
+  width: auto;
+  height: 48px;
+  object-fit: contain;
+}
+
+.landing__footer-link {
+  color: rgba(227, 244, 255, 0.9);
+  text-decoration: none;
+}
+
+.landing__footer-web {
+  font-size: 0.9rem;
+}
+
+.landing__footer-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 // ── Flow diagrams (mobile-first) ────────────────────────────────────────────
@@ -681,9 +753,9 @@ $bp-lg: 900px;
   margin-bottom: 28px;
   padding: 20px 16px 22px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 2px 16px rgba(15, 23, 42, 0.05);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid $border-ocean;
+  box-shadow: $shadow-ocean-sm;
 
   @media (min-width: $bp-sm) {
     margin-bottom: 36px;
@@ -705,7 +777,7 @@ $bp-lg: 900px;
     font-size: clamp(1.05rem, 3.5vw, 1.35rem);
     font-weight: 600;
     line-height: 1.3;
-    color: rgba(15, 23, 42, 0.92);
+    color: $marea-azul-profundo;
     letter-spacing: -0.015em;
   }
 
@@ -713,7 +785,7 @@ $bp-lg: 900px;
     margin: 0;
     font-size: 0.9375rem;
     line-height: 1.55;
-    color: rgba(51, 65, 85, 0.88);
+    color: $marea-gris-medio;
     max-width: 40rem;
 
     @media (min-width: $bp-sm) {
@@ -739,43 +811,17 @@ $bp-lg: 900px;
     opacity: 1;
   }
 
-  &__figure {
-    margin: 0;
-    padding: 0;
-  }
-
-  &__svg--chain {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    min-height: 120px;
-    margin-bottom: 16px;
-    border-radius: 12px;
-    background: linear-gradient(180deg, rgba(248, 250, 252, 0.9) 0%, rgba(241, 245, 249, 0.95) 100%);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-  }
 }
 
 .diagram--chain {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-
-  .diagram__figure {
-    min-width: min(100%, 520px);
-
-    @media (min-width: $bp-md) {
-      min-width: 0;
-    }
-  }
-
-  .diagram__svg--chain {
-    min-width: 520px;
-
-    @media (min-width: $bp-md) {
-      min-width: 0;
-    }
-  }
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(230, 242, 255, 0.35) 38%,
+    $marea-gris-claro 100%
+  );
+  border-color: $border-ocean;
+  box-shadow: $shadow-ocean-sm;
 }
 
 .diagram-flow {
@@ -863,13 +909,13 @@ $bp-lg: 900px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, rgba(46, 125, 50, 0.12), rgba(25, 118, 210, 0.1));
+    background: linear-gradient(145deg, rgba(44, 116, 179, 0.12), rgba(32, 82, 149, 0.08));
 
     mat-icon {
       font-size: 26px;
       width: 26px;
       height: 26px;
-      color: #1b5e20;
+      color: $marea-azul-principal;
     }
 
     @media (min-width: 1100px) {
@@ -888,56 +934,257 @@ $bp-lg: 900px;
   &__label {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: rgba(15, 23, 42, 0.92);
+    color: $marea-azul-profundo;
     line-height: 1.3;
   }
 
   &__hint {
     font-size: 0.875rem;
     line-height: 1.5;
-    color: rgba(51, 65, 85, 0.88);
+    color: $marea-gris-medio;
   }
 }
 
-.diagram-chain-legend {
-  list-style: none;
+$chain-bp: 1024px;
+
+.chain-pipeline {
+  position: relative;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px 16px;
 
-  @media (min-width: 480px) {
-    grid-template-columns: 1fr 1fr;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -4px 0 auto;
+    height: min(320px, 55vw);
+    border-radius: 20px;
+    background: radial-gradient(ellipse 80% 70% at 12% 0%, rgba(45, 154, 143, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 75% 60% at 88% 20%, rgba(44, 116, 179, 0.1) 0%, transparent 52%),
+      radial-gradient(ellipse 60% 50% at 48% 100%, rgba(74, 95, 193, 0.07) 0%, transparent 48%);
+    pointer-events: none;
   }
 
-  @media (min-width: $bp-lg) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-
-  li {
+  &__stages {
+    list-style: none;
     margin: 0;
-    padding: 12px 12px;
-    border-radius: 10px;
-    background: rgba(248, 250, 252, 0.95);
-    border: 1px solid rgba(15, 23, 42, 0.06);
-    font-size: 0.8125rem;
-    line-height: 1.45;
-    color: rgba(51, 65, 85, 0.9);
+    padding: 4px 0 0;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: stretch;
+    gap: 0;
+
+    @media (min-width: $chain-bp) {
+      flex-direction: row;
+      align-items: stretch;
+    }
   }
 
-  strong {
-    font-size: 0.8125rem;
+  &__item {
+    position: relative;
+    list-style: none;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    @media (min-width: $chain-bp) {
+      flex: 1 1 0;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &__card {
+    position: relative;
+    margin: 0;
+    padding: 18px 16px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid $border-ocean;
+    box-shadow: 0 2px 12px rgba(10, 38, 71, 0.05), 0 8px 28px rgba(10, 38, 71, 0.04);
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    text-align: center;
+    flex: 1 1 auto;
+
+    @media (min-width: $chain-bp) {
+      text-align: left;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &:hover {
+      border-color: rgba(20, 66, 114, 0.22);
+      box-shadow: 0 4px 20px rgba(10, 38, 71, 0.1), 0 12px 40px rgba(20, 66, 114, 0.07);
+      transform: translateY(-2px);
+    }
+  }
+
+  &__accent {
+    position: absolute;
+    top: 0;
+    left: 8px;
+    right: 8px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+  }
+
+  &__item--origin &__accent {
+    background: linear-gradient(90deg, #0d5c52, $marea-aguamarina);
+  }
+  &__item--process &__accent {
+    background: linear-gradient(90deg, $marea-azul-principal, $marea-azul-claro);
+  }
+  &__item--label &__accent {
+    background: linear-gradient(90deg, #3d4a9e, $marea-indigo-mar);
+  }
+  &__item--phone &__accent {
+    background: linear-gradient(90deg, #0a5c54, $marea-aguamarina);
+  }
+
+  &__item--origin &__index {
+    background: rgba(45, 154, 143, 0.15);
+    color: darken($marea-aguamarina, 8%);
+  }
+  &__item--process &__index {
+    background: rgba(44, 116, 179, 0.12);
+    color: $marea-azul-principal;
+  }
+  &__item--label &__index {
+    background: rgba(74, 95, 193, 0.12);
+    color: $marea-indigo-mar;
+  }
+  &__item--phone &__index {
+    background: rgba(45, 154, 143, 0.15);
+    color: darken($marea-aguamarina, 8%);
+  }
+
+  &__item--origin &__icon {
+    background: linear-gradient(150deg, rgba(45, 154, 143, 0.25), rgba(10, 92, 84, 0.08));
+    mat-icon {
+      color: #0a5c54;
+    }
+  }
+  &__item--process &__icon {
+    background: linear-gradient(150deg, rgba(44, 116, 179, 0.22), rgba(20, 66, 114, 0.08));
+    mat-icon {
+      color: $marea-azul-principal;
+    }
+  }
+  &__item--label &__icon {
+    background: linear-gradient(150deg, rgba(74, 95, 193, 0.2), rgba(45, 58, 120, 0.08));
+    mat-icon {
+      color: $marea-indigo-mar;
+    }
+  }
+  &__item--phone &__icon {
+    background: linear-gradient(150deg, rgba(45, 154, 143, 0.25), rgba(10, 92, 84, 0.08));
+    mat-icon {
+      color: #0a5c54;
+    }
+  }
+
+  &__index {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 0.69rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    padding: 0.3rem 0.45rem;
+    border-radius: 999px;
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+
+    @media (min-width: $chain-bp) {
+      margin: 0 0 10px 0;
+    }
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__name {
+    margin: 0 0 6px;
+    font-size: 0.98rem;
     font-weight: 600;
-    color: rgba(15, 23, 42, 0.92);
+    line-height: 1.3;
+    font-family: $font-marea-heading;
+    color: $marea-azul-profundo;
   }
 
-  span {
-    font-size: 0.78rem;
-    color: rgba(71, 85, 105, 0.95);
+  &__desc {
+    margin: 0;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    font-family: $font-marea-body;
+    color: $marea-gris-medio;
+    flex: 1 0 auto;
+  }
+
+  &__bridge {
+    position: relative;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0 10px;
+    gap: 0;
+    min-height: 40px;
+
+    @media (min-width: $chain-bp) {
+      flex: 0 0 40px;
+      width: 40px;
+      flex-direction: row;
+      padding: 0 0 0 2px;
+      min-height: 0;
+    }
+  }
+
+  &__bridge-line {
+    display: block;
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(180deg, rgba(20, 66, 114, 0.35) 0%, rgba(20, 66, 114, 0.1) 100%);
+
+    @media (min-width: $chain-bp) {
+      width: 14px;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        rgba(20, 66, 114, 0.12) 0%,
+        rgba(20, 66, 114, 0.38) 50%,
+        rgba(20, 66, 114, 0.15) 100%
+      );
+    }
+  }
+
+  &__bridge-ico {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+    color: rgba(20, 66, 114, 0.45);
+    transform: rotate(90deg);
+
+    @media (min-width: $chain-bp) {
+      margin-left: -2px;
+      transform: none;
+    }
   }
 }

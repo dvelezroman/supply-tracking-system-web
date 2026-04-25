@@ -81,9 +81,9 @@
 
   &--labels {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 }
 

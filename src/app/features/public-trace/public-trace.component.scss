@@ -299,11 +299,52 @@
 
 .trace-footer {
   text-align: center;
-  color: rgba(0,0,0,0.38);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 12px;
-  padding-top: 8px;
+  padding: 12px 14px;
+  background: #0f2f4f;
+  border-radius: 10px;
 
   p { margin: 2px 0; }
+}
+
+.trace-footer__developer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.trace-footer__label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.trace-footer__brand-link {
+  line-height: 1;
+}
+
+.trace-footer__logo {
+  display: block;
+  width: auto;
+  height: 48px;
+  object-fit: contain;
+}
+
+.trace-footer__link {
+  color: rgba(227, 244, 255, 0.9);
+  text-decoration: none;
+}
+
+.trace-footer__web {
+  font-size: 0.9rem;
+}
+
+.trace-footer__link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 @media print {

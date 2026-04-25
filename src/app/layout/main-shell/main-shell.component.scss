@@ -47,6 +47,8 @@
   }
 
   .sidenav-footer {
+    padding-bottom: 10px;
+
     .user-info {
       display: flex;
       align-items: center;
@@ -77,6 +79,7 @@
         }
       }
     }
+
   }
 }
 
@@ -90,7 +93,58 @@
   }
 }
 
+.shell-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .content {
+  flex: 1;
   padding: 24px;
   min-height: calc(100vh - 64px);
+}
+
+.platform-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  background: #0f2f4f;
+  border-top: 0;
+}
+
+.platform-footer__label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.platform-footer__brand-link {
+  line-height: 1;
+}
+
+.platform-footer__logo {
+  display: block;
+  width: auto;
+  height: 48px;
+  object-fit: contain;
+}
+
+.platform-footer__link {
+  color: rgba(227, 244, 255, 0.9);
+  text-decoration: none;
+}
+
+.platform-footer__web {
+  font-size: 0.9rem;
+}
+
+.platform-footer__link:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
