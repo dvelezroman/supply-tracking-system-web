@@ -54,6 +54,13 @@
       "brandTitle": "MAREA ALTA",
       "operatorSignIn": "Operator sign in"
     },
+    "intro": {
+      "skip": "Skip intro",
+      "toggleSound": "Toggle video sound",
+      "toggleSoundOn": "Unmute",
+      "toggleSoundOff": "Mute",
+      "videoLabel": "Marea Alta introduction video"
+    },
     "hero": {
       "kicker": "Transparent supply chain",
       "title": "Lot traceability you can verify",
@@ -61,86 +68,113 @@
     },
     "marea": {
       "hero": {
-        "badge": "Ecuador · El Oro",
-        "title": "Shrimp with a story, quality with origin",
-        "subtitle": "Over 40 years of family tradition, real traceability from genetics to your table, and the taste of the finest shrimp Ecuador can offer.",
-        "ctaStory": "Our story",
+        "badge": "Marea Alta · Ecuador",
+        "titleLine1": "We don’t sell “just shrimp.”",
+        "titleLine2": "We sell health, confidence, and a story of excellence.",
+        "subtitle": "100% natural product, free of unnecessary chemicals; full traceability with a QR code on every lot. We’re not just another distributor—we guard a higher standard.",
+        "ctaStory": "How Marea Alta began",
         "ctaTrace": "Look up a lot",
-        "scrollHint": "Discover Marea Alta"
+        "scrollHint": "Explore our promise"
       },
       "story": {
-        "kicker": "Why Marea Alta exists",
-        "title": "Trust in every bite",
+        "kicker": "How Marea Alta began",
+        "title": "Born from the consumer, for the consumer",
         "role": "Marine biologist & shrimp producer",
-        "quote": "My wife and I have always loved a good dinner; what held me back was the freedom and confidence to enjoy seafood safely. Many people stop eating shrimp because of doubts about origin, lots, or shelf life.",
-        "body": "That is how Marea Alta was born: from the wish that anyone eating shrimp can trust what is on the plate and enjoy a great experience. We bring together science, the farm, and family to deliver premium shrimp with verifiable origin.",
+        "quote": "My wife and I have always loved a good dinner, but I kept hitting the same wall: the freedom and confidence to eat seafood safely—and shrimp worried me most. For years I avoided dishes with shrimp, farmed or not. That tension comes from my path as a shrimp producer and marine biologist: I worked this link in the chain and contributed at the National Aquaculture Control office and with major input companies. I learned Ecuador’s production methodology ranks among the best in the world—yet much of that product never stays in-country. What we often eat ends up being shrimp from rejected lots, inventory close to expiry, or dubious origin.",
+        "body": "Marea Alta is born from the consumer’s need to trust what they eat—and to enjoy a truly great experience.",
+        "author": "Miguel Jaramillo",
         "imageAlt": "Origin and sea — Marea Alta"
       },
       "timeline": {
-        "title": "Four decades of legacy",
-        "lead": "From Huaquillas and Santa Rosa to a brand that honors the past and looks to the future.",
-        "e1Year": "Late 60s – early 70s",
-        "e1Title": "Industry is born",
-        "e1Desc": "In Huaquillas and Santa Rosa, captive shrimp farming takes hold after major floods—an industry that would define Ecuador.",
-        "e2Year": "40+ years ago",
-        "e2Title": "Rossana Aurelia farm",
-        "e2Desc": "The family legacy begins, named for the youngest daughter: future and care in every grow-out cycle.",
-        "e3Year": "Evolution",
-        "e3Title": "Semi-intensive farming",
-        "e3Desc": "From rudimentary methods to farming that respects nature’s timing and El Oro’s brackish waters.",
-        "e4Year": "Today",
-        "e4Title": "Marea Alta",
-        "e4Desc": "We connect field dedication with results: shrimp with origin, excellent texture, and end-to-end traceability."
+        "title": "The problem few people want to name",
+        "lead": "Four gaps where the market often fails—and where we focus every day.",
+        "e1Year": "Transparency",
+        "e1Title": "Where does the shrimp we serve really come from?",
+        "e1Desc": "Without clarity on origin, lot, and chain, neither guests nor operators get the assurance they deserve.",
+        "e2Year": "Chemicals",
+        "e2Title": "A market crowded with hidden treatments",
+        "e2Desc": "Antibiotics, chlorine, and metabisulfite used to mask quality or stretch shelf life instead of growing shrimp the right way from the start.",
+        "e3Year": "Flavor",
+        "e3Title": "Additives that steal what matters",
+        "e3Desc": "They’re not just unhealthy—they strip authentic seafood taste and texture.",
+        "e4Year": "Reputation",
+        "e4Title": "Trust risk for your business",
+        "e4Desc": "Guests are more demanding every day. Serving questionable quality puts your brand on the line."
       },
       "trace": {
-        "title": "Traceability you can verify",
-        "lead": "Each stage works with partners who share our standards.",
+        "title": "Traceability, purity, and flavor",
+        "kicker": "The science of purity",
+        "lead": "Our commitment is a 100% natural product, free of unnecessary chemicals. Every lot carries a QR code so your guest can see when, where, and how that shrimp was harvested.",
+        "purity": "As producers with benchmark shrimp behind us, genetics, healthy extensive grow-out, and co-packing partners reinforce the standard all the way to the package.",
+        "factsAria": "Supply and quality commitments",
+        "fact1": "Reliable supply: harvest roughly every ~60 days.",
+        "fact2": "Commercial sizes aligned to market needs: 31/35 · 26/30 · 21/25.",
+        "fact3": "Inventory rotation: lots no older than 120 days from harvest.",
+        "fact4": "Custom co-packing that preserves true counts by size—with transparency.",
         "badge": "Partner",
         "s1Title": "Genetics & larvae",
         "s1Partner": "Grupo Lardelce — Manta",
         "s1Desc": "Traceability starts before the pond.",
         "s1d1": "Four production modules and technical rigor",
         "s1d2": "High-quality larvae under strict monitoring",
-        "s2Title": "Semi-intensive grow-out",
+        "s2Title": "Healthy extensive grow-out",
         "s2Partner": "Rossana Aurelia farm — El Oro",
-        "s2Desc": "Grow-out that respects natural rhythms.",
-        "s2d1": "Brackish waters and a cared-for ecosystem",
+        "s2Desc": "Controlled environments focused on nutrition and biosecurity.",
+        "s2d1": "Brackish waters and biosecurity—not routine medication",
         "s2d2": "Flavor and texture that set the product apart",
         "s3Title": "Processing & packing",
         "s3Partner": "Coinmarpez S.A.",
-        "s3Desc": "Co-packing to excellence standards.",
+        "s3Desc": "Co-packing standards that respect cold chain and lot identity.",
         "s3d1": "Family company since 2017, personal service",
         "s3d2": "From pond to pack with freshness and trust"
       },
-      "values": {
-        "title": "What defines us",
-        "v1Title": "100% traceability",
-        "v1Desc": "From genetic origin to the label: you know what stands behind each lot.",
-        "v2Title": "Family business",
-        "v2Desc": "40+ years of generational commitment in Ecuador’s shrimp sector.",
-        "v3Title": "100% Ecuadorian",
-        "v3Desc": "Pride of El Oro, home of world-renowned shrimp.",
-        "v4Title": "Premium quality",
-        "v4Desc": "Semi-intensive methods and standards that target the best texture and flavor."
+      "nonNegotiables": {
+        "title": "Our non-negotiable “nos”",
+        "lead": "Clear value: what we refuse—and how we deliver instead.",
+        "riskLabel": "The risk",
+        "pathLabel": "Our path",
+        "n1Title": "No antibiotics",
+        "n1Risk": "Antimicrobial resistance and chemical residues in the final product.",
+        "n1Path": "We grow in extensive, healthy, controlled environments focused on nutrition and biosecurity—not medication.",
+        "n2Title": "No chlorine",
+        "n2Risk": "Used to “whiten” and superficially disinfect, altering taste and texture.",
+        "n2Path": "Production protocols that remove off-flavors and odors that aren’t true shrimp.",
+        "n3Title": "No metabisulfite",
+        "n3Risk": "Melanosis control in excess leaves aftertaste and hides real quality.",
+        "n3Path": "Optimal cold chain end-to-end and shrimp shelf life no longer than 120 days from harvest—preserving natural color and flavor (sulfite-free)."
+      },
+      "differentiation": {
+        "title": "Marea Alta: Raise the standard for your business",
+        "lead": "What your guest and your brand gain when you choose a product with a verifiable story.",
+        "d1Title": "Deep differentiation",
+        "d1Desc": "Give your guests a product with a story and purity no one else can match.",
+        "d2Title": "Quality guarantee",
+        "d2Desc": "Full traceability and 100% free of antibiotics, chlorine, and metabisulfite.",
+        "d3Title": "Real flavor",
+        "d3Desc": "A superior gourmet experience in every meal thanks to controlled cold chain and immediate freshness.",
+        "d4Title": "Practicality",
+        "d4Desc": "Save time with guaranteed quality through cook-ready packs and commercial grades tailored to your business."
       },
       "testimonials": {
-        "title": "People who already trust us",
-        "lead": "From professional kitchens to family tables.",
-        "t1Quote": "I can finally tell my guests where the shrimp comes from and back it with data. Texture and flavor speak for themselves.",
+        "title": "Stories on the menu and on the plate",
+        "lead": "Operators serving Marea Alta lean on verified narrative and brand peace of mind.",
+        "t1Quote": "I can finally tell guests where the shrimp comes from and back it with data from the QR. Less uncertainty for my team and a better guest experience.",
         "t1Author": "Executive chef",
         "t1Role": "Restaurant — Guayaquil",
-        "t2Quote": "At home we wanted seafood without doubts. With Marea Alta we trust serving shrimp more often.",
-        "t2Author": "Family M.",
-        "t2Role": "Consumers — Quito"
+        "t2Quote": "We moved from “just another shrimp” to a clear menu story—traceability and a product without shortcuts. Guests notice.",
+        "t2Author": "Operations manager",
+        "t2Role": "Food service — Ecuador"
       },
       "images": {
         "heroBg": "Sea and horizon",
         "heroProduct": "Shrimp on a plate — premium product",
-        "story": "Fresh seafood on ice at display",
+        "story": "Marea Alta founders, a man and a woman, smiling at a restaurant table",
         "timelineE1": "Coast and ocean — roots of aquaculture",
         "timelineE2": "Farming and field work",
         "timelineE3": "Aerial view of aquaculture ponds",
         "timelineE4": "Shrimp — quality on the plate",
+        "traceValueProposition":
+          "Infographic: Marea Alta shrimp traceability from farm to table, with QR code and supply chain steps",
         "traceS1": "Laboratory — quality control",
         "traceS2": "Semi-intensive grow-out ponds",
         "traceS3": "Warehouse and cold-chain logistics",
@@ -148,8 +182,10 @@
         "testimonial2": "Family meal on the table"
       },
       "finalCta": {
-        "title": "Bring the legacy to your table",
-        "subtitle": "Reach us on WhatsApp or verify a lot with the code on the package.",
+        "title": "Raise the standard for your business",
+        "menuImageAlt":
+          "Restaurant menu card with QR codes next to seafood dishes at an oceanfront table—traceability on the menu",
+        "subtitle": "Message us on WhatsApp for supply and co-packing—or verify a lot by scanning the QR or entering the code on the package.",
         "whatsapp": "Message us on WhatsApp",
         "whatsappUrl": "https://wa.me/593999999999",
         "lookup": "Verify lot code",
@@ -159,6 +195,8 @@
     "diagram": {
       "consumerTitle": "From package to proof",
       "consumerLead": "Three simple steps—no app and no login.",
+      "packageExampleAlt":
+        "Marea Alta shrimp package label with production lot code, barcode, and QR for traceability",
       "consumerAria": "Consumer flow: packaging, scan, trace page",
       "c1Title": "QR on the package",
       "c1Body": "Each production lot has a unique code on the label or box.",
@@ -178,51 +216,7 @@
       "scan": "You scan",
       "scanDetail": "Read-only trace page"
     },
-    "lookup": {
-      "title": "See information for a lot (public)",
-      "subtitle": "Scan the QR on the package—or enter the lot code",
-      "scanTitle": "Scan with your phone",
-      "scanBody": "Open your camera app and point it at the QR printed on the product. Tap the link that appears—you’ll get the full trace page for that lot. No app install and no login.",
-      "manualTitle": "Or type the lot code",
-      "hint": "The same code is embedded in the QR. You can copy it from the label, a receipt, or an email from the supplier.",
-      "label": "Lot code",
-      "placeholder": "e.g. P2-0226-PD-IQF",
-      "view": "View lot information"
-    },
-    "about": {
-      "title": "About this application",
-      "p1": "This website hosts two experiences. The public side (what you are seeing now) explains how traceability works and is the entry point when someone scans a QR code printed on product packaging. Each code opens a dedicated page for that lot, with information supplied by the producer and their supply-chain partners.",
-      "p2": "Behind the scenes, authorized staff use a separate, password-protected area to register products, actors (farms, labs, warehouses, etc.), production lots, and traceability events. That data is what powers the public lot page you see after a scan."
-    },
-    "public": {
-      "title": "What you can do here as the public",
-      "intro": "Everything below is available without signing in, as long as you have a valid link or QR code from the product.",
-      "f1": "Scan a QR code on the label or box with your phone camera (or open the link the producer gave you). You will land on a trace page for that specific lot.",
-      "f2": "See product and lot details—for example name, SKU, presentation, packaging, size grade, certifications, lot code, and key quality attributes the producer chose to publish.",
-      "f3": "Review harvest and origin information, such as harvest date, pool or pond, and which farm, lab, maturation, and co-packing partners were involved for that batch.",
-      "f4": "Follow the traceability timeline—a chronological list of events (e.g. harvested, transported, quality checked, stored, shipped) with who performed each step and when.",
-      "f5": "Download the lot QR image or use print-friendly options on the trace page when you need a paper copy for records or display.",
-      "f6": "Browse read-only. You cannot change data, create lots, or see other consumers’ activity—only the information published for that lot.",
-      "note": "Trace URLs on this site follow the pattern /trace/<lot-code>—the same address embedded in the QR on packaging."
-    },
-    "steps": {
-      "title": "How to view a lot in three steps",
-      "s1": "Get a code — Find the QR on the product or use a trace link from the retailer or producer.",
-      "s2": "Scan or tap — Your browser opens this site on the lot’s public trace page.",
-      "s3": "Explore — Scroll through specifications, participants, and the event history for that batch."
-    },
-    "cards": {
-      "publicTitle": "Public trace (reminder)",
-      "publicSubtitle": "No password · read-only",
-      "publicBody": "If you only want to verify a product you purchased, use the QR or link—you do not need an operator account or anything on this landing page except the explanation above.",
-      "opsTitle": "Supply chain staff",
-      "opsSubtitle": "Password-protected console",
-      "opsBody": "Signed-in users with the right role maintain the catalogue, lots, events, and (where allowed) user accounts. This is not where consumers go after scanning a package.",
-      "signInConsole": "Sign in to console",
-      "createOperator": "Create operator account",
-      "opsFineprint": "Your organization may restrict registration; use credentials from your administrator if self-sign-up is turned off."
-    },
-    "footer": "Marea Alta · Shrimp with origin · Transparent traceability for consumers and operators"
+    "footer": "Marea Alta · Health, confidence, and excellence · Transparent traceability for those who serve and those who eat"
   },
   "auth": {
     "login": {

@@ -1,7 +1,28 @@
 <section class="marea-trace" id="marea-trace" aria-labelledby="marea-trace-title">
-  <div class="marea-trace__header">
-    <h2 id="marea-trace-title" class="marea-trace__title">{{ 'landing.marea.trace.title' | transloco }}</h2>
-    <p class="marea-trace__lead">{{ 'landing.marea.trace.lead' | transloco }}</p>
+  <div class="marea-trace__intro">
+    <figure class="marea-trace__figure">
+      <img
+        class="marea-trace__hero-img"
+        [src]="photos.valueProposition"
+        width="1200"
+        height="900"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.images.traceValueProposition' | transloco"
+      />
+    </figure>
+    <div class="marea-trace__header">
+      <h2 id="marea-trace-title" class="marea-trace__title">{{ 'landing.marea.trace.title' | transloco }}</h2>
+      <p class="marea-trace__kicker">{{ 'landing.marea.trace.kicker' | transloco }}</p>
+      <p class="marea-trace__lead">{{ 'landing.marea.trace.lead' | transloco }}</p>
+      <p class="marea-trace__purity">{{ 'landing.marea.trace.purity' | transloco }}</p>
+      <ul class="marea-trace__facts" [attr.aria-label]="'landing.marea.trace.factsAria' | transloco">
+        <li>{{ 'landing.marea.trace.fact1' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.fact2' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.fact3' | transloco }}</li>
+        <li>{{ 'landing.marea.trace.fact4' | transloco }}</li>
+      </ul>
+    </div>
   </div>
 
   <div class="marea-trace__flow" role="tablist" [attr.aria-label]="'landing.marea.trace.title' | transloco">

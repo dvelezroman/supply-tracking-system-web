@@ -99,6 +99,27 @@
     line-height: 1.15;
     color: $marea-blanco;
     letter-spacing: -0.02em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__title-line {
+    display: block;
+
+    &--emphasis {
+      font-size: clamp(1.35rem, 3.6vw, 2.15rem);
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.96);
+      line-height: 1.25;
+      max-width: 22ch;
+      margin-inline: auto;
+
+      @media (min-width: 900px) {
+        margin-inline: 0;
+        max-width: 24ch;
+      }
+    }
   }
 
   &__subtitle {

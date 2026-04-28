@@ -4,13 +4,18 @@
     <div class="marea-hero__layout">
       <div class="marea-hero__copy">
         <p class="marea-hero__badge">{{ 'landing.marea.hero.badge' | transloco }}</p>
-        <h1 id="marea-hero-title" class="marea-hero__title">{{ 'landing.marea.hero.title' | transloco }}</h1>
+        <h1 id="marea-hero-title" class="marea-hero__title">
+          <span class="marea-hero__title-line">{{ 'landing.marea.hero.titleLine1' | transloco }}</span>
+          <span class="marea-hero__title-line marea-hero__title-line--emphasis">{{
+            'landing.marea.hero.titleLine2' | transloco
+          }}</span>
+        </h1>
         <p class="marea-hero__subtitle">{{ 'landing.marea.hero.subtitle' | transloco }}</p>
         <div class="marea-hero__ctas">
           <button type="button" class="marea-btn marea-btn--primary" (click)="scrollTo('marea-story')">
             {{ 'landing.marea.hero.ctaStory' | transloco }}
           </button>
-          <button type="button" class="marea-btn marea-btn--ghost" (click)="scrollTo('consulta-lote')">
+          <button type="button" class="marea-btn marea-btn--ghost" (click)="scrollTo('diagram-consumer-title')">
             {{ 'landing.marea.hero.ctaTrace' | transloco }}
           </button>
         </div>

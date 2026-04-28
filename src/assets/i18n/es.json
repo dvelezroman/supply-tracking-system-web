@@ -54,6 +54,13 @@
       "brandTitle": "MAREA ALTA",
       "operatorSignIn": "Acceso operadores"
     },
+    "intro": {
+      "skip": "Saltar intro",
+      "toggleSound": "Alternar sonido del video",
+      "toggleSoundOn": "Activar sonido",
+      "toggleSoundOff": "Silenciar",
+      "videoLabel": "Video de presentación Marea Alta"
+    },
     "hero": {
       "kicker": "Cadena de suministro transparente",
       "title": "Trazabilidad del lote que puede verificar",
@@ -61,86 +68,113 @@
     },
     "marea": {
       "hero": {
-        "badge": "Ecuador · El Oro",
-        "title": "Camarones con historia, calidad con origen",
-        "subtitle": "Más de 40 años de tradición familiar, trazabilidad real desde la genética hasta tu mesa y el sabor del mejor camarón que Ecuador puede ofrecer.",
-        "ctaStory": "Nuestra historia",
+        "badge": "Marea Alta · Ecuador",
+        "titleLine1": "No vendemos camarones.",
+        "titleLine2": "Acá vendemos salud, confianza y una historia de excelencia.",
+        "subtitle": "Producto 100 % natural, libre de químicos; trazabilidad total con código QR en cada lote. No somos un simple distribuidor: somos custodios de un estándar superior.",
+        "ctaStory": "Cómo nace Marea Alta",
         "ctaTrace": "Consultar un lote",
-        "scrollHint": "Descubra Marea Alta"
+        "scrollHint": "Conozca nuestra propuesta"
       },
       "story": {
-        "kicker": "Por qué existe Marea Alta",
-        "title": "Confianza en cada bocado",
+        "kicker": "Cómo nace Marea Alta",
+        "title": "Una marca del consumidor, para el consumidor",
         "role": "Biólogo marino y productor camaronero",
-        "quote": "Mi esposa y yo siempre hemos disfrutado de una buena mesa; lo que me limitaba era la libertad y la confianza de consumir mariscos de forma segura. Mucha gente deja de comer camarón por dudas sobre procedencia, lotes o caducidad.",
-        "body": "Así nace Marea Alta: del deseo de que quien come pueda confiar en lo que lleva al plato y vivir una gran experiencia. Unimos ciencia, campo y familia para ofrecer camarón premium con origen verificable.",
+        "quote": "Mi esposa y yo siempre nos hemos considerado personas que disfrutan de una buena cena, pero algo que siempre me limitaba era la libertad y confianza de poder consumir mariscos de manera segura, y mi mayor preocupación era siempre el camarón: por años evité comer platos con estos crustáceos, fueran o no de producción. Este estigma nace por mi legado como productor camaronero y biólogo marino: trabajé en este eslabón de la cadena y aporté en el Control Nacional de Acuacultura y en empresas de insumos para el sector. Ahí conocí que la metodología de producción es de las mejores del mundo, pero en su gran mayoría ese producto no se queda en el país; lo que consumimos suelen ser camarones de lotes rechazados, inventarios por caducar o de dudosa procedencia.",
+        "body": "Así nace Marea Alta: del deseo de que quien come tenga confianza en lo que está comiendo y viva una gran experiencia.",
+        "author": "Miguel Jaramillo",
         "imageAlt": "Origen y mar — Marea Alta"
       },
       "timeline": {
-        "title": "Cuatro décadas de legado",
-        "lead": "De Huaquillas y Santa Rosa a una marca que honra el pasado y mira al futuro.",
-        "e1Year": "Fines de los 60 – inicios de los 70",
-        "e1Title": "Nace la industria",
-        "e1Desc": "En Huaquillas y Santa Rosa el cultivo de camarón en cautiverio se consolida tras los grandes aguajes: nace una industria que marcaría al Ecuador.",
-        "e2Year": "Hace más de 40 años",
-        "e2Title": "Granja Rossana Aurelia",
-        "e2Desc": "Inicio del legado familiar, nombrada por la hija menor: futuro y cuidado en cada ciclo de cultivo.",
-        "e3Year": "Evolución",
-        "e3Title": "Cultivo semiextensivo",
-        "e3Desc": "Del método rudimentario al cultivo que respeta los tiempos de la naturaleza y la salinidad de El Oro.",
-        "e4Year": "Hoy",
-        "e4Title": "Marea Alta",
-        "e4Desc": "Conectamos dedicación de campo con resultado: camarón con origen, textura excelente y trazabilidad de punta a punta."
+        "title": "El problema del que nadie quiere hablar",
+        "lead": "Cuatro frentes donde el mercado suele fallar — y por los que trabajamos cada día.",
+        "e1Year": "Transparencia",
+        "e1Title": "¿De dónde viene realmente el camarón que servimos?",
+        "e1Desc": "Falta de claridad sobre origen, lote y cadena: el comensal y el negocio merecen saber qué hay detrás de cada porción.",
+        "e2Year": "Químicos",
+        "e2Title": "Mercado saturado de tratamientos ocultos",
+        "e2Desc": "Antibióticos, cloro y metabisulfito usados para disfrazar calidad o alargar vida útil en lugar de producir bien desde el origen.",
+        "e3Year": "Sabor",
+        "e3Title": "Aditivos que alteran lo esencial",
+        "e3Desc": "No solo son poco saludables: roban el sabor y la textura auténticos del marisco.",
+        "e4Year": "Reputación",
+        "e4Title": "Riesgo de confianza en tu negocio",
+        "e4Desc": "El consumidor final es más exigente cada día. Servir un producto de calidad dudosa expone directamente la reputación de tu operación."
       },
       "trace": {
-        "title": "Trazabilidad que puede comprobar",
-        "lead": "Cada etapa cuenta con socios que comparten nuestros estándares.",
+        "title": "Trazabilidad, pureza y sabor",
+        "kicker": "La ciencia de la pureza",
+        "lead": "Nuestro compromiso es un producto 100 % natural y libre de químicos. Cada lote lleva código QR: tu cliente puede escanear y saber cuándo, dónde y cómo fue cosechado ese camarón.",
+        "purity": "Ser productores y contar con un camarón de referencia nos respalda: socios en genética, cultivo extensivo saludable y co-packing que preservan el estándar hasta el envase.",
+        "factsAria": "Compromisos de abastecimiento y calidad",
+        "fact1": "Abastecimiento continuo: cosecha cada ~60 días.",
+        "fact2": "Tallas comerciales alineadas al mercado: 31/35 · 26/30 · 21/25.",
+        "fact3": "Rotación de inventarios: lotes de vida útil no mayor a 120 días desde la cosecha.",
+        "fact4": "Co-packing personalizado que preserva conteos reales por talla, con transparencia.",
         "badge": "Socio",
         "s1Title": "Genética y larvas",
         "s1Partner": "Grupo Lardelce — Manta",
         "s1Desc": "La trazabilidad empieza antes de la piscina.",
         "s1d1": "Cuatro módulos de producción y rigor técnico",
         "s1d2": "Larvas de alta calidad y monitoreo estricto",
-        "s2Title": "Cultivo semiextensivo",
+        "s2Title": "Cultivo extensivo y saludable",
         "s2Partner": "Granja Rossana Aurelia — El Oro",
-        "s2Desc": "Crianza que respeta los ritmos naturales.",
-        "s2d1": "Aguas salobres y ecosistema cuidado",
+        "s2Desc": "Ambientes controlados con foco en nutrición y bioseguridad.",
+        "s2d1": "Aguas salobres y bioseguridad, no medicación sistemática",
         "s2d2": "Sabor y textura que distinguen al producto",
         "s3Title": "Transformación y empaque",
         "s3Partner": "Coinmarpez S.A.",
-        "s3Desc": "Co-packing con estándares de excelencia.",
+        "s3Desc": "Co-packing con estándares que respetan la cadena de frío y la identidad del lote.",
         "s3d1": "Empresa familiar desde 2017, servicio cercano",
         "s3d2": "Del campo al empaque con frescura y confianza"
       },
-      "values": {
-        "title": "Lo que nos define",
-        "v1Title": "Trazabilidad 100 %",
-        "v1Desc": "Del origen genético a la etiqueta: sabe qué hay detrás de cada lote.",
-        "v2Title": "Empresa familiar",
-        "v2Desc": "Más de 40 años de compromiso generacional en la camaronera ecuatoriana.",
-        "v3Title": "100 % ecuatoriano",
-        "v3Desc": "Orgullo de El Oro, cuna de un camarón reconocido en el mundo.",
-        "v4Title": "Calidad premium",
-        "v4Desc": "Metodología semiextensiva y estándares que buscan la mejor textura y sabor."
+      "nonNegotiables": {
+        "title": "Nuestros «no» negociables",
+        "lead": "Oferta de valor clara: qué evitamos y cómo lo resolvemos en la práctica.",
+        "riskLabel": "El riesgo",
+        "pathLabel": "Nuestra vía",
+        "n1Title": "Sin antibióticos",
+        "n1Risk": "Resistencia bacteriana y residuos químicos en el producto final.",
+        "n1Path": "Criamos en ambientes extensivos, saludables y controlados, con foco en nutrición y bioseguridad, no en la medicación.",
+        "n2Title": "Sin cloro",
+        "n2Risk": "Usado para «blanquear» y desinfectar superficialmente, alterando sabor y textura.",
+        "n2Path": "Protocolos de producción que eliminan sabores y olores ajenos al camarón auténtico.",
+        "n3Title": "Sin metabisulfito",
+        "n3Risk": "Control del melanosis en exceso deja regusto y encubre la calidad real.",
+        "n3Path": "Cadena de frío óptima en todas las etapas y vida útil del camarón no mayor a 120 días desde la cosecha, preservando color y sabor natural (sulfite-free)."
+      },
+      "differentiation": {
+        "title": "Marea Alta: Eleva el estándar de tu negocio",
+        "lead": "Lo que tu cliente final y tu marca ganan al elegir un producto con historia verificable.",
+        "d1Title": "Diferenciación Profunda",
+        "d1Desc": "Ofrece a tus clientes un producto con una historia y pureza que nadie más puede igualar.",
+        "d2Title": "Garantía de Calidad",
+        "d2Desc": "Trazabilidad total y 100% libre de antibióticos, cloro y metabisulfito.",
+        "d3Title": "Sabor Real",
+        "d3Desc": "Experiencia gourmet superior en cada comida, debido a su cadena de frío controlada y frescura inmediata.",
+        "d4Title": "Practicidad",
+        "d4Desc": "Ahorro de tiempo con calidad garantizada por sus empaques listos para cocinar con tallas comerciales que se ajustan a tu negocio."
       },
       "testimonials": {
-        "title": "Quienes ya confían",
-        "lead": "Voces del sector gastronómico y la mesa familiar.",
-        "t1Quote": "Por fin puedo explicar a mis comensales de dónde viene el camarón y respaldarlo con datos. La textura y el sabor hablan solos.",
+        "title": "Historias en mesa y en carta",
+        "lead": "Quienes ya sirven Marea Alta cuentan con historia verificable y tranquilidad para su marca.",
+        "t1Quote": "Por fin puedo explicar a mis comensales de dónde viene el camarón y respaldarlo con datos en el QR. Menos incertidumbre para mi equipo y mejor experiencia para el cliente.",
         "t1Author": "Chef ejecutivo",
         "t1Role": "Restaurante — Guayaquil",
-        "t2Quote": "En casa buscamos marisco sin dudas. Con Marea Alta recuperamos la confianza para cocinar camarón más seguido.",
-        "t2Author": "Familia M.",
-        "t2Role": "Consumidores — Quito"
+        "t2Quote": "Pasamos de «otro camarón más» a un argumento claro en carta: trazabilidad y un producto sin artificios. Mis clientes lo notan.",
+        "t2Author": "Gerente de operaciones",
+        "t2Role": "Food service — Ecuador"
       },
       "images": {
         "heroBg": "Mar y horizonte",
         "heroProduct": "Camarón en plato — producto premium",
-        "story": "Mariscos frescos sobre hielo en la vitrina",
+        "story": "Fundadores de Marea Alta, hombre y mujer, sonriendo en una mesa de restaurante",
         "timelineE1": "Costa y mar — raíz de la acuicultura",
         "timelineE2": "Cultivo y campo — trabajo en la granja",
         "timelineE3": "Vista aérea de estanques de acuicultura",
         "timelineE4": "Camarón — calidad en el plato",
+        "traceValueProposition":
+          "Infografía: trazabilidad del camarón Marea Alta de la granja al consumidor, con código QR y etapas de la cadena",
         "traceS1": "Laboratorio — control y calidad",
         "traceS2": "Estanques de cultivo semiextensivo",
         "traceS3": "Almacén y logística de producto",
@@ -148,8 +182,10 @@
         "testimonial2": "Mesa con comida casera"
       },
       "finalCta": {
-        "title": "Lleve el legado a su mesa",
-        "subtitle": "Hable con nosotros por WhatsApp o verifique un lote con el código del envase.",
+        "title": "Eleve el estándar de su negocio",
+        "menuImageAlt":
+          "Menú de restaurante frente al mar con códigos QR junto a platos de mariscos — trazabilidad en la carta",
+        "subtitle": "Escríbanos por WhatsApp para abastecimiento y co-packing — o verifique un lote escaneando el QR o ingresando el código del envase.",
         "whatsapp": "Escríbanos por WhatsApp",
         "whatsappUrl": "https://wa.me/593999999999",
         "lookup": "Verificar código de lote",
@@ -159,6 +195,8 @@
     "diagram": {
       "consumerTitle": "Del envase a la prueba",
       "consumerLead": "Tres pasos sencillos—sin app ni inicio de sesión.",
+      "packageExampleAlt":
+        "Empaque de camarón Marea Alta con etiqueta: lote de producción, código de barras y QR para trazabilidad",
       "consumerAria": "Flujo del consumidor: envase, escaneo, página de trazabilidad",
       "c1Title": "QR en el envase",
       "c1Body": "Cada lote de producción tiene un código único en la etiqueta o caja.",
@@ -178,51 +216,7 @@
       "scan": "Usted escanea",
       "scanDetail": "Página pública de solo lectura"
     },
-    "lookup": {
-      "title": "Ver información de un lote (público)",
-      "subtitle": "Escanee el QR del envase—o escriba el código de lote",
-      "scanTitle": "Escanee con el teléfono",
-      "scanBody": "Abra la cámara y apunte al QR impreso en el producto. Pulse el enlace que aparece y verá la página de trazabilidad de ese lote. Sin instalar apps ni iniciar sesión.",
-      "manualTitle": "O introduzca el código de lote",
-      "hint": "Es el mismo código que lleva el QR. Puede copiarlo de la etiqueta, un ticket o un correo del proveedor.",
-      "label": "Código de lote",
-      "placeholder": "ej. P2-0226-PD-IQF",
-      "view": "Ver información del lote"
-    },
-    "about": {
-      "title": "Acerca de esta aplicación",
-      "p1": "Este sitio ofrece dos experiencias. El lado público (lo que ve ahora) explica cómo funciona la trazabilidad y es el punto de entrada cuando alguien escanea un código QR impreso en el envase. Cada código abre una página dedicada a ese lote, con información aportada por el productor y sus socios en la cadena.",
-      "p2": "En segundo plano, el personal autorizado usa un área protegida con contraseña para registrar productos, actores (granjas, laboratorios, almacenes, etc.), lotes de producción y eventos de trazabilidad. Esos datos alimentan la página pública del lote que ve tras escanear."
-    },
-    "public": {
-      "title": "Qué puede hacer aquí el público",
-      "intro": "Todo lo siguiente está disponible sin iniciar sesión, siempre que tenga un enlace o QR válido del producto.",
-      "f1": "Escanear un código QR en la etiqueta o caja con la cámara del teléfono (o abrir el enlace que le dio el productor). Accederá a la página de trazabilidad de ese lote.",
-      "f2": "Ver detalles del producto y del lote—por ejemplo nombre, SKU, presentación, empaque, calibre, certificaciones, código de lote y atributos de calidad que el productor publique.",
-      "f3": "Revisar cosecha y origen, como fecha de cosecha, piscina u estanque, y qué granja, laboratorio, maduración y co-packing intervinieron en ese batch.",
-      "f4": "Seguir la línea de tiempo de trazabilidad—lista cronológica de eventos (cosechado, transportado, control de calidad, almacenado, enviado) con quién realizó cada paso y cuándo.",
-      "f5": "Descargar la imagen QR del lote o usar opciones de impresión en la página de trazabilidad cuando necesite copia en papel.",
-      "f6": "Solo lectura. No puede cambiar datos, crear lotes ni ver la actividad de otros consumidores—solo la información publicada para ese lote.",
-      "note": "Las URLs de trazabilidad siguen el patrón /trace/<código-de-lote>—la misma dirección incrustada en el QR del envase."
-    },
-    "steps": {
-      "title": "Cómo ver un lote en tres pasos",
-      "s1": "Obtenga un código — Busque el QR en el producto o use un enlace del minorista o productor.",
-      "s2": "Escanee o pulse — Su navegador abre este sitio en la página pública del lote.",
-      "s3": "Explore — Desplace especificaciones, participantes e historial de eventos de ese batch."
-    },
-    "cards": {
-      "publicTitle": "Trazabilidad pública (recordatorio)",
-      "publicSubtitle": "Sin contraseña · solo lectura",
-      "publicBody": "Si solo desea verificar un producto que compró, use el QR o el enlace—no necesita cuenta de operador ni nada más en esta página salvo la explicación anterior.",
-      "opsTitle": "Personal de la cadena de suministro",
-      "opsSubtitle": "Consola protegida por contraseña",
-      "opsBody": "Los usuarios con el rol adecuado mantienen el catálogo, lotes, eventos y (si aplica) cuentas de usuario. Aquí no es donde van los consumidores tras escanear un envase.",
-      "signInConsole": "Entrar a la consola",
-      "createOperator": "Crear cuenta de operador",
-      "opsFineprint": "Su organización puede restringir el registro; use credenciales de su administrador si el auto-registro está desactivado."
-    },
-    "footer": "Marea Alta · Camarones con origen · Trazabilidad transparente para consumidores y operadores"
+    "footer": "Marea Alta · Salud, confianza y excelencia · Trazabilidad transparente para quien sirve y quien consume"
   },
   "auth": {
     "login": {

@@ -1,25 +1,71 @@
-<section class="marea-values" id="marea-values" aria-labelledby="marea-values-title">
-  <h2 id="marea-values-title" class="marea-values__title">{{ 'landing.marea.values.title' | transloco }}</h2>
-  <div class="marea-values__grid">
-    <article class="marea-values__card">
-      <mat-icon class="marea-values__icon" aria-hidden="true">{{ icons[0] }}</mat-icon>
-      <h3 class="marea-values__card-title">{{ 'landing.marea.values.v1Title' | transloco }}</h3>
-      <p class="marea-values__desc">{{ 'landing.marea.values.v1Desc' | transloco }}</p>
-    </article>
-    <article class="marea-values__card">
-      <mat-icon class="marea-values__icon" aria-hidden="true">{{ icons[1] }}</mat-icon>
-      <h3 class="marea-values__card-title">{{ 'landing.marea.values.v2Title' | transloco }}</h3>
-      <p class="marea-values__desc">{{ 'landing.marea.values.v2Desc' | transloco }}</p>
-    </article>
-    <article class="marea-values__card">
-      <mat-icon class="marea-values__icon" aria-hidden="true">{{ icons[2] }}</mat-icon>
-      <h3 class="marea-values__card-title">{{ 'landing.marea.values.v3Title' | transloco }}</h3>
-      <p class="marea-values__desc">{{ 'landing.marea.values.v3Desc' | transloco }}</p>
-    </article>
-    <article class="marea-values__card">
-      <mat-icon class="marea-values__icon" aria-hidden="true">{{ icons[3] }}</mat-icon>
-      <h3 class="marea-values__card-title">{{ 'landing.marea.values.v4Title' | transloco }}</h3>
-      <p class="marea-values__desc">{{ 'landing.marea.values.v4Desc' | transloco }}</p>
-    </article>
+<section class="marea-values" id="marea-values" aria-labelledby="marea-nonneg-title">
+  <div class="marea-values__block">
+    <h2 id="marea-nonneg-title" class="marea-values__title">{{ 'landing.marea.nonNegotiables.title' | transloco }}</h2>
+    <p class="marea-values__intro">{{ 'landing.marea.nonNegotiables.lead' | transloco }}</p>
+    <div class="marea-values__grid marea-values__grid--three">
+      <article class="marea-values__card marea-values__card--deep">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ nonNegIcons[0] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.nonNegotiables.n1Title' | transloco }}</h3>
+        <p class="marea-values__risk">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.riskLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n1Risk' | transloco }}
+        </p>
+        <p class="marea-values__path">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.pathLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n1Path' | transloco }}
+        </p>
+      </article>
+      <article class="marea-values__card marea-values__card--deep">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ nonNegIcons[1] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.nonNegotiables.n2Title' | transloco }}</h3>
+        <p class="marea-values__risk">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.riskLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n2Risk' | transloco }}
+        </p>
+        <p class="marea-values__path">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.pathLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n2Path' | transloco }}
+        </p>
+      </article>
+      <article class="marea-values__card marea-values__card--deep">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ nonNegIcons[2] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.nonNegotiables.n3Title' | transloco }}</h3>
+        <p class="marea-values__risk">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.riskLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n3Risk' | transloco }}
+        </p>
+        <p class="marea-values__path">
+          <span class="marea-values__label">{{ 'landing.marea.nonNegotiables.pathLabel' | transloco }}</span>
+          {{ 'landing.marea.nonNegotiables.n3Path' | transloco }}
+        </p>
+      </article>
+    </div>
+  </div>
+
+  <div class="marea-values__block marea-values__block--diff" aria-labelledby="marea-diff-title">
+    <h2 id="marea-diff-title" class="marea-values__title">{{ 'landing.marea.differentiation.title' | transloco }}</h2>
+    <p class="marea-values__intro">{{ 'landing.marea.differentiation.lead' | transloco }}</p>
+    <div class="marea-values__grid">
+      <article class="marea-values__card">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ diffIcons[0] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.differentiation.d1Title' | transloco }}</h3>
+        <p class="marea-values__desc">{{ 'landing.marea.differentiation.d1Desc' | transloco }}</p>
+      </article>
+      <article class="marea-values__card">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ diffIcons[1] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.differentiation.d2Title' | transloco }}</h3>
+        <p class="marea-values__desc">{{ 'landing.marea.differentiation.d2Desc' | transloco }}</p>
+      </article>
+      <article class="marea-values__card">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ diffIcons[2] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.differentiation.d3Title' | transloco }}</h3>
+        <p class="marea-values__desc">{{ 'landing.marea.differentiation.d3Desc' | transloco }}</p>
+      </article>
+      <article class="marea-values__card">
+        <mat-icon class="marea-values__icon" aria-hidden="true">{{ diffIcons[3] }}</mat-icon>
+        <h3 class="marea-values__card-title">{{ 'landing.marea.differentiation.d4Title' | transloco }}</h3>
+        <p class="marea-values__desc">{{ 'landing.marea.differentiation.d4Desc' | transloco }}</p>
+      </article>
+    </div>
   </div>
 </section>

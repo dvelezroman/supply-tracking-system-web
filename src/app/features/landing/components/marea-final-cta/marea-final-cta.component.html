@@ -1,6 +1,17 @@
 <section class="marea-final" id="marea-cta" aria-labelledby="marea-final-title">
   <div class="marea-final__inner">
     <h2 id="marea-final-title" class="marea-final__title">{{ 'landing.marea.finalCta.title' | transloco }}</h2>
+    <figure class="marea-final__cta-figure">
+      <img
+        class="marea-final__cta-img"
+        [src]="ctaImageUrl"
+        width="1200"
+        height="900"
+        loading="lazy"
+        decoding="async"
+        [alt]="'landing.marea.finalCta.menuImageAlt' | transloco"
+      />
+    </figure>
     <p class="marea-final__subtitle">{{ 'landing.marea.finalCta.subtitle' | transloco }}</p>
     <div class="marea-final__actions">
       <a
@@ -13,7 +24,7 @@
         <mat-icon>chat</mat-icon>
         {{ 'landing.marea.finalCta.whatsapp' | transloco }}
       </a>
-      <button type="button" mat-stroked-button class="marea-final__lookup" (click)="scrollTo('consulta-lote')">
+      <button type="button" mat-stroked-button class="marea-final__lookup" (click)="scrollTo('diagram-consumer-title')">
         <mat-icon>qr_code_scanner</mat-icon>
         {{ 'landing.marea.finalCta.lookup' | transloco }}
       </button>

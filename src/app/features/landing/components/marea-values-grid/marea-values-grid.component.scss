@@ -14,8 +14,23 @@
     padding-right: 2rem;
   }
 
+  &__block {
+    max-width: $marea-container;
+    margin: 0 auto;
+
+    & + & {
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(20, 66, 114, 0.12);
+    }
+
+    &--diff {
+      padding-bottom: 0.25rem;
+    }
+  }
+
   &__title {
-    margin: 0 0 1.75rem;
+    margin: 0 0 0.65rem;
     text-align: center;
     font-family: $font-marea-heading;
     font-size: clamp(1.45rem, 3vw, 1.85rem);
@@ -23,10 +38,19 @@
     color: $marea-azul-profundo;
   }
 
+  &__intro {
+    margin: 0 auto 1.5rem;
+    text-align: center;
+    max-width: 40rem;
+    font-family: $font-marea-body;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: $marea-gris-medio;
+  }
+
   &__grid {
     display: grid;
     gap: 1rem;
-    max-width: $marea-container;
     margin: 0 auto;
     grid-template-columns: 1fr;
 
@@ -36,6 +60,12 @@
 
     @media (min-width: 960px) {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    &--three {
+      @media (min-width: 960px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   }
 
@@ -51,6 +81,10 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 28px rgba(10, 38, 71, 0.12);
     }
+
+    &--deep {
+      padding: 1.35rem 1.2rem;
+    }
   }
 
   &__icon {
@@ -62,11 +96,34 @@
   }
 
   &__card-title {
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.65rem;
     font-family: $font-marea-heading;
     font-size: 1.05rem;
     font-weight: 700;
     color: $marea-azul-profundo;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $marea-azul-claro;
+  }
+
+  &__risk,
+  &__path {
+    margin: 0 0 0.65rem;
+    font-family: $font-marea-body;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: $marea-gris-oscuro;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__desc {

@@ -11,5 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './marea-values-grid.component.scss',
 })
 export class MareaValuesGridComponent {
-  readonly icons = ['travel_explore', 'family_restroom', 'flag', 'star'] as const;
+  readonly nonNegIcons = ['vaccines', 'water_drop', 'opacity'] as const;
+  readonly diffIcons = ['auto_awesome', 'verified', 'restaurant', 'inventory_2'] as const;
 }

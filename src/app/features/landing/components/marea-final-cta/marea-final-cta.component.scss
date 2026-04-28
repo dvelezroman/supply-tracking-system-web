@@ -27,6 +27,20 @@
     line-height: 1.2;
   }
 
+  &__cta-figure {
+    margin: 0 auto 1.25rem;
+    max-width: min(560px, 100%);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 36px rgba(8, 24, 48, 0.35);
+  }
+
+  &__cta-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   &__subtitle {
     margin: 0 0 1.5rem;
     font-family: $font-marea-body;

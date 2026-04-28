@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MareaLandingImages } from '../../marea-landing-images';
 
 @Component({
   selector: 'app-marea-final-cta',
@@ -13,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './marea-final-cta.component.scss',
 })
 export class MareaFinalCtaComponent {
+  readonly ctaImageUrl = MareaLandingImages.finalCtaMenu;
+
   scrollTo(id: string): void {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }

@@ -1,14 +1,20 @@
 /**
- * Imágenes remotas (Unsplash) para la landing Marea Alta.
- * Licencia: https://unsplash.com/license
+ * Imágenes remotas para la landing Marea Alta (Unsplash y assets propios en S3).
+ * Licencia Unsplash: https://unsplash.com/license
  */
 export const MareaLandingImages = {
   /** Océano — fondo hero (ambient) */
   heroBackground: 'https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=2000&q=82',
   /** Camarón en plato — producto (Oksana Z) */
   heroProduct: 'https://images.unsplash.com/photo-1627841825438-ee3e7d8febd4?auto=format&fit=crop&w=1400&q=82',
-  /** Mariscos en hielo — confianza en el consumo (Georg Eiermann) */
-  story: 'https://images.unsplash.com/photo-1754587489104-b3b6f22209b9?auto=format&fit=crop&w=1200&q=82',
+  /** Fundadores — sección «Cómo nace Marea Alta» (hosting S3) */
+  story: 'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Foto_pareja.png',
+  /** Empaque de ejemplo con etiqueta y QR — «Del envase a la prueba» */
+  consumerPackageExample:
+    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/ejemplo_de_empaque.png',
+  /** Menú de restaurante con QR por plato — CTA «Eleve el estándar de su negocio» */
+  finalCtaMenu:
+    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/menu_restaurante.png',
   timeline: {
     /** Mar abierto — raíz costera de la industria */
     e1: 'https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=900&q=80',
@@ -20,6 +26,9 @@ export const MareaLandingImages = {
     e4: 'https://images.unsplash.com/photo-1548468868-c656a1c9dad3?auto=format&fit=crop&w=900&q=80',
   },
   trace: {
+    /** Infografía «Camino del camarón» — cabecera sección trazabilidad (S3) */
+    valueProposition:
+      'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Imagen_propuesta_de_valor.png',
     /** Laboratorio */
     s1: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&q=80',
     /** Estanques — cultivo semiextensivo */

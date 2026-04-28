@@ -1,20 +1,19 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
+  ElementRef,
+  OnDestroy,
+  OnInit,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDividerModule } from '@angular/material/divider';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
 import { PublicBrandingService } from '../../core/services/public-branding.service';
 import { MareaHeroSectionComponent } from './components/marea-hero-section/marea-hero-section.component';
@@ -24,6 +23,7 @@ import { MareaTraceabilityFlowComponent } from './components/marea-traceability-
 import { MareaValuesGridComponent } from './components/marea-values-grid/marea-values-grid.component';
 import { MareaTestimonialsComponent } from './components/marea-testimonials/marea-testimonials.component';
 import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
+import { MareaLandingImages } from './marea-landing-images';
 
 @Component({
   selector: 'app-landing',
@@ -31,15 +31,10 @@ import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    FormsModule,
     TranslocoPipe,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDividerModule,
     LanguageToggleComponent,
     MareaHeroSectionComponent,
     MareaStoryOriginComponent,
@@ -52,35 +47,52 @@ import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
 })
-export class LandingComponent {
-  private router = inject(Router);
+export class LandingComponent implements OnInit, OnDestroy {
+  private doc = inject(DOCUMENT);
   protected brand = inject(PublicBrandingService);
 
-  /** Lot code typed by the user (same destination as scanning the QR). */
-  lotCode = signal('');
+  /** Full-screen intro video on each visit (autoplay policies require muted until user unmutes). */
+  readonly INTRO_VIDEO_URL =
+    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Video-intro.mp4';
 
-  canLookup = computed(() => this.lotCode().trim().length > 0);
+  readonly CONSUMER_PACKAGE_EXAMPLE_URL = MareaLandingImages.consumerPackageExample;
 
-  /**
-   * Navigate to public trace — same route as QR: /trace/:lotCode.
-   * Accepts a bare code or a pasted URL containing /trace/...
-   */
-  goToPublicTrace(): void {
-    let raw = this.lotCode().trim();
-    if (!raw) return;
+  introVisible = signal(true);
+  introMuted = signal(true);
+  private introVideoEl = viewChild<ElementRef<HTMLVideoElement>>('introVideo');
 
-    const fromUrl = raw.match(/\/trace\/([^/?#]+)/);
-    if (fromUrl) {
-      try {
-        raw = decodeURIComponent(fromUrl[1]);
-      } catch {
-        raw = fromUrl[1];
-      }
+  ngOnInit(): void {
+    this.lockBodyScroll();
+  }
+
+  ngOnDestroy(): void {
+    this.unlockBodyScroll();
+  }
+
+  dismissIntro(): void {
+    const v = this.introVideoEl()?.nativeElement;
+    if (v) {
+      v.pause();
     }
+    this.introVisible.set(false);
+    this.unlockBodyScroll();
+  }
 
-    const code = raw.trim();
-    if (!code) return;
+  toggleIntroSound(): void {
+    const v = this.introVideoEl()?.nativeElement;
+    if (!v) return;
+    v.muted = !v.muted;
+    this.introMuted.set(v.muted);
+    void v.play().catch(() => {});
+  }
 
-    void this.router.navigate(['/trace', code]);
+  private lockBodyScroll(): void {
+    if (this.introVisible()) {
+      this.doc.body.style.overflow = 'hidden';
+    }
+  }
+
+  private unlockBodyScroll(): void {
+    this.doc.body.style.overflow = '';
   }
 }
