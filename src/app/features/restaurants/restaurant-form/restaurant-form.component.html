@@ -1,0 +1,107 @@
+<app-page-header
+  [title]="(isEditMode() ? 'restaurants.editTitle' : 'restaurants.newTitle') | transloco"
+  backRoute="/restaurants"
+/>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (handoff(); as h) {
+  <mat-card class="handoff-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>qr_code_2</mat-icon>
+      <mat-card-title>{{ 'restaurants.handoffTitle' | transloco }}</mat-card-title>
+      <mat-card-subtitle>{{ 'restaurants.handoffSubtitle' | transloco: { name: h.name } }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="handoff-qr">
+        <img [src]="h.menuQrCodeDataUrl" [alt]="'Menu QR ' + h.slug" />
+        <p class="qr-name-caption">{{ h.name }}</p>
+      </div>
+      <p class="handoff-url">
+        <code>{{ menuTracePublicUrl(h.slug) }}</code>
+      </p>
+      <div class="handoff-actions">
+        <button mat-stroked-button type="button" (click)="downloadMenuQr(h.menuQrCodeDataUrl, h.slug)">
+          <mat-icon>download</mat-icon> {{ 'restaurants.downloadMenuQr' | transloco }}
+        </button>
+        <button mat-flat-button color="primary" type="button" (click)="finishHandoff()">
+          {{ 'restaurants.handoffDone' | transloco }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}
+
+<mat-card class="form-card">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'restaurants.form.name' | transloco }}</mat-label>
+          <input matInput formControlName="name" />
+          @if (form.controls.name.hasError('required')) {
+            <mat-error>{{ 'restaurants.form.nameRequired' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'restaurants.form.slug' | transloco }}</mat-label>
+          <input matInput formControlName="slug" [placeholder]="'restaurants.form.slugPlaceholder' | transloco" />
+          <mat-hint>{{ 'restaurants.form.slugHint' | transloco }}</mat-hint>
+          @if (form.controls.slug.hasError('required')) {
+            <mat-error>{{ 'restaurants.form.slugRequired' | transloco }}</mat-error>
+          }
+          @if (form.controls.slug.hasError('pattern')) {
+            <mat-error>{{ 'restaurants.form.slugPattern' | transloco }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'restaurants.form.location' | transloco }}</mat-label>
+          <input matInput formControlName="location" [placeholder]="'restaurants.form.locationPlaceholder' | transloco" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'restaurants.form.contact' | transloco }}</mat-label>
+          <input matInput formControlName="contact" [placeholder]="'restaurants.form.contactPlaceholder' | transloco" />
+        </mat-form-field>
+      </div>
+
+      @if (isEditMode() && detail(); as d) {
+        <div class="edit-qr-block">
+          <h3>{{ 'restaurants.menuQrSection' | transloco }}</h3>
+          <div class="edit-qr-row">
+            <div class="edit-qr-figure">
+              <img [src]="d.menuQrCodeDataUrl" [alt]="'Menu QR ' + d.slug" class="edit-qr-img" />
+              <p class="qr-name-caption">{{ d.name }}</p>
+            </div>
+            <div class="edit-qr-actions">
+              <button mat-stroked-button type="button" (click)="downloadMenuQr(d.menuQrCodeDataUrl, d.slug)">
+                <mat-icon>download</mat-icon> {{ 'restaurants.downloadMenuQr' | transloco }}
+              </button>
+              <p class="trace-url"><code>{{ menuTracePublicUrl(d.slug) }}</code></p>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()">{{ 'common.cancel' | transloco }}</button>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isSaving()"
+        >
+          @if (isSaving()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ isEditMode() ? ('common.saveChanges' | transloco) : ('common.createRestaurant' | transloco) }}
+          }
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

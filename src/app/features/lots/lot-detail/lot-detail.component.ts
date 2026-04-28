@@ -16,7 +16,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LotsAdminService, type LotSummary } from '../services/lots.service';
+import {
+  LotsAdminService,
+  type LotSummary,
+  type LotRestaurantLinkRow,
+} from '../services/lots.service';
+import {
+  RestaurantsService,
+  type RestaurantListItem,
+} from '../../restaurants/services/restaurants.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { QrPdfDownloadComponent } from '../../../shared/components/qr-pdf-download/qr-pdf-download.component';
 import { environment } from '../../../../environments/environment';
@@ -29,6 +37,8 @@ import {
 } from '../../../core/config/public-visibility';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
@@ -61,6 +71,8 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     MatTooltipModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatSelectModule,
+    MatFormFieldModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
     LotTraceTimelineComponent,
@@ -72,6 +84,7 @@ export class LotDetailComponent implements OnInit {
   @Input() id!: string;
 
   private lotsService = inject(LotsAdminService);
+  private restaurantsService = inject(RestaurantsService);
   private auth = inject(AuthService);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
@@ -84,6 +97,11 @@ export class LotDetailComponent implements OnInit {
   historyLoading = signal(false);
   /** Colapsado por defecto para que la ficha del lote quede visible sin scroll largo. */
   traceHistoryExpanded = signal(false);
+
+  lotRestaurantLinks = signal<LotRestaurantLinkRow[]>([]);
+  restaurantOptions = signal<RestaurantListItem[]>([]);
+  selectedRestaurantId = signal<string>('');
+  linkBusy = signal(false);
 
   readonly isAdmin = this.auth.isAdmin;
   readonly visibilityFields = PUBLIC_VISIBILITY_FIELD_META;
@@ -98,6 +116,9 @@ export class LotDetailComponent implements OnInit {
   publicTraceUrl = (lotCode: string) =>
     `${window.location.origin}/trace/${lotCode}`;
 
+  menuTraceUrlForRestaurant = (slug: string) =>
+    `${window.location.origin}/trace/restaurant/${encodeURIComponent(slug)}`;
+
   ngOnInit(): void {
     this.lotsService.getById(this.id).subscribe({
       next: (res) => {
@@ -106,10 +127,57 @@ export class LotDetailComponent implements OnInit {
         // Load QR preview as data URL via the PNG endpoint
         this.loadQrPreview(res.data.lotCode);
         this.loadHistory(res.data.lotCode, res.data);
+        this.loadLotRestaurants();
+        this.loadRestaurantDirectory();
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  private loadLotRestaurants(): void {
+    this.lotsService.listLotRestaurants(this.id).subscribe({
+      next: (res) => this.lotRestaurantLinks.set(res.data),
+      error: () => this.lotRestaurantLinks.set([]),
+    });
+  }
+
+  private loadRestaurantDirectory(): void {
+    this.restaurantsService.getAll(1, 500).subscribe({
+      next: (res) => this.restaurantOptions.set(res.data.items),
+      error: () => this.restaurantOptions.set([]),
+    });
+  }
+
+  linkSelectedRestaurant(): void {
+    const rid = this.selectedRestaurantId().trim();
+    if (!rid) return;
+    this.linkBusy.set(true);
+    this.lotsService.linkRestaurantToLot(this.id, rid).subscribe({
+      next: () => {
+        this.snackbar.success(this.transloco.translate('lots.restaurantLinked'));
+        this.selectedRestaurantId.set('');
+        this.loadLotRestaurants();
+        this.linkBusy.set(false);
+      },
+      error: () => this.linkBusy.set(false),
+    });
+  }
+
+  unlinkRestaurant(row: LotRestaurantLinkRow): void {
+    this.lotsService.unlinkRestaurantFromLot(this.id, row.restaurantId).subscribe({
+      next: () => {
+        this.snackbar.success(this.transloco.translate('lots.restaurantUnlinked'));
+        this.loadLotRestaurants();
+      },
+    });
+  }
+
+  downloadRestaurantMenuQr(dataUrl: string, slug: string): void {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = `menu-qr-${slug}.png`;
+    link.click();
   }
 
   private loadHistory(lotCode: string, lot: LotSummary): void {

@@ -22,12 +22,18 @@
     <div class="error-state">
       <mat-icon>error_outline</mat-icon>
       <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
-      <p>{{ 'publicTrace.notFoundBody' | transloco: { lotCode: lotCode } }}</p>
+      <p>{{ 'publicTrace.notFoundBody' | transloco: { code: traceLookupKey } }}</p>
     </div>
   }
 
   @if (trace(); as t) {
     <div class="trace-content">
+      @if (t.restaurant) {
+        <p class="restaurant-menu-banner">
+          <mat-icon>restaurant</mat-icon>
+          {{ 'publicTrace.menuTraceFor' | transloco: { name: t.restaurant.name } }}
+        </p>
+      }
       <mat-card class="hero-card">
         <mat-card-content>
           <div class="hero-inner">

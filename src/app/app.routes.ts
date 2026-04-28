@@ -58,6 +58,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'restaurants',
+        loadChildren: () =>
+          import('./features/restaurants/restaurants.routes').then(
+            (m) => m.RESTAURANTS_ROUTES,
+          ),
+      },
+      {
         path: 'lots',
         loadChildren: () =>
           import('./features/lots/lots.routes').then((m) => m.LOTS_ROUTES),

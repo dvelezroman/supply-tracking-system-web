@@ -58,6 +58,11 @@ export class MainShellComponent implements OnInit {
     { labelKey: 'shell.nav.dashboard', icon: 'dashboard', route: '/dashboard' },
     { labelKey: 'shell.nav.products', icon: 'inventory_2', route: '/products' },
     { labelKey: 'shell.nav.actors', icon: 'groups', route: '/actors' },
+    {
+      labelKey: 'shell.nav.restaurants',
+      icon: 'restaurant',
+      route: '/restaurants',
+    },
     { labelKey: 'shell.nav.lots', icon: 'view_list', route: '/lots' },
     { labelKey: 'shell.nav.traceability', icon: 'route', route: '/traceability' },
     {

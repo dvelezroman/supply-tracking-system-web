@@ -35,12 +35,19 @@ export interface PublicEvent {
   metadata: Record<string, unknown> | null;
 }
 
+export interface PublicTraceRestaurant {
+  name: string;
+  slug: string;
+}
+
 export interface PublicTraceResponse {
   lot: PublicLot;
   events: PublicEvent[];
   qrCode: string | null;
   traceUrl: string | null;
   generatedAt: string;
+  /** Present when opened via /trace/restaurant/:slug */
+  restaurant?: PublicTraceRestaurant;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -49,7 +56,13 @@ export class PublicTraceService {
 
   getTrace(lotCode: string) {
     return this.http.get<PublicTraceResponse>(
-      `${environment.apiBase}/public/trace/${lotCode}`,
+      `${environment.apiBase}/public/trace/${encodeURIComponent(lotCode)}`,
+    );
+  }
+
+  getTraceByRestaurantSlug(slug: string) {
+    return this.http.get<PublicTraceResponse>(
+      `${environment.apiBase}/public/trace/restaurant/${encodeURIComponent(slug)}`,
     );
   }
 }

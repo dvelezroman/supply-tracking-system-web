@@ -57,7 +57,10 @@ const SIZE_LABELS: Record<string, string | undefined> = {
   styleUrl: './public-trace.component.scss',
 })
 export class PublicTraceComponent implements OnInit {
-  @Input() lotCode!: string;
+  /** Set when route is `/trace/:lotCode` */
+  @Input() lotCode?: string;
+  /** Set when route is `/trace/restaurant/:slug` */
+  @Input() slug?: string;
 
   private publicTraceService = inject(PublicTraceService);
   private transloco = inject(TranslocoService);
@@ -70,8 +73,24 @@ export class PublicTraceComponent implements OnInit {
   readonly eventTypeColors = EVENT_TYPE_COLORS;
   readonly sizeLabels = SIZE_LABELS;
 
+  /** For error copy: slug or lot code the user tried to open */
+  get traceLookupKey(): string {
+    return this.slug ?? this.lotCode ?? '';
+  }
+
   ngOnInit(): void {
-    this.publicTraceService.getTrace(this.lotCode).subscribe({
+    const req =
+      this.slug != null && this.slug !== ''
+        ? this.publicTraceService.getTraceByRestaurantSlug(this.slug)
+        : this.lotCode != null && this.lotCode !== ''
+          ? this.publicTraceService.getTrace(this.lotCode)
+          : null;
+    if (!req) {
+      this.hasError.set(true);
+      this.isLoading.set(false);
+      return;
+    }
+    req.subscribe({
       next: (res) => {
         this.trace.set(res);
         this.isLoading.set(false);
@@ -140,7 +159,9 @@ export class PublicTraceComponent implements OnInit {
     if (!t?.qrCode) return;
     const link = document.createElement('a');
     link.href = t.qrCode!;
-    link.download = `qr-${t.lot.lotCode}.png`;
+    const fileSlug =
+      t.restaurant?.slug ?? t.lot.lotCode ?? this.traceLookupKey ?? 'trace';
+    link.download = `qr-${fileSlug}.png`;
     link.click();
   }
 

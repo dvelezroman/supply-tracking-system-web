@@ -3,6 +3,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import type { ApiResponse, PaginatedData } from '../../../core/models/api-response.model';
 
+/** Restaurant row embedded when listing links on a lot */
+export interface LotRestaurantLinkRow {
+  id: string;
+  lotId: string;
+  restaurantId: string;
+  createdAt: string;
+  restaurant: {
+    id: string;
+    name: string;
+    slug: string;
+    publicMenuTraceUrl: string;
+    menuQrCodeDataUrl: string;
+  };
+}
+
 export interface LotSummary {
   id: string;
   lotCode: string;
@@ -107,6 +122,25 @@ export class LotsAdminService {
     return this.http.patch<ApiResponse<LotSummary>>(
       `${this.base}/${id}/public-visibility`,
       { patch },
+    );
+  }
+
+  listLotRestaurants(lotId: string) {
+    return this.http.get<ApiResponse<LotRestaurantLinkRow[]>>(
+      `${this.base}/${lotId}/restaurants`,
+    );
+  }
+
+  linkRestaurantToLot(lotId: string, restaurantId: string) {
+    return this.http.post<ApiResponse<LotRestaurantLinkRow>>(
+      `${this.base}/${lotId}/restaurants`,
+      { restaurantId },
+    );
+  }
+
+  unlinkRestaurantFromLot(lotId: string, restaurantId: string) {
+    return this.http.delete<ApiResponse<{ deleted: number }>>(
+      `${this.base}/${lotId}/restaurants/${restaurantId}`,
     );
   }
 }

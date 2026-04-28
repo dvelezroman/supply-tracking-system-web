@@ -170,3 +170,94 @@
     width: 100%;
   }
 }
+
+.lot-rest-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.restaurant-pick-field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.rest-links-empty {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.rest-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rest-link-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.rest-link-info {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rest-slug code {
+  font-size: 13px;
+}
+
+.rest-linked {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.rest-link-qr {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.rest-qr-with-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.rest-qr-name-caption {
+  margin: 6px 0 0;
+  max-width: 112px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.25;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.rest-menu-qr-thumb {
+  width: 96px;
+  height: 96px;
+  border-radius: 8px;
+  border: 2px solid #e8eaf6;
+  display: block;
+}
+
+.rest-link-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
