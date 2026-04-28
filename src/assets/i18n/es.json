@@ -38,6 +38,31 @@
     "createUser": "Crear usuario",
     "recordEvent": "Registrar evento"
   },
+  "chatbot": {
+    "title": "Mary · asistenta Marea Alta",
+    "open": "Abrir chat con Mary",
+    "close": "Cerrar chat con Mary",
+    "welcome": "¡Hola! Soy Mary, la asistenta virtual de Marea Alta. Elija un tema para saber más sobre este sitio, el producto, el código QR y cómo puede usarlo un restaurante.\n\nSi necesita hablar con el equipo, use «Contacto / WhatsApp».",
+    "chooseTopic": "Elija un tema:",
+    "optionsAria": "Temas de ayuda",
+    "restart": "Volver al mensaje de bienvenida",
+    "options": {
+      "site": "Sitio y trazabilidad",
+      "product": "El producto Marea Alta",
+      "qr": "Cómo escanear el QR",
+      "info": "Qué información ve al escanear",
+      "restaurants": "Para restaurantes",
+      "contact": "Contacto / WhatsApp"
+    },
+    "replies": {
+      "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o al usar la consulta por código: es una página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
+      "product": "Marea Alta es camarón de origen en Ecuador, con foco en producto natural, trazabilidad por lote y cadena con socios de cultivo, laboratorio y co-packing. Cada lote puede publicar datos del producto (presentación, talla, color SalmoFan, certificaciones, etc.) y una línea de tiempo para que su cliente tenga transparencia.\n\nPara abastecimiento, co-packing o condiciones comerciales, el canal directo con el equipo es WhatsApp.",
+      "qr": "En la etiqueta o caja encontrará un código único y un código QR del lote.\n\n1) Abra la cámara del teléfono o un lector de QR.\n\n2) Enfoque el código hasta que lea el enlace.\n\n3) Al abrirlo, entrará a la trazabilidad pública de ese lote en este sitio (sin app propia ni registro).\n\nTambién puede ingresar el código impreso en el empaque si su pantalla de inicio ofrece esa consulta.",
+      "info": "Al seguir el enlace del QR verá, para ese lote, datos como producto y SKU, presentación y empaque, talla comercial, unidades por libra, color SalmoFan, certificaciones publicadas, identificación del lote y la línea de tiempo con etapas y socios que la cadena haya registrado y dejado visibles al público.\n\nNo necesita iniciar sesión: es información de solo lectura pensada para consumidores y negocios.",
+      "restaurants": "En restaurante y food service puede usar el QR en carta, menú o empaque para que el comensal verifique origen y lote, reforzar confianza y diferenciar su oferta. Trabajamos presentaciones y tallas de mercado, co-packing y abastecimiento continuo según su operación.\n\nPara volúmenes, alianzas, menú o logística, el siguiente paso es escribir por WhatsApp y coordinar con el equipo comercial.",
+      "contact": "Para pedidos, precios, abastecimiento, co-packing o dudas comerciales, escríbanos por WhatsApp. El botón abre la app o la web de WhatsApp con nuestro número."
+    }
+  },
   "form": {
     "toast": {
       "productCreated": "Producto creado",

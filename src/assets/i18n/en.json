@@ -38,6 +38,31 @@
     "createUser": "Create user",
     "recordEvent": "Record event"
   },
+  "chatbot": {
+    "title": "Mary — Marea Alta assistant",
+    "open": "Open chat with Mary",
+    "close": "Close Mary’s chat",
+    "welcome": "Hi! I’m Mary, Marea Alta’s virtual assistant. Pick a topic to learn about this site, our shrimp, the QR code, and how restaurants can use it.\n\nTo reach our team, choose “Contact / WhatsApp.”",
+    "chooseTopic": "Choose a topic:",
+    "optionsAria": "Help topics",
+    "restart": "Back to welcome message",
+    "options": {
+      "site": "Site & traceability",
+      "product": "Marea Alta product",
+      "qr": "How to scan the QR",
+      "info": "What you see after scanning",
+      "restaurants": "For restaurants",
+      "contact": "Contact / WhatsApp"
+    },
+    "replies": {
+      "site": "This site connects anyone buying or serving our shrimp with a verifiable story for each lot. The home page introduces Marea Alta. Public traceability opens when you scan the package QR or use the lot lookup: it’s a read-only page—no account needed.\n\nSupply-chain operators use a separate sign-in console to record milestones; you only see what was published for that lot.",
+      "product": "Marea Alta is Ecuador-origin shrimp focused on a natural product, lot-level traceability, and partners across grow-out, lab, and co-packing. Each published lot can show product data (presentation, size, SalmoFan color, certifications, etc.) and a timeline so your guest gets transparency.\n\nFor supply, co-packing, or commercial terms, WhatsApp is the direct line to our team.",
+      "qr": "On the label or case you’ll find a unique lot code and a QR code.\n\n1) Open your phone camera or any QR reader.\n\n2) Point at the code until it reads the link.\n\n3) Opening it takes you to that lot’s public trace page on this site—no separate app or sign-up.\n\nYou can also type the code printed on the pack if your home screen offers that lookup.",
+      "info": "After following the QR link you’ll see, for that lot, details such as product and SKU, presentation and packaging, commercial size, pieces per pound, SalmoFan color, published certifications, lot identification, and a traceability timeline with stages and partners the chain recorded and made public.\n\nNo sign-in is required—it’s read-only information for diners and businesses.",
+      "restaurants": "In restaurants and food service you can place the QR on the menu, menu board, or packaging so guests verify origin and lot, build trust, and strengthen your story. We support market grades, co-packing, and steady supply depending on your operation.\n\nFor volumes, partnerships, menu planning, or logistics, message us on WhatsApp to reach sales.",
+      "contact": "For orders, pricing, supply, co-packing, or other commercial questions, message us on WhatsApp. The button opens WhatsApp (app or web) with our number."
+    }
+  },
   "form": {
     "toast": {
       "productCreated": "Product created",

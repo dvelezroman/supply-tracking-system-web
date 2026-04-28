@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-chatbot.component';
 
 /**
  * Root shell: only hosts the router. Public routes render without the operator sidenav;
@@ -9,8 +10,8 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet],
-  template: '<router-outlet />',
+  imports: [RouterOutlet, MareaChatbotComponent],
+  template: '<router-outlet /><app-marea-chatbot />',
   styles: [
     `
       :host {

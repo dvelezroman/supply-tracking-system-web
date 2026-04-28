@@ -26,6 +26,10 @@ import { MareaTestimonialsComponent } from './components/marea-testimonials/mare
 import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
 import { MareaLandingImages } from './marea-landing-images';
 
+/**
+ * Public marketing landing. Mobile-first: default layout is for narrow viewports;
+ * wider layouts use `min-width` in SCSS (shared tokens in `./styles/marea-tokens`).
+ */
 @Component({
   selector: 'app-landing',
   standalone: true,
