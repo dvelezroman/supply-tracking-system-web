@@ -115,6 +115,18 @@
         <a mat-icon-button [routerLink]="l.id" [matTooltip]="'lots.tooltipViewDetail' | transloco">
           <mat-icon>visibility</mat-icon>
         </a>
+        <a mat-icon-button [routerLink]="[l.id, 'edit']" [matTooltip]="'common.edit' | transloco">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <button
+          mat-icon-button
+          color="warn"
+          type="button"
+          [matTooltip]="'common.delete' | transloco"
+          (click)="deleteLot(l)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
         <button
           mat-icon-button
           [color]="expandedLotCode() === l.lotCode && lotPanelTabIndex() === 0 ? 'accent' : undefined"
@@ -174,7 +186,13 @@
                 <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
                 <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
               </mat-expansion-panel-header>
-              <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+              <app-lot-trace-timeline
+                [events]="historyEvents()"
+                [isLoading]="historyLoading()"
+                [manageActions]="true"
+                (editRequested)="onTraceEdit($event)"
+                (deleteRequested)="onTraceDelete($event)"
+              />
             </mat-expansion-panel>
           </div>
         </mat-tab>

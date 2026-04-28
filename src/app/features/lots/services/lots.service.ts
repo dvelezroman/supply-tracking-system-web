@@ -100,6 +100,14 @@ export class LotsAdminService {
     return this.http.get<ApiResponse<LotSummary>>(`${this.base}/${id}`);
   }
 
+  update(id: string, payload: Record<string, unknown>) {
+    return this.http.put<ApiResponse<LotSummary>>(`${this.base}/${id}`, payload);
+  }
+
+  delete(id: string) {
+    return this.http.delete<ApiResponse<{ id: string }>>(`${this.base}/${id}`);
+  }
+
   getByCode(lotCode: string) {
     const encoded = encodeURIComponent(lotCode);
     return this.http.get<ApiResponse<LotSummary>>(`${this.base}/code/${encoded}`);

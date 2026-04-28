@@ -21,8 +21,13 @@
   @if (hasError()) {
     <div class="error-state">
       <mat-icon>error_outline</mat-icon>
-      <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
-      <p>{{ 'publicTrace.notFoundBody' | transloco: { code: traceLookupKey } }}</p>
+      @if (slug) {
+        <h2>{{ 'publicTrace.notFoundTitleRestaurant' | transloco }}</h2>
+        <p>{{ 'publicTrace.notFoundBodyRestaurant' | transloco: { slug: traceLookupKey } }}</p>
+      } @else {
+        <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
+        <p>{{ 'publicTrace.notFoundBody' | transloco }}</p>
+      }
     </div>
   }
 

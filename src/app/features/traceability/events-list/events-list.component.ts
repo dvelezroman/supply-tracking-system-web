@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { DatePipe } from '@angular/common';
@@ -27,6 +27,9 @@ import { ProductsService } from '../../products/services/products.service';
 import { LotsAdminService, type LotSummary } from '../../lots/services/lots.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { TranslocoService } from '@jsverse/transloco';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 import {
   TRACEABILITY_FILTER_EVENT_TYPES,
@@ -62,6 +65,9 @@ export class EventsListComponent implements OnInit {
   private traceabilityService = inject(TraceabilityService);
   private productsService = inject(ProductsService);
   private lotsService = inject(LotsAdminService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private snackbar = inject(SnackbarService);
   private destroyRef = inject(DestroyRef);
   private transloco = inject(TranslocoService);
 
@@ -87,7 +93,16 @@ export class EventsListComponent implements OnInit {
   readonly eventTypeFilterOptions = TRACEABILITY_FILTER_EVENT_TYPES;
   readonly eventTypeColors = EVENT_TYPE_COLORS;
 
-  readonly columns = ['timestamp', 'eventType', 'product', 'lot', 'actor', 'location', 'notes'];
+  readonly columns = [
+    'timestamp',
+    'eventType',
+    'product',
+    'lot',
+    'actor',
+    'location',
+    'notes',
+    'actions',
+  ];
 
   eventTypeLabel(type: string): string {
     const key = `eventTypes.${type}`;
@@ -182,5 +197,30 @@ export class EventsListComponent implements OnInit {
     this.currentPage.set(event.pageIndex + 1);
     this.pageSize.set(event.pageSize);
     this.triggerLoad();
+  }
+
+  editEvent(e: TraceabilityEvent): void {
+    void this.router.navigate(['/traceability/events', e.id, 'edit'], {
+      queryParams: { returnUrl: '/traceability' },
+    });
+  }
+
+  deleteEvent(e: TraceabilityEvent): void {
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.transloco.translate('traceability.deleteEventTitle'),
+        message: this.transloco.translate('traceability.deleteEventConfirm'),
+        confirmLabel: this.transloco.translate('common.delete'),
+      },
+    });
+    ref.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.traceabilityService.deleteEvent(e.id).subscribe({
+        next: () => {
+          this.snackbar.success(this.transloco.translate('form.toast.eventDeleted'));
+          this.triggerLoad();
+        },
+      });
+    });
   }
 }

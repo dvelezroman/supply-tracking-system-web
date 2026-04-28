@@ -2,7 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import type { ApiResponse, PaginatedData } from '../../../core/models/api-response.model';
-import type { TraceabilityEvent, CreateEventPayload } from '../../../core/models/traceability.model';
+import type {
+  TraceabilityEvent,
+  CreateEventPayload,
+  UpdateEventPayload,
+} from '../../../core/models/traceability.model';
 
 export interface TraceabilityEventsFilters {
   productId?: string | null;
@@ -42,6 +46,21 @@ export class TraceabilityService {
       `${this.base}/events`,
       payload
     );
+  }
+
+  getEventById(id: string) {
+    return this.http.get<ApiResponse<TraceabilityEvent>>(`${this.base}/events/${id}`);
+  }
+
+  updateEvent(id: string, payload: UpdateEventPayload) {
+    return this.http.patch<ApiResponse<TraceabilityEvent>>(
+      `${this.base}/events/${id}`,
+      payload
+    );
+  }
+
+  deleteEvent(id: string) {
+    return this.http.delete<ApiResponse<{ id: string }>>(`${this.base}/events/${id}`);
   }
 
   getProductHistory(productId: string) {

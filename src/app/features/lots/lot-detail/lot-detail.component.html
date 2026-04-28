@@ -4,6 +4,15 @@
   backRoute="/lots"
 >
   @if (lot(); as hdrLot) {
+    <a
+      mat-stroked-button
+      [routerLink]="['/lots', id, 'edit']"
+    >
+      <mat-icon>edit</mat-icon> {{ 'common.edit' | transloco }}
+    </a>
+    <button mat-stroked-button type="button" color="warn" (click)="confirmDeleteLot()">
+      <mat-icon>delete</mat-icon> {{ 'common.delete' | transloco }}
+    </button>
     <a mat-flat-button color="primary" [routerLink]="['/traceability', 'events', 'new']" [queryParams]="registerEventQuery()">
       <mat-icon>add</mat-icon> {{ 'lots.registerEvent' | transloco }}
     </a>
@@ -261,7 +270,13 @@
         <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
         <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
       </mat-expansion-panel-header>
-      <app-lot-trace-timeline [events]="historyEvents()" [isLoading]="historyLoading()" />
+      <app-lot-trace-timeline
+        [events]="historyEvents()"
+        [isLoading]="historyLoading()"
+        [manageActions]="true"
+        (editRequested)="onTraceEdit($event)"
+        (deleteRequested)="onTraceDelete($event)"
+      />
     </mat-expansion-panel>
   </div>
 }

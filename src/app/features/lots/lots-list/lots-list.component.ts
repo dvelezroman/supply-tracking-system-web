@@ -7,10 +7,13 @@ import {
   DestroyRef,
   effect,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { Router, RouterLink } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +28,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { finalize, take } from 'rxjs/operators';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
+import { TraceabilityService } from '../../traceability/services/traceability.service';
 import { ProductsService } from '../../products/services/products.service';
 import type { Product } from '../../../core/models/product.model';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
@@ -62,8 +66,13 @@ import type { TraceabilityEvent } from '../../../core/models/traceability.model'
 })
 export class LotsListComponent implements OnInit {
   private lotsService = inject(LotsAdminService);
+  private traceabilityService = inject(TraceabilityService);
+  private router = inject(Router);
   private productsService = inject(ProductsService);
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
+  private snackbar = inject(SnackbarService);
+  private transloco = inject(TranslocoService);
 
   isLoading = signal(false);
   lots = signal<LotSummary[]>([]);
@@ -90,32 +99,65 @@ export class LotsListComponent implements OnInit {
   readonly columns = ['lotCode', 'product', 'presentation', 'colorSalmoFan', 'harvestDate', 'lotSizeLbs', 'actions'];
 
   constructor() {
-    effect(() => {
-      const code = this.expandedLotCode();
-      if (!code) {
-        this.historyEvents.set([]);
-        this.historyLoading.set(false);
-        return;
-      }
-      this.historyLoading.set(true);
-      this.lotsService.getHistory(code).subscribe({
-        next: (res) => {
-          const lot = res.data.lot;
-          const mapped = (res.data.events as TraceabilityEvent[]).map((e: TraceabilityEvent) => ({
-            ...e,
-            productId: lot.product.id,
-            lotCode: lot.lotCode,
-            timestamp:
-              typeof e.timestamp === 'string'
-                ? e.timestamp
-                : (e.timestamp as unknown as Date).toISOString?.() ?? String(e.timestamp),
-          }));
-          this.historyEvents.set(mapped);
-          this.historyLoading.set(false);
-        },
-        error: () => {
+    effect(
+      () => {
+        const code = this.expandedLotCode();
+        if (!code) {
           this.historyEvents.set([]);
           this.historyLoading.set(false);
+          return;
+        }
+        this.fetchHistoryForLotCode(code);
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
+  private fetchHistoryForLotCode(lotCode: string): void {
+    this.historyLoading.set(true);
+    this.lotsService.getHistory(lotCode).subscribe({
+      next: (res) => {
+        const lot = res.data.lot;
+        const mapped = (res.data.events as TraceabilityEvent[]).map((e: TraceabilityEvent) => ({
+          ...e,
+          productId: lot.product.id,
+          lotCode: lot.lotCode,
+          timestamp:
+            typeof e.timestamp === 'string'
+              ? e.timestamp
+              : (e.timestamp as unknown as Date).toISOString?.() ?? String(e.timestamp),
+        }));
+        this.historyEvents.set(mapped);
+        this.historyLoading.set(false);
+      },
+      error: () => {
+        this.historyEvents.set([]);
+        this.historyLoading.set(false);
+      },
+    });
+  }
+
+  onTraceEdit(e: TraceabilityEvent): void {
+    void this.router.navigate(['/traceability/events', e.id, 'edit'], {
+      queryParams: { returnUrl: '/lots' },
+    });
+  }
+
+  onTraceDelete(e: TraceabilityEvent): void {
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.transloco.translate('traceability.deleteEventTitle'),
+        message: this.transloco.translate('traceability.deleteEventConfirm'),
+        confirmLabel: this.transloco.translate('common.delete'),
+      },
+    });
+    ref.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.traceabilityService.deleteEvent(e.id).subscribe({
+        next: () => {
+          this.snackbar.success(this.transloco.translate('form.toast.eventDeleted'));
+          const code = this.expandedLotCode();
+          if (code) this.fetchHistoryForLotCode(code);
         },
       });
     });
@@ -218,5 +260,27 @@ export class LotsListComponent implements OnInit {
     const l = this.lotByCode(lotCode);
     if (!l) return { returnUrl: '/lots' };
     return { lotId: l.id, returnUrl: '/lots' };
+  }
+
+  deleteLot(lot: LotSummary): void {
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.transloco.translate('lots.deleteTitle'),
+        message: this.transloco.translate('lots.deleteConfirm', { lotCode: lot.lotCode }),
+        confirmLabel: this.transloco.translate('common.delete'),
+      },
+    });
+    ref.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.lotsService.delete(lot.id).subscribe({
+        next: () => {
+          this.snackbar.success(this.transloco.translate('form.toast.lotDeleted'));
+          if (this.expandedLotCode() === lot.lotCode) {
+            this.expandedLotCode.set(null);
+          }
+          this.loadLots();
+        },
+      });
+    });
   }
 }

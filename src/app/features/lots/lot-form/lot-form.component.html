@@ -1,6 +1,6 @@
 <app-page-header
-  [title]="'lots.newTitle' | transloco"
-  [subtitle]="'lots.newSubtitle' | transloco"
+  [title]="(editLotId() ? 'lots.editTitle' : 'lots.newTitle') | transloco"
+  [subtitle]="(editLotId() ? 'lots.editSubtitle' : 'lots.newSubtitle') | transloco"
   backRoute="/lots"
 />
 
@@ -48,23 +48,29 @@
               @if (form.controls.lotCode.hasError('lotCodeTaken')) {
                 <mat-error>{{ 'lots.form.lotCodeTaken' | transloco }}</mat-error>
               }
-              <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
-            </mat-form-field>
-            <button
-              mat-icon-button
-              type="button"
-              class="lot-code-generate-btn"
-              [disabled]="!canSuggestLotCode() || lotCodeGenerating() || lotCodeCheckPending()"
-              [matTooltip]="'lots.form.lotCodeGenerateTooltip' | transloco"
-              [attr.aria-label]="'lots.form.lotCodeGenerateAriaLabel' | transloco"
-              (click)="generateSuggestedLotCode()"
-            >
-              @if (lotCodeGenerating()) {
-                <mat-spinner diameter="22" />
+              @if (editLotId()) {
+                <mat-hint>{{ 'lots.form.lotCodeImmutable' | transloco }}</mat-hint>
               } @else {
-                <mat-icon>autorenew</mat-icon>
+                <mat-hint>{{ 'lots.form.lotCodeHint' | transloco }}</mat-hint>
               }
-            </button>
+            </mat-form-field>
+            @if (!editLotId()) {
+              <button
+                mat-icon-button
+                type="button"
+                class="lot-code-generate-btn"
+                [disabled]="!canSuggestLotCode() || lotCodeGenerating() || lotCodeCheckPending()"
+                [matTooltip]="'lots.form.lotCodeGenerateTooltip' | transloco"
+                [attr.aria-label]="'lots.form.lotCodeGenerateAriaLabel' | transloco"
+                (click)="generateSuggestedLotCode()"
+              >
+                @if (lotCodeGenerating()) {
+                  <mat-spinner diameter="22" />
+                } @else {
+                  <mat-icon>autorenew</mat-icon>
+                }
+              </button>
+            }
           </div>
         </div>
       </mat-card-content>
@@ -208,7 +214,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.farm' | transloco }}</mat-label>
-            <mat-select formControlName="farmId">
+            <mat-select
+              formControlName="farmId"
+              [compareWith]="compareUuid"
+              (openedChange)="farmChainPanelOpen.set($event)"
+            >
               @for (a of farmActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
@@ -216,9 +226,9 @@
             @if (farmActors().length === 0) {
               <mat-hint>{{ 'lots.form.noFarmActors' | transloco }}</mat-hint>
             }
-            @if (form.controls.farmId.hasError('required')) {
+            @if (form.controls.farmId.hasError('required') && !farmChainPanelOpen()) {
               <mat-error>{{ 'lots.form.farmRequired' | transloco }}</mat-error>
-            } @else if (form.controls.farmId.hasError('pattern')) {
+            } @else if (form.controls.farmId.hasError('pattern') && !farmChainPanelOpen()) {
               <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
@@ -235,7 +245,11 @@
         <div class="form-grid">
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.lab' | transloco }}</mat-label>
-            <mat-select formControlName="labId">
+            <mat-select
+              formControlName="labId"
+              [compareWith]="compareUuid"
+              (openedChange)="labChainPanelOpen.set($event)"
+            >
               @for (a of labActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
@@ -243,16 +257,20 @@
             @if (labActors().length === 0) {
               <mat-hint>{{ 'lots.form.noLabActors' | transloco }}</mat-hint>
             }
-            @if (form.controls.labId.hasError('required')) {
+            @if (form.controls.labId.hasError('required') && !labChainPanelOpen()) {
               <mat-error>{{ 'lots.form.labRequired' | transloco }}</mat-error>
-            } @else if (form.controls.labId.hasError('pattern')) {
+            } @else if (form.controls.labId.hasError('pattern') && !labChainPanelOpen()) {
               <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.maturation' | transloco }}</mat-label>
-            <mat-select formControlName="maturationId">
+            <mat-select
+              formControlName="maturationId"
+              [compareWith]="compareUuid"
+              (openedChange)="maturationChainPanelOpen.set($event)"
+            >
               @for (a of maturationActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
@@ -260,16 +278,20 @@
             @if (maturationActors().length === 0) {
               <mat-hint>{{ 'lots.form.noMaturationActors' | transloco }}</mat-hint>
             }
-            @if (form.controls.maturationId.hasError('required')) {
+            @if (form.controls.maturationId.hasError('required') && !maturationChainPanelOpen()) {
               <mat-error>{{ 'lots.form.maturationRequired' | transloco }}</mat-error>
-            } @else if (form.controls.maturationId.hasError('pattern')) {
+            } @else if (form.controls.maturationId.hasError('pattern') && !maturationChainPanelOpen()) {
               <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'lots.form.coPacker' | transloco }}</mat-label>
-            <mat-select formControlName="coPackerId">
+            <mat-select
+              formControlName="coPackerId"
+              [compareWith]="compareUuid"
+              (openedChange)="coPackerChainPanelOpen.set($event)"
+            >
               @for (a of coPackerActors(); track a.id) {
                 <mat-option [value]="a.id">{{ a.name }}</mat-option>
               }
@@ -277,9 +299,9 @@
             @if (coPackerActors().length === 0) {
               <mat-hint>{{ 'lots.form.noCoPackerActors' | transloco }}</mat-hint>
             }
-            @if (form.controls.coPackerId.hasError('required')) {
+            @if (form.controls.coPackerId.hasError('required') && !coPackerChainPanelOpen()) {
               <mat-error>{{ 'lots.form.coPackerRequired' | transloco }}</mat-error>
-            } @else if (form.controls.coPackerId.hasError('pattern')) {
+            } @else if (form.controls.coPackerId.hasError('pattern') && !coPackerChainPanelOpen()) {
               <mat-error>{{ 'lots.form.chainIdInvalid' | transloco }}</mat-error>
             }
           </mat-form-field>
@@ -293,10 +315,12 @@
         mat-flat-button
         color="primary"
         type="submit"
-        [disabled]="form.invalid || lotCodeCheckPending() || lotCodeGenerating() || isSaving()"
+        [disabled]="!canSubmit()"
       >
         @if (isSaving()) {
           <mat-spinner diameter="20" />
+        } @else if (editLotId()) {
+          {{ 'common.saveChanges' | transloco }}
         } @else {
           {{ 'common.createLot' | transloco }}
         }

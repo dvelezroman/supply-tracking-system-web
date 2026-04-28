@@ -70,6 +70,8 @@ export interface TraceabilityEvent {
   notes?: string;
   metadata?: Record<string, unknown>;
   timestamp: string;
+  /** Present when API returns full rows (Prisma `updatedAt`). */
+  updatedAt?: string;
   product?: Product;
   actor?: Actor;
 }
@@ -81,4 +83,15 @@ export interface CreateEventPayload {
   location?: string;
   notes?: string;
   metadata?: Record<string, unknown>;
+}
+
+/** PATCH body — all optional; `lotId` is immutable on the server. */
+export interface UpdateEventPayload {
+  actorId?: string;
+  eventType?: EventType;
+  location?: string;
+  notes?: string;
+  metadata?: Record<string, unknown>;
+  /** ISO 8601 — correct event time if it was recorded wrong */
+  timestamp?: string;
 }

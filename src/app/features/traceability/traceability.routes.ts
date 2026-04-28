@@ -15,4 +15,11 @@ export const TRACEABILITY_ROUTES: Routes = [
         (m) => m.EventFormComponent
       ),
   },
+  {
+    path: 'events/:eventId/edit',
+    loadComponent: () =>
+      import('./event-form/event-form.component').then(
+        (m) => m.EventFormComponent
+      ),
+  },
 ];

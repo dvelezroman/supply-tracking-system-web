@@ -12,6 +12,11 @@ export const LOTS_ROUTES: Routes = [
       import('./lot-form/lot-form.component').then((m) => m.LotFormComponent),
   },
   {
+    path: ':id/edit',
+    loadComponent: () =>
+      import('./lot-form/lot-form.component').then((m) => m.LotFormComponent),
+  },
+  {
     path: ':id',
     loadComponent: () =>
       import('./lot-detail/lot-detail.component').then((m) => m.LotDetailComponent),

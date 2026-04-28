@@ -53,6 +53,30 @@
             @if (metadataLine(event.metadata); as line) {
               <p class="metadata-line">{{ line }}</p>
             }
+            @if (manageActions) {
+              <div class="timeline-actions">
+                <button
+                  mat-stroked-button
+                  type="button"
+                  color="primary"
+                  [matTooltip]="'traceability.tooltipEditEvent' | transloco"
+                  (click)="editRequested.emit(event)"
+                >
+                  <mat-icon>edit</mat-icon>
+                  {{ 'common.edit' | transloco }}
+                </button>
+                <button
+                  mat-stroked-button
+                  type="button"
+                  color="warn"
+                  [matTooltip]="'traceability.tooltipDeleteEvent' | transloco"
+                  (click)="deleteRequested.emit(event)"
+                >
+                  <mat-icon>delete</mat-icon>
+                  {{ 'common.delete' | transloco }}
+                </button>
+              </div>
+            }
           </div>
         </div>
       }

@@ -5,8 +5,9 @@ import {
   inject,
   signal,
   ChangeDetectionStrategy,
+  DestroyRef,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -39,7 +40,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
+import { TraceabilityService } from '../../traceability/services/traceability.service';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
 const PRESENTATION_LABELS: Record<string, string | undefined> = {
@@ -84,6 +89,10 @@ export class LotDetailComponent implements OnInit {
   @Input() id!: string;
 
   private lotsService = inject(LotsAdminService);
+  private traceabilityService = inject(TraceabilityService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   private restaurantsService = inject(RestaurantsService);
   private auth = inject(AuthService);
   private snackbar = inject(SnackbarService);
@@ -238,6 +247,53 @@ export class LotDetailComponent implements OnInit {
         this.isSavingVis.set(false);
       },
       error: () => this.isSavingVis.set(false),
+    });
+  }
+
+  onTraceEdit(e: TraceabilityEvent): void {
+    void this.router.navigate(['/traceability/events', e.id, 'edit'], {
+      queryParams: { returnUrl: `/lots/${this.id}` },
+    });
+  }
+
+  onTraceDelete(e: TraceabilityEvent): void {
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.transloco.translate('traceability.deleteEventTitle'),
+        message: this.transloco.translate('traceability.deleteEventConfirm'),
+        confirmLabel: this.transloco.translate('common.delete'),
+      },
+    });
+    ref.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.traceabilityService.deleteEvent(e.id).subscribe({
+        next: () => {
+          this.snackbar.success(this.transloco.translate('form.toast.eventDeleted'));
+          const l = this.lot();
+          if (l) this.loadHistory(l.lotCode, l);
+        },
+      });
+    });
+  }
+
+  confirmDeleteLot(): void {
+    const l = this.lot();
+    if (!l) return;
+    const ref = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.transloco.translate('lots.deleteTitle'),
+        message: this.transloco.translate('lots.deleteConfirm', { lotCode: l.lotCode }),
+        confirmLabel: this.transloco.translate('common.delete'),
+      },
+    });
+    ref.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.lotsService.delete(this.id).subscribe({
+        next: () => {
+          this.snackbar.success(this.transloco.translate('form.toast.lotDeleted'));
+          void this.router.navigate(['/lots']);
+        },
+      });
     });
   }
 }
