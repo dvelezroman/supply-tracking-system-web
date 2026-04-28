@@ -617,6 +617,8 @@
     "participantsTitle": "Chain participants",
     "timelineTitle": "Traceability history",
     "timelineSubtitle": "Full product journey from harvest",
+    "timelineExpandHint": "Expand any step to see actor, location, and notes.",
+    "followUs": "Social media",
     "footerGenerated": "Generated on",
     "footerVerified": "Verified by",
     "footerSystem": "Traceability system",

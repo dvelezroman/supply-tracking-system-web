@@ -6,6 +6,52 @@
   width: 240px;
   display: flex;
   flex-direction: column;
+  transition: width 200ms ease;
+
+  &.sidenav--compact {
+    width: 72px;
+
+    .sidenav-header {
+      display: flex;
+      justify-content: center;
+      padding: 16px 12px;
+    }
+
+    .sidenav-brand {
+      justify-content: center;
+
+      .brand-name {
+        display: none;
+      }
+    }
+
+    .mat-mdc-list-item-title,
+    .mdc-list-item__primary-text {
+      display: none;
+    }
+
+    .mat-mdc-list-item .mat-mdc-list-item-icon,
+    .mat-mdc-list-item .mat-icon.mat-mdc-list-item-icon {
+      margin-inline-end: 0;
+    }
+
+    mat-nav-list a.mat-mdc-list-item {
+      justify-content: center;
+    }
+
+    mat-nav-list .mat-mdc-list-item .mdc-list-item__content {
+      justify-content: center;
+    }
+
+    .sidenav-footer .user-details {
+      display: none;
+    }
+
+    .sidenav-footer .user-info {
+      justify-content: center;
+      padding: 12px 8px;
+    }
+  }
 
   .sidenav-header {
     padding: 20px 16px;

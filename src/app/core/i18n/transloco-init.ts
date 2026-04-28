@@ -1,5 +1,7 @@
 import { TranslocoService } from '@jsverse/transloco';
 import { Title } from '@angular/platform-browser';
+import { firstValueFrom } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import {
   LEGACY_LANG_STORAGE_KEY,
   PREF_LANG_COOKIE,
@@ -23,8 +25,8 @@ function readInitialLang(): 'es' | 'en' {
 export function translocoAppInit(
   transloco: TranslocoService,
   title: Title,
-): () => void {
-  return () => {
+): () => Promise<void> {
+  return async () => {
     const initial = readInitialLang();
     transloco.setActiveLang(initial);
     setCookie(PREF_LANG_COOKIE, transloco.getActiveLang());
@@ -32,13 +34,15 @@ export function translocoAppInit(
     const applyTitle = () => {
       title.setTitle(transloco.translate('app.documentTitle'));
     };
+
+    await firstValueFrom(transloco.load(initial));
     applyTitle();
     document.documentElement.lang = transloco.getActiveLang();
 
-    transloco.langChanges$.subscribe((lang) => {
+    transloco.langChanges$.pipe(skip(1)).subscribe((lang) => {
       setCookie(PREF_LANG_COOKIE, lang);
       document.documentElement.lang = lang;
-      applyTitle();
+      transloco.load(lang).subscribe(() => applyTitle());
     });
   };
 }

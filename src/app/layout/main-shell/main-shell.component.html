@@ -1,10 +1,12 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" [autosize]="true">
   <mat-sidenav
+    id="main-sidenav"
     #sidenav
-    [opened]="sidenavOpen()"
+    [opened]="isMobile() ? sidenavOpen() : true"
     [mode]="isMobile() ? 'over' : 'side'"
-    (openedChange)="sidenavOpen.set($event)"
+    (openedChange)="isMobile() && sidenavOpen.set($event)"
     class="sidenav"
+    [class.sidenav--compact]="!isMobile() && !sidenavDesktopExpanded()"
   >
     <div class="sidenav-header">
       <a routerLink="/" class="sidenav-brand" [matTooltip]="'shell.tooltip.publicHome' | transloco">
@@ -22,6 +24,9 @@
             mat-list-item
             [routerLink]="item.route"
             routerLinkActive="active-link"
+            [matTooltip]="item.labelKey | transloco"
+            [matTooltipDisabled]="!showNavItemTooltips()"
+            [matTooltipPosition]="'right'"
             (click)="isMobile() && sidenav.close()"
           >
             <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
@@ -33,7 +38,12 @@
 
     <div class="sidenav-footer">
       <mat-divider />
-      <div class="user-info">
+      <div
+        class="user-info"
+        [matTooltip]="(currentUser()?.name ?? '') + ' — ' + (currentUser()?.role ?? '')"
+        [matTooltipDisabled]="!showNavItemTooltips()"
+        [matTooltipPosition]="'right'"
+      >
         <mat-icon>account_circle</mat-icon>
         <div class="user-details">
           <span class="user-name">{{ currentUser()?.name }}</span>
@@ -46,11 +56,14 @@
   <mat-sidenav-content class="shell-content">
     <mat-toolbar color="primary" class="toolbar">
       <button
+        type="button"
         mat-icon-button
         (click)="toggleSidenav()"
         [matTooltip]="'shell.tooltip.toggleMenu' | transloco"
+        [attr.aria-expanded]="isMobile() ? sidenavOpen() : sidenavDesktopExpanded()"
+        [attr.aria-controls]="'main-sidenav'"
       >
-        <mat-icon>menu</mat-icon>
+        <mat-icon>{{ menuToggleIcon() }}</mat-icon>
       </button>
       <span class="spacer"></span>
       <app-language-toggle />

@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import {
@@ -52,6 +53,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     MatProgressBarModule,
     MatButtonModule,
     MatTooltipModule,
+    MatExpansionModule,
   ],
   templateUrl: './public-trace.component.html',
   styleUrl: './public-trace.component.scss',

@@ -49,7 +49,21 @@ export class MainShellComponent implements OnInit {
   protected branding = inject(PublicBrandingService);
 
   sidenavOpen = signal(true);
+  /** Wide sidebar with labels on desktop; icon-only rail when false (desktop only). */
+  sidenavDesktopExpanded = signal(true);
   isMobile = signal(false);
+
+  /** Mobile overlay shows labels when open; desktop mini rail hides labels. */
+  showNavItemTooltips = computed(
+    () => !this.isMobile() && !this.sidenavDesktopExpanded(),
+  );
+
+  menuToggleIcon = computed(() => {
+    if (this.isMobile()) {
+      return this.sidenavOpen() ? 'close' : 'menu';
+    }
+    return this.sidenavDesktopExpanded() ? 'menu_open' : 'menu';
+  });
 
   currentUser = this.authService.currentUser;
   isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
@@ -83,7 +97,11 @@ export class MainShellComponent implements OnInit {
   }
 
   toggleSidenav(): void {
-    this.sidenavOpen.set(!this.sidenavOpen());
+    if (this.isMobile()) {
+      this.sidenavOpen.update((v) => !v);
+    } else {
+      this.sidenavDesktopExpanded.update((v) => !v);
+    }
   }
 
   logout(): void {

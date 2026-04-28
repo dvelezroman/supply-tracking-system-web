@@ -242,9 +242,22 @@
 
 .timeline { padding: 8px 0; }
 
+.timeline-expand-hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.timeline-empty {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+}
+
 .timeline-item {
   display: flex;
   gap: 16px;
+  align-items: stretch;
 }
 
 .timeline-connector {
@@ -273,19 +286,36 @@
   }
 }
 
-.timeline-content {
-  padding-bottom: 24px;
+.timeline-panel {
   flex: 1;
+  min-width: 0;
+  box-shadow: none !important;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px !important;
+  margin-bottom: 8px;
+}
 
-  .timeline-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 6px;
-    flex-wrap: wrap;
+:host ::ng-deep .timeline-panel.mat-expansion-panel .mat-expansion-panel-header {
+  padding: 12px 16px;
+}
 
-    .timeline-time { font-size: 12px; color: rgba(0,0,0,0.54); }
+.timeline-panel-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  width: 100%;
+  margin: 0;
+
+  .timeline-time {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
   }
+}
+
+.timeline-content {
+  padding-bottom: 8px;
+  flex: 1;
 
   .timeline-actor {
     margin: 4px 0;
@@ -371,9 +401,112 @@
   text-decoration: underline;
 }
 
+.trace-footer__social {
+  margin: 16px 0 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.trace-footer__social-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trace-footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: filter 0.15s ease, transform 0.12s ease;
+
+  &:hover {
+    filter: brightness(1.08);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(227, 244, 255, 0.95);
+    outline-offset: 2px;
+  }
+}
+
+.trace-footer__social-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.trace-footer__social-link--instagram {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+}
+
+.trace-footer__social-link--facebook {
+  background: #1877f2;
+}
+
+.trace-footer__social-link--tiktok {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+// Print control on dark footer: Material light-theme defaults use dark ink — force white in bright app theme only
+:host-context(html:not(.theme-dark)) {
+  .trace-footer__print.mat-mdc-button {
+    color: #ffffff;
+    --mat-text-button-state-layer-color: rgba(255, 255, 255, 0.12);
+    --mdc-text-button-label-text-color: #ffffff;
+  }
+}
+
+:host-context(html:not(.theme-dark)) ::ng-deep .trace-footer__print .mat-icon {
+  color: #ffffff;
+}
+
 @media print {
   .trace-header { background: #1a237e !important; -webkit-print-color-adjust: exact; }
   button, .qr-btn { display: none !important; }
   .trace-content { padding: 16px 0; }
   mat-card { box-shadow: none !important; border: 1px solid #e0e0e0; }
+
+  :host ::ng-deep .timeline-panel .mat-expansion-panel-content-wrapper {
+    height: auto !important;
+    visibility: visible !important;
+  }
+
+  :host ::ng-deep .timeline-panel.mat-expanded .mat-expansion-panel-content {
+    overflow: visible !important;
+  }
+
+  :host ::ng-deep .timeline-panel:not(.mat-expanded) .mat-expansion-panel-content-wrapper {
+    height: auto !important;
+    visibility: visible !important;
+  }
+
+  :host ::ng-deep .timeline-panel:not(.mat-expanded) .mat-expansion-panel-body {
+    display: block !important;
+    padding-top: 8px;
+  }
 }

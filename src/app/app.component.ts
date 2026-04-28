@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-chatbot.component';
+import { AuthService } from './features/auth/services/auth.service';
 
 /**
  * Root shell: only hosts the router. Public routes render without the operator sidenav;
@@ -11,7 +12,12 @@ import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-c
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, MareaChatbotComponent],
-  template: '<router-outlet /><app-marea-chatbot />',
+  template: `
+    <router-outlet />
+    @if (!auth.isAuthenticated()) {
+      <app-marea-chatbot />
+    }
+  `,
   styles: [
     `
       :host {
@@ -21,4 +27,6 @@ import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-c
     `,
   ],
 })
-export class AppComponent {}
+export class AppComponent {
+  protected auth = inject(AuthService);
+}

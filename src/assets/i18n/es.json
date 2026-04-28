@@ -617,6 +617,8 @@
     "participantsTitle": "Participantes en la cadena",
     "timelineTitle": "Historia de trazabilidad",
     "timelineSubtitle": "Recorrido completo del producto desde la cosecha",
+    "timelineExpandHint": "Abra un paso para ver actor, ubicación y notas.",
+    "followUs": "Redes sociales",
     "footerGenerated": "Generado el",
     "footerVerified": "Verificado por",
     "footerSystem": "Sistema de trazabilidad",
