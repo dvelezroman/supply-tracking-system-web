@@ -6,6 +6,10 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
   effect,
+  ElementRef,
+  viewChild,
+  afterNextRender,
+  Injector,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -24,7 +28,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { finalize, take } from 'rxjs/operators';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
@@ -55,7 +58,6 @@ import type { TraceabilityEvent } from '../../../core/models/traceability.model'
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatTabsModule,
     MatExpansionModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
@@ -73,6 +75,10 @@ export class LotsListComponent implements OnInit {
   private dialog = inject(MatDialog);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
+  private injector = inject(Injector);
+
+  /** Wrapper around the inline panel (below the table); receives focus when opening or switching tabs. */
+  private readonly lotInlinePanel = viewChild<ElementRef<HTMLElement>>('lotInlinePanel');
 
   isLoading = signal(false);
   lots = signal<LotSummary[]>([]);
@@ -244,12 +250,27 @@ export class LotsListComponent implements OnInit {
       if (isNewLot) {
         this.traceHistoryPanelExpanded.set(true);
       }
+      this.scheduleFocusLotPanel();
     }
   }
 
-  onLotTabChange(index: number): void {
-    if (!this.expandedLotCode()) return;
+  /** Switch Traceability / Labels tabs inside the inline panel and move focus into the panel. */
+  selectLotPanelTab(index: number): void {
     this.lotPanelTabIndex.set(index);
+    this.scheduleFocusLotPanel();
+  }
+
+  /** Move keyboard focus into the inline panel after it is rendered (screen readers + keyboard users). */
+  private scheduleFocusLotPanel(): void {
+    afterNextRender(
+      () => {
+        requestAnimationFrame(() => {
+          const host = this.lotInlinePanel()?.nativeElement;
+          host?.focus({ preventScroll: false });
+        });
+      },
+      { injector: this.injector },
+    );
   }
 
   onTraceHistoryExpandedChange(expanded: boolean): void {

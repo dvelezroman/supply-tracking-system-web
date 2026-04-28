@@ -360,6 +360,7 @@
     "traceHistoryPanelTitle": "Historial de trazabilidad",
     "traceHistoryPanelHint": "Pulse para desplegar o retraer la línea de tiempo",
     "panelTabLabels": "Etiquetas PDF",
+    "inlinePanelRegionLabel": "Trazabilidad del lote y descarga de etiquetas",
     "registerEventForLot": "Registrar evento",
     "viewFullDetail": "Ficha del lote",
     "qrLabelsFor": "Descargar etiquetas QR para {{lotCode}}",

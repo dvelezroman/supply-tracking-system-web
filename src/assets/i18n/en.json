@@ -360,6 +360,7 @@
     "traceHistoryPanelTitle": "Traceability history",
     "traceHistoryPanelHint": "Click to expand or collapse the timeline",
     "panelTabLabels": "PDF labels",
+    "inlinePanelRegionLabel": "Lot traceability and label actions",
     "registerEventForLot": "Record event",
     "viewFullDetail": "Lot detail page",
     "qrLabelsFor": "Download QR labels for {{lotCode}}",

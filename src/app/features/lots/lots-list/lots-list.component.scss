@@ -68,10 +68,29 @@
 .lot-panel-below {
   border-top: 1px solid #e0e0e0;
   background: #fafafa;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary, #3f51b5);
+    outline-offset: 2px;
+  }
 }
 
-.lot-panel-tabs {
-  --mat-tab-header-divider-color: #e0e0e0;
+.lot-panel__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px 0;
+  max-width: 960px;
+  margin: 0 auto;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.lot-panel__tab {
+  margin: 0;
 }
 
 .lot-panel__tab-body {

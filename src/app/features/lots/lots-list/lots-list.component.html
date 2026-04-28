@@ -129,17 +129,19 @@
         </button>
         <button
           mat-icon-button
+          type="button"
           [color]="expandedLotCode() === l.lotCode && lotPanelTabIndex() === 0 ? 'accent' : undefined"
           [matTooltip]="'lots.tooltipTracePanel' | transloco"
-          (click)="openLotPanel(l.lotCode, 0)"
+          (click)="openLotPanel(l.lotCode, 0); $event.stopPropagation()"
         >
           <mat-icon>timeline</mat-icon>
         </button>
         <button
           mat-icon-button
+          type="button"
           color="primary"
           [matTooltip]="'lots.tooltipQrPdf' | transloco"
-          (click)="openLotPanel(l.lotCode, 1)"
+          (click)="openLotPanel(l.lotCode, 1); $event.stopPropagation()"
         >
           <mat-icon>picture_as_pdf</mat-icon>
         </button>
@@ -151,61 +153,80 @@
   </table>
 
   @if (expandedLotCode(); as panelCode) {
-    <div class="lot-panel-below">
-      <mat-tab-group
-        class="lot-panel-tabs"
-        [selectedIndex]="lotPanelTabIndex()"
-        (selectedIndexChange)="onLotTabChange($event)"
-        animationDuration="0ms"
-      >
-        <mat-tab [label]="'lots.panelTabTrace' | transloco">
-          <div class="lot-panel__tab-body">
-            <div class="lot-panel__actions">
-              @if (lotByCode(panelCode); as row) {
-                <a mat-stroked-button [routerLink]="['/lots', row.id]">
-                  <mat-icon>open_in_new</mat-icon>
-                  {{ 'lots.viewFullDetail' | transloco }}
-                </a>
-                <a
-                  mat-flat-button
-                  color="primary"
-                  [routerLink]="['/traceability', 'events', 'new']"
-                  [queryParams]="registerEventQuery(panelCode)"
-                >
-                  <mat-icon>add</mat-icon>
-                  {{ 'lots.registerEventForLot' | transloco }}
-                </a>
-              }
-            </div>
-            <mat-expansion-panel
-              class="trace-history-panel"
-              [expanded]="traceHistoryPanelExpanded()"
-              (expandedChange)="onTraceHistoryExpandedChange($event)"
-            >
-              <mat-expansion-panel-header>
-                <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
-                <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
-              </mat-expansion-panel-header>
-              <app-lot-trace-timeline
-                [events]="historyEvents()"
-                [isLoading]="historyLoading()"
-                [manageActions]="true"
-                (editRequested)="onTraceEdit($event)"
-                (deleteRequested)="onTraceDelete($event)"
-              />
-            </mat-expansion-panel>
+    <div
+      #lotInlinePanel
+      class="lot-panel-below"
+      tabindex="-1"
+      role="region"
+      [attr.aria-label]="'lots.inlinePanelRegionLabel' | transloco"
+    >
+      <div class="lot-panel__header">
+        <button
+          type="button"
+          class="lot-panel__tab"
+          mat-stroked-button
+          [color]="lotPanelTabIndex() === 0 ? 'primary' : undefined"
+          (click)="selectLotPanelTab(0)"
+        >
+          {{ 'lots.panelTabTrace' | transloco }}
+        </button>
+        <button
+          type="button"
+          class="lot-panel__tab"
+          mat-stroked-button
+          [color]="lotPanelTabIndex() === 1 ? 'primary' : undefined"
+          (click)="selectLotPanelTab(1)"
+        >
+          {{ 'lots.panelTabLabels' | transloco }}
+        </button>
+      </div>
+      @if (lotPanelTabIndex() === 0) {
+        <div class="lot-panel__tab-body">
+          <div class="lot-panel__actions">
+            @if (lotByCode(panelCode); as row) {
+              <a mat-stroked-button [routerLink]="['/lots', row.id]">
+                <mat-icon>open_in_new</mat-icon>
+                {{ 'lots.viewFullDetail' | transloco }}
+              </a>
+              <a
+                mat-flat-button
+                color="primary"
+                [routerLink]="['/traceability', 'events', 'new']"
+                [queryParams]="registerEventQuery(panelCode)"
+              >
+                <mat-icon>add</mat-icon>
+                {{ 'lots.registerEventForLot' | transloco }}
+              </a>
+            }
           </div>
-        </mat-tab>
-        <mat-tab [label]="'lots.panelTabLabels' | transloco">
-          <div class="lot-panel__tab-body lot-panel__tab-body--labels">
-            <span class="qr-panel__label">
-              <mat-icon>qr_code_2</mat-icon>
-              {{ 'lots.qrLabelsFor' | transloco: { lotCode: panelCode } }}
-            </span>
-            <app-qr-pdf-download [lotCode]="panelCode" />
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+          <mat-expansion-panel
+            class="trace-history-panel"
+            [expanded]="traceHistoryPanelExpanded()"
+            (expandedChange)="onTraceHistoryExpandedChange($event)"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ 'lots.traceHistoryPanelTitle' | transloco }}</mat-panel-title>
+              <mat-panel-description>{{ 'lots.traceHistoryPanelHint' | transloco }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <app-lot-trace-timeline
+              [events]="historyEvents()"
+              [isLoading]="historyLoading()"
+              [manageActions]="true"
+              (editRequested)="onTraceEdit($event)"
+              (deleteRequested)="onTraceDelete($event)"
+            />
+          </mat-expansion-panel>
+        </div>
+      }
+      @if (lotPanelTabIndex() === 1) {
+        <div class="lot-panel__tab-body lot-panel__tab-body--labels">
+          <span class="qr-panel__label">
+            <mat-icon>qr_code_2</mat-icon>
+            {{ 'lots.qrLabelsFor' | transloco: { lotCode: panelCode } }}
+          </span>
+          <app-qr-pdf-download [lotCode]="panelCode" />
+        </div>
+      }
     </div>
   }
 

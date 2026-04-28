@@ -117,7 +117,8 @@ export class QrPdfDownloadComponent {
     if (this.copies < 1 || this.copies > 500) return;
     this.isDownloading.set(true);
 
-    const url = `${environment.apiBase}/lots/code/${this.lotCode}/qr/pdf?copies=${this.copies}`;
+    const encoded = encodeURIComponent(this.lotCode);
+    const url = `${environment.apiBase}/lots/code/${encoded}/qr/pdf?copies=${this.copies}`;
 
     this.http.get(url, { responseType: 'blob' }).subscribe({
       next: (blob) => {
