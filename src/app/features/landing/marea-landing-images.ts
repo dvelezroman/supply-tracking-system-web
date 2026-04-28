@@ -18,10 +18,12 @@ export const MareaLandingImages = {
   timeline: {
     /** Mar abierto — raíz costera de la industria */
     e1: 'https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=900&q=80',
-    /** Cultivo / campo — legado familiar */
-    e2: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=900&q=80',
-    /** Estanques — cultivo (Aleksandr Galichkin) */
-    e3: 'https://images.unsplash.com/photo-1757489383041-04e15c2adb1e?auto=format&fit=crop&w=900&q=80',
+    /** Químicos — camarón crudo (S3) */
+    e2:
+      'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/sustancia-ocultas-camaron.jpg',
+    /** Sabor — metabisulfito de sodio (S3) */
+    e3:
+      'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/metabisulfito-de-sodio.jpeg',
     /** Camarón — presente y calidad (CHUTTERSNAP) */
     e4: 'https://images.unsplash.com/photo-1548468868-c656a1c9dad3?auto=format&fit=crop&w=900&q=80',
   },
@@ -29,15 +31,20 @@ export const MareaLandingImages = {
     /** Infografía «Camino del camarón» — cabecera sección trazabilidad (S3) */
     valueProposition:
       'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Imagen_propuesta_de_valor.png',
-    /** Laboratorio */
-    s1: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&q=80',
-    /** Estanques — cultivo semiextensivo */
-    s2: 'https://images.unsplash.com/photo-1757489383041-04e15c2adb1e?auto=format&fit=crop&w=1000&q=80',
-    /** Almacén / logística */
-    s3: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=80',
+    /** Genética y larvas (S3) */
+    s1: 'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/genetica_y_larvas.png',
+    /** Cultivo extensivo y saludable (S3) */
+    s2:
+      'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/cultivo_extensivo_saludable.png',
+    /** Transformación y empaque (S3) */
+    s3:
+      'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/transformacion_empaque.png',
   },
   testimonials: {
     t1: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=400&q=80',
     t2: 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=400&q=80',
+    t3: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+    t4: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+    t5: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
   },
 } as const;

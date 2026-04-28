@@ -25,25 +25,97 @@
     line-height: 1.55;
   }
 
-  &__grid {
-    display: grid;
-    gap: 1.25rem;
-    max-width: $marea-container;
+  &__carousel {
+    position: relative;
+    max-width: min(#{$marea-container}, calc(100vw - 2rem));
     margin: 0 auto;
-    grid-template-columns: 1fr;
+    padding: 0 2.75rem;
 
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 479px) {
+      padding: 0 2.25rem;
     }
+  }
+
+  &__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    outline: none;
+    padding-bottom: 6px;
+    margin: 0 -0.25rem;
+    scrollbar-gutter: stable;
+
+    &:focus-visible {
+      border-radius: 12px;
+      box-shadow: 0 0 0 3px rgba(44, 116, 179, 0.35);
+    }
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(20, 66, 114, 0.22);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(20, 66, 114, 0.06);
+      border-radius: 4px;
+    }
+  }
+
+  &__track {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.25rem 0.25rem 2px;
+    width: max-content;
+    min-height: 100%;
   }
 
   &__card {
     margin: 0;
+    flex: 0 0 min(400px, calc(100vw - 6rem));
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     padding: 1.5rem 1.35rem;
     background: $marea-blanco;
     border-radius: 14px;
     border: 1px solid rgba(20, 66, 114, 0.1);
     box-shadow: 0 6px 20px rgba(10, 38, 71, 0.07);
+
+    @media (min-width: 640px) {
+      flex-basis: min(380px, calc(100vw - 8rem));
+    }
+
+    @media (min-width: 1100px) {
+      flex-basis: 360px;
+    }
+  }
+
+  &__nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    z-index: 2;
+    box-shadow: 0 4px 14px rgba(10, 38, 71, 0.18);
+    background: $marea-blanco !important;
+    color: $marea-azul-principal !important;
+
+    &--prev {
+      left: 0;
+    }
+
+    &--next {
+      right: 0;
+    }
+
+    mat-icon {
+      margin: 0 -4px;
+    }
   }
 
   &__avatar {

@@ -3,52 +3,65 @@
     <h2 id="marea-testimonials-title" class="marea-testimonials__title">{{ 'landing.marea.testimonials.title' | transloco }}</h2>
     <p class="marea-testimonials__lead">{{ 'landing.marea.testimonials.lead' | transloco }}</p>
   </div>
-  <div class="marea-testimonials__grid">
-    <figure class="marea-testimonials__card">
-      <img
-        class="marea-testimonials__avatar"
-        [src]="avatars.t1"
-        width="96"
-        height="96"
-        loading="lazy"
-        decoding="async"
-        [alt]="'landing.marea.images.testimonial1' | transloco"
-      />
-      <div class="marea-testimonials__stars" aria-label="5 of 5">
-        @for (s of stars; track s) {
-          <mat-icon>star</mat-icon>
+
+  <div
+    class="marea-testimonials__carousel"
+    role="region"
+    [attr.aria-label]="'landing.marea.testimonials.carouselRegion' | transloco"
+  >
+    <button
+      type="button"
+      mat-mini-fab
+      class="marea-testimonials__nav marea-testimonials__nav--prev"
+      [attr.aria-label]="'landing.marea.testimonials.carouselPrev' | transloco"
+      (click)="scrollPrev()"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <div
+      #viewport
+      class="marea-testimonials__viewport"
+      tabindex="0"
+      (keydown)="onCarouselKeydown($event)"
+    >
+      <div class="marea-testimonials__track">
+        @for (id of testimonialIds; track id) {
+          <figure class="marea-testimonials__card">
+            <img
+              class="marea-testimonials__avatar"
+              [src]="avatars[id]"
+              width="96"
+              height="96"
+              loading="lazy"
+              decoding="async"
+              [alt]="('landing.marea.images.testimonial' + id.slice(1)) | transloco"
+            />
+            <div class="marea-testimonials__stars" aria-label="5 of 5">
+              @for (s of stars; track s) {
+                <mat-icon>star</mat-icon>
+              }
+            </div>
+            <blockquote class="marea-testimonials__quote">
+              <p>«{{ ('landing.marea.testimonials.' + id + 'Quote') | transloco }}»</p>
+            </blockquote>
+            <figcaption class="marea-testimonials__meta">
+              <span class="marea-testimonials__author">{{ ('landing.marea.testimonials.' + id + 'Author') | transloco }}</span>
+              <span class="marea-testimonials__role">{{ ('landing.marea.testimonials.' + id + 'Role') | transloco }}</span>
+            </figcaption>
+          </figure>
         }
       </div>
-      <blockquote class="marea-testimonials__quote">
-        <p>«{{ 'landing.marea.testimonials.t1Quote' | transloco }}»</p>
-      </blockquote>
-      <figcaption class="marea-testimonials__meta">
-        <span class="marea-testimonials__author">{{ 'landing.marea.testimonials.t1Author' | transloco }}</span>
-        <span class="marea-testimonials__role">{{ 'landing.marea.testimonials.t1Role' | transloco }}</span>
-      </figcaption>
-    </figure>
-    <figure class="marea-testimonials__card">
-      <img
-        class="marea-testimonials__avatar"
-        [src]="avatars.t2"
-        width="96"
-        height="96"
-        loading="lazy"
-        decoding="async"
-        [alt]="'landing.marea.images.testimonial2' | transloco"
-      />
-      <div class="marea-testimonials__stars" aria-label="5 of 5">
-        @for (s of stars; track s) {
-          <mat-icon>star</mat-icon>
-        }
-      </div>
-      <blockquote class="marea-testimonials__quote">
-        <p>«{{ 'landing.marea.testimonials.t2Quote' | transloco }}»</p>
-      </blockquote>
-      <figcaption class="marea-testimonials__meta">
-        <span class="marea-testimonials__author">{{ 'landing.marea.testimonials.t2Author' | transloco }}</span>
-        <span class="marea-testimonials__role">{{ 'landing.marea.testimonials.t2Role' | transloco }}</span>
-      </figcaption>
-    </figure>
+    </div>
+
+    <button
+      type="button"
+      mat-mini-fab
+      class="marea-testimonials__nav marea-testimonials__nav--next"
+      [attr.aria-label]="'landing.marea.testimonials.carouselNext' | transloco"
+      (click)="scrollNext()"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
 </section>

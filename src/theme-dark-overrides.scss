@@ -195,6 +195,12 @@ html.theme-dark app-landing .marea-testimonials__card {
   border-color: rgba(148, 163, 184, 0.2);
 }
 
+html.theme-dark app-landing .marea-testimonials__nav {
+  background: #1e293b !important;
+  color: #93c5fd !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
 html.theme-dark app-landing .marea-story__title {
   color: #e2e8f0;
 }

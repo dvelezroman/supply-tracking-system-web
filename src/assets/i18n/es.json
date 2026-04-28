@@ -194,28 +194,43 @@
       "testimonials": {
         "title": "Historias en mesa y en carta",
         "lead": "Quienes ya sirven Marea Alta cuentan con historia verificable y tranquilidad para su marca.",
-        "t1Quote": "Por fin puedo explicar a mis comensales de dónde viene el camarón y respaldarlo con datos en el QR. Menos incertidumbre para mi equipo y mejor experiencia para el cliente.",
-        "t1Author": "Chef ejecutivo",
-        "t1Role": "Restaurante — Guayaquil",
-        "t2Quote": "Pasamos de «otro camarón más» a un argumento claro en carta: trazabilidad y un producto sin artificios. Mis clientes lo notan.",
-        "t2Author": "Gerente de operaciones",
-        "t2Role": "Food service — Ecuador"
+        "carouselPrev": "Opinión anterior",
+        "carouselNext": "Opinión siguiente",
+        "carouselRegion": "Testimonios de clientes, carrusel horizontal",
+        "t1Quote": "Por fin puedo explicar a mis comensales de dónde viene el camarón y respaldarlo con datos en el QR. Menos incertidumbre para mi brigada y mejor experiencia en sala.",
+        "t1Author": "Marco Salazar",
+        "t1Role": "Chef ejecutivo — Restaurante, Guayaquil",
+        "t2Quote": "Pasamos de «otro camarón más» a un argumento claro en carta: trazabilidad y un producto sin atajos químicos. Mis clientes corporativos lo notan en cada servicio.",
+        "t2Author": "Valeria Mendoza",
+        "t2Role": "Gerente de operaciones — Food service, Quito",
+        "t3Quote": "En room service y eventos necesitamos responder al instante si un huésped pregunta por el origen. Con el QR del lote la información está ordenada; mi equipo ya no improvisa respuestas.",
+        "t3Author": "Diego Villavicencio",
+        "t3Role": "Director de alimentos y bebidas — Hotel, Manta",
+        "t4Quote": "En la costa el cliente compara siempre. Acá el camarón se siente limpio en boca y la trazabilidad nos ayuda cuando vienen grupos que piden certificaciones sin vueltas.",
+        "t4Author": "Ana Lucía Terán",
+        "t4Role": "Propietaria — Cevichería, Santa Elena",
+        "t5Quote": "Manejamos banquetes con alto volumen: lo que más valoro es que cada ingreso llega con datos del lote claros; mi cocina no pierde tiempo buscando correos viejos para certificados.",
+        "t5Author": "Fernando Benítez",
+        "t5Role": "Chef ejecutivo — Catering corporativo, Guayaquil"
       },
       "images": {
         "heroBg": "Mar y horizonte",
         "heroProduct": "Camarón en plato — producto premium",
         "story": "Fundadores de Marea Alta, hombre y mujer, sonriendo en una mesa de restaurante",
         "timelineE1": "Costa y mar — raíz de la acuicultura",
-        "timelineE2": "Cultivo y campo — trabajo en la granja",
-        "timelineE3": "Vista aérea de estanques de acuicultura",
+        "timelineE2": "Montón de camarón crudo entero",
+        "timelineE3": "Polvo cristalino blanco en cuenco y cucharón de madera sobre superficie oscura",
         "timelineE4": "Camarón — calidad en el plato",
         "traceValueProposition":
           "Infografía: trazabilidad del camarón Marea Alta de la granja al consumidor, con código QR y etapas de la cadena",
-        "traceS1": "Laboratorio — control y calidad",
-        "traceS2": "Estanques de cultivo semiextensivo",
-        "traceS3": "Almacén y logística de producto",
+        "traceS1": "Larvas de camarón translúcidas en agua",
+        "traceS2": "Vista aérea de granja acuícola con estanques entre vegetación",
+        "traceS3": "Planta de procesamiento: trabajador clasificando camarón en banda transportadora",
         "testimonial1": "Retrato de chef en cocina",
-        "testimonial2": "Mesa con comida casera"
+        "testimonial2": "Mesa con comida casera",
+        "testimonial3": "Retrato de profesional en entorno de oficina",
+        "testimonial4": "Retrato de mujer profesional sonriendo",
+        "testimonial5": "Retrato de hombre con traje en interior"
       },
       "finalCta": {
         "title": "Eleve el estándar de su negocio",
@@ -224,8 +239,7 @@
         "subtitle": "Escríbanos por WhatsApp para abastecimiento y co-packing — o verifique un lote escaneando el QR o ingresando el código del envase.",
         "whatsapp": "Escríbanos por WhatsApp",
         "whatsappUrl": "https://wa.me/593999530981",
-        "lookup": "Verificar código de lote",
-        "operators": "Acceso operadores de cadena"
+        "lookup": "Verificar código de lote"
       },
       "social": {
         "title": "Redes sociales",

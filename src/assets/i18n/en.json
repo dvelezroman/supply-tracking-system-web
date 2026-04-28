@@ -194,28 +194,43 @@
       "testimonials": {
         "title": "Stories on the menu and on the plate",
         "lead": "Operators serving Marea Alta lean on verified narrative and brand peace of mind.",
-        "t1Quote": "I can finally tell guests where the shrimp comes from and back it with data from the QR. Less uncertainty for my team and a better guest experience.",
-        "t1Author": "Executive chef",
-        "t1Role": "Restaurant — Guayaquil",
-        "t2Quote": "We moved from “just another shrimp” to a clear menu story—traceability and a product without shortcuts. Guests notice.",
-        "t2Author": "Operations manager",
-        "t2Role": "Food service — Ecuador"
+        "carouselPrev": "Previous testimonial",
+        "carouselNext": "Next testimonial",
+        "carouselRegion": "Customer testimonials carousel",
+        "t1Quote": "I can finally tell guests where the shrimp comes from and back it with data from the QR. Less guesswork for my crew and a smoother experience on the floor.",
+        "t1Author": "Marco Salazar",
+        "t1Role": "Executive chef — Restaurant, Guayaquil",
+        "t2Quote": "We moved from “just another shrimp” to a clear menu story—traceability and a product without chemical shortcuts. Our corporate clients notice it service after service.",
+        "t2Author": "Valeria Mendoza",
+        "t2Role": "Operations manager — Food service, Quito",
+        "t3Quote": "For room service and events we need to answer instantly when a guest asks about origin. With the lot QR the story is organized—my team no longer wings it.",
+        "t3Author": "Diego Villavicencio",
+        "t3Role": "Director of F&B — Hotel, Manta",
+        "t4Quote": "On the coast guests always compare. Here the shrimp tastes clean and traceability helps when groups ask for certifications without runaround.",
+        "t4Author": "Ana Lucía Terán",
+        "t4Role": "Owner — Cevichería, Santa Elena",
+        "t5Quote": "We run high-volume banquets: what I value most is every delivery arrives with clear lot data—my kitchen stops digging through old emails for certificates.",
+        "t5Author": "Fernando Benítez",
+        "t5Role": "Executive chef — Corporate catering, Guayaquil"
       },
       "images": {
         "heroBg": "Sea and horizon",
         "heroProduct": "Shrimp on a plate — premium product",
         "story": "Marea Alta founders, a man and a woman, smiling at a restaurant table",
         "timelineE1": "Coast and ocean — roots of aquaculture",
-        "timelineE2": "Farming and field work",
-        "timelineE3": "Aerial view of aquaculture ponds",
+        "timelineE2": "Pile of whole raw shrimp",
+        "timelineE3": "White crystalline powder in a wooden bowl and scoop on a dark surface",
         "timelineE4": "Shrimp — quality on the plate",
         "traceValueProposition":
           "Infographic: Marea Alta shrimp traceability from farm to table, with QR code and supply chain steps",
-        "traceS1": "Laboratory — quality control",
-        "traceS2": "Semi-intensive grow-out ponds",
-        "traceS3": "Warehouse and cold-chain logistics",
+        "traceS1": "Translucent shrimp larvae in water",
+        "traceS2": "Aerial view of aquaculture ponds in a green landscape",
+        "traceS3": "Processing plant: worker sorting shrimp on a conveyor belt",
         "testimonial1": "Chef portrait in kitchen",
-        "testimonial2": "Family meal on the table"
+        "testimonial2": "Family meal on the table",
+        "testimonial3": "Professional portrait in an office setting",
+        "testimonial4": "Professional woman smiling, portrait",
+        "testimonial5": "Man in a suit, indoor portrait"
       },
       "finalCta": {
         "title": "Raise the standard for your business",
@@ -224,8 +239,7 @@
         "subtitle": "Message us on WhatsApp for supply and co-packing—or verify a lot by scanning the QR or entering the code on the package.",
         "whatsapp": "Message us on WhatsApp",
         "whatsappUrl": "https://wa.me/593999530981",
-        "lookup": "Verify lot code",
-        "operators": "Supply-chain operator access"
+        "lookup": "Verify lot code"
       },
       "social": {
         "title": "Social networks",

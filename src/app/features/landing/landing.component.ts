@@ -59,7 +59,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   /** Full-screen intro video on each visit (autoplay policies require muted until user unmutes). */
   readonly INTRO_VIDEO_URL =
-    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Video-intro.mp4';
+    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Video-intro-new.mp4';
 
   readonly CONSUMER_PACKAGE_EXAMPLE_URL = MareaLandingImages.consumerPackageExample;
 
