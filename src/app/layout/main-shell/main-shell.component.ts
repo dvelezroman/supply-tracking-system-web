@@ -18,6 +18,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { PublicBrandingService } from '../../core/services/public-branding.service';
 
 @Component({
@@ -37,6 +38,7 @@ import { PublicBrandingService } from '../../core/services/public-branding.servi
     MatDividerModule,
     MatTooltipModule,
     LanguageToggleComponent,
+    ThemeToggleComponent,
   ],
   templateUrl: './main-shell.component.html',
   styleUrl: './main-shell.component.scss',

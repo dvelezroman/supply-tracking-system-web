@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { PublicBrandingService } from '../../core/services/public-branding.service';
 import { MareaHeroSectionComponent } from './components/marea-hero-section/marea-hero-section.component';
 import { MareaStoryOriginComponent } from './components/marea-story-origin/marea-story-origin.component';
@@ -36,6 +37,7 @@ import { MareaLandingImages } from './marea-landing-images';
     MatButtonModule,
     MatIconModule,
     LanguageToggleComponent,
+    ThemeToggleComponent,
     MareaHeroSectionComponent,
     MareaStoryOriginComponent,
     MareaLegacyTimelineComponent,

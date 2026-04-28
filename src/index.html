@@ -18,6 +18,17 @@
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+      (function () {
+        try {
+          var m = document.cookie.match(/(?:^|;\s*)st_theme=([^;]*)/);
+          var v = m && decodeURIComponent(m[1].replace(/\+/g, ' '));
+          if (v === 'dark') {
+            document.documentElement.classList.add('theme-dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="mat-typography">
     <app-root></app-root>

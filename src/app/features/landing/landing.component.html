@@ -64,7 +64,10 @@
         <span class="landing__title">{{ brand.landingTitle() }}</span>
       </div>
       <div class="landing__actionsLine">
-        <app-language-toggle class="landing__langToggle" />
+        <div class="landing__prefs">
+          <app-language-toggle class="landing__langToggle" />
+          <app-theme-toggle />
+        </div>
         <div class="landing__operatorBtns">
           <a
             mat-button

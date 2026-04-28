@@ -1,7 +1,10 @@
 <div class="auth-page">
   <div class="auth-top">
     <a mat-button routerLink="/">{{ 'common.home' | transloco }}</a>
-    <app-language-toggle />
+    <div class="auth-top__prefs">
+      <app-language-toggle />
+      <app-theme-toggle />
+    </div>
   </div>
 
   <mat-card class="auth-card">

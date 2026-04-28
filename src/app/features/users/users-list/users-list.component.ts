@@ -9,11 +9,14 @@ import {
 import { DatePipe } from '@angular/common';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UsersService } from '../services/users.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import type { User } from '../../../core/models/auth.model';
@@ -23,13 +26,16 @@ import type { User } from '../../../core/models/auth.model';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     TranslocoPipe,
     DatePipe,
     MatTableModule,
     MatPaginatorModule,
+    MatButtonModule,
     MatIconModule,
     MatChipsModule,
     MatProgressBarModule,
+    MatTooltipModule,
     PageHeaderComponent,
   ],
   templateUrl: './users-list.component.html',
@@ -45,7 +51,7 @@ export class UsersListComponent implements OnInit {
   currentPage = signal(1);
   pageSize = signal(20);
 
-  readonly columns = ['name', 'email', 'role', 'createdAt'];
+  readonly columns = ['name', 'email', 'role', 'createdAt', 'actions'];
 
   ngOnInit(): void {
     this.loadUsers();

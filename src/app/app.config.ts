@@ -16,6 +16,8 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { TranslocoHttpLoader } from './core/i18n/transloco-http.loader';
 import { translocoAppInit } from './core/i18n/transloco-init';
+import { ThemeService } from './core/services/theme.service';
+import { themeAppInit } from './core/theme/theme-init';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,6 +38,12 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       useFactory: translocoAppInit,
       deps: [TranslocoService, Title],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: themeAppInit,
+      deps: [ThemeService],
       multi: true,
     },
   ],

@@ -27,7 +27,10 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "src/theme-dark-overrides.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -69,7 +72,10 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+            "src/styles.scss",
+            "src/theme-dark-overrides.scss"
+          ],
             "scripts": []
           }
         }

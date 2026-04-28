@@ -14,13 +14,30 @@ $theme: mat.define-light-theme((
   density: 0
 ));
 
+$dark-theme: mat.define-dark-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+  typography: mat.define-typography-config(
+    $font-family: 'Roboto, sans-serif'
+  ),
+  density: 0
+));
+
 @include mat.all-component-themes($theme);
+
+html.theme-dark {
+  @include mat.all-component-colors($dark-theme);
+  color-scheme: dark;
+}
 
 html, body {
   height: 100%;
   margin: 0;
   font-family: Roboto, sans-serif;
   background-color: #f5f5f5;
+}
+
+html.theme-dark body {
+  background-color: #303030;
 }
 
 .snack-success {

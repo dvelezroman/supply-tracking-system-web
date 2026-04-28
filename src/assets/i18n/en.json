@@ -18,6 +18,7 @@
     "pdfDownloadFailed": "The PDF couldn't be downloaded. Please try again."
   },
   "common": {
+    "themeToggle": "Toggle light or dark theme",
     "languageMenu": "Language",
     "developedBy": "Developed by",
     "edit": "Edit",
@@ -34,6 +35,7 @@
     "createLot": "Create lot",
     "createProduct": "Create product",
     "createActor": "Create actor",
+    "createUser": "Create user",
     "recordEvent": "Record event"
   },
   "form": {
@@ -42,6 +44,8 @@
       "productUpdated": "Product updated",
       "actorCreated": "Actor created",
       "actorUpdated": "Actor updated",
+      "userCreated": "User created",
+      "userUpdated": "User updated",
       "lotCreated": "Lot created",
       "eventRecorded": "Event recorded"
     },
@@ -429,7 +433,34 @@
   },
   "users": {
     "listTitle": "Users",
-    "listSubtitle": "System user accounts"
+    "listSubtitle": "System user accounts",
+    "addUser": "Add user",
+    "newTitle": "New user",
+    "editTitle": "Edit user",
+    "colName": "Name",
+    "colEmail": "Email",
+    "colRole": "Role",
+    "colJoined": "Joined",
+    "emptyList": "No users found",
+    "roles": {
+      "ADMIN": "Administrator",
+      "ACTOR": "Actor",
+      "VIEWER": "Viewer"
+    },
+    "form": {
+      "name": "Name",
+      "nameRequired": "Name is required",
+      "email": "Email",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email",
+      "password": "Password",
+      "passwordHint": "Leave blank to keep the current password",
+      "passwordRequired": "Password is required",
+      "passwordMin": "At least 6 characters",
+      "role": "Role",
+      "linkedActor": "Linked actor",
+      "noActor": "None"
+    }
   },
   "traceability": {
     "eventsTitle": "Traceability Events",

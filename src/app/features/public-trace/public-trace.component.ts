@@ -22,6 +22,7 @@ import {
 } from './services/public-trace.service';
 import { EVENT_TYPE_COLORS } from '../../core/models/traceability.model';
 import { LanguageToggleComponent } from '../../shared/components/language-toggle/language-toggle.component';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { PublicBrandingService } from '../../core/services/public-branding.service';
 
 const SIZE_LABELS: Record<string, string | undefined> = {
@@ -41,6 +42,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     RouterLink,
     TranslocoPipe,
     LanguageToggleComponent,
+    ThemeToggleComponent,
     DatePipe,
     DecimalPipe,
     MatCardModule,

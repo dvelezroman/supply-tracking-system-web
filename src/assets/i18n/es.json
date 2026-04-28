@@ -18,6 +18,7 @@
     "pdfDownloadFailed": "No se pudo descargar el PDF. Inténtelo de nuevo."
   },
   "common": {
+    "themeToggle": "Cambiar entre tema claro y oscuro",
     "languageMenu": "Idioma",
     "developedBy": "Desarrollado por",
     "edit": "Editar",
@@ -34,6 +35,7 @@
     "createLot": "Crear lote",
     "createProduct": "Crear producto",
     "createActor": "Crear actor",
+    "createUser": "Crear usuario",
     "recordEvent": "Registrar evento"
   },
   "form": {
@@ -42,6 +44,8 @@
       "productUpdated": "Producto actualizado",
       "actorCreated": "Actor creado",
       "actorUpdated": "Actor actualizado",
+      "userCreated": "Usuario creado",
+      "userUpdated": "Usuario actualizado",
       "lotCreated": "Lote creado",
       "eventRecorded": "Evento registrado"
     },
@@ -429,7 +433,34 @@
   },
   "users": {
     "listTitle": "Usuarios",
-    "listSubtitle": "Cuentas de usuario del sistema"
+    "listSubtitle": "Cuentas de usuario del sistema",
+    "addUser": "Añadir usuario",
+    "newTitle": "Nuevo usuario",
+    "editTitle": "Editar usuario",
+    "colName": "Nombre",
+    "colEmail": "Correo",
+    "colRole": "Rol",
+    "colJoined": "Alta",
+    "emptyList": "No hay usuarios",
+    "roles": {
+      "ADMIN": "Administrador",
+      "ACTOR": "Actor",
+      "VIEWER": "Visor"
+    },
+    "form": {
+      "name": "Nombre",
+      "nameRequired": "El nombre es obligatorio",
+      "email": "Correo",
+      "emailRequired": "El correo es obligatorio",
+      "emailInvalid": "Introduzca un correo válido",
+      "password": "Contraseña",
+      "passwordHint": "Deje en blanco para mantener la contraseña actual",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMin": "Al menos 6 caracteres",
+      "role": "Rol",
+      "linkedActor": "Actor vinculado",
+      "noActor": "Ninguno"
+    }
   },
   "traceability": {
     "eventsTitle": "Eventos de trazabilidad",

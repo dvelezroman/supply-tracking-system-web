@@ -88,7 +88,8 @@
   top: 0;
   z-index: 1;
 
-  app-language-toggle ::ng-deep .mat-mdc-icon-button {
+  app-language-toggle ::ng-deep .mat-mdc-icon-button,
+  app-theme-toggle ::ng-deep .mat-mdc-icon-button {
     color: rgba(255, 255, 255, 0.95);
   }
 }

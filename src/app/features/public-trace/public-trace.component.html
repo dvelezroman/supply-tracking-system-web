@@ -7,7 +7,10 @@
     <p class="trace-header__tagline">
       {{ 'publicTrace.tagline' | transloco }}
     </p>
-    <app-language-toggle class="trace-header__lang" />
+    <div class="trace-header__actions">
+      <app-language-toggle class="trace-header__lang" />
+      <app-theme-toggle />
+    </div>
   </header>
 
   @if (isLoading()) {

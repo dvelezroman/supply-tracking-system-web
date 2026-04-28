@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { AuthService } from '../services/auth.service';
 import { LanguageToggleComponent } from '../../../shared/components/language-toggle/language-toggle.component';
+import { ThemeToggleComponent } from '../../../shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ import { LanguageToggleComponent } from '../../../shared/components/language-tog
     RouterLink,
     TranslocoPipe,
     LanguageToggleComponent,
+    ThemeToggleComponent,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

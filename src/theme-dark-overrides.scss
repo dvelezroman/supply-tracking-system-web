@@ -1,0 +1,213 @@
+// Page-specific tweaks when `html` has `theme-dark` (Material dark colors are already applied globally).
+
+html.theme-dark app-main-shell {
+  .sidenav .sidenav-brand .brand-icon,
+  .sidenav .sidenav-brand .brand-name {
+    color: #9fa8da;
+  }
+
+  .active-link {
+    background-color: rgba(159, 168, 218, 0.16) !important;
+    color: #c5cae9 !important;
+
+    mat-icon {
+      color: #c5cae9;
+    }
+  }
+
+  .sidenav-footer .user-info mat-icon,
+  .sidenav-footer .user-details .user-role {
+    color: rgba(255, 255, 255, 0.54);
+  }
+}
+
+html.theme-dark app-main-shell .toolbar app-theme-toggle .mat-mdc-icon-button {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+html.theme-dark app-public-trace .trace-page {
+  background: #303030;
+}
+
+html.theme-dark app-public-trace .loading-text,
+html.theme-dark app-public-trace .error-state,
+html.theme-dark app-public-trace .error-state h2 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+html.theme-dark app-public-trace .trace-header .trace-header__lang button {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+html.theme-dark app-public-trace .trace-header app-theme-toggle .mat-mdc-icon-button {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+html.theme-dark app-login .auth-footer-links,
+html.theme-dark app-register .auth-footer-links {
+  color: rgba(255, 255, 255, 0.7);
+
+  a {
+    color: #9fa8da;
+  }
+}
+
+// Marketing landing: cool neutral surfaces (sections use custom Marea SCSS)
+html.theme-dark app-landing .landing {
+  background: linear-gradient(165deg, #1e293b 0%, #0f172a 40%, #1e293b 100%);
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .diagram {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+html.theme-dark app-landing .diagram--chain {
+  background: linear-gradient(
+    145deg,
+    rgba(30, 41, 59, 0.98) 0%,
+    rgba(30, 58, 95, 0.45) 38%,
+    #1e293b 100%
+  );
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+html.theme-dark app-landing .diagram__title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .diagram__lead {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-values {
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, transparent 100%);
+}
+
+html.theme-dark app-landing .marea-values__block + .marea-values__block {
+  border-top-color: rgba(148, 163, 184, 0.2);
+}
+
+html.theme-dark app-landing .marea-values__title,
+html.theme-dark app-landing .marea-values__card-title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-values__intro,
+html.theme-dark app-landing .marea-values__desc,
+html.theme-dark app-landing .marea-values__risk,
+html.theme-dark app-landing .marea-values__path,
+html.theme-dark app-landing .marea-values__label {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-values__card {
+  background: #1e293b;
+  border-color: rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+html.theme-dark app-landing .marea-timeline {
+  background: #0f172a;
+}
+
+html.theme-dark app-landing .marea-timeline__title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-timeline__lead,
+html.theme-dark app-landing .marea-timeline__desc,
+html.theme-dark app-landing .marea-timeline__year {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-timeline__item-title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-timeline__marker {
+  background: #1e293b;
+  border-color: #5c6bc0;
+}
+
+html.theme-dark app-landing .marea-timeline__card {
+  background: #1e293b;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+html.theme-dark app-landing .marea-trace__title,
+html.theme-dark app-landing .marea-trace__kicker,
+html.theme-dark app-landing .marea-trace__purity {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-trace__lead,
+html.theme-dark app-landing .marea-trace__facts li,
+html.theme-dark app-landing .marea-trace__desc,
+html.theme-dark app-landing .marea-trace__partner,
+html.theme-dark app-landing .marea-trace__details li {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-trace__card {
+  background: #1e293b;
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+html.theme-dark app-landing .marea-trace__card-title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-testimonials {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+}
+
+html.theme-dark app-landing .marea-testimonials__title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-testimonials__quote p {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-testimonials__lead,
+html.theme-dark app-landing .marea-testimonials__role,
+html.theme-dark app-landing .marea-testimonials__author {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-testimonials__card {
+  background: #1e293b;
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+html.theme-dark app-landing .marea-story__title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-story__kicker {
+  color: #93c5fd;
+}
+
+html.theme-dark app-landing .marea-story__role,
+html.theme-dark app-landing .marea-story__body {
+  color: #94a3b8;
+}
+
+html.theme-dark app-landing .marea-story__quote p {
+  color: #cbd5e1;
+}
+
+html.theme-dark app-landing .marea-hero {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .marea-final {
+  background: linear-gradient(135deg, #0a1628 0%, #0f172a 45%, #1e3a5f 100%);
+}
+
+html.theme-dark app-login .auth-top app-theme-toggle .mat-mdc-icon-button,
+html.theme-dark app-register .auth-top app-theme-toggle .mat-mdc-icon-button {
+  color: rgba(255, 255, 255, 0.95);
+}

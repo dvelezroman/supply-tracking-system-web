@@ -12,6 +12,12 @@
   mat-icon { color: rgba(0,0,0,0.38); }
 }
 
+.actions-cell {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
 .empty-state {
   display: flex;
   flex-direction: column;
