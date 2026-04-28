@@ -81,6 +81,19 @@ html.theme-dark app-landing .diagram__lead {
   color: #94a3b8;
 }
 
+html.theme-dark app-landing .landing-social {
+  background: rgba(30, 41, 59, 0.92);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+html.theme-dark app-landing .landing-social__title {
+  color: #e2e8f0;
+}
+
+html.theme-dark app-landing .landing-social__lead {
+  color: #94a3b8;
+}
+
 html.theme-dark app-landing .marea-values {
   background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, transparent 100%);
 }

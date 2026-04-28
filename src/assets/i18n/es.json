@@ -194,6 +194,16 @@
         "whatsappUrl": "https://wa.me/593999530981",
         "lookup": "Verificar código de lote",
         "operators": "Acceso operadores de cadena"
+      },
+      "social": {
+        "title": "Redes sociales",
+        "lead": "Siga a Marea Alta para novedades, historias del producto y contenido desde la costa.",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok",
+        "instagramUrl": "https://www.instagram.com/",
+        "facebookUrl": "https://www.facebook.com/",
+        "tiktokUrl": "https://www.tiktok.com/"
       }
     },
     "diagram": {

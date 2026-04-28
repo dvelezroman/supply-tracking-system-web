@@ -194,6 +194,16 @@
         "whatsappUrl": "https://wa.me/593999530981",
         "lookup": "Verify lot code",
         "operators": "Supply-chain operator access"
+      },
+      "social": {
+        "title": "Social networks",
+        "lead": "Follow Marea Alta for news, product stories, and behind-the-scenes from the coast.",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "tiktok": "TikTok",
+        "instagramUrl": "https://www.instagram.com/",
+        "facebookUrl": "https://www.facebook.com/",
+        "tiktokUrl": "https://www.tiktok.com/"
       }
     },
     "diagram": {
