@@ -551,6 +551,11 @@
     "colRole": "Role",
     "colJoined": "Joined",
     "emptyList": "No users found",
+    "deleteTitle": "Delete user",
+    "deleteConfirm": "Permanently delete {{name}} ({{email}})? This cannot be undone.",
+    "deleteSuccess": "User deleted",
+    "cannotDeleteSelf": "You cannot delete your own account",
+    "cannotDeleteAdmin": "Administrator accounts cannot be deleted",
     "roles": {
       "ADMIN": "Administrator",
       "ACTOR": "Actor",

@@ -551,6 +551,11 @@
     "colRole": "Rol",
     "colJoined": "Alta",
     "emptyList": "No hay usuarios",
+    "deleteTitle": "Eliminar usuario",
+    "deleteConfirm": "¿Eliminar definitivamente a {{name}} ({{email}})? Esta acción no se puede deshacer.",
+    "deleteSuccess": "Usuario eliminado",
+    "cannotDeleteSelf": "No puede eliminar su propia cuenta",
+    "cannotDeleteAdmin": "No se pueden eliminar cuentas de administrador",
     "roles": {
       "ADMIN": "Administrador",
       "ACTOR": "Actor",

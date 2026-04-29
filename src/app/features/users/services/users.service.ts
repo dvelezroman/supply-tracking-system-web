@@ -29,4 +29,8 @@ export class UsersService {
   update(id: string, payload: AdminUpdateUserPayload) {
     return this.http.patch<ApiResponse<User>>(`${this.base}/${id}`, payload);
   }
+
+  delete(id: string) {
+    return this.http.delete<ApiResponse<{ id: string }>>(`${this.base}/${id}`);
+  }
 }

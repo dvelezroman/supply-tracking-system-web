@@ -49,6 +49,29 @@
         >
           <mat-icon>edit</mat-icon>
         </a>
+        @if (u.role === 'ADMIN') {
+          <span [matTooltip]="'users.cannotDeleteAdmin' | transloco">
+            <button mat-icon-button type="button" disabled aria-disabled="true">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+        } @else if (u.id === currentUserId()) {
+          <span [matTooltip]="'users.cannotDeleteSelf' | transloco">
+            <button mat-icon-button type="button" disabled aria-disabled="true">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+        } @else {
+          <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            [matTooltip]="'common.delete' | transloco"
+            (click)="deleteUser(u)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
       </td>
     </ng-container>
 

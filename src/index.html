@@ -29,6 +29,22 @@
         } catch (e) {}
       })();
     </script>
+    <script>
+      (function () {
+        try {
+          var legacyHost = 'supply-tracking-system.porto-rockcity-app.com';
+          var p = location.pathname;
+          var isPublicTraceQr =
+            location.hostname.toLowerCase() === legacyHost &&
+            (p === '/trace' || p.startsWith('/trace/'));
+          if (isPublicTraceQr) {
+            location.replace(
+              'https://www.marea-alta.ec' + p + location.search + location.hash
+            );
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="mat-typography">
     <app-root></app-root>
