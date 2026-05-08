@@ -64,8 +64,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((err: HttpErrorResponse) => {
       if (err.status === 401) {
         const url = err.url ?? '';
-        const isAuthEndpoint =
-          url.includes('/auth/login') || url.includes('/auth/register');
+        const isAuthEndpoint = url.includes('/auth/login');
         if (isAuthEndpoint) {
           snackbar.error(transloco.translate('errors.loginFailed'));
           return throwError(() => err);

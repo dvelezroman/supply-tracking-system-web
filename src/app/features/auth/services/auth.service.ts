@@ -4,12 +4,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import type { ApiResponse } from '../../../core/models/api-response.model';
-import type {
-  AuthResponse,
-  LoginPayload,
-  RegisterPayload,
-  User,
-} from '../../../core/models/auth.model';
+import type { AuthResponse, LoginPayload, User } from '../../../core/models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,12 +19,6 @@ export class AuthService {
   login(payload: LoginPayload) {
     return this.http
       .post<ApiResponse<AuthResponse>>(`${this.base}/login`, payload)
-      .pipe(tap((res) => this.persist(res.data)));
-  }
-
-  register(payload: RegisterPayload) {
-    return this.http
-      .post<ApiResponse<AuthResponse>>(`${this.base}/register`, payload)
       .pipe(tap((res) => this.persist(res.data)));
   }
 
