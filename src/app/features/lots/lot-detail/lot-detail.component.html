@@ -97,6 +97,32 @@
           </dl>
         </mat-card-content>
       </mat-card>
+
+      @if (l.availability; as av) {
+        <mat-card class="availability-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>local_shipping</mat-icon>
+            <mat-card-title>{{ 'lots.availabilityTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <dl class="spec-list">
+              <dt>{{ 'lots.availabilityInitialKg' | transloco }}</dt>
+              <dd>{{ av.initialWeightKg | number: '1.2-2' }} kg</dd>
+              <dt>{{ 'lots.availabilityDeliveredKg' | transloco }}</dt>
+              <dd>{{ av.deliveredWeightKg | number: '1.2-2' }} kg</dd>
+              <dt>{{ 'lots.availabilityRemainingKg' | transloco }}</dt>
+              <dd>{{ av.remainingWeightKg | number: '1.2-2' }} kg</dd>
+              <dt>{{ 'lots.availabilityInitialBoxes' | transloco }}</dt>
+              <dd>{{ av.initialBoxes }}</dd>
+              <dt>{{ 'lots.availabilityDeliveredBoxes' | transloco }}</dt>
+              <dd>{{ av.deliveredBoxUnits | number: '1.1-2' }}</dd>
+              <dt>{{ 'lots.availabilityRemainingBoxes' | transloco }}</dt>
+              <dd>{{ av.remainingBoxes }}</dd>
+            </dl>
+            <p class="availability-footnote">{{ 'lots.availabilityFootnote' | transloco }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
     </div>
 
     <!-- Right column: harvest + participants -->

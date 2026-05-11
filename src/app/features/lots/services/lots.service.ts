@@ -18,6 +18,16 @@ export interface LotRestaurantLinkRow {
   };
 }
 
+/** Deliveries aggregate — computed on GET lot / history from DELIVERED events + lot size. */
+export interface LotAvailability {
+  initialWeightKg: number;
+  initialBoxes: number;
+  deliveredWeightKg: number;
+  deliveredBoxUnits: number;
+  remainingWeightKg: number;
+  remainingBoxes: number;
+}
+
 export interface LotSummary {
   id: string;
   lotCode: string;
@@ -40,6 +50,8 @@ export interface LotSummary {
   lab: { id: string; name: string; location: string | null };
   maturation: { id: string; name: string; location: string | null };
   coPacker: { id: string; name: string; location: string | null };
+  /** Present when API attaches inventory snapshot (GET by id / code). */
+  availability?: LotAvailability;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -7,9 +7,9 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,6 +42,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialog } from '@angular/material/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
 import { TraceabilityService } from '../../traceability/services/traceability.service';
@@ -67,6 +68,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     RouterLink,
     TranslocoPipe,
     DatePipe,
+    DecimalPipe,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
@@ -129,6 +131,23 @@ export class LotDetailComponent implements OnInit {
     `${window.location.origin}/trace/restaurant/${encodeURIComponent(slug)}`;
 
   ngOnInit(): void {
+    let prevPath = this.normalizeRouterPath(this.router.url);
+
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => {
+        const currentPath = this.normalizeRouterPath(this.router.url);
+        const fromEventEdit = /\/traceability\/events\/[^/]+\/edit$/.test(prevPath);
+        const onThisLot = currentPath === `/lots/${this.id}`;
+        if (fromEventEdit && onThisLot) {
+          this.reloadLotAndTimelineAfterTraceEdit();
+        }
+        prevPath = currentPath;
+      });
+
     this.lotsService.getById(this.id).subscribe({
       next: (res) => {
         this.lot.set(res.data);
@@ -139,8 +158,27 @@ export class LotDetailComponent implements OnInit {
         this.loadLotRestaurants();
         this.loadRestaurantDirectory();
         this.isLoading.set(false);
+        prevPath = this.normalizeRouterPath(this.router.url);
       },
       error: () => this.isLoading.set(false),
+    });
+  }
+
+  private normalizeRouterPath(url: string): string {
+    const path = url.split('?')[0]?.split('#')[0] ?? '';
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+
+  /** Refresca lote (incl. disponibilidad) e historial tras editar un evento y volver con returnUrl. */
+  private reloadLotAndTimelineAfterTraceEdit(): void {
+    this.lotsService.getById(this.id).subscribe({
+      next: (res) => {
+        this.lot.set(res.data);
+        this.vis.set(resolvePublicVisibility(res.data.publicVisibility));
+        this.loadQrPreview(res.data.lotCode);
+        this.loadHistory(res.data.lotCode, res.data);
+      },
+      error: () => {},
     });
   }
 
@@ -269,8 +307,7 @@ export class LotDetailComponent implements OnInit {
       this.traceabilityService.deleteEvent(e.id).subscribe({
         next: () => {
           this.snackbar.success(this.transloco.translate('form.toast.eventDeleted'));
-          const l = this.lot();
-          if (l) this.loadHistory(l.lotCode, l);
+          this.reloadLotAndTimelineAfterTraceEdit();
         },
       });
     });

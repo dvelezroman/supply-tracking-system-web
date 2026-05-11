@@ -6,6 +6,7 @@ import {
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -49,6 +50,7 @@ import type { Actor } from '../../../core/models/actor.model';
     MatProgressBarModule,
     MatChipsModule,
     PageHeaderComponent,
+    DecimalPipe,
   ],
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.scss',
@@ -91,6 +93,8 @@ export class EventFormComponent implements OnInit {
     consumerChannel: [''],
     /** Local datetime for edit — maps to `timestamp` on save */
     eventAt: [''],
+    /** kg entregados en esta línea (opcional; alternativa o complemento a cajas) */
+    deliveredWeightKg: [''],
   });
 
   ngOnInit(): void {
@@ -180,7 +184,17 @@ export class EventFormComponent implements OnInit {
       this.form.markAllAsTouched();
       if (this.form.invalid) return;
       const raw = this.form.getRawValue();
-      const metadata = this.buildMetadata(raw.boxCount ?? '', raw.consumerChannel ?? '');
+      if (this.deliverPayloadInvalid(raw)) {
+        this.snackbar.error(
+          this.transloco.translate('traceability.recordForm.deliveredRequiresQtyOrWeight'),
+        );
+        return;
+      }
+      const metadata = this.buildMetadata(
+        raw.boxCount ?? '',
+        raw.consumerChannel ?? '',
+        raw.deliveredWeightKg ?? '',
+      );
       const payload: UpdateEventPayload = {
         actorId: raw.actorId as string,
         eventType: raw.eventType as EventType,
@@ -211,7 +225,17 @@ export class EventFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const raw = this.form.getRawValue();
-    const metadata = this.buildMetadata(raw.boxCount ?? '', raw.consumerChannel ?? '');
+    if (this.deliverPayloadInvalid(raw)) {
+      this.snackbar.error(
+        this.transloco.translate('traceability.recordForm.deliveredRequiresQtyOrWeight'),
+      );
+      return;
+    }
+    const metadata = this.buildMetadata(
+      raw.boxCount ?? '',
+      raw.consumerChannel ?? '',
+      raw.deliveredWeightKg ?? '',
+    );
     this.isSaving.set(true);
     this.traceabilityService
       .createEvent({
@@ -234,10 +258,12 @@ export class EventFormComponent implements OnInit {
   private patchFormFromEvent(e: TraceabilityEvent): void {
     let boxCount = '';
     let consumerChannel = '';
+    let deliveredWeightKg = '';
     const meta = e.metadata;
     if (meta && typeof meta === 'object') {
       if (meta['quantity'] != null) boxCount = String(meta['quantity']);
       if (typeof meta['channel'] === 'string') consumerChannel = meta['channel'];
+      if (meta['deliveredWeightKg'] != null) deliveredWeightKg = String(meta['deliveredWeightKg']);
     }
     const d = new Date(e.timestamp);
     const pad = (n: number) => String(n).padStart(2, '0');
@@ -250,6 +276,7 @@ export class EventFormComponent implements OnInit {
       notes: e.notes ?? '',
       boxCount,
       consumerChannel,
+      deliveredWeightKg,
       eventAt,
     });
   }
@@ -257,16 +284,34 @@ export class EventFormComponent implements OnInit {
   private buildMetadata(
     boxCount: string,
     consumerChannel: string,
+    deliveredWeightKg: string,
   ): Record<string, unknown> | undefined {
     const m: Record<string, unknown> = {};
     const n = String(boxCount ?? '').trim();
-    if (n !== '' && !Number.isNaN(Number(n))) {
+    if (n !== '' && !Number.isNaN(Number(n)) && Number(n) > 0) {
       m['quantity'] = Number(n);
       m['unit'] = 'cajas';
+    }
+    const w = String(deliveredWeightKg ?? '').trim();
+    if (w !== '' && !Number.isNaN(Number(w)) && Number(w) > 0) {
+      m['deliveredWeightKg'] = Number(w);
     }
     const ch = String(consumerChannel ?? '').trim();
     if (ch) m['channel'] = ch;
     return Object.keys(m).length ? m : undefined;
+  }
+
+  private deliverPayloadInvalid(raw: {
+    eventType: EventType | string | null;
+    boxCount?: string | null;
+    deliveredWeightKg?: string | null;
+  }): boolean {
+    if (raw.eventType !== 'DELIVERED') return false;
+    const bc = String(raw.boxCount ?? '').trim();
+    const dw = String(raw.deliveredWeightKg ?? '').trim();
+    const hasBox = bc !== '' && !Number.isNaN(Number(bc)) && Number(bc) > 0;
+    const hasW = dw !== '' && !Number.isNaN(Number(dw)) && Number(dw) > 0;
+    return !hasBox && !hasW;
   }
 
   onCancel(): void {

@@ -36,6 +36,14 @@
               <p class="context-loading">{{ 'traceability.recordForm.loadingLot' | transloco }}</p>
             }
           }
+          @if (contextualLot()?.availability; as av) {
+            <p class="availability-context-hint">
+              {{ 'traceability.recordForm.remainingAvailabilityIntro' | transloco }}
+              <strong>{{ av.remainingWeightKg | number: '1.2-2' }}</strong> kg ·
+              <strong>{{ av.remainingBoxes }}</strong>
+              {{ 'traceability.recordForm.remainingAvailabilityOutro' | transloco }}
+            </p>
+          }
         } @else {
           <div class="form-grid">
             <mat-form-field appearance="outline">
@@ -116,6 +124,20 @@
             <input matInput type="number" min="0" formControlName="boxCount" />
             <mat-hint>{{ 'traceability.recordForm.boxCountHint' | transloco }}</mat-hint>
           </mat-form-field>
+
+          @if (form.get('eventType')?.value === 'DELIVERED') {
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'traceability.recordForm.deliveredWeightKg' | transloco }}</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                step="0.01"
+                formControlName="deliveredWeightKg"
+              />
+              <mat-hint>{{ 'traceability.recordForm.deliveredWeightKgHint' | transloco }}</mat-hint>
+            </mat-form-field>
+          }
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'traceability.recordForm.consumerChannel' | transloco }}</mat-label>
