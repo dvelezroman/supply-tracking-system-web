@@ -23,6 +23,10 @@ import { TraceabilityService } from '../services/traceability.service';
 import { ProductsService } from '../../products/services/products.service';
 import { ActorsService } from '../../actors/services/actors.service';
 import { LotsAdminService, type LotSummary } from '../../lots/services/lots.service';
+import {
+  RestaurantsService,
+  type RestaurantListItem,
+} from '../../restaurants/services/restaurants.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import {
@@ -61,6 +65,7 @@ export class EventFormComponent implements OnInit {
   private productsService = inject(ProductsService);
   private actorsService = inject(ActorsService);
   private lotsService = inject(LotsAdminService);
+  private restaurantsService = inject(RestaurantsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private snackbar = inject(SnackbarService);
@@ -69,6 +74,7 @@ export class EventFormComponent implements OnInit {
   products = signal<Product[]>([]);
   actors = signal<Actor[]>([]);
   lotsForProduct = signal<LotSummary[]>([]);
+  restaurants = signal<RestaurantListItem[]>([]);
   isSaving = signal(false);
   isContextual = signal(false);
   contextualLot = signal<LotSummary | null>(null);
@@ -95,6 +101,8 @@ export class EventFormComponent implements OnInit {
     eventAt: [''],
     /** kg entregados en esta línea (opcional; alternativa o complemento a cajas) */
     deliveredWeightKg: [''],
+    /** Optional `metadata.restaurantId` for DELIVERED → menu trace scoping */
+    restaurantId: [''],
   });
 
   ngOnInit(): void {
@@ -157,6 +165,11 @@ export class EventFormComponent implements OnInit {
       this.actorsService.getAll(1, 100).subscribe((res) => this.actors.set(res.data.items));
     }
 
+    this.restaurantsService.getAll(1, 500).subscribe({
+      next: (res) => this.restaurants.set(res.data.items),
+      error: () => this.restaurants.set([]),
+    });
+
     this.form.get('coldProductId')?.valueChanges.subscribe((pid) => {
       this.form.patchValue({ coldLotId: '' }, { emitEvent: false });
       if (!pid) {
@@ -194,6 +207,7 @@ export class EventFormComponent implements OnInit {
         raw.boxCount ?? '',
         raw.consumerChannel ?? '',
         raw.deliveredWeightKg ?? '',
+        raw.restaurantId ?? '',
       );
       const payload: UpdateEventPayload = {
         actorId: raw.actorId as string,
@@ -235,6 +249,7 @@ export class EventFormComponent implements OnInit {
       raw.boxCount ?? '',
       raw.consumerChannel ?? '',
       raw.deliveredWeightKg ?? '',
+      raw.restaurantId ?? '',
     );
     this.isSaving.set(true);
     this.traceabilityService
@@ -259,11 +274,13 @@ export class EventFormComponent implements OnInit {
     let boxCount = '';
     let consumerChannel = '';
     let deliveredWeightKg = '';
+    let restaurantId = '';
     const meta = e.metadata;
     if (meta && typeof meta === 'object') {
       if (meta['quantity'] != null) boxCount = String(meta['quantity']);
       if (typeof meta['channel'] === 'string') consumerChannel = meta['channel'];
       if (meta['deliveredWeightKg'] != null) deliveredWeightKg = String(meta['deliveredWeightKg']);
+      if (typeof meta['restaurantId'] === 'string') restaurantId = meta['restaurantId'];
     }
     const d = new Date(e.timestamp);
     const pad = (n: number) => String(n).padStart(2, '0');
@@ -277,6 +294,7 @@ export class EventFormComponent implements OnInit {
       boxCount,
       consumerChannel,
       deliveredWeightKg,
+      restaurantId,
       eventAt,
     });
   }
@@ -285,6 +303,7 @@ export class EventFormComponent implements OnInit {
     boxCount: string,
     consumerChannel: string,
     deliveredWeightKg: string,
+    restaurantId: string,
   ): Record<string, unknown> | undefined {
     const m: Record<string, unknown> = {};
     const n = String(boxCount ?? '').trim();
@@ -298,6 +317,8 @@ export class EventFormComponent implements OnInit {
     }
     const ch = String(consumerChannel ?? '').trim();
     if (ch) m['channel'] = ch;
+    const rid = String(restaurantId ?? '').trim();
+    if (rid) m['restaurantId'] = rid;
     return Object.keys(m).length ? m : undefined;
   }
 

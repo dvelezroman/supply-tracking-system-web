@@ -39,6 +39,12 @@
           {{ 'publicTrace.menuTraceFor' | transloco: { name: t.restaurant.name } }}
         </p>
       }
+      @if (t.restaurantDeliveryPending) {
+        <div class="trace-pending-banner" role="status">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ 'publicTrace.restaurantDeliveryPending' | transloco }}</span>
+        </div>
+      }
       <mat-card class="hero-card">
         <mat-card-content>
           <div class="hero-inner">
@@ -85,6 +91,44 @@
           </div>
         </mat-card-content>
       </mat-card>
+
+      @if (t.lot.deliveryTotals; as dt) {
+        <mat-card class="delivery-summary-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar>scale</mat-icon>
+            <mat-card-title>{{ 'publicTrace.deliveryRollupTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <dl class="spec-list delivery-summary-dl">
+              <dt>{{ 'publicTrace.dtDeliveredTotal' | transloco }}</dt>
+              <dd>{{ dt.deliveredWeightKg | number: '1.2-2' }} kg</dd>
+              <dt>{{ 'publicTrace.dtRemainingTotal' | transloco }}</dt>
+              <dd>{{ dt.remainingWeightKg | number: '1.2-2' }} kg</dd>
+              <dt>{{ 'publicTrace.dtInitialLotWeight' | transloco }}</dt>
+              <dd>{{ dt.initialWeightKg | number: '1.2-2' }} kg</dd>
+            </dl>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      @if (t.lot.venueDeliveryTotals; as vd) {
+        @if (vd.deliveredWeightKg > 0) {
+          <mat-card class="delivery-summary-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>storefront</mat-icon>
+              <mat-card-title>{{ 'publicTrace.venueDeliveryTitle' | transloco }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <dl class="spec-list delivery-summary-dl">
+                <dt>{{ 'publicTrace.dtVenueDeliveredKg' | transloco }}</dt>
+                <dd>{{ vd.deliveredWeightKg | number: '1.2-2' }} kg</dd>
+                <dt>{{ 'publicTrace.dtVenueBoxEquiv' | transloco }}</dt>
+                <dd>{{ vd.deliveredBoxUnits | number: '1.2-2' }}</dd>
+              </dl>
+            </mat-card-content>
+          </mat-card>
+        }
+      }
 
       <div class="detail-grid">
         <mat-card>

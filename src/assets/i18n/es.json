@@ -645,6 +645,9 @@
       "deliveredWeightKg": "Peso entregado (kg)",
       "deliveredWeightKgHint": "Opcional si ya indicó cajas; use peso exacto para fracciones o cuando solo registre kg.",
       "deliveredRequiresQtyOrWeight": "Para eventos Entregado indique cajas y/o peso entregado (kg).",
+      "restaurantDestination": "Restaurante destino (opcional)",
+      "restaurantNone": "Sin vínculo a QR de carta",
+      "restaurantDestinationHint": "Indíquelo cuando el envío abastece un restaurante vinculado — necesario para totales en la traza del menú.",
       "remainingAvailabilityIntro": "Disponible ahora (según entregas registradas):",
       "remainingAvailabilityOutro": "cajas (aprox.).",
       "consumerChannel": "Canal de destino (opcional)",
@@ -688,6 +691,14 @@
     "dtIndivWeight": "Peso individual",
     "dtFarm": "Granja",
     "dtLocation": "Ubicación",
+    "deliveryRollupTitle": "Distribución (totales del lote)",
+    "dtDeliveredTotal": "Entregado (total)",
+    "dtRemainingTotal": "Restante (estimado)",
+    "dtInitialLotWeight": "Peso inicial del lote",
+    "venueDeliveryTitle": "Entrega a este establecimiento",
+    "dtVenueDeliveredKg": "Entregado aquí (kg)",
+    "dtVenueBoxEquiv": "Equivalente en cajas (aprox.)",
+    "restaurantDeliveryPending": "Aún no hay una entrega registrada para este restaurante en este lote. Los pasos previos muestran la cadena de suministro.",
     "roles": {
       "lab": "Laboratorio de origen",
       "maturation": "Maduración",
@@ -778,7 +789,8 @@
       "showEventNotes": "Notas del evento",
       "showEventActorType": "Tipo de actor en eventos",
       "showEventMetadata": "Metadatos del evento",
-      "showPublicQrBlock": "Imagen QR y descarga en la página pública"
+      "showPublicQrBlock": "Imagen QR y descarga en la página pública",
+      "showLotDeliveryTotals": "Totales agregados de entrega (kg) en la página pública"
     }
   }
 }

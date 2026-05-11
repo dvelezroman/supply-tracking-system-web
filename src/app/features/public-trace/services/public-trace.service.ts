@@ -24,6 +24,18 @@ export interface PublicLot {
     maturation: { name: string | null; location: string | null };
     coPacker: { name: string | null; location: string | null };
   };
+  deliveryTotals?: {
+    initialWeightKg: number;
+    initialBoxes: number;
+    deliveredWeightKg: number;
+    deliveredBoxUnits: number;
+    remainingWeightKg: number;
+    remainingBoxes: number;
+  } | null;
+  venueDeliveryTotals?: {
+    deliveredWeightKg: number;
+    deliveredBoxUnits: number;
+  } | null;
 }
 
 export interface PublicEvent {
@@ -48,6 +60,8 @@ export interface PublicTraceResponse {
   generatedAt: string;
   /** Present when opened via /trace/restaurant/:slug */
   restaurant?: PublicTraceRestaurant;
+  /** True when no DELIVERED row is tagged for this restaurant on the linked lot. */
+  restaurantDeliveryPending?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })

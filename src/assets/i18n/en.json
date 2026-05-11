@@ -645,6 +645,9 @@
       "deliveredWeightKg": "Delivered weight (kg)",
       "deliveredWeightKgHint": "Optional if boxes are set; use for fractional deliveries or kg-only logging.",
       "deliveredRequiresQtyOrWeight": "Delivered events require boxes and/or delivered weight (kg).",
+      "restaurantDestination": "Restaurant destination (optional)",
+      "restaurantNone": "Not tied to a menu QR",
+      "restaurantDestinationHint": "Set when this delivery supplies a linked restaurant — required for menu trace delivery totals.",
       "remainingAvailabilityIntro": "Currently available (from recorded deliveries):",
       "remainingAvailabilityOutro": "boxes (approx.).",
       "consumerChannel": "Destination channel (optional)",
@@ -688,6 +691,14 @@
     "dtIndivWeight": "Individual weight",
     "dtFarm": "Farm",
     "dtLocation": "Location",
+    "deliveryRollupTitle": "Distribution (lot totals)",
+    "dtDeliveredTotal": "Delivered (total)",
+    "dtRemainingTotal": "Remaining (estimated)",
+    "dtInitialLotWeight": "Initial lot weight",
+    "venueDeliveryTitle": "Delivery to this venue",
+    "dtVenueDeliveredKg": "Delivered here (kg)",
+    "dtVenueBoxEquiv": "Box equivalents (approx.)",
+    "restaurantDeliveryPending": "Delivery to this restaurant is not recorded yet on this lot. Upstream steps below reflect the supply chain.",
     "roles": {
       "lab": "Origin laboratory",
       "maturation": "Maturation",
@@ -778,7 +789,8 @@
       "showEventNotes": "Event notes",
       "showEventActorType": "Actor type on events",
       "showEventMetadata": "Event metadata",
-      "showPublicQrBlock": "QR image & download on public page"
+      "showPublicQrBlock": "QR image & download on public page",
+      "showLotDeliveryTotals": "Aggregated delivery totals (kg) on public page"
     }
   }
 }

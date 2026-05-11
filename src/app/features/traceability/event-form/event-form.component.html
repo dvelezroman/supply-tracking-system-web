@@ -137,6 +137,16 @@
               />
               <mat-hint>{{ 'traceability.recordForm.deliveredWeightKgHint' | transloco }}</mat-hint>
             </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'traceability.recordForm.restaurantDestination' | transloco }}</mat-label>
+              <mat-select formControlName="restaurantId">
+                <mat-option value="">{{ 'traceability.recordForm.restaurantNone' | transloco }}</mat-option>
+                @for (r of restaurants(); track r.id) {
+                  <mat-option [value]="r.id">{{ r.name }}</mat-option>
+                }
+              </mat-select>
+              <mat-hint>{{ 'traceability.recordForm.restaurantDestinationHint' | transloco }}</mat-hint>
+            </mat-form-field>
           }
 
           <mat-form-field appearance="outline">

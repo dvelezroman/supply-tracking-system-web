@@ -26,6 +26,7 @@ export const PUBLIC_VISIBILITY_KEYS = [
   'showEventActorType',
   'showEventMetadata',
   'showPublicQrBlock',
+  'showLotDeliveryTotals',
 ] as const;
 
 export type PublicVisibilityKey = (typeof PUBLIC_VISIBILITY_KEYS)[number];
