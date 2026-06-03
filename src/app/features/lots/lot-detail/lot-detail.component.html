@@ -58,6 +58,12 @@
               Generate printable PDF sheet
             </p>
             <app-qr-pdf-download [lotCode]="l.lotCode" />
+            <mat-divider />
+            <p class="pdf-label">
+              <mat-icon inline>local_offer</mat-icon>
+              {{ 'retailPdf.download' | transloco }}
+            </p>
+            <app-retail-label-pdf-download [lotCode]="l.lotCode" />
           </div>
         </mat-card-content>
       </mat-card>

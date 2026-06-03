@@ -33,6 +33,7 @@ import {
   TRACEABILITY_FILTER_EVENT_TYPES,
   type EventType,
   type TraceabilityEvent,
+  type CreateEventPayload,
   type UpdateEventPayload,
 } from '../../../core/models/traceability.model';
 import type { Product } from '../../../core/models/product.model';
@@ -161,6 +162,7 @@ export class EventFormComponent implements OnInit {
     this.form.get('coldLotId')?.updateValueAndValidity({ emitEvent: false });
 
     if (!eventId) {
+      this.form.patchValue({ eventAt: this.formatLocalDatetime(new Date()) });
       this.productsService.getAll(1, 100).subscribe((res) => this.products.set(res.data.items));
       this.actorsService.getAll(1, 100).subscribe((res) => this.actors.set(res.data.items));
     }
@@ -251,16 +253,21 @@ export class EventFormComponent implements OnInit {
       raw.deliveredWeightKg ?? '',
       raw.restaurantId ?? '',
     );
+    const payload: CreateEventPayload = {
+      lotId,
+      actorId: raw.actorId as string,
+      eventType: raw.eventType as EventType,
+      location: raw.location?.trim() || undefined,
+      notes: raw.notes?.trim() || undefined,
+      metadata,
+    };
+    const eventAt = String(raw.eventAt ?? '').trim();
+    if (eventAt) {
+      payload.timestamp = new Date(eventAt).toISOString();
+    }
     this.isSaving.set(true);
     this.traceabilityService
-      .createEvent({
-        lotId,
-        actorId: raw.actorId as string,
-        eventType: raw.eventType as EventType,
-        location: raw.location?.trim() || undefined,
-        notes: raw.notes?.trim() || undefined,
-        metadata,
-      })
+      .createEvent(payload)
       .subscribe({
         next: () => {
           this.snackbar.success(this.transloco.translate('form.toast.eventRecorded'));
@@ -282,10 +289,6 @@ export class EventFormComponent implements OnInit {
       if (meta['deliveredWeightKg'] != null) deliveredWeightKg = String(meta['deliveredWeightKg']);
       if (typeof meta['restaurantId'] === 'string') restaurantId = meta['restaurantId'];
     }
-    const d = new Date(e.timestamp);
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const eventAt = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-
     this.form.patchValue({
       actorId: e.actorId,
       eventType: e.eventType,
@@ -295,8 +298,13 @@ export class EventFormComponent implements OnInit {
       consumerChannel,
       deliveredWeightKg,
       restaurantId,
-      eventAt,
+      eventAt: this.formatLocalDatetime(new Date(e.timestamp)),
     });
+  }
+
+  private formatLocalDatetime(d: Date): string {
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
   private buildMetadata(

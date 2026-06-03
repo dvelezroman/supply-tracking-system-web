@@ -21,7 +21,11 @@ function userFacingMessage(err: HttpErrorResponse, t: TranslocoService): string 
   const body = err.error as Record<string, unknown> | undefined;
 
   // Blob/ArrayBuffer error bodies (e.g. failed PDF download)
-  if (err.url?.includes('/qr/pdf') || err.url?.includes('/pdf')) {
+  if (
+    err.url?.includes('/qr/pdf') ||
+    err.url?.includes('/retail-label/pdf') ||
+    err.url?.includes('/pdf')
+  ) {
     return t.translate('errors.pdfDownloadFailed');
   }
 
@@ -30,6 +34,10 @@ function userFacingMessage(err: HttpErrorResponse, t: TranslocoService): string 
     const lines = raw.filter((x): x is string => typeof x === 'string');
     if (lines.length === 1 && lines[0].length <= 160) return lines[0];
     return t.translate('errors.validation');
+  }
+  if (typeof raw === 'object' && raw !== null && 'message' in raw) {
+    const nested = (raw as { message?: string }).message;
+    if (typeof nested === 'string' && nested.trim() && nested.length <= 200) return nested.trim();
   }
   if (typeof raw === 'string' && raw.trim()) {
     const msg = raw.trim();

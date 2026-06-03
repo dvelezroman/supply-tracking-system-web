@@ -1,8 +1,24 @@
 <div class="trace-page">
   <header class="trace-header">
-    <a routerLink="/" class="trace-header__brand">
-      <mat-icon>local_shipping</mat-icon>
-      <span>SupplyTrack</span>
+    <a
+      routerLink="/"
+      class="trace-header__brand"
+      [attr.aria-label]="'publicTrace.landingLinkAria' | transloco"
+    >
+      @if (branding.logoUrl(); as logoSrc) {
+        <img
+          class="trace-header__logo"
+          [src]="logoSrc"
+          [alt]="branding.landingTitle()"
+          width="140"
+          height="40"
+          loading="eager"
+          decoding="async"
+        />
+      } @else {
+        <mat-icon>local_shipping</mat-icon>
+        <span>{{ branding.landingTitle() }}</span>
+      }
     </a>
     <p class="trace-header__tagline">
       {{ 'publicTrace.tagline' | transloco }}
@@ -268,7 +284,7 @@
         <p>{{ 'publicTrace.footerGenerated' | transloco }} {{ t.generatedAt | date: 'medium' }}</p>
         <p>
           {{ 'publicTrace.footerVerified' | transloco }}
-          <strong>SupplyTrack</strong> · {{ 'publicTrace.footerSystem' | transloco }}
+          <strong>{{ branding.landingTitle() }}</strong> · {{ 'publicTrace.footerSystem' | transloco }}
         </p>
         <p class="trace-footer__developer">
           <span class="trace-footer__label">{{ 'common.developedBy' | transloco }}</span>

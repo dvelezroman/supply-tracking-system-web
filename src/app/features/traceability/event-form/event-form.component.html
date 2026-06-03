@@ -102,13 +102,11 @@
             }
           </mat-form-field>
 
-          @if (editEventId()) {
-            <mat-form-field appearance="outline" class="span-2">
-              <mat-label>{{ 'traceability.recordForm.eventAt' | transloco }}</mat-label>
-              <input matInput type="datetime-local" formControlName="eventAt" />
-              <mat-hint>{{ 'traceability.recordForm.eventAtHint' | transloco }}</mat-hint>
-            </mat-form-field>
-          }
+          <mat-form-field appearance="outline" class="span-2">
+            <mat-label>{{ 'traceability.recordForm.eventAt' | transloco }}</mat-label>
+            <input matInput type="datetime-local" formControlName="eventAt" />
+            <mat-hint>{{ 'traceability.recordForm.eventAtHint' | transloco }}</mat-hint>
+          </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>{{ 'traceability.recordForm.location' | transloco }}</mat-label>

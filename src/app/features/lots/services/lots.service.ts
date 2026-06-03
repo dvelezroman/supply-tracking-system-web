@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import type { ApiResponse, PaginatedData } from '../../../core/models/api-response.model';
+import type { RetailLabelReadiness } from '../../../core/models/product.model';
 
 /** Restaurant row embedded when listing links on a lot */
 export interface LotRestaurantLinkRow {
@@ -123,6 +124,13 @@ export class LotsAdminService {
   getByCode(lotCode: string) {
     const encoded = encodeURIComponent(lotCode);
     return this.http.get<ApiResponse<LotSummary>>(`${this.base}/code/${encoded}`);
+  }
+
+  getRetailLabelReadiness(lotCode: string) {
+    const encoded = encodeURIComponent(lotCode);
+    return this.http.get<ApiResponse<RetailLabelReadiness>>(
+      `${this.base}/code/${encoded}/retail-label/readiness`,
+    );
   }
 
   getHistory(lotCode: string) {

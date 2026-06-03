@@ -485,7 +485,20 @@
     "tooltipViewHistory": "Ver historial",
     "deleteTitle": "Eliminar producto",
     "deleteConfirm": "¿Seguro que desea eliminar \"{{name}}\"?",
-    "deleteSuccess": "Producto eliminado"
+    "deleteSuccess": "Producto eliminado",
+    "retailLabel": {
+      "title": "Etiqueta retail (Ecuador)",
+      "subtitle": "Datos por SKU — aplican a todos los lotes de este producto",
+      "lotsHint": "Los lotes ya creados usan estos valores al imprimir la etiqueta 12×18 cm. No hace falta recrear cada lote.",
+      "labelTitle": "Título en frente",
+      "gtin": "GTIN-13 (EAN)",
+      "oz": "Onzas (contenido neto)",
+      "lbs": "Libras (contenido neto)",
+      "netWeight": "Contenido neto",
+      "arcsa": "Notificación ARCSA",
+      "save": "Guardar datos de etiqueta",
+      "saveSuccess": "Datos de etiqueta retail guardados"
+    }
   },
   "actors": {
     "listTitle": "Actores",
@@ -660,6 +673,7 @@
     }
   },
   "publicTrace": {
+    "landingLinkAria": "Ir a la página principal de Marea Alta",
     "tagline": "Información verificada del lote — escanee el QR del envase · sin inicio de sesión",
     "loading": "Cargando información del lote…",
     "notFoundTitle": "Lote no encontrado",
@@ -729,6 +743,21 @@
     "download": "Descargar etiquetas de empaque (PDF)",
     "tooltip": "Descargar PDF A4 con etiquetas de 10x8 cm (ancho x alto) ({{n}} etiqueta(s)) para el lote {{lotCode}}",
     "success": "PDF con {{n}} etiquetas de empaque descargado"
+  },
+  "retailPdf": {
+    "copies": "Copias",
+    "hint": "12×18 cm · frente y reverso · 1 etiqueta por página A4 · máx. 500",
+    "sides": "Caras a imprimir",
+    "sidesBoth": "Frente y reverso",
+    "sidesFront": "Solo frente",
+    "sidesBack": "Solo reverso",
+    "includeTrace": "Incluir QR de trazabilidad (reverso)",
+    "download": "Descargar etiqueta retail (PDF)",
+    "tooltip": "Etiqueta normativa Ecuador 12×18 cm ({{n}} juego(s)) — lote {{lotCode}}",
+    "success": "PDF de etiqueta retail descargado ({{n}} juego(s))",
+    "notReady": "No se puede imprimir: falta {{missing}}",
+    "configureProduct": "Configurar producto",
+    "checking": "Verificando requisitos…"
   },
   "eventTypes": {
     "CREATED": "Creado",

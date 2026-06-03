@@ -83,6 +83,8 @@ export interface CreateEventPayload {
   location?: string;
   notes?: string;
   metadata?: Record<string, unknown>;
+  /** ISO 8601 — when the event occurred (defaults to server time if omitted) */
+  timestamp?: string;
 }
 
 /** PATCH body — all optional; `lotId` is immutable on the server. */

@@ -28,6 +28,7 @@ import {
 } from '../../restaurants/services/restaurants.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { QrPdfDownloadComponent } from '../../../shared/components/qr-pdf-download/qr-pdf-download.component';
+import { RetailLabelPdfDownloadComponent } from '../../../shared/components/retail-label-pdf-download/retail-label-pdf-download.component';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 import { SnackbarService } from '../../../core/services/snackbar.service';
@@ -82,6 +83,7 @@ const SIZE_LABELS: Record<string, string | undefined> = {
     MatFormFieldModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
+    RetailLabelPdfDownloadComponent,
     LotTraceTimelineComponent,
   ],
   templateUrl: './lot-detail.component.html',

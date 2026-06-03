@@ -485,7 +485,20 @@
     "tooltipViewHistory": "View history",
     "deleteTitle": "Delete product",
     "deleteConfirm": "Are you sure you want to delete \"{{name}}\"?",
-    "deleteSuccess": "Product deleted"
+    "deleteSuccess": "Product deleted",
+    "retailLabel": {
+      "title": "Retail label (Ecuador)",
+      "subtitle": "Per SKU — applies to all lots of this product",
+      "lotsHint": "Existing lots use these values when printing the 12×18 cm label. You do not need to recreate each lot.",
+      "labelTitle": "Front title",
+      "gtin": "GTIN-13 (EAN)",
+      "oz": "Ounces (net weight)",
+      "lbs": "Pounds (net weight)",
+      "netWeight": "Net weight",
+      "arcsa": "ARCSA notification",
+      "save": "Save label data",
+      "saveSuccess": "Retail label data saved"
+    }
   },
   "actors": {
     "listTitle": "Actors",
@@ -660,6 +673,7 @@
     }
   },
   "publicTrace": {
+    "landingLinkAria": "Go to Marea Alta home page",
     "tagline": "Verified lot information — scan the packaging QR · no sign-in required",
     "loading": "Loading lot information…",
     "notFoundTitle": "Lot not found",
@@ -729,6 +743,21 @@
     "download": "Download packaging labels (PDF)",
     "tooltip": "Download A4 PDF with 10x8 cm labels (width x height) ({{n}} label(s)) for lot {{lotCode}}",
     "success": "PDF with {{n}} packaging labels downloaded"
+  },
+  "retailPdf": {
+    "copies": "Copies",
+    "hint": "12×18 cm · front and back · 1 label per A4 page · max 500",
+    "sides": "Sides to print",
+    "sidesBoth": "Front and back",
+    "sidesFront": "Front only",
+    "sidesBack": "Back only",
+    "includeTrace": "Include traceability QR (back)",
+    "download": "Download retail label (PDF)",
+    "tooltip": "Ecuador compliance label 12×18 cm ({{n}} set(s)) — lot {{lotCode}}",
+    "success": "Retail label PDF downloaded ({{n}} set(s))",
+    "notReady": "Cannot print: missing {{missing}}",
+    "configureProduct": "Configure product",
+    "checking": "Checking requirements…"
   },
   "eventTypes": {
     "CREATED": "Created",

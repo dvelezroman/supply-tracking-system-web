@@ -29,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 import { finalize, take } from 'rxjs/operators';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
 import { TraceabilityService } from '../../traceability/services/traceability.service';
@@ -36,6 +37,7 @@ import { ProductsService } from '../../products/services/products.service';
 import type { Product } from '../../../core/models/product.model';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { QrPdfDownloadComponent } from '../../../shared/components/qr-pdf-download/qr-pdf-download.component';
+import { RetailLabelPdfDownloadComponent } from '../../../shared/components/retail-label-pdf-download/retail-label-pdf-download.component';
 import { LotTraceTimelineComponent } from '../../traceability/lot-trace-timeline/lot-trace-timeline.component';
 import type { TraceabilityEvent } from '../../../core/models/traceability.model';
 
@@ -59,8 +61,10 @@ import type { TraceabilityEvent } from '../../../core/models/traceability.model'
     MatInputModule,
     MatSelectModule,
     MatExpansionModule,
+    MatDividerModule,
     PageHeaderComponent,
     QrPdfDownloadComponent,
+    RetailLabelPdfDownloadComponent,
     LotTraceTimelineComponent,
   ],
   templateUrl: './lots-list.component.html',

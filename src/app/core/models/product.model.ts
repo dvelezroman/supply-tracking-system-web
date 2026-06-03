@@ -21,6 +21,27 @@ export interface Product {
   lotCount?: number;
   /** From detail endpoint — lots linked to this product */
   lots?: ProductLotSummary[];
+  /** Retail packaging label (Ecuador) — shared by all lots of this SKU */
+  labelTitle?: string | null;
+  labelGtin13?: string | null;
+  labelNetWeightOz?: number | null;
+  labelNetWeightLbs?: number | null;
+  labelSanitaryArcsa?: string | null;
+}
+
+export interface PatchRetailLabelPayload {
+  labelTitle?: string | null;
+  labelGtin13?: string | null;
+  labelNetWeightOz?: number | null;
+  labelNetWeightLbs?: number | null;
+  labelSanitaryArcsa?: string | null;
+}
+
+export interface RetailLabelReadiness {
+  ready: boolean;
+  missing: string[];
+  productId: string;
+  productSku: string;
 }
 
 export interface CreateProductPayload {

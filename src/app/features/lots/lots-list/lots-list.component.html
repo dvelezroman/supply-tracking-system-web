@@ -225,6 +225,8 @@
             {{ 'lots.qrLabelsFor' | transloco: { lotCode: panelCode } }}
           </span>
           <app-qr-pdf-download [lotCode]="panelCode" />
+          <mat-divider class="labels-divider" />
+          <app-retail-label-pdf-download [lotCode]="panelCode" />
         </div>
       }
     </div>

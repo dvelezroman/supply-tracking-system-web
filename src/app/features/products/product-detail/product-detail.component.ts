@@ -18,6 +18,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ProductsService } from '../services/products.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { ProductHistoryComponent } from '../../traceability/product-history/product-history.component';
+import { ProductRetailLabelComponent } from '../product-retail-label/product-retail-label.component';
 import type { Product } from '../../../core/models/product.model';
 
 @Component({
@@ -37,6 +38,7 @@ import type { Product } from '../../../core/models/product.model';
     MatChipsModule,
     PageHeaderComponent,
     ProductHistoryComponent,
+    ProductRetailLabelComponent,
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss',

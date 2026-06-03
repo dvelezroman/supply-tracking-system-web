@@ -78,8 +78,28 @@
     font-weight: 600;
     text-decoration: none;
     color: inherit;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.92;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
 
     mat-icon { font-size: 28px; width: 28px; height: 28px; }
+  }
+
+  &__logo {
+    display: block;
+    height: 36px;
+    width: auto;
+    max-width: min(140px, 38vw);
+    object-fit: contain;
   }
 
   &__tagline {

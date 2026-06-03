@@ -2,7 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import type { ApiResponse, PaginatedData } from '../../../core/models/api-response.model';
-import type { Product, CreateProductPayload } from '../../../core/models/product.model';
+import type {
+  Product,
+  CreateProductPayload,
+  PatchRetailLabelPayload,
+} from '../../../core/models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -36,5 +40,9 @@ export class ProductsService {
       `${this.base}/${id}/public-visibility-defaults`,
       { patch },
     );
+  }
+
+  patchRetailLabel(id: string, body: PatchRetailLabelPayload) {
+    return this.http.patch<ApiResponse<Product>>(`${this.base}/${id}/retail-label`, body);
   }
 }
