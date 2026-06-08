@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { forkJoin, merge, EMPTY, Subject, of, firstValueFrom } from 'rxjs';
 import {
   debounceTime,
@@ -33,6 +33,27 @@ import {
   take,
   filter,
 } from 'rxjs/operators';
+
+/** Copy for the "Información para la etiqueta" card (resolved via Transloco + ES fallbacks). */
+type LotLabelFormCopy = {
+  title: string;
+  labelName: string;
+  labelNamePlaceholder: string;
+  labelNameHint: string;
+  labelNameRequired: string;
+  labelNameMaxLength: string;
+  labelConservationText: string;
+  labelConservationTextPlaceholder: string;
+  labelConservationTextHint: string;
+  labelElaborationDate: string;
+  labelElaborationDateHint: string;
+  labelExpirationDate: string;
+  labelExpirationDateHint: string;
+  labelManufacturedBy: string;
+  labelManufacturedByPlaceholder: string;
+  labelManufacturedByHint: string;
+  labelFieldMaxLength: (max: number) => string;
+};
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -60,7 +81,6 @@ import type { Actor, ActorType } from '../../../core/models/actor.model';
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
-    TranslocoDirective,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -125,6 +145,9 @@ export class LotFormComponent implements OnInit {
   labChainPanelOpen = signal(false);
   maturationChainPanelOpen = signal(false);
   coPackerChainPanelOpen = signal(false);
+
+  /** Label-info card strings — refreshed when translations or language change. */
+  labelI18n = signal<LotLabelFormCopy>(this.buildLabelI18n());
 
   private static readonly LOT_CODE_REGEX =
     /^P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?$/;
@@ -211,6 +234,21 @@ export class LotFormComponent implements OnInit {
       return;
     }
     if (editId) this.editLotId.set(editId);
+
+    const refreshLabelI18n = () => {
+      this.labelI18n.set(this.buildLabelI18n());
+      this.cdr.markForCheck();
+    };
+    refreshLabelI18n();
+    this.transloco.langChanges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(refreshLabelI18n);
+    this.transloco.events$
+      .pipe(
+        filter((e) => e.type === 'translationLoadSuccess'),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(refreshLabelI18n);
 
     // OnPush: `canSubmit()` reads form validity — re-render when values/validation change.
     merge(this.form.valueChanges, this.form.statusChanges)
@@ -752,6 +790,57 @@ export class LotFormComponent implements OnInit {
     }).catch(() => {});
   }
   // #endregion
+
+  private buildLabelI18n(): LotLabelFormCopy {
+    const tr = (key: string, fallback: string, params?: Record<string, unknown>): string => {
+      const value = this.transloco.translate(key, params);
+      return !value || value === key ? fallback : value;
+    };
+    return {
+      title: tr('lots.form.labelInfoTitle', 'Información para la etiqueta'),
+      labelName: tr('lots.form.labelName', 'Nombre en etiqueta'),
+      labelNamePlaceholder: tr('lots.form.labelNamePlaceholder', 'ej. Camarón Premium IQF'),
+      labelNameHint: tr(
+        'lots.form.labelNameHint',
+        'Texto impreso en el frente de la etiqueta retail. No es el nombre del producto en catálogo.',
+      ),
+      labelNameRequired: tr('lots.form.labelNameRequired', 'El nombre para la etiqueta es obligatorio'),
+      labelNameMaxLength: tr('lots.form.labelNameMaxLength', 'Máximo 120 caracteres'),
+      labelConservationText: tr(
+        'lots.form.labelConservationText',
+        'Conservación (debajo del código de barras)',
+      ),
+      labelConservationTextPlaceholder: tr(
+        'lots.form.labelConservationTextPlaceholder',
+        'Mantener a -18°C',
+      ),
+      labelConservationTextHint: tr(
+        'lots.form.labelConservationTextHint',
+        'Texto impreso debajo del código de barras en las etiquetas retail y QR.',
+      ),
+      labelElaborationDate: tr('lots.form.labelElaborationDate', 'Fecha de elaboración'),
+      labelElaborationDateHint: tr(
+        'lots.form.labelElaborationDateHint',
+        'Opcional. Se imprime debajo del peso neto en las etiquetas retail y QR.',
+      ),
+      labelExpirationDate: tr('lots.form.labelExpirationDate', 'Fecha de caducidad'),
+      labelExpirationDateHint: tr(
+        'lots.form.labelExpirationDateHint',
+        'Opcional. Se imprime debajo del peso neto en las etiquetas retail y QR.',
+      ),
+      labelManufacturedBy: tr('lots.form.labelManufacturedBy', 'Fabricado por'),
+      labelManufacturedByPlaceholder: tr(
+        'lots.form.labelManufacturedByPlaceholder',
+        'ej. Sociedad Jaramillo Minaya',
+      ),
+      labelManufacturedByHint: tr(
+        'lots.form.labelManufacturedByHint',
+        'Opcional. Se imprime debajo del peso neto en las etiquetas retail y QR.',
+      ),
+      labelFieldMaxLength: (max: number) =>
+        tr('lots.form.labelFieldMaxLength', `Máximo ${max} caracteres`, { max }),
+    };
+  }
 
   private buildLabelFieldsPayload(raw: ReturnType<typeof this.form.getRawValue>): Record<string, unknown> {
     const out: Record<string, unknown> = {};

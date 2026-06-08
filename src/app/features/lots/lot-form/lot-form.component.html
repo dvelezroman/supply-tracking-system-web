@@ -76,64 +76,64 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="form-card" *transloco="let t">
+    <mat-card class="form-card">
       <mat-card-header>
         <mat-icon mat-card-avatar>sell</mat-icon>
-        <mat-card-title>{{ t('lots.form.labelInfoTitle') }}</mat-card-title>
+        <mat-card-title>{{ labelI18n().title }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="form-grid">
           <mat-form-field appearance="outline" class="span-2">
-            <mat-label>{{ t('lots.form.labelName') }}</mat-label>
-            <input matInput formControlName="labelName" [placeholder]="t('lots.form.labelNamePlaceholder')" />
-            <mat-hint>{{ t('lots.form.labelNameHint') }}</mat-hint>
+            <mat-label>{{ labelI18n().labelName }}</mat-label>
+            <input matInput formControlName="labelName" [placeholder]="labelI18n().labelNamePlaceholder" />
+            <mat-hint>{{ labelI18n().labelNameHint }}</mat-hint>
             @if (form.controls.labelName.hasError('required')) {
-              <mat-error>{{ t('lots.form.labelNameRequired') }}</mat-error>
+              <mat-error>{{ labelI18n().labelNameRequired }}</mat-error>
             }
             @if (form.controls.labelName.hasError('maxlength')) {
-              <mat-error>{{ t('lots.form.labelNameMaxLength') }}</mat-error>
+              <mat-error>{{ labelI18n().labelNameMaxLength }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="span-2">
-            <mat-label>{{ t('lots.form.labelConservationText') }}</mat-label>
+            <mat-label>{{ labelI18n().labelConservationText }}</mat-label>
             <input
               matInput
               formControlName="labelConservationText"
-              [placeholder]="t('lots.form.labelConservationTextPlaceholder')"
+              [placeholder]="labelI18n().labelConservationTextPlaceholder"
             />
-            <mat-hint>{{ t('lots.form.labelConservationTextHint') }}</mat-hint>
+            <mat-hint>{{ labelI18n().labelConservationTextHint }}</mat-hint>
             @if (form.controls.labelConservationText.hasError('maxlength')) {
-              <mat-error>{{ t('lots.form.labelFieldMaxLength', { max: 200 }) }}</mat-error>
+              <mat-error>{{ labelI18n().labelFieldMaxLength(200) }}</mat-error>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>{{ t('lots.form.labelElaborationDate') }}</mat-label>
+            <mat-label>{{ labelI18n().labelElaborationDate }}</mat-label>
             <input matInput [matDatepicker]="elaborationPicker" formControlName="labelElaborationDate" />
             <mat-datepicker-toggle matIconSuffix [for]="elaborationPicker" />
             <mat-datepicker #elaborationPicker />
-            <mat-hint>{{ t('lots.form.labelElaborationDateHint') }}</mat-hint>
+            <mat-hint>{{ labelI18n().labelElaborationDateHint }}</mat-hint>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>{{ t('lots.form.labelExpirationDate') }}</mat-label>
+            <mat-label>{{ labelI18n().labelExpirationDate }}</mat-label>
             <input matInput [matDatepicker]="expirationPicker" formControlName="labelExpirationDate" />
             <mat-datepicker-toggle matIconSuffix [for]="expirationPicker" />
             <mat-datepicker #expirationPicker />
-            <mat-hint>{{ t('lots.form.labelExpirationDateHint') }}</mat-hint>
+            <mat-hint>{{ labelI18n().labelExpirationDateHint }}</mat-hint>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="span-2">
-            <mat-label>{{ t('lots.form.labelManufacturedBy') }}</mat-label>
+            <mat-label>{{ labelI18n().labelManufacturedBy }}</mat-label>
             <input
               matInput
               formControlName="labelManufacturedBy"
-              [placeholder]="t('lots.form.labelManufacturedByPlaceholder')"
+              [placeholder]="labelI18n().labelManufacturedByPlaceholder"
             />
-            <mat-hint>{{ t('lots.form.labelManufacturedByHint') }}</mat-hint>
+            <mat-hint>{{ labelI18n().labelManufacturedByHint }}</mat-hint>
             @if (form.controls.labelManufacturedBy.hasError('maxlength')) {
-              <mat-error>{{ t('lots.form.labelFieldMaxLength', { max: 200 }) }}</mat-error>
+              <mat-error>{{ labelI18n().labelFieldMaxLength(200) }}</mat-error>
             }
           </mat-form-field>
         </div>
