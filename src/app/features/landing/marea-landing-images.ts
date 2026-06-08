@@ -15,8 +15,7 @@ export const MareaLandingImages = {
   consumerPackageExample:
     'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/ejemplo_de_empaque.png',
   /** Menú de restaurante con QR por plato — CTA «Eleve el estándar de su negocio» */
-  finalCtaMenu:
-    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/menu_restaurante.png',
+  finalCtaMenu: `${LANDING_ASSETS}/final-cta-menu.png`,
   timeline: {
     /** Mar abierto — raíz costera de la industria */
     e1: 'https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=900&q=80',
