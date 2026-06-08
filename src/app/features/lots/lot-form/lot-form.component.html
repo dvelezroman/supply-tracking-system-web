@@ -104,7 +104,7 @@
             />
             <mat-hint>{{ 'lots.form.labelConservationTextHint' | transloco }}</mat-hint>
             @if (form.controls.labelConservationText.hasError('maxlength')) {
-              <mat-error>{{ 'lots.form.labelNameMaxLength' | transloco }}</mat-error>
+              <mat-error>{{ 'lots.form.labelFieldMaxLength' | transloco: { max: 200 } }}</mat-error>
             }
           </mat-form-field>
 
@@ -113,6 +113,7 @@
             <input matInput [matDatepicker]="elaborationPicker" formControlName="labelElaborationDate" />
             <mat-datepicker-toggle matIconSuffix [for]="elaborationPicker" />
             <mat-datepicker #elaborationPicker />
+            <mat-hint>{{ 'lots.form.labelElaborationDateHint' | transloco }}</mat-hint>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -120,6 +121,7 @@
             <input matInput [matDatepicker]="expirationPicker" formControlName="labelExpirationDate" />
             <mat-datepicker-toggle matIconSuffix [for]="expirationPicker" />
             <mat-datepicker #expirationPicker />
+            <mat-hint>{{ 'lots.form.labelExpirationDateHint' | transloco }}</mat-hint>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="span-2">
@@ -131,7 +133,7 @@
             />
             <mat-hint>{{ 'lots.form.labelManufacturedByHint' | transloco }}</mat-hint>
             @if (form.controls.labelManufacturedBy.hasError('maxlength')) {
-              <mat-error>{{ 'lots.form.labelNameMaxLength' | transloco }}</mat-error>
+              <mat-error>{{ 'lots.form.labelFieldMaxLength' | transloco: { max: 200 } }}</mat-error>
             }
           </mat-form-field>
         </div>
