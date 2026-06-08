@@ -24,6 +24,7 @@ import { MareaTraceabilityFlowComponent } from './components/marea-traceability-
 import { MareaValuesGridComponent } from './components/marea-values-grid/marea-values-grid.component';
 import { MareaTestimonialsComponent } from './components/marea-testimonials/marea-testimonials.component';
 import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
+import { LandingImageFallbackDirective } from './directives/landing-image-fallback.directive';
 import { MareaLandingImages } from './marea-landing-images';
 import { environment } from '../../../environments/environment';
 
@@ -50,6 +51,7 @@ import { environment } from '../../../environments/environment';
     MareaValuesGridComponent,
     MareaTestimonialsComponent,
     MareaFinalCtaComponent,
+    LandingImageFallbackDirective,
   ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',

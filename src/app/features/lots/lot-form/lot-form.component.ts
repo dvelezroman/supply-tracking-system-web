@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { forkJoin, merge, EMPTY, Subject, of, firstValueFrom } from 'rxjs';
 import {
   debounceTime,
@@ -60,6 +60,7 @@ import type { Actor, ActorType } from '../../../core/models/actor.model';
   imports: [
     ReactiveFormsModule,
     TranslocoPipe,
+    TranslocoDirective,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

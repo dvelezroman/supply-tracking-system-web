@@ -35,7 +35,10 @@ export function translocoAppInit(
       title.setTitle(transloco.translate('app.documentTitle'));
     };
 
-    await firstValueFrom(transloco.load(initial));
+    await Promise.all([
+      firstValueFrom(transloco.load(initial)),
+      firstValueFrom(transloco.load(initial === 'es' ? 'en' : 'es')),
+    ]);
     applyTitle();
     document.documentElement.lang = transloco.getActiveLang();
 

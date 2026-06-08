@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatIconModule } from '@angular/material/icon';
+import { LandingImageFallbackDirective } from '../../directives/landing-image-fallback.directive';
 import { MareaLandingImages } from '../../marea-landing-images';
 
 export type MareaTraceStage = 's1' | 's2' | 's3';
@@ -9,7 +10,7 @@ export type MareaTraceStage = 's1' | 's2' | 's3';
   selector: 'app-marea-traceability-flow',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, MatIconModule],
+  imports: [TranslocoPipe, MatIconModule, LandingImageFallbackDirective],
   templateUrl: './marea-traceability-flow.component.html',
   styleUrl: './marea-traceability-flow.component.scss',
 })

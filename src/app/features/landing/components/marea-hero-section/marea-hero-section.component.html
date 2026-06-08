@@ -1,5 +1,12 @@
 <section class="marea-hero" id="marea-hero" aria-labelledby="marea-hero-title">
-  <div class="marea-hero__bg" aria-hidden="true"></div>
+  <div class="marea-hero__bg" aria-hidden="true">
+    <img
+      class="marea-hero__bg-photo"
+      [src]="img.heroBackground"
+      alt=""
+      appLandingImageFallback="heroBackground"
+    />
+  </div>
   <div class="marea-hero__inner">
     <div class="marea-hero__layout">
       <div class="marea-hero__copy">
@@ -38,6 +45,7 @@
           loading="eager"
           decoding="async"
           [alt]="'landing.marea.images.heroProduct' | transloco"
+          appLandingImageFallback="heroProduct"
         />
       </figure>
     </div>

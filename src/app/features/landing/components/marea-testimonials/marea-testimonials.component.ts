@@ -14,13 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { LandingImageFallbackDirective } from '../../directives/landing-image-fallback.directive';
 import { MareaLandingImages } from '../../marea-landing-images';
 
 @Component({
   selector: 'app-marea-testimonials',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, MatButtonModule, MatIconModule],
+  imports: [TranslocoPipe, MatButtonModule, MatIconModule, LandingImageFallbackDirective],
   templateUrl: './marea-testimonials.component.html',
   styleUrl: './marea-testimonials.component.scss',
 })

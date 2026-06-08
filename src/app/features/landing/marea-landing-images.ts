@@ -2,6 +2,8 @@
  * Imágenes remotas para la landing Marea Alta (Unsplash y assets propios en S3).
  * Licencia Unsplash: https://unsplash.com/license
  */
+const LANDING_ASSETS = 'assets/images/landing';
+
 export const MareaLandingImages = {
   /** Océano — fondo hero (ambient) */
   heroBackground: 'https://images.unsplash.com/photo-1439405326854-014607f694d7?auto=format&fit=crop&w=2000&q=82',
@@ -48,3 +50,31 @@ export const MareaLandingImages = {
     t5: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
   },
 } as const;
+
+/** Local fallbacks when remote URLs fail (thematic filenames under assets/images/landing). */
+export const MareaLandingImageFallbacks = {
+  heroBackground: `${LANDING_ASSETS}/hero-background.jpg`,
+  heroProduct: `${LANDING_ASSETS}/hero-product.jpg`,
+  story: `${LANDING_ASSETS}/story-founders.png`,
+  consumerPackageExample: `${LANDING_ASSETS}/consumer-package-example.png`,
+  finalCtaMenu: `${LANDING_ASSETS}/final-cta-menu.png`,
+  'timeline.e1': `${LANDING_ASSETS}/timeline-e1-ocean.jpg`,
+  'timeline.e2': `${LANDING_ASSETS}/timeline-e2-chemicals.jpg`,
+  'timeline.e3': `${LANDING_ASSETS}/timeline-e3-metabisulfite.jpeg`,
+  'timeline.e4': `${LANDING_ASSETS}/timeline-e4-shrimp.jpg`,
+  'trace.valueProposition': `${LANDING_ASSETS}/trace-value-proposition.png`,
+  'trace.s1': `${LANDING_ASSETS}/trace-s1-genetics.png`,
+  'trace.s2': `${LANDING_ASSETS}/trace-s2-cultivation.png`,
+  'trace.s3': `${LANDING_ASSETS}/trace-s3-packaging.png`,
+  'testimonials.t1': `${LANDING_ASSETS}/testimonial-t1.jpg`,
+  'testimonials.t2': `${LANDING_ASSETS}/testimonial-t2.jpg`,
+  'testimonials.t3': `${LANDING_ASSETS}/testimonial-t3.jpg`,
+  'testimonials.t4': `${LANDING_ASSETS}/testimonial-t4.jpg`,
+  'testimonials.t5': `${LANDING_ASSETS}/testimonial-t5.jpg`,
+} as const;
+
+export type MareaLandingImageFallbackKey = keyof typeof MareaLandingImageFallbacks;
+
+export function resolveMareaLandingImageFallback(key: string): string | null {
+  return MareaLandingImageFallbacks[key as MareaLandingImageFallbackKey] ?? null;
+}

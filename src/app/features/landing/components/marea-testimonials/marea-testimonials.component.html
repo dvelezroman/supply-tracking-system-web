@@ -36,6 +36,7 @@
               loading="lazy"
               decoding="async"
               [alt]="('landing.marea.images.testimonial' + id.slice(1)) | transloco"
+              [appLandingImageFallback]="'testimonials.' + id"
             />
             <div class="marea-testimonials__stars" aria-label="5 of 5">
               @for (s of stars; track s) {

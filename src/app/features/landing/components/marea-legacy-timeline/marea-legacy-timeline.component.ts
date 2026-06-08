@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatIconModule } from '@angular/material/icon';
+import { LandingImageFallbackDirective } from '../../directives/landing-image-fallback.directive';
 import { MareaLandingImages } from '../../marea-landing-images';
 
 @Component({
   selector: 'app-marea-legacy-timeline',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, MatIconModule],
+  imports: [TranslocoPipe, MatIconModule, LandingImageFallbackDirective],
   templateUrl: './marea-legacy-timeline.component.html',
   styleUrl: './marea-legacy-timeline.component.scss',
 })
