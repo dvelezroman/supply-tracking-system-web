@@ -8,7 +8,14 @@
     >
       <header class="marea-chat__head">
         <div class="marea-chat__head-brand">
-          <img class="marea-chat__head-logo" [src]="logoUrl" alt="" width="36" height="36" />
+          <img
+            class="marea-chat__head-logo"
+            [src]="logoUrl"
+            alt=""
+            width="36"
+            height="36"
+            (error)="onLogoError($event)"
+          />
           <span class="marea-chat__head-title">{{ 'chatbot.title' | transloco }}</span>
         </div>
         <button
@@ -30,7 +37,7 @@
           >
             @if (line.role === 'bot') {
               <div class="marea-chat__avatar" aria-hidden="true">
-                <img [src]="logoUrl" alt="" width="32" height="32" />
+                <img [src]="logoUrl" alt="" width="32" height="32" (error)="onLogoError($event)" />
               </div>
             }
             <div class="marea-chat__bubble">
@@ -89,7 +96,14 @@
       @if (open()) {
         <mat-icon class="marea-chat__fab-close">close</mat-icon>
       } @else {
-        <img class="marea-chat__fab-logo" [src]="logoUrl" alt="" width="28" height="28" />
+        <img
+          class="marea-chat__fab-logo"
+          [src]="logoUrl"
+          alt=""
+          width="28"
+          height="28"
+          (error)="onLogoError($event)"
+        />
       }
     </span>
   </button>

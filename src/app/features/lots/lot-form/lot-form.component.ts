@@ -180,6 +180,7 @@ export class LotFormComponent implements OnInit {
       ],
     ],
     productId:          ['', Validators.required],
+    labelName:          ['', [Validators.required, Validators.maxLength(120)]],
     presentation:       ['', Validators.required],
     packaging:          ['', Validators.required],
     weightKg:           [null as number | null, [Validators.required, Validators.min(0.01)]],
@@ -316,6 +317,18 @@ export class LotFormComponent implements OnInit {
         }
       });
 
+    this.form.controls.productId.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((productId) => {
+        if (this.editLotId() || !productId) return;
+        const product = this.products().find((p) => p.id === productId);
+        const ctrl = this.form.controls.labelName;
+        if (!product?.labelTitle?.trim() || ctrl.dirty || String(ctrl.value ?? '').trim()) {
+          return;
+        }
+        ctrl.patchValue(product.labelTitle.trim(), { emitEvent: false });
+      });
+
     merge(
       this.form.controls.productId.valueChanges,
       this.form.controls.poolNumber.valueChanges,
@@ -413,6 +426,7 @@ export class LotFormComponent implements OnInit {
       const raw = this.form.getRawValue();
       const harvestDate = (raw.harvestDate as Date).toISOString().split('T')[0];
       const payload: Record<string, unknown> = {
+        labelName: String(raw.labelName ?? '').trim(),
         presentation: raw.presentation,
         packaging: raw.packaging,
         weightKg: Number(raw.weightKg),
@@ -474,6 +488,7 @@ export class LotFormComponent implements OnInit {
 
     const payload: Record<string, unknown> = {
       productId: String(raw.productId ?? '').trim(),
+      labelName: String(raw.labelName ?? '').trim(),
       presentation: raw.presentation,
       packaging: raw.packaging,
       weightKg: Number(raw.weightKg),
@@ -735,6 +750,7 @@ export class LotFormComponent implements OnInit {
     this.form.patchValue({
       lotCode: lot.lotCode,
       productId: lot.product.id,
+      labelName: lot.labelName ?? '',
       presentation: lot.presentation,
       packaging: lot.packaging,
       weightKg: lot.weightKg,

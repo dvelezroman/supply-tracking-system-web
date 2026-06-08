@@ -10,12 +10,13 @@
         <video
           #introVideo
           class="landing-intro__video"
-          [src]="INTRO_VIDEO_URL"
+          [src]="introVideoSrc()"
           autoplay
           playsinline
           preload="auto"
           [muted]="introMuted()"
           (ended)="dismissIntro()"
+          (error)="onIntroVideoError($event)"
         ></video>
       </div>
       <div class="landing-intro__chrome">
@@ -57,6 +58,7 @@
             height="40"
             loading="eager"
             decoding="async"
+            (error)="brand.onLogoError($event)"
           />
         } @else {
           <mat-icon class="landing__toolbar-icon" aria-hidden="true">local_shipping</mat-icon>

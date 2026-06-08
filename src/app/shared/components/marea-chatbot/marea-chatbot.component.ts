@@ -40,6 +40,7 @@ const CHAT_OPTIONS: { id: MareaChatOptionId; labelKey: string; replyKey: string 
 })
 export class MareaChatbotComponent {
   readonly logoUrl = environment.labelLogoUrl;
+  private readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
   readonly optionRows = CHAT_OPTIONS;
 
   readonly open = signal(false);
@@ -74,5 +75,14 @@ export class MareaChatbotComponent {
 
   isContactReply(key: string): boolean {
     return key === 'chatbot.replies.contact';
+  }
+
+  onLogoError(event: Event): void {
+    const fallback = this.logoFallbackUrl;
+    if (!fallback) return;
+    const img = event.target as HTMLImageElement | null;
+    if (!img || img.dataset['logoFallback'] === '1') return;
+    img.dataset['logoFallback'] = '1';
+    img.src = fallback;
   }
 }

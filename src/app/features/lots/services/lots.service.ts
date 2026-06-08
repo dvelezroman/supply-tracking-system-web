@@ -32,6 +32,8 @@ export interface LotAvailability {
 export interface LotSummary {
   id: string;
   lotCode: string;
+  /** Name printed on the retail packaging label (not the catalogue product name). */
+  labelName: string;
   presentation: string;
   packaging: string;
   weightKg: number;

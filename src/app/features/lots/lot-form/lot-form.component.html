@@ -30,6 +30,18 @@
             }
           </mat-form-field>
 
+          <mat-form-field appearance="outline" class="span-2">
+            <mat-label>{{ 'lots.form.labelName' | transloco }}</mat-label>
+            <input matInput formControlName="labelName" [placeholder]="'lots.form.labelNamePlaceholder' | transloco" />
+            <mat-hint>{{ 'lots.form.labelNameHint' | transloco }}</mat-hint>
+            @if (form.controls.labelName.hasError('required')) {
+              <mat-error>{{ 'lots.form.labelNameRequired' | transloco }}</mat-error>
+            }
+            @if (form.controls.labelName.hasError('maxlength')) {
+              <mat-error>{{ 'lots.form.labelNameMaxLength' | transloco }}</mat-error>
+            }
+          </mat-form-field>
+
           <div class="lot-code-row span-2">
             <mat-form-field appearance="outline" class="lot-code-field">
               <mat-label>{{ 'lots.form.lotCode' | transloco }}</mat-label>

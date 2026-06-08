@@ -25,6 +25,7 @@ import { MareaValuesGridComponent } from './components/marea-values-grid/marea-v
 import { MareaTestimonialsComponent } from './components/marea-testimonials/marea-testimonials.component';
 import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
 import { MareaLandingImages } from './marea-landing-images';
+import { environment } from '../../../environments/environment';
 
 /**
  * Public marketing landing. Mobile-first: default layout is for narrow viewports;
@@ -57,11 +58,15 @@ export class LandingComponent implements OnInit, OnDestroy {
   private doc = inject(DOCUMENT);
   protected brand = inject(PublicBrandingService);
 
-  /** Full-screen intro video on each visit (autoplay policies require muted until user unmutes). */
-  readonly INTRO_VIDEO_URL =
-    'https://marea-alta.s3.us-east-1.amazonaws.com/landing-images/Video-intro-new-2.mp4';
-
   readonly CONSUMER_PACKAGE_EXAMPLE_URL = MareaLandingImages.consumerPackageExample;
+
+  /** Full-screen intro video on each visit (autoplay policies require muted until user unmutes). */
+  readonly introVideoSrc = signal(
+    environment.introVideoUrl?.trim() ||
+      environment.introVideoFallbackUrl?.trim() ||
+      '',
+  );
+  private readonly introVideoFallbackUrl = environment.introVideoFallbackUrl?.trim() || null;
 
   introVisible = signal(true);
   introMuted = signal(true);
@@ -90,6 +95,17 @@ export class LandingComponent implements OnInit, OnDestroy {
     v.muted = !v.muted;
     this.introMuted.set(v.muted);
     void v.play().catch(() => {});
+  }
+
+  onIntroVideoError(event: Event): void {
+    const fallback = this.introVideoFallbackUrl;
+    if (!fallback) return;
+    const video = event.target as HTMLVideoElement | null;
+    if (!video || video.dataset['videoFallback'] === '1') return;
+    video.dataset['videoFallback'] = '1';
+    this.introVideoSrc.set(fallback);
+    void video.load();
+    void video.play().catch(() => {});
   }
 
   private lockBodyScroll(): void {

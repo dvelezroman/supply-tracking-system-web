@@ -76,6 +76,8 @@
         </mat-card-header>
         <mat-card-content>
           <dl class="spec-list">
+            <dt>{{ 'lots.form.labelName' | transloco }}</dt>
+            <dd>{{ l.labelName }}</dd>
             <dt>Presentation</dt>
             <dd>{{ presentationLabels[l.presentation] ?? l.presentation }}</dd>
             <dt>Packaging</dt>

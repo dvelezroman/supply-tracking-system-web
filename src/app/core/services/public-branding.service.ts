@@ -30,7 +30,10 @@ export class PublicBrandingService {
   readonly platformTitle = computed(
     () => this.branding()?.platformTitle?.trim() || FALLBACK_PLATFORM,
   );
-  readonly logoUrl = computed(() => this.branding()?.logoUrl ?? null);
+  readonly logoUrl = computed(
+    () => this.branding()?.logoUrl?.trim() || environment.labelLogoFallbackUrl?.trim() || null,
+  );
+  readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
   readonly developerName = computed(
     () => this.branding()?.developer?.name?.trim() || FALLBACK_DEVELOPER_NAME,
   );
@@ -47,6 +50,16 @@ export class PublicBrandingService {
   /** Keeps existing API but branding now comes directly from environment.ts. */
   ensureLoaded(): Promise<void> {
     return Promise.resolve();
+  }
+
+  /** Swap to bundled logo when the remote LABEL_LOGO_URL fails to load. */
+  onLogoError(event: Event): void {
+    const fallback = this.logoFallbackUrl;
+    if (!fallback) return;
+    const img = event.target as HTMLImageElement | null;
+    if (!img || img.dataset['logoFallback'] === '1') return;
+    img.dataset['logoFallback'] = '1';
+    img.src = fallback;
   }
 
   private loadFromEnvironment(): PublicBrandingDto {
