@@ -180,7 +180,11 @@ export class LotFormComponent implements OnInit {
       ],
     ],
     productId:          ['', Validators.required],
-    labelName:          ['', [Validators.required, Validators.maxLength(120)]],
+    labelName:              ['', [Validators.required, Validators.maxLength(120)]],
+    labelConservationText:  ['', Validators.maxLength(200)],
+    labelElaborationDate:   [null as Date | null],
+    labelExpirationDate:    [null as Date | null],
+    labelManufacturedBy:    ['', Validators.maxLength(200)],
     presentation:       ['', Validators.required],
     packaging:          ['', Validators.required],
     weightKg:           [null as number | null, [Validators.required, Validators.min(0.01)]],
@@ -444,6 +448,7 @@ export class LotFormComponent implements OnInit {
       };
       const texture = String(raw.texture ?? '').trim();
       if (texture) payload['texture'] = texture;
+      Object.assign(payload, this.buildLabelFieldsPayload(raw));
 
       this.lotsService.update(id, payload).subscribe({
         next: () => {
@@ -510,6 +515,7 @@ export class LotFormComponent implements OnInit {
 
     const lotCode = String(raw.lotCode ?? '').trim();
     if (lotCode) payload['lotCode'] = lotCode;
+    Object.assign(payload, this.buildLabelFieldsPayload(raw));
 
     this.lotsService.create(payload).subscribe({
       next: () => {
@@ -746,11 +752,30 @@ export class LotFormComponent implements OnInit {
   }
   // #endregion
 
+  private buildLabelFieldsPayload(raw: ReturnType<typeof this.form.getRawValue>): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+    const conservation = String(raw.labelConservationText ?? '').trim();
+    const manufacturedBy = String(raw.labelManufacturedBy ?? '').trim();
+    out['labelConservationText'] = conservation || null;
+    out['labelManufacturedBy'] = manufacturedBy || null;
+    out['labelElaborationDate'] = raw.labelElaborationDate
+      ? (raw.labelElaborationDate as Date).toISOString().split('T')[0]
+      : null;
+    out['labelExpirationDate'] = raw.labelExpirationDate
+      ? (raw.labelExpirationDate as Date).toISOString().split('T')[0]
+      : null;
+    return out;
+  }
+
   private patchFormFromLot(lot: LotSummary): void {
     this.form.patchValue({
       lotCode: lot.lotCode,
       productId: lot.product.id,
       labelName: lot.labelName ?? '',
+      labelConservationText: lot.labelConservationText ?? '',
+      labelElaborationDate: lot.labelElaborationDate ? new Date(lot.labelElaborationDate) : null,
+      labelExpirationDate: lot.labelExpirationDate ? new Date(lot.labelExpirationDate) : null,
+      labelManufacturedBy: lot.labelManufacturedBy ?? '',
       presentation: lot.presentation,
       packaging: lot.packaging,
       weightKg: lot.weightKg,

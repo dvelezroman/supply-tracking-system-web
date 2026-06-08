@@ -34,6 +34,10 @@ export interface LotSummary {
   lotCode: string;
   /** Name printed on the retail packaging label (not the catalogue product name). */
   labelName: string;
+  labelConservationText?: string | null;
+  labelElaborationDate?: string | null;
+  labelExpirationDate?: string | null;
+  labelManufacturedBy?: string | null;
   presentation: string;
   packaging: string;
   weightKg: number;

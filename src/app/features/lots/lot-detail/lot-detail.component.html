@@ -78,6 +78,14 @@
           <dl class="spec-list">
             <dt>{{ 'lots.form.labelName' | transloco }}</dt>
             <dd>{{ l.labelName }}</dd>
+            <dt>{{ 'lots.form.labelConservationText' | transloco }}</dt>
+            <dd>{{ l.labelConservationText ?? '—' }}</dd>
+            <dt>{{ 'lots.form.labelElaborationDate' | transloco }}</dt>
+            <dd>{{ l.labelElaborationDate ? (l.labelElaborationDate | date: 'dd/MM/yyyy') : '—' }}</dd>
+            <dt>{{ 'lots.form.labelExpirationDate' | transloco }}</dt>
+            <dd>{{ l.labelExpirationDate ? (l.labelExpirationDate | date: 'dd/MM/yyyy') : '—' }}</dd>
+            <dt>{{ 'lots.form.labelManufacturedBy' | transloco }}</dt>
+            <dd>{{ l.labelManufacturedBy ?? '—' }}</dd>
             <dt>Presentation</dt>
             <dd>{{ presentationLabels[l.presentation] ?? l.presentation }}</dd>
             <dt>Packaging</dt>
