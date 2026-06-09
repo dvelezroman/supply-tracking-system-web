@@ -147,9 +147,9 @@ export class LotsAdminService {
   }
 
   /** Returns the PDF download URL — used to trigger browser download directly */
-  getQrPdfUrl(lotCode: string, copies: number): string {
+  getQrPdfUrl(lotCode: string, copies: number, layout: 'grid' | 'fullPage' = 'grid'): string {
     const encoded = encodeURIComponent(lotCode);
-    return `${this.base}/code/${encoded}/qr/pdf?copies=${copies}`;
+    return `${this.base}/code/${encoded}/qr/pdf?copies=${copies}&layout=${layout}`;
   }
 
   patchPublicVisibility(id: string, patch: Record<string, boolean>) {

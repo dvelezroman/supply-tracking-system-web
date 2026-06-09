@@ -755,11 +755,17 @@
     "S41_50": "41/50 pcs/lb"
   },
   "qrPdf": {
+    "layout": "Print layout",
+    "layoutGrid": "Multiple per sheet (10×8 cm)",
+    "layoutFullPage": "One per A4 sheet (10×8 ratio)",
     "copies": "Copies",
-    "hint": "10x8 cm (width x height) · 4 labels per A4 sheet · max 500 · {{pages}} page(s)",
+    "hintGrid": "10×8 cm · 4 labels per A4 sheet · max 500 · {{pages}} page(s)",
+    "hintFullPage": "21×16.8 cm · 1 label per A4 sheet · same 10×8 ratio · max 500 · {{pages}} page(s)",
     "download": "Download packaging labels (PDF)",
-    "tooltip": "Download A4 PDF with 10x8 cm labels (width x height) ({{n}} label(s)) for lot {{lotCode}}",
-    "success": "PDF with {{n}} packaging labels downloaded"
+    "tooltipGrid": "Download A4 PDF with 10×8 cm labels ({{n}} label(s)) for lot {{lotCode}}",
+    "tooltipFullPage": "Download A4 PDF with one label scaled to full page ({{n}} copy/copies) for lot {{lotCode}}",
+    "successGrid": "PDF with {{n}} packaging labels downloaded",
+    "successFullPage": "PDF with {{n}} full-page label(s) downloaded"
   },
   "retailPdf": {
     "copies": "Copies",

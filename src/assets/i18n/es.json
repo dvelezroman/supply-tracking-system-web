@@ -755,11 +755,17 @@
     "S41_50": "41/50 uds/lb"
   },
   "qrPdf": {
+    "layout": "Formato de impresión",
+    "layoutGrid": "Múltiples por hoja (10×8 cm)",
+    "layoutFullPage": "Una por hoja A4 (proporción 10×8)",
     "copies": "Copias",
-    "hint": "10x8 cm (ancho x alto) · 4 etiquetas por hoja A4 · máx. 500 · {{pages}} página(s)",
+    "hintGrid": "10×8 cm · 4 etiquetas por hoja A4 · máx. 500 · {{pages}} página(s)",
+    "hintFullPage": "21×16,8 cm · 1 etiqueta por hoja A4 · misma proporción 10×8 · máx. 500 · {{pages}} página(s)",
     "download": "Descargar etiquetas de empaque (PDF)",
-    "tooltip": "Descargar PDF A4 con etiquetas de 10x8 cm (ancho x alto) ({{n}} etiqueta(s)) para el lote {{lotCode}}",
-    "success": "PDF con {{n}} etiquetas de empaque descargado"
+    "tooltipGrid": "Descargar PDF A4 con etiquetas de 10×8 cm ({{n}} etiqueta(s)) para el lote {{lotCode}}",
+    "tooltipFullPage": "Descargar PDF A4 con 1 etiqueta ampliada a página completa ({{n}} copia(s)) para el lote {{lotCode}}",
+    "successGrid": "PDF con {{n}} etiquetas de empaque descargado",
+    "successFullPage": "PDF con {{n}} etiqueta(s) a página completa descargado"
   },
   "retailPdf": {
     "copies": "Copias",

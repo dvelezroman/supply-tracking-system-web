@@ -13,9 +13,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { environment } from '../../../../environments/environment';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+
+type QrPdfLayout = 'grid' | 'fullPage';
 
 @Component({
   selector: 'app-qr-pdf-download',
@@ -29,11 +32,21 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatSelectModule,
     TranslocoPipe,
   ],
   template: `
     <div class="qr-pdf-container">
-      <mat-form-field appearance="outline" class="copies-field">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'qrPdf.layout' | transloco }}</mat-label>
+        <mat-select [ngModel]="layout" (ngModelChange)="onLayoutChange($event)">
+          <mat-option value="grid">{{ 'qrPdf.layoutGrid' | transloco }}</mat-option>
+          <mat-option value="fullPage">{{ 'qrPdf.layoutFullPage' | transloco }}</mat-option>
+        </mat-select>
+        <mat-hint>{{ layoutHintKey() | transloco: { pages: pagesNeeded() } }}</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
         <mat-label>{{ 'qrPdf.copies' | transloco }}</mat-label>
         <input
           matInput
@@ -42,7 +55,6 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
           [min]="1"
           [max]="500"
         />
-        <mat-hint>{{ 'qrPdf.hint' | transloco: { pages: pagesNeeded() } }}</mat-hint>
       </mat-form-field>
 
       <button
@@ -51,7 +63,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
         color="primary"
         (click)="download()"
         [disabled]="isDownloading() || copies < 1 || copies > 500"
-        [matTooltip]="'qrPdf.tooltip' | transloco: { n: copies, lotCode: lotCode }"
+        [matTooltip]="tooltipKey() | transloco: { n: copies, lotCode: lotCode }"
       >
         @if (isDownloading()) {
           <mat-spinner diameter="18" />
@@ -70,9 +82,9 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
       gap: 32px;
       max-width: 420px;
     }
-    .copies-field {
+    .field {
       width: 100%;
-      max-width: 200px;
+      max-width: 320px;
     }
     .qr-pdf-container > button {
       margin-top: 8px;
@@ -107,30 +119,44 @@ export class QrPdfDownloadComponent {
   private transloco = inject(TranslocoService);
 
   copies = 4;
+  layout: QrPdfLayout = 'grid';
   isDownloading = signal(false);
 
   /** Must match API `QR_PER_PAGE` in pdf.service.ts */
   readonly QR_PER_PAGE = 4;
-  pagesNeeded = () => Math.ceil(this.copies / this.QR_PER_PAGE);
+  pagesNeeded = () =>
+    this.layout === 'fullPage' ? this.copies : Math.ceil(this.copies / this.QR_PER_PAGE);
+
+  layoutHintKey = () => (this.layout === 'fullPage' ? 'qrPdf.hintFullPage' : 'qrPdf.hintGrid');
+  tooltipKey = () => (this.layout === 'fullPage' ? 'qrPdf.tooltipFullPage' : 'qrPdf.tooltipGrid');
+
+  onLayoutChange(value: QrPdfLayout): void {
+    this.layout = value;
+    this.copies = value === 'fullPage' ? 1 : 4;
+  }
 
   download(): void {
     if (this.copies < 1 || this.copies > 500) return;
     this.isDownloading.set(true);
 
     const encoded = encodeURIComponent(this.lotCode);
-    const url = `${environment.apiBase}/lots/code/${encoded}/qr/pdf?copies=${this.copies}`;
+    const url = `${environment.apiBase}/lots/code/${encoded}/qr/pdf?copies=${this.copies}&layout=${this.layout}`;
 
     this.http.get(url, { responseType: 'blob' }).subscribe({
       next: (blob) => {
         const objectUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = objectUrl;
-        link.download = `qr-labels-${this.lotCode}-x${this.copies}.pdf`;
+        const layoutSuffix = this.layout === 'fullPage' ? '-fullpage' : '';
+        link.download = `qr-labels-${this.lotCode}-x${this.copies}${layoutSuffix}.pdf`;
         link.click();
         URL.revokeObjectURL(objectUrl);
         this.isDownloading.set(false);
         this.snackbar.success(
-          this.transloco.translate('qrPdf.success', { n: this.copies }),
+          this.transloco.translate(
+            this.layout === 'fullPage' ? 'qrPdf.successFullPage' : 'qrPdf.successGrid',
+            { n: this.copies },
+          ),
         );
       },
       error: () => {
