@@ -58,8 +58,8 @@
     "replies": {
       "site": "This site connects anyone buying or serving our shrimp with a verifiable story for each lot. The home page introduces Marea Alta. Public traceability opens when you scan the package QR or use the lot lookup: it’s a read-only page—no account needed.\n\nSupply-chain operators use a separate sign-in console to record milestones; you only see what was published for that lot.",
       "product": "Marea Alta is Ecuador-origin shrimp focused on a natural product, lot-level traceability, and partners across grow-out, lab, and co-packing. Each published lot can show product data (presentation, size, SalmoFan color, certifications, etc.) and a timeline so your guest gets transparency.\n\nFor supply, co-packing, or commercial terms, WhatsApp is the direct line to our team.",
-      "qr": "On the label or case you’ll find a unique lot code and a QR code.\n\n1) Open your phone camera or any QR reader.\n\n2) Point at the code until it reads the link.\n\n3) Opening it takes you to that lot’s public trace page on this site—no separate app or sign-up.\n\nYou can also type the code printed on the pack if your home screen offers that lookup.",
-      "info": "After following the QR link you’ll see, for that lot, details such as product and SKU, presentation and packaging, commercial size, pieces per pound, SalmoFan color, published certifications, lot identification, and a traceability timeline with stages and partners the chain recorded and made public.\n\nNo sign-in is required—it’s read-only information for diners and businesses.",
+      "qr": "On the label you’ll find one QR code (the same on all products) and a unique lot code printed on the pack.\n\n1) Scan the QR with your phone camera.\n\n2) The traceability lookup page opens.\n\n3) Enter the lot code printed on the packaging (e.g. P1-0726-PD-IQF).\n\n4) View verified traceability for that lot — no app or sign-up.\n\nOlder direct lot links (legacy QRs) still work.",
+      "info": "After entering the lot code you’ll see, for that lot, details such as product and SKU, presentation and packaging, commercial size, pieces per pound, SalmoFan color, published certifications, lot identification, and a traceability timeline with stages and partners the chain recorded and made public.\n\nNo sign-in is required—it’s read-only information for diners and businesses.",
       "restaurants": "In restaurants and food service you can place the QR on the menu, menu board, or packaging so guests verify origin and lot, build trust, and strengthen your story. We support market grades, co-packing, and steady supply depending on your operation.\n\nFor volumes, partnerships, menu planning, or logistics, message us on WhatsApp to reach sales.",
       "contact": "For orders, pricing, supply, co-packing, or other commercial questions, message us on WhatsApp. The button opens WhatsApp (app or web) with our number."
     }
@@ -107,7 +107,7 @@
         "badge": "Marea Alta · Ecuador",
         "titleLine1": "We don’t sell “just shrimp.”",
         "titleLine2": "We sell health, confidence, and a story of excellence.",
-        "subtitle": "100% natural product, free of unnecessary chemicals; full traceability with a QR code on every lot. We’re not just another distributor—we guard a higher standard.",
+        "subtitle": "100% natural product, free of unnecessary chemicals; full traceability with one QR on the pack and a unique lot code. We’re not just another distributor—we guard a higher standard.",
         "ctaStory": "How Marea Alta began",
         "ctaTrace": "Look up a lot",
         "scrollHint": "Explore our promise"
@@ -140,7 +140,7 @@
       "trace": {
         "title": "Traceability, purity, and flavor",
         "kicker": "The science of purity",
-        "lead": "Our commitment is a 100% natural product, free of unnecessary chemicals. Every lot carries a QR code so your guest can see when, where, and how that shrimp was harvested.",
+        "lead": "Our commitment is a 100% natural product, free of unnecessary chemicals. One QR opens traceability lookup; your guest enters the lot code printed on the pack to see when, where, and how that shrimp was harvested.",
         "purity": "As producers with benchmark shrimp behind us, genetics, healthy extensive grow-out, and co-packing partners reinforce the standard all the way to the package.",
         "factsAria": "Supply and quality commitments",
         "fact1": "Reliable supply: harvest roughly every ~60 days.",
@@ -336,6 +336,15 @@
     "recordFirstEvent": "Record first event"
   },
   "lots": {
+    "packagingCodeTitle": "Packaging code",
+    "packagingCodeSubtitle": "Print this code on the product label",
+    "packagingCodeHint": "Consumers scan the single QR and enter this code on the traceability page.",
+    "globalQrTitle": "Traceability QR (single)",
+    "globalQrDesc": "Same QR for all lots. Opens the page where the lot code is entered.",
+    "globalQrAlt": "Marea Alta single traceability QR",
+    "openTraceLookup": "Open lookup page",
+    "globalQrPdf": "Download single QR (PDF)",
+    "packagingLabelsPdf": "Packaging labels with QR + lot {{lotCode}}",
     "listTitle": "Lots",
     "listSubtitle": "Production batches",
     "newTitle": "New Lot",
@@ -689,12 +698,33 @@
       "eventAtHint": "When this step happened. Adjust if the log time was wrong."
     }
   },
+  "traceLookup": {
+    "tagline": "Check your product traceability · no sign-in required",
+    "title": "Traceability lookup",
+    "lead": "Scan the packaging QR code, then enter the lot code printed on the label to view the verified product journey.",
+    "stepsAria": "Steps to check traceability",
+    "step1Title": "Scan the QR",
+    "step1Body": "Use your phone camera on the QR code printed on the packaging.",
+    "step2Title": "Enter the lot code",
+    "step2Body": "Type the code printed on the label (e.g. P1-0726-PD-IQF).",
+    "step3Title": "View traceability",
+    "step3Body": "See verified origin, specifications, and product history.",
+    "formTitle": "Lot code",
+    "formSubtitle": "The code is printed on the packaging label",
+    "lotCodeLabel": "Lot code",
+    "lotCodePlaceholder": "P1-0726-PD-IQF",
+    "lotCodeHint": "Format: P{pool}-{MMYY}-{presentation}-{packaging}",
+    "lotCodeInvalid": "Invalid format. Example: P1-0726-PD-IQF",
+    "submit": "View traceability",
+    "exampleLabel": "Example:"
+  },
   "publicTrace": {
     "landingLinkAria": "Go to Marea Alta home page",
-    "tagline": "Verified lot information — scan the packaging QR · no sign-in required",
+    "tagline": "Verified lot traceability by lot code · no sign-in required",
+    "searchAnotherLot": "Search another lot",
     "loading": "Loading lot information…",
     "notFoundTitle": "Lot not found",
-    "notFoundBody": "The lot code you are looking for does not exist. Please try another lot code.",
+    "notFoundBody": "The lot code you entered does not exist. Check the code printed on the packaging and try again.",
     "notFoundTitleRestaurant": "Menu trace not found",
     "notFoundBodyRestaurant": "We could not find a menu with this link ({{slug}}). Try another or ask the restaurant for an updated QR.",
     "menuTraceFor": "Menu trace — {{name}}",
@@ -762,8 +792,11 @@
     "hintGrid": "10×8 cm · 4 labels per A4 sheet · max 500 · {{pages}} page(s)",
     "hintFullPage": "21×16.8 cm · 1 label per A4 sheet · same 10×8 ratio · max 500 · {{pages}} page(s)",
     "download": "Download packaging labels (PDF)",
+    "downloadGlobal": "Download single QR (PDF)",
     "tooltipGrid": "Download A4 PDF with 10×8 cm labels ({{n}} label(s)) for lot {{lotCode}}",
     "tooltipFullPage": "Download A4 PDF with one label scaled to full page ({{n}} copy/copies) for lot {{lotCode}}",
+    "tooltipGlobalGrid": "Download A4 PDF with the single traceability QR ({{n}} label(s))",
+    "tooltipGlobalFullPage": "Download A4 PDF with the single QR scaled to full page ({{n}} copy/copies)",
     "successGrid": "PDF with {{n}} packaging labels downloaded",
     "successFullPage": "PDF with {{n}} full-page label(s) downloaded"
   },

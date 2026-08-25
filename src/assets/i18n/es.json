@@ -58,8 +58,8 @@
     "replies": {
       "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o al usar la consulta por código: es una página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
       "product": "Marea Alta es camarón de origen en Ecuador, con foco en producto natural, trazabilidad por lote y cadena con socios de cultivo, laboratorio y co-packing. Cada lote puede publicar datos del producto (presentación, talla, color SalmoFan, certificaciones, etc.) y una línea de tiempo para que su cliente tenga transparencia.\n\nPara abastecimiento, co-packing o condiciones comerciales, el canal directo con el equipo es WhatsApp.",
-      "qr": "En la etiqueta o caja encontrará un código único y un código QR del lote.\n\n1) Abra la cámara del teléfono o un lector de QR.\n\n2) Enfoque el código hasta que lea el enlace.\n\n3) Al abrirlo, entrará a la trazabilidad pública de ese lote en este sitio (sin app propia ni registro).\n\nTambién puede ingresar el código impreso en el empaque si su pantalla de inicio ofrece esa consulta.",
-      "info": "Al seguir el enlace del QR verá, para ese lote, datos como producto y SKU, presentación y empaque, talla comercial, unidades por libra, color SalmoFan, certificaciones publicadas, identificación del lote y la línea de tiempo con etapas y socios que la cadena haya registrado y dejado visibles al público.\n\nNo necesita iniciar sesión: es información de solo lectura pensada para consumidores y negocios.",
+      "qr": "En la etiqueta encontrará un código QR (el mismo para todos los productos) y un código de lote único impreso.\n\n1) Escanee el QR con la cámara del teléfono.\n\n2) Se abrirá la página de consulta de trazabilidad.\n\n3) Ingrese el código de lote impreso en el empaque (ej. P1-0726-PD-IQF).\n\n4) Verá la trazabilidad verificada de ese lote — sin app ni registro.\n\nSi ya tiene un enlace directo al lote (QR antiguo), también funcionará.",
+      "info": "Tras ingresar el código de lote verá, para ese lote, datos como producto y SKU, presentación y empaque, talla comercial, unidades por libra, color SalmoFan, certificaciones publicadas, identificación del lote y la línea de tiempo con etapas y socios que la cadena haya registrado y dejado visibles al público.\n\nNo necesita iniciar sesión: es información de solo lectura pensada para consumidores y negocios.",
       "restaurants": "En restaurante y food service puede usar el QR en carta, menú o empaque para que el comensal verifique origen y lote, reforzar confianza y diferenciar su oferta. Trabajamos presentaciones y tallas de mercado, co-packing y abastecimiento continuo según su operación.\n\nPara volúmenes, alianzas, menú o logística, el siguiente paso es escribir por WhatsApp y coordinar con el equipo comercial.",
       "contact": "Para pedidos, precios, abastecimiento, co-packing o dudas comerciales, escríbanos por WhatsApp. El botón abre la app o la web de WhatsApp con nuestro número."
     }
@@ -107,7 +107,7 @@
         "badge": "Marea Alta · Ecuador",
         "titleLine1": "No vendemos camarones.",
         "titleLine2": "Acá vendemos salud, confianza y una historia de excelencia.",
-        "subtitle": "Producto 100 % natural, libre de químicos; trazabilidad total con código QR en cada lote. No somos un simple distribuidor: somos custodios de un estándar superior.",
+        "subtitle": "Producto 100 % natural, libre de químicos; trazabilidad total con un QR en el empaque y código de lote único. No somos un simple distribuidor: somos custodios de un estándar superior.",
         "ctaStory": "Cómo nace Marea Alta",
         "ctaTrace": "Consultar un lote",
         "scrollHint": "Conozca nuestra propuesta"
@@ -140,7 +140,7 @@
       "trace": {
         "title": "Trazabilidad, pureza y sabor",
         "kicker": "La ciencia de la pureza",
-        "lead": "Nuestro compromiso es un producto 100 % natural y libre de químicos. Cada lote lleva código QR: tu cliente puede escanear y saber cuándo, dónde y cómo fue cosechado ese camarón.",
+        "lead": "Nuestro compromiso es un producto 100 % natural y libre de químicos. Un mismo código QR abre la consulta de trazabilidad: el consumidor ingresa el código de lote impreso en el empaque.",
         "purity": "Ser productores y contar con un camarón de referencia nos respalda: socios en genética, cultivo extensivo saludable y co-packing que preservan el estándar hasta el envase.",
         "factsAria": "Compromisos de abastecimiento y calidad",
         "fact1": "Abastecimiento continuo: cosecha cada ~60 días.",
@@ -336,6 +336,15 @@
     "recordFirstEvent": "Registrar primer evento"
   },
   "lots": {
+    "packagingCodeTitle": "Código para empaque",
+    "packagingCodeSubtitle": "Imprima este código en la etiqueta del producto",
+    "packagingCodeHint": "El consumidor escanea el QR único e ingresa este código en la página de trazabilidad.",
+    "globalQrTitle": "QR de trazabilidad (único)",
+    "globalQrDesc": "Mismo QR para todos los lotes. Apunta a la página donde se ingresa el código de lote.",
+    "globalQrAlt": "QR único de trazabilidad Marea Alta",
+    "openTraceLookup": "Abrir página de consulta",
+    "globalQrPdf": "Descargar QR único (PDF)",
+    "packagingLabelsPdf": "Etiquetas de empaque con QR + lote {{lotCode}}",
     "listTitle": "Lotes",
     "listSubtitle": "Lotes de producción",
     "newTitle": "Nuevo lote",
@@ -689,12 +698,33 @@
       "eventAtHint": "Cuándo ocurrió este paso. Ajuste si el registro de hora era incorrecto."
     }
   },
+  "traceLookup": {
+    "tagline": "Consulte la trazabilidad de su producto · sin inicio de sesión",
+    "title": "Consultar trazabilidad",
+    "lead": "Escanee el código QR del empaque e ingrese el código de lote impreso en la etiqueta para ver el recorrido verificado del producto.",
+    "stepsAria": "Pasos para consultar trazabilidad",
+    "step1Title": "Escanee el QR",
+    "step1Body": "Use la cámara de su teléfono sobre el código QR del envase.",
+    "step2Title": "Ingrese el código de lote",
+    "step2Body": "Escriba el código impreso en la etiqueta (ej. P1-0726-PD-IQF).",
+    "step3Title": "Vea la trazabilidad",
+    "step3Body": "Consulte origen, especificaciones e historial del producto verificado.",
+    "formTitle": "Código de lote",
+    "formSubtitle": "El código está impreso en la etiqueta del empaque",
+    "lotCodeLabel": "Código de lote",
+    "lotCodePlaceholder": "P1-0726-PD-IQF",
+    "lotCodeHint": "Formato: P{piscina}-{MMYY}-{presentación}-{empaque}",
+    "lotCodeInvalid": "Formato inválido. Ejemplo: P1-0726-PD-IQF",
+    "submit": "Consultar trazabilidad",
+    "exampleLabel": "Ejemplo:"
+  },
   "publicTrace": {
     "landingLinkAria": "Ir a la página principal de Marea Alta",
-    "tagline": "Información verificada del lote — escanee el QR del envase · sin inicio de sesión",
+    "tagline": "Trazabilidad verificada por código de lote · sin inicio de sesión",
+    "searchAnotherLot": "Buscar otro lote",
     "loading": "Cargando información del lote…",
     "notFoundTitle": "Lote no encontrado",
-    "notFoundBody": "El código de lote que busca no existe. Pruebe con otro código de lote.",
+    "notFoundBody": "El código de lote que busca no existe. Verifique el código impreso en el empaque e inténtelo de nuevo.",
     "notFoundTitleRestaurant": "Trazabilidad del menú no encontrada",
     "notFoundBodyRestaurant": "No encontramos un menú con este enlace ({{slug}}). Pruebe con otro o pida al restaurante un QR actualizado.",
     "menuTraceFor": "Trazabilidad en carta — {{name}}",
@@ -762,8 +792,11 @@
     "hintGrid": "10×8 cm · 4 etiquetas por hoja A4 · máx. 500 · {{pages}} página(s)",
     "hintFullPage": "21×16,8 cm · 1 etiqueta por hoja A4 · misma proporción 10×8 · máx. 500 · {{pages}} página(s)",
     "download": "Descargar etiquetas de empaque (PDF)",
+    "downloadGlobal": "Descargar QR único (PDF)",
     "tooltipGrid": "Descargar PDF A4 con etiquetas de 10×8 cm ({{n}} etiqueta(s)) para el lote {{lotCode}}",
     "tooltipFullPage": "Descargar PDF A4 con 1 etiqueta ampliada a página completa ({{n}} copia(s)) para el lote {{lotCode}}",
+    "tooltipGlobalGrid": "Descargar PDF A4 con el QR único de trazabilidad ({{n}} etiqueta(s))",
+    "tooltipGlobalFullPage": "Descargar PDF A4 con el QR único ampliado ({{n}} copia(s))",
     "successGrid": "PDF con {{n}} etiquetas de empaque descargado",
     "successFullPage": "PDF con {{n}} etiqueta(s) a página completa descargado"
   },

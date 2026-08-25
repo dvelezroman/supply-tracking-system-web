@@ -25,6 +25,10 @@
       {{ 'publicTrace.tagline' | transloco }}
     </p>
     <div class="trace-header__actions">
+      <a mat-stroked-button routerLink="/trace" class="trace-header__lookup">
+        <mat-icon>search</mat-icon>
+        {{ 'publicTrace.searchAnotherLot' | transloco }}
+      </a>
       <app-language-toggle class="trace-header__lang" />
       <app-theme-toggle />
     </div>
@@ -44,6 +48,10 @@
       } @else {
         <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
         <p>{{ 'publicTrace.notFoundBody' | transloco }}</p>
+        <a mat-flat-button color="primary" routerLink="/trace">
+          <mat-icon>search</mat-icon>
+          {{ 'publicTrace.searchAnotherLot' | transloco }}
+        </a>
       }
     </div>
   }
@@ -93,18 +101,10 @@
               }
             </div>
 
-            @if (t.qrCode) {
-              <div class="hero-qr">
-                <img
-                  [src]="t.qrCode"
-                  [alt]="'publicTrace.qrAlt' | transloco: { lotCode: t.lot.lotCode ?? lotCode }"
-                />
-                <p class="lot-code">{{ t.lot.lotCode }}</p>
-                <button mat-stroked-button (click)="downloadQr()" class="qr-btn">
-                  <mat-icon>download</mat-icon> {{ 'publicTrace.downloadQr' | transloco }}
-                </button>
-              </div>
-            }
+            <div class="hero-lot-code">
+              <p class="hero-lot-code__label">{{ 'publicTrace.dtLotCode' | transloco }}</p>
+              <code class="hero-lot-code__value">{{ t.lot.lotCode }}</code>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>

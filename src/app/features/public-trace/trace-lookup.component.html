@@ -1,0 +1,109 @@
+<div class="trace-page lookup-page">
+  <header class="trace-header">
+    <a
+      routerLink="/"
+      class="trace-header__brand"
+      [attr.aria-label]="'publicTrace.landingLinkAria' | transloco"
+    >
+      @if (branding.logoUrl(); as logoSrc) {
+        <img
+          class="trace-header__logo"
+          [src]="logoSrc"
+          [alt]="branding.landingTitle()"
+          width="140"
+          height="40"
+          loading="eager"
+          decoding="async"
+          (error)="branding.onLogoError($event)"
+        />
+      } @else {
+        <mat-icon>local_shipping</mat-icon>
+        <span>{{ branding.landingTitle() }}</span>
+      }
+    </a>
+    <p class="trace-header__tagline">
+      {{ 'traceLookup.tagline' | transloco }}
+    </p>
+    <div class="trace-header__actions">
+      <app-language-toggle class="trace-header__lang" />
+      <app-theme-toggle />
+    </div>
+  </header>
+
+  <main class="lookup-main">
+    <mat-card class="lookup-hero">
+      <mat-card-content>
+        <div class="lookup-hero__icon" aria-hidden="true">
+          <mat-icon>qr_code_scanner</mat-icon>
+        </div>
+        <h1 class="lookup-hero__title">{{ 'traceLookup.title' | transloco }}</h1>
+        <p class="lookup-hero__lead">{{ 'traceLookup.lead' | transloco }}</p>
+
+        <ol class="lookup-steps" [attr.aria-label]="'traceLookup.stepsAria' | transloco">
+          <li class="lookup-step">
+            <span class="lookup-step__num">1</span>
+            <div>
+              <strong>{{ 'traceLookup.step1Title' | transloco }}</strong>
+              <p>{{ 'traceLookup.step1Body' | transloco }}</p>
+            </div>
+          </li>
+          <li class="lookup-step">
+            <span class="lookup-step__num">2</span>
+            <div>
+              <strong>{{ 'traceLookup.step2Title' | transloco }}</strong>
+              <p>{{ 'traceLookup.step2Body' | transloco }}</p>
+            </div>
+          </li>
+          <li class="lookup-step">
+            <span class="lookup-step__num">3</span>
+            <div>
+              <strong>{{ 'traceLookup.step3Title' | transloco }}</strong>
+              <p>{{ 'traceLookup.step3Body' | transloco }}</p>
+            </div>
+          </li>
+        </ol>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="lookup-form-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>search</mat-icon>
+        <mat-card-title>{{ 'traceLookup.formTitle' | transloco }}</mat-card-title>
+        <mat-card-subtitle>{{ 'traceLookup.formSubtitle' | transloco }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="lookup-form" (submit)="$event.preventDefault(); submit()">
+          <app-lot-code-input
+            inputId="lot-code-input"
+            hintId="lot-code-hint"
+            [ngModel]="lotCode()"
+            (ngModelChange)="onLotCodeChange($event)"
+            (enterPressed)="submit()"
+          />
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="lookup-submit"
+            [disabled]="!canSubmit()"
+          >
+            <mat-icon>verified</mat-icon>
+            {{ 'traceLookup.submit' | transloco }}
+          </button>
+
+          <p class="lookup-example">
+            {{ 'traceLookup.exampleLabel' | transloco }}
+            <button
+              type="button"
+              class="lookup-example__code"
+              (click)="useExample('P1-0726-PD-IQF')"
+            >
+              P1-0726-PD-IQF
+            </button>
+          </p>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </main>
+</div>

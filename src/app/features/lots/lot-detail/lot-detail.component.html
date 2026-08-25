@@ -33,21 +33,44 @@
     <!-- Left column: specs + QR -->
     <div class="left-col">
 
-      <!-- QR card -->
+      <!-- Packaging & traceability -->
       <mat-card class="qr-card">
         <mat-card-header>
-          <mat-icon mat-card-avatar>qr_code_2</mat-icon>
-          <mat-card-title>QR Code</mat-card-title>
-          <mat-card-subtitle>Print on product packaging</mat-card-subtitle>
+          <mat-icon mat-card-avatar>tag</mat-icon>
+          <mat-card-title>{{ 'lots.packagingCodeTitle' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'lots.packagingCodeSubtitle' | transloco }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <div class="qr-preview">
-            @if (qrDataUrl()) {
-              <img [src]="qrDataUrl()" [alt]="'QR ' + l.lotCode" />
-            } @else {
-              <div class="qr-placeholder"><mat-icon>qr_code_2</mat-icon></div>
-            }
-            <code class="lot-code-label">{{ l.lotCode }}</code>
+          <div class="lot-code-display">
+            <code class="lot-code-label lot-code-label--prominent">{{ l.lotCode }}</code>
+            <p class="lot-code-hint">{{ 'lots.packagingCodeHint' | transloco }}</p>
+          </div>
+
+          <mat-divider />
+
+          <div class="global-qr-section">
+            <p class="pdf-label">
+              <mat-icon inline>qr_code_2</mat-icon>
+              {{ 'lots.globalQrTitle' | transloco }}
+            </p>
+            <p class="global-qr-desc">{{ 'lots.globalQrDesc' | transloco }}</p>
+            <div class="qr-preview">
+              @if (qrDataUrl()) {
+                <img [src]="qrDataUrl()" [alt]="'lots.globalQrAlt' | transloco" />
+              } @else {
+                <div class="qr-placeholder"><mat-icon>qr_code_2</mat-icon></div>
+              }
+            </div>
+            <a mat-stroked-button [href]="traceLookupUrl()" target="_blank">
+              <mat-icon>open_in_new</mat-icon>
+              {{ 'lots.openTraceLookup' | transloco }}
+            </a>
+            <mat-divider />
+            <p class="pdf-label">
+              <mat-icon inline>picture_as_pdf</mat-icon>
+              {{ 'lots.globalQrPdf' | transloco }}
+            </p>
+            <app-qr-pdf-download mode="global" />
           </div>
 
           <mat-divider />
@@ -55,9 +78,9 @@
           <div class="pdf-section">
             <p class="pdf-label">
               <mat-icon inline>picture_as_pdf</mat-icon>
-              Generate printable PDF sheet
+              {{ 'lots.packagingLabelsPdf' | transloco: { lotCode: l.lotCode } }}
             </p>
-            <app-qr-pdf-download [lotCode]="l.lotCode" />
+            <app-qr-pdf-download [lotCode]="l.lotCode" mode="packaging" />
             <mat-divider />
             <p class="pdf-label">
               <mat-icon inline>local_offer</mat-icon>

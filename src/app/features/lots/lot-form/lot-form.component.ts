@@ -68,6 +68,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { LOT_CODE_REGEX } from '../../../core/validators/lot-code.validator';
 import { LotsAdminService, type LotSummary } from '../services/lots.service';
 import { ProductsService } from '../../products/services/products.service';
 import { ActorsService } from '../../actors/services/actors.service';
@@ -149,9 +150,6 @@ export class LotFormComponent implements OnInit {
   /** Label-info card strings — refreshed when translations or language change. */
   labelI18n = signal<LotLabelFormCopy>(this.buildLabelI18n());
 
-  private static readonly LOT_CODE_REGEX =
-    /^P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?$/;
-
   /**
    * Chain slots: valid when the value matches an option id for that role (UUID or seed ids like
    * `seed-farm-001`). Anything else is rejected — aligns with API opaque Actor.id strings.
@@ -198,9 +196,7 @@ export class LotFormComponent implements OnInit {
     lotCode: [
       '',
       [
-        Validators.pattern(
-          /^($|P\d+-\d{4}-[A-Z]+-[A-Z]+(-[A-Z0-9]+)?)$/,
-        ),
+        Validators.pattern(new RegExp(`^($|${LOT_CODE_REGEX.source})$`)),
       ],
     ],
     productId:          ['', Validators.required],
@@ -331,7 +327,7 @@ export class LotFormComponent implements OnInit {
           const ctrl = this.form.controls.lotCode;
           ctrl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
           const code = String(ctrl.value ?? '').trim();
-          if (!code || !LotFormComponent.LOT_CODE_REGEX.test(code)) {
+          if (!code || !LOT_CODE_REGEX.test(code)) {
             this.stripLotCodeTakenError(ctrl);
             return EMPTY;
           }
@@ -504,7 +500,7 @@ export class LotFormComponent implements OnInit {
     const raw = this.form.getRawValue();
     const lotCodeRaw = String(raw.lotCode ?? '').trim();
 
-    if (lotCodeRaw && LotFormComponent.LOT_CODE_REGEX.test(lotCodeRaw)) {
+    if (lotCodeRaw && LOT_CODE_REGEX.test(lotCodeRaw)) {
       this.lotCodeCheckPending.set(true);
       try {
         await firstValueFrom(this.lotsService.getByCode(lotCodeRaw));

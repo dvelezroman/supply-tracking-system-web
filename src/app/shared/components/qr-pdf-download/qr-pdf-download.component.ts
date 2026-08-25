@@ -19,6 +19,7 @@ import { environment } from '../../../../environments/environment';
 import { SnackbarService } from '../../../core/services/snackbar.service';
 
 type QrPdfLayout = 'grid' | 'fullPage';
+type QrPdfMode = 'packaging' | 'global';
 
 @Component({
   selector: 'app-qr-pdf-download',
@@ -63,14 +64,14 @@ type QrPdfLayout = 'grid' | 'fullPage';
         color="primary"
         (click)="download()"
         [disabled]="isDownloading() || copies < 1 || copies > 500"
-        [matTooltip]="tooltipKey() | transloco: { n: copies, lotCode: lotCode }"
+        [matTooltip]="tooltipKey() | transloco: tooltipParams()"
       >
         @if (isDownloading()) {
           <mat-spinner diameter="18" />
         } @else {
           <mat-icon>picture_as_pdf</mat-icon>
         }
-        {{ 'qrPdf.download' | transloco }}
+        {{ downloadLabelKey() | transloco }}
       </button>
     </div>
   `,
@@ -112,7 +113,10 @@ type QrPdfLayout = 'grid' | 'fullPage';
   `],
 })
 export class QrPdfDownloadComponent {
-  @Input({ required: true }) lotCode!: string;
+  /** Required for packaging labels; ignored when mode is global. */
+  @Input() lotCode = '';
+  /** packaging = per-lot label with global QR + lot code; global = single QR only */
+  @Input() mode: QrPdfMode = 'packaging';
 
   private http = inject(HttpClient);
   private snackbar = inject(SnackbarService);
@@ -128,7 +132,18 @@ export class QrPdfDownloadComponent {
     this.layout === 'fullPage' ? this.copies : Math.ceil(this.copies / this.QR_PER_PAGE);
 
   layoutHintKey = () => (this.layout === 'fullPage' ? 'qrPdf.hintFullPage' : 'qrPdf.hintGrid');
-  tooltipKey = () => (this.layout === 'fullPage' ? 'qrPdf.tooltipFullPage' : 'qrPdf.tooltipGrid');
+
+  tooltipKey = () => {
+    if (this.mode === 'global') {
+      return this.layout === 'fullPage' ? 'qrPdf.tooltipGlobalFullPage' : 'qrPdf.tooltipGlobalGrid';
+    }
+    return this.layout === 'fullPage' ? 'qrPdf.tooltipFullPage' : 'qrPdf.tooltipGrid';
+  };
+
+  tooltipParams = () => ({ n: this.copies, lotCode: this.lotCode });
+
+  downloadLabelKey = () =>
+    this.mode === 'global' ? 'qrPdf.downloadGlobal' : 'qrPdf.download';
 
   onLayoutChange(value: QrPdfLayout): void {
     this.layout = value;
@@ -137,10 +152,13 @@ export class QrPdfDownloadComponent {
 
   download(): void {
     if (this.copies < 1 || this.copies > 500) return;
+    if (this.mode === 'packaging' && !this.lotCode) return;
     this.isDownloading.set(true);
 
-    const encoded = encodeURIComponent(this.lotCode);
-    const url = `${environment.apiBase}/lots/code/${encoded}/qr/pdf?copies=${this.copies}&layout=${this.layout}`;
+    const url =
+      this.mode === 'global'
+        ? `${environment.apiBase}/lots/trace/qr/pdf?copies=${this.copies}&layout=${this.layout}`
+        : `${environment.apiBase}/lots/code/${encodeURIComponent(this.lotCode)}/qr/pdf?copies=${this.copies}&layout=${this.layout}`;
 
     this.http.get(url, { responseType: 'blob' }).subscribe({
       next: (blob) => {
@@ -148,7 +166,10 @@ export class QrPdfDownloadComponent {
         const link = document.createElement('a');
         link.href = objectUrl;
         const layoutSuffix = this.layout === 'fullPage' ? '-fullpage' : '';
-        link.download = `qr-labels-${this.lotCode}-x${this.copies}${layoutSuffix}.pdf`;
+        link.download =
+          this.mode === 'global'
+            ? `trace-qr-global-x${this.copies}${layoutSuffix}.pdf`
+            : `qr-labels-${this.lotCode}-x${this.copies}${layoutSuffix}.pdf`;
         link.click();
         URL.revokeObjectURL(objectUrl);
         this.isDownloading.set(false);
@@ -160,7 +181,6 @@ export class QrPdfDownloadComponent {
         );
       },
       error: () => {
-        // Message shown by errorInterceptor (errors.pdfDownloadFailed)
         this.isDownloading.set(false);
       },
     });

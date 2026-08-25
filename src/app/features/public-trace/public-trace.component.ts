@@ -156,17 +156,6 @@ export class PublicTraceComponent implements OnInit {
     ].filter((s) => s.data.name);
   }
 
-  downloadQr(): void {
-    const t = this.trace();
-    if (!t?.qrCode) return;
-    const link = document.createElement('a');
-    link.href = t.qrCode!;
-    const fileSlug =
-      t.restaurant?.slug ?? t.lot.lotCode ?? this.traceLookupKey ?? 'trace';
-    link.download = `qr-${fileSlug}.png`;
-    link.click();
-  }
-
   printPage(): void {
     window.print();
   }

@@ -129,6 +129,8 @@ export class LotDetailComponent implements OnInit {
   publicTraceUrl = (lotCode: string) =>
     `${window.location.origin}/trace/${lotCode}`;
 
+  traceLookupUrl = () => `${window.location.origin}/trace`;
+
   menuTraceUrlForRestaurant = (slug: string) =>
     `${window.location.origin}/trace/restaurant/${encodeURIComponent(slug)}`;
 
@@ -155,7 +157,7 @@ export class LotDetailComponent implements OnInit {
         this.lot.set(res.data);
         this.vis.set(resolvePublicVisibility(res.data.publicVisibility));
         // Load QR preview as data URL via the PNG endpoint
-        this.loadQrPreview(res.data.lotCode);
+        this.loadQrPreview();
         this.loadHistory(res.data.lotCode, res.data);
         this.loadLotRestaurants();
         this.loadRestaurantDirectory();
@@ -177,7 +179,7 @@ export class LotDetailComponent implements OnInit {
       next: (res) => {
         this.lot.set(res.data);
         this.vis.set(resolvePublicVisibility(res.data.publicVisibility));
-        this.loadQrPreview(res.data.lotCode);
+        this.loadQrPreview();
         this.loadHistory(res.data.lotCode, res.data);
       },
       error: () => {},
@@ -256,12 +258,9 @@ export class LotDetailComponent implements OnInit {
     return { lotId: this.id, returnUrl: `/lots/${this.id}` };
   }
 
-  private loadQrPreview(lotCode: string): void {
-    const url = `${environment.apiBase}/lots/code/${lotCode}/qr`;
-    // Fetch the PNG and convert to object URL for <img>
-    fetch(url, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('access_token') ?? ''}` },
-    })
+  private loadQrPreview(): void {
+    const url = `${environment.apiBase}/public/trace/qr`;
+    fetch(url)
       .then((r) => r.blob())
       .then((blob) => {
         this.qrDataUrl.set(URL.createObjectURL(blob));
