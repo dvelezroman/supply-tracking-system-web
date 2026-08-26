@@ -7,6 +7,8 @@ import {
   ChangeDetectionStrategy,
   signal,
   computed,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -19,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslocoPipe } from '@jsverse/transloco';
 import {
   isValidLotCode,
-  normalizeLotCodeInput,
+  formatLotCodeAsTyped,
 } from '../../../core/validators/lot-code.validator';
 
 @Component({
@@ -44,6 +46,7 @@ import {
     <mat-form-field appearance="outline" class="lot-code-field">
       <mat-label>{{ labelKey | transloco }}</mat-label>
       <input
+        #inputEl
         matInput
         [id]="inputId"
         [attr.aria-describedby]="hintId"
@@ -73,9 +76,10 @@ import {
         width: 100%;
       }
       input {
-        font-family: 'Roboto Mono', monospace;
-        letter-spacing: 0.04em;
+        font-family: 'Roboto Mono', ui-monospace, monospace;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
+        font-size: 1.125rem;
       }
       .valid-icon {
         color: #2e7d32;
@@ -84,6 +88,8 @@ import {
   ],
 })
 export class LotCodeInputComponent implements ControlValueAccessor {
+  @ViewChild('inputEl') private inputEl?: ElementRef<HTMLInputElement>;
+
   @Input() inputId = 'lot-code-input';
   @Input() hintId = 'lot-code-hint';
   @Input() labelKey = 'traceLookup.lotCodeLabel';
@@ -107,7 +113,7 @@ export class LotCodeInputComponent implements ControlValueAccessor {
   }
 
   writeValue(v: string | null): void {
-    this.value.set(v ?? '');
+    this.value.set(v ? formatLotCodeAsTyped(v) : '');
   }
 
   registerOnChange(fn: (v: string) => void): void {
@@ -119,13 +125,49 @@ export class LotCodeInputComponent implements ControlValueAccessor {
   }
 
   onInput(raw: string): void {
-    const normalized = normalizeLotCodeInput(raw);
-    this.value.set(normalized);
-    this.onChange(normalized);
+    const el = this.inputEl?.nativeElement;
+    const prev = this.value();
+    const caretBefore = el?.selectionStart ?? raw.length;
+
+    const formatted = formatLotCodeAsTyped(raw);
+    this.value.set(formatted);
+    this.onChange(formatted);
+
+    // Keep caret stable relative to alphanumeric chars (ignore auto-inserted hyphens)
+    queueMicrotask(() => {
+      if (!el) return;
+      const alnumBefore = countAlnum(raw.slice(0, caretBefore));
+      const nextCaret = caretPosForAlnumIndex(formatted, alnumBefore);
+      // If user deleted and string shrank, prefer end of new value
+      const pos =
+        formatted.length < prev.length && alnumBefore >= countAlnum(formatted)
+          ? formatted.length
+          : nextCaret;
+      el.setSelectionRange(pos, pos);
+    });
   }
 
   onBlur(): void {
     this.touched.set(true);
     this.onTouched();
   }
+}
+
+function countAlnum(s: string): number {
+  return (s.match(/[A-Z0-9]/gi) ?? []).length;
+}
+
+/** Map N alphanumeric chars → caret index in formatted string (after those chars). */
+function caretPosForAlnumIndex(formatted: string, alnumIndex: number): number {
+  if (alnumIndex <= 0) return 0;
+  let seen = 0;
+  for (let i = 0; i < formatted.length; i++) {
+    if (/[A-Z0-9]/i.test(formatted[i]!)) {
+      seen++;
+      if (seen === alnumIndex) {
+        return i + 1;
+      }
+    }
+  }
+  return formatted.length;
 }
