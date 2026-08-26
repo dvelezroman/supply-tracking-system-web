@@ -37,10 +37,13 @@ $bp-lg: 900px;
   color: $marea-blanco;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 2px 12px rgba(10, 38, 71, 0.2);
 
-  app-language-toggle ::ng-deep .mat-mdc-icon-button,
-  app-theme-toggle ::ng-deep .mat-mdc-icon-button {
+  app-language-toggle ::ng-deep .mat-mdc-icon-button {
     color: rgba(255, 255, 255, 0.95);
     @include touch-target;
+  }
+
+  app-theme-toggle {
+    color: rgba(255, 255, 255, 0.95);
   }
 
   .landing__title {

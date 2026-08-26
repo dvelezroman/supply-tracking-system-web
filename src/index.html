@@ -23,7 +23,12 @@
         try {
           var m = document.cookie.match(/(?:^|;\s*)st_theme=([^;]*)/);
           var v = m && decodeURIComponent(m[1].replace(/\+/g, ' '));
-          if (v === 'dark') {
+          var dark =
+            v === 'dark' ||
+            ((v !== 'light') &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) {
             document.documentElement.classList.add('theme-dark');
           }
         } catch (e) {}

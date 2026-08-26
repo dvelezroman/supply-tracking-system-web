@@ -24,6 +24,10 @@ $dark-theme: mat.define-dark-theme((
 
 @include mat.all-component-themes($theme);
 
+html {
+  color-scheme: light;
+}
+
 html.theme-dark {
   @include mat.all-component-colors($dark-theme);
   color-scheme: dark;
@@ -36,8 +40,18 @@ html, body {
   background-color: #f5f5f5;
 }
 
+body {
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
 html.theme-dark body {
   background-color: #303030;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 
 .snack-success {

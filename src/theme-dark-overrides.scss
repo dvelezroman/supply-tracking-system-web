@@ -21,7 +21,7 @@ html.theme-dark app-main-shell {
   }
 }
 
-html.theme-dark app-main-shell .toolbar app-theme-toggle .mat-mdc-icon-button {
+html.theme-dark app-main-shell .toolbar app-theme-toggle {
   color: rgba(255, 255, 255, 0.95);
 }
 
@@ -39,7 +39,7 @@ html.theme-dark app-public-trace .trace-header .trace-header__lang button {
   color: rgba(255, 255, 255, 0.95);
 }
 
-html.theme-dark app-public-trace .trace-header app-theme-toggle .mat-mdc-icon-button {
+html.theme-dark app-public-trace .trace-header app-theme-toggle {
   color: rgba(255, 255, 255, 0.95);
 }
 
@@ -226,7 +226,7 @@ html.theme-dark app-landing .marea-final {
   background: linear-gradient(135deg, #0a1628 0%, #0f172a 45%, #1e3a5f 100%);
 }
 
-html.theme-dark app-login .auth-top app-theme-toggle .mat-mdc-icon-button,
-html.theme-dark app-register .auth-top app-theme-toggle .mat-mdc-icon-button {
+html.theme-dark app-login .auth-top app-theme-toggle,
+html.theme-dark app-register .auth-top app-theme-toggle {
   color: rgba(255, 255, 255, 0.95);
 }

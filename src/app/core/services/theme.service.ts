@@ -11,7 +11,7 @@ const THEME_CLASS = 'theme-dark';
 export class ThemeService {
   private document = inject(DOCUMENT);
 
-  /** Active theme; kept in sync with the `theme-dark` class on `documentElement` and the theme cookie. */
+  /** Active theme; kept in sync with the `theme-dark` class on `documentElement`. */
   readonly mode = signal<ThemeMode>('light');
 
   constructor() {
@@ -19,44 +19,57 @@ export class ThemeService {
   }
 
   private syncFromDocument(): void {
+    const next = this.resolveInitialMode();
+    this.applyMode(next, false);
+  }
+
+  private resolveInitialMode(): ThemeMode {
     const html = this.document.documentElement;
     const fromCookie = getCookie(PREF_THEME_COOKIE);
-    const preferDark =
-      html.classList.contains(THEME_CLASS) || fromCookie === 'dark';
-    if (preferDark) {
-      html.classList.add(THEME_CLASS);
-      this.mode.set('dark');
-      if (fromCookie !== 'dark') {
-        setCookie(PREF_THEME_COOKIE, 'dark');
-      }
-    } else {
-      html.classList.remove(THEME_CLASS);
-      this.mode.set('light');
-      if (fromCookie && fromCookie !== 'light') {
-        setCookie(PREF_THEME_COOKIE, 'light');
-      }
+
+    if (fromCookie === 'dark' || fromCookie === 'light') {
+      return fromCookie;
     }
-    if (getCookie(PREF_THEME_COOKIE) === null) {
-      setCookie(PREF_THEME_COOKIE, this.mode());
+
+    if (html.classList.contains(THEME_CLASS)) {
+      return 'dark';
     }
-    this.updateMetaThemeColor();
+
+    if (this.systemPrefersDark()) {
+      return 'dark';
+    }
+
+    return 'light';
+  }
+
+  private systemPrefersDark(): boolean {
+    const win = this.document.defaultView;
+    if (!win?.matchMedia) {
+      return false;
+    }
+    return win.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   setMode(next: ThemeMode): void {
-    const html = this.document.documentElement;
-    if (next === 'dark') {
-      html.classList.add(THEME_CLASS);
-      setCookie(PREF_THEME_COOKIE, 'dark');
-    } else {
-      html.classList.remove(THEME_CLASS);
-      setCookie(PREF_THEME_COOKIE, 'light');
-    }
-    this.mode.set(next);
-    this.updateMetaThemeColor();
+    this.applyMode(next, true);
   }
 
   toggle(): void {
     this.setMode(this.mode() === 'dark' ? 'light' : 'dark');
+  }
+
+  private applyMode(next: ThemeMode, persist: boolean): void {
+    const html = this.document.documentElement;
+    if (next === 'dark') {
+      html.classList.add(THEME_CLASS);
+    } else {
+      html.classList.remove(THEME_CLASS);
+    }
+    this.mode.set(next);
+    if (persist) {
+      setCookie(PREF_THEME_COOKIE, next);
+    }
+    this.updateMetaThemeColor();
   }
 
   private updateMetaThemeColor(): void {
@@ -67,7 +80,7 @@ export class ThemeService {
     if (meta) {
       meta.setAttribute(
         'content',
-        this.mode() === 'dark' ? '#121212' : '#0a2647',
+        this.mode() === 'dark' ? '#0f172a' : '#0a2647',
       );
     }
   }

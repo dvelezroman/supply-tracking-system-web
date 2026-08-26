@@ -19,6 +19,8 @@
   },
   "common": {
     "themeToggle": "Cambiar entre tema claro y oscuro",
+    "themeToDark": "Cambiar a tema oscuro",
+    "themeToLight": "Cambiar a tema claro",
     "languageMenu": "Idioma",
     "developedBy": "Desarrollado por",
     "edit": "Editar",

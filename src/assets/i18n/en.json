@@ -19,6 +19,8 @@
   },
   "common": {
     "themeToggle": "Toggle light or dark theme",
+    "themeToDark": "Switch to dark theme",
+    "themeToLight": "Switch to light theme",
     "languageMenu": "Language",
     "developedBy": "Developed by",
     "edit": "Edit",
