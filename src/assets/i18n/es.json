@@ -733,14 +733,16 @@
     "specsTitle": "Especificaciones del lote",
     "harvestTitle": "Datos de cosecha",
     "participantsTitle": "Participantes en la cadena",
-    "timelineTitle": "Historia de trazabilidad",
+    "timelineTitle": "Historial de trazabilidad",
     "timelineSubtitle": "Recorrido completo del producto desde la cosecha",
     "timelineExpandHint": "Abra un paso para ver actor, ubicación y notas.",
-    "followUs": "Redes sociales",
+    "followUs": "Síganos en redes",
     "footerGenerated": "Generado el",
     "footerVerified": "Verificado por",
     "footerSystem": "Sistema de trazabilidad",
     "print": "Imprimir",
+    "skuLabel": "SKU",
+    "salmoFanChip": "Color SalmoFan {{color}}",
     "dtLotCode": "Código de lote",
     "dtWeightUnit": "Peso por unidad",
     "dtLotSize": "Tamaño del lote",
@@ -763,14 +765,14 @@
     "roles": {
       "lab": "Laboratorio de origen",
       "maturation": "Maduración",
-      "coPacker": "Co-packing"
+      "coPacker": "Co-empaque"
     }
   },
   "presentation": {
     "SHELL_ON": "Con cáscara",
     "BUTTERFLY": "Mariposa",
-    "PD_TAIL_OFF": "P&D cola off",
-    "PD_TAIL_ON": "P&D cola on"
+    "PD_TAIL_OFF": "P&D sin cola",
+    "PD_TAIL_ON": "P&D con cola"
   },
   "packaging": {
     "IQF": "IQF (ultracongelado individual)",
@@ -841,9 +843,9 @@
     "MATURATION": "Maduración",
     "CO_PACKER": "Co-empaque"
   },
-  "publicVisibility": {
-    "lotSectionTitle": "Página pública del QR (consumidores)",
-    "lotSectionHint": "Define qué se muestra al escanear el QR del lote. Solo administradores pueden cambiarlo.",
+    "publicVisibility": {
+    "lotSectionTitle": "Página pública de trazabilidad (consumidores)",
+    "lotSectionHint": "Define qué se muestra al consultar el código de lote. Solo administradores pueden cambiarlo.",
     "productDefaultsTitle": "Campos públicos por defecto para lotes nuevos",
     "productDefaultsHint": "Se aplica al crear un lote nuevo de este producto. Los lotes existentes conservan su configuración.",
     "save": "Guardar visibilidad",

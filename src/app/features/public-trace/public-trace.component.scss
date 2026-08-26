@@ -224,8 +224,12 @@
 }
 
 .trace-header__lookup {
-  color: rgba(255, 255, 255, 0.95) !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
+  --mdc-outlined-button-label-text-color: #ffffff;
+  --mdc-outlined-button-outline-color: rgba(255, 255, 255, 0.65);
+  --mat-outlined-button-state-layer-color: rgba(255, 255, 255, 0.12);
+  --mat-outlined-button-ripple-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
   margin-right: 4px;
 
   mat-icon {
@@ -233,6 +237,11 @@
     font-size: 18px;
     width: 18px;
     height: 18px;
+    color: #ffffff;
+  }
+
+  span {
+    color: #ffffff;
   }
 }
 

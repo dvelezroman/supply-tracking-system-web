@@ -25,9 +25,14 @@
       {{ 'publicTrace.tagline' | transloco }}
     </p>
     <div class="trace-header__actions">
-      <a mat-stroked-button routerLink="/trace" class="trace-header__lookup">
+      <a
+        mat-stroked-button
+        routerLink="/trace"
+        class="trace-header__lookup"
+        [attr.aria-label]="'publicTrace.searchAnotherLot' | transloco"
+      >
         <mat-icon>search</mat-icon>
-        {{ 'publicTrace.searchAnotherLot' | transloco }}
+        <span>{{ 'publicTrace.searchAnotherLot' | transloco }}</span>
       </a>
       <app-language-toggle class="trace-header__lang" />
       <app-theme-toggle />
@@ -48,11 +53,11 @@
       } @else {
         <h2>{{ 'publicTrace.notFoundTitle' | transloco }}</h2>
         <p>{{ 'publicTrace.notFoundBody' | transloco }}</p>
-        <a mat-flat-button color="primary" routerLink="/trace">
-          <mat-icon>search</mat-icon>
-          {{ 'publicTrace.searchAnotherLot' | transloco }}
-        </a>
       }
+      <a mat-flat-button color="primary" routerLink="/trace">
+        <mat-icon>search</mat-icon>
+        <span>{{ 'publicTrace.searchAnotherLot' | transloco }}</span>
+      </a>
     </div>
   }
 
@@ -76,7 +81,9 @@
             <div class="hero-info">
               <p class="hero-category">{{ t.lot.product.category }}</p>
               <h1 class="hero-name">{{ t.lot.product.name }}</h1>
-              <p class="hero-sku">SKU: {{ t.lot.product.sku }}</p>
+              <p class="hero-sku">
+                {{ 'publicTrace.skuLabel' | transloco }}: {{ t.lot.product.sku }}
+              </p>
 
               <div class="hero-chips">
                 <mat-chip>{{ presentationLabel(t.lot.presentation) }}</mat-chip>
@@ -85,9 +92,12 @@
                   >{{ sizeLabelDisplay(t.lot.sizeClassification) }}
                   {{ 'common.unitsPerLb' | transloco }}</mat-chip
                 >
-                <mat-chip color="primary" highlighted
-                  >Color SalmoFan {{ t.lot.colorSalmoFan }}</mat-chip
-                >
+                <mat-chip color="primary" highlighted>
+                  {{
+                    'publicTrace.salmoFanChip'
+                      | transloco: { color: t.lot.colorSalmoFan }
+                  }}
+                </mat-chip>
               </div>
 
               @if ((t.lot.certifications?.length ?? 0) > 0) {
