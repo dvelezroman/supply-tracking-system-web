@@ -55,7 +55,7 @@
       font-size: 48px;
       width: 48px;
       height: 48px;
-      color: #3f51b5;
+      color: var(--st-accent-mid);
       margin-bottom: 8px;
     }
   }
@@ -81,7 +81,7 @@
 
 .auth-footer-links {
   text-align: center;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--st-text-muted);
   font-size: 14px;
   margin: 0;
 
@@ -91,7 +91,7 @@
   }
 
   a {
-    color: #3f51b5;
+    color: var(--st-accent-mid);
     text-decoration: none;
     font-weight: 500;
 

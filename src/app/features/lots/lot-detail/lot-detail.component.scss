@@ -41,10 +41,10 @@
     font-size: 1.25rem;
     font-family: 'Roboto Mono', monospace;
     font-weight: 700;
-    color: #1a237e;
+    color: var(--st-accent);
     letter-spacing: 0.06em;
     padding: 12px 16px;
-    background: #e8eaf6;
+    background: var(--st-accent-soft-bg);
     border-radius: 8px;
     margin-bottom: 8px;
   }
@@ -52,7 +52,7 @@
   .lot-code-hint {
     margin: 0;
     font-size: 13px;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--st-text-secondary);
     line-height: 1.45;
   }
 }
@@ -63,7 +63,7 @@
   .global-qr-desc {
     margin: 0 0 12px;
     font-size: 13px;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--st-text-secondary);
     line-height: 1.45;
   }
 }
@@ -85,7 +85,7 @@
   .qr-placeholder {
     width: 180px;
     height: 180px;
-    background: #f5f5f5;
+    background: var(--st-surface);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -95,7 +95,7 @@
 
   .lot-code-label {
     font-size: 13px;
-    color: #3f51b5;
+    color: var(--st-accent-mid);
     font-weight: 600;
     letter-spacing: 0.5px;
   }
@@ -107,7 +107,7 @@
   .pdf-label {
     margin: 0 0 12px;
     font-size: 13px;
-    color: rgba(0,0,0,0.6);
+    color: var(--st-text-secondary);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -123,7 +123,7 @@
   margin: 0;
   padding-top: 4px;
 
-  dt { font-size: 12px; color: rgba(0,0,0,0.54); font-weight: 500; }
+  dt { font-size: 12px; color: var(--st-text-muted); font-weight: 500; }
   dd { margin: 0; font-size: 14px; display: flex; flex-wrap: wrap; gap: 4px; }
 }
 
@@ -140,10 +140,10 @@
   align-items: flex-start;
   gap: 12px;
   padding: 10px;
-  background: #f5f5f5;
+  background: var(--st-surface);
   border-radius: 8px;
 
-  mat-icon { color: #3f51b5; margin-top: 2px; flex-shrink: 0; }
+  mat-icon { color: var(--st-accent-mid); margin-top: 2px; flex-shrink: 0; }
 
   div {
     display: flex;
@@ -155,7 +155,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: rgba(0,0,0,0.54);
+    color: var(--st-text-muted);
   }
 
   .participant-name {
@@ -165,7 +165,7 @@
 
   .participant-loc {
     font-size: 12px;
-    color: rgba(0,0,0,0.54);
+    color: var(--st-text-muted);
     display: flex;
     align-items: center;
     gap: 2px;
@@ -223,7 +223,7 @@
 .rest-links-empty {
   margin: 0;
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--st-text-muted);
 }
 
 .rest-links-list {
@@ -256,7 +256,7 @@
 
 .rest-linked {
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--st-text-muted);
 }
 
 .rest-link-qr {
@@ -280,7 +280,7 @@
   font-weight: 600;
   text-align: center;
   line-height: 1.25;
-  color: rgba(0, 0, 0, 0.87);
+  color: var(--st-text);
 }
 
 .rest-menu-qr-thumb {

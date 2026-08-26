@@ -51,12 +51,12 @@ import { ThemeService } from '../../../core/services/theme.service';
       }
 
       .theme-toggle {
-        --tt-track: color-mix(in srgb, currentColor 18%, transparent);
-        --tt-track-border: color-mix(in srgb, currentColor 32%, transparent);
+        --tt-track: color-mix(in srgb, currentColor 22%, transparent);
+        --tt-track-border: color-mix(in srgb, currentColor 45%, transparent);
         --tt-thumb: #fff;
         --tt-sun: #fbbf24;
-        --tt-moon: #a5b4fc;
-        --tt-icon-idle: color-mix(in srgb, currentColor 45%, transparent);
+        --tt-moon: #c7d2fe;
+        --tt-icon-idle: color-mix(in srgb, currentColor 55%, transparent);
 
         display: inline-flex;
         align-items: center;

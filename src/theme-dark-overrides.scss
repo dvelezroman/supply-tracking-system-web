@@ -25,30 +25,66 @@ html.theme-dark app-main-shell .toolbar app-theme-toggle {
   color: rgba(255, 255, 255, 0.95);
 }
 
-html.theme-dark app-public-trace .trace-page {
-  background: #303030;
+/* Public trace + lookup: surfaces and chrome (text uses --st-* tokens) */
+html.theme-dark app-public-trace .trace-page,
+html.theme-dark app-trace-lookup .lookup-page {
+  background: var(--st-surface);
+  color: var(--st-text);
+}
+
+html.theme-dark app-public-trace .trace-header,
+html.theme-dark app-trace-lookup .trace-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #283593 100%);
+}
+
+html.theme-dark app-public-trace .trace-header .trace-header__lang button,
+html.theme-dark app-trace-lookup .trace-header .trace-header__lang button,
+html.theme-dark app-public-trace .trace-header app-theme-toggle,
+html.theme-dark app-trace-lookup .trace-header app-theme-toggle {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 html.theme-dark app-public-trace .loading-text,
 html.theme-dark app-public-trace .error-state,
 html.theme-dark app-public-trace .error-state h2 {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--st-text-muted);
 }
 
-html.theme-dark app-public-trace .trace-header .trace-header__lang button {
-  color: rgba(255, 255, 255, 0.95);
+html.theme-dark app-trace-lookup .lookup-submit.mat-mdc-unelevated-button:not(:disabled) {
+  --mdc-filled-button-container-color: #5c6bc0;
+  --mdc-filled-button-label-text-color: #ffffff;
+  --mat-filled-button-state-layer-color: #ffffff;
 }
 
-html.theme-dark app-public-trace .trace-header app-theme-toggle {
-  color: rgba(255, 255, 255, 0.95);
+html.theme-dark app-trace-lookup .lookup-submit.mat-mdc-unelevated-button:disabled {
+  --mdc-filled-button-disabled-container-color: rgba(255, 255, 255, 0.12);
+  --mdc-filled-button-disabled-label-text-color: rgba(255, 255, 255, 0.45);
+}
+
+html.theme-dark app-trace-lookup mat-card-subtitle,
+html.theme-dark app-public-trace mat-card-subtitle {
+  color: var(--st-text-muted);
+}
+
+html.theme-dark app-trace-lookup mat-card-title,
+html.theme-dark app-public-trace mat-card-title {
+  color: var(--st-text);
+}
+
+html.theme-dark app-public-trace .timeline-panel {
+  border-color: var(--st-border);
+}
+
+html.theme-dark app-public-trace .participant-card {
+  background: var(--st-surface-raised);
 }
 
 html.theme-dark app-login .auth-footer-links,
 html.theme-dark app-register .auth-footer-links {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--st-text-muted);
 
   a {
-    color: #9fa8da;
+    color: var(--st-accent-mid);
   }
 }
 
