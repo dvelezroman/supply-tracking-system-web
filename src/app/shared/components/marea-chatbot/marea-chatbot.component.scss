@@ -75,19 +75,13 @@ $marea-chat-header-gap: 10px;
   display: flex;
   flex-direction: column;
   border-radius: 16px;
-  background: var(--mat-sys-surface, #fff);
-  color: var(--mat-sys-on-surface, rgba(0, 0, 0, 0.87));
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
   box-shadow:
     0 12px 40px rgba(10, 38, 71, 0.25),
     0 4px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  /* Height = viewport between top offset and FAB; messages area scrolls */
   max-height: none;
-}
-
-html.theme-dark .marea-chat__panel {
-  background: #1e1e1e;
-  color: rgba(255, 255, 255, 0.87);
 }
 
 .marea-chat__head {
@@ -190,6 +184,7 @@ html.theme-dark .marea-chat__panel {
   padding: 10px 12px;
   border-radius: 14px;
   background: rgba(10, 38, 71, 0.06);
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .marea-chat__row--user .marea-chat__bubble {
@@ -206,9 +201,11 @@ html.theme-dark .marea-chat__panel {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.45;
+  color: inherit;
 
   &--user {
     font-weight: 500;
+    color: #fff;
   }
 }
 
@@ -231,7 +228,7 @@ html.theme-dark .marea-chat__panel {
   margin: 0;
   padding: 0 14px 6px;
   font-size: 0.75rem;
-  opacity: 0.75;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .marea-chat__chips {
@@ -246,13 +243,69 @@ html.theme-dark .marea-chat__panel {
   line-height: 1.2 !important;
   border-radius: 999px !important;
   border-color: rgba(10, 38, 71, 0.35) !important;
+  color: #0a2647 !important;
+  --mdc-outlined-button-label-text-color: #0a2647;
+  --mdc-outlined-button-outline-color: rgba(10, 38, 71, 0.35);
+  --mat-outlined-button-state-layer-color: #0a2647;
 }
 
 .marea-chat__restart {
   align-self: stretch;
   margin: 0 8px 10px;
   font-size: 0.8rem;
-  opacity: 0.85;
+  color: rgba(0, 0, 0, 0.65);
+  --mdc-text-button-label-text-color: rgba(0, 0, 0, 0.65);
+}
+
+/* Dark theme: readable bot text + question chips (no white-on-washed) */
+:host-context(html.theme-dark) {
+  .marea-chat__panel {
+    background: var(--st-surface, #1e1e1e);
+    color: var(--st-text, rgba(255, 255, 255, 0.92));
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.45),
+      0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .marea-chat__bubble {
+    background: var(--st-surface-raised, #2c2c2c);
+    color: var(--st-text, rgba(255, 255, 255, 0.92));
+  }
+
+  .marea-chat__row--user .marea-chat__bubble {
+    background: #1e3a5f;
+    color: #fff;
+  }
+
+  .marea-chat__text {
+    color: inherit;
+
+    &--user {
+      color: #fff;
+    }
+  }
+
+  .marea-chat__hint {
+    color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
+  }
+
+  .marea-chat__chip {
+    color: var(--st-accent, #c5cae9) !important;
+    border-color: rgba(197, 202, 233, 0.45) !important;
+    background: rgba(159, 168, 218, 0.12) !important;
+    --mdc-outlined-button-label-text-color: var(--st-accent, #c5cae9);
+    --mdc-outlined-button-outline-color: rgba(197, 202, 233, 0.45);
+    --mat-outlined-button-state-layer-color: #c5cae9;
+  }
+
+  .marea-chat__restart {
+    color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
+    --mdc-text-button-label-text-color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
+  }
+
+  .marea-chat__avatar {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
 }
 
 @media (max-width: 380px) {
