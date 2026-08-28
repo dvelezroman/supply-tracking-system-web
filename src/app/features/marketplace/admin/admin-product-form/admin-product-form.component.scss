@@ -26,7 +26,20 @@
 }
 
 .upload-row {
-  margin: 12px 0 16px;
+  margin: 12px 0 8px;
+}
+
+.url-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.url-field {
+  flex: 1;
+  min-width: 220px;
 }
 
 .upload-btn {

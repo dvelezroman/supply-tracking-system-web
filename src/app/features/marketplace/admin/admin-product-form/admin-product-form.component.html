@@ -89,6 +89,28 @@
               </span>
             </label>
           </div>
+          <div class="url-row">
+            <mat-form-field appearance="outline" class="url-field">
+              <mat-label>{{ 'marketplace.admin.imageUrl' | transloco }}</mat-label>
+              <input
+                matInput
+                type="url"
+                [ngModel]="imageUrlInput()"
+                (ngModelChange)="imageUrlInput.set($event)"
+                [placeholder]="'marketplace.admin.imageUrlPlaceholder' | transloco"
+              />
+              <mat-hint>{{ 'marketplace.admin.imageUrlHint' | transloco }}</mat-hint>
+            </mat-form-field>
+            <button
+              mat-stroked-button
+              type="button"
+              [disabled]="!imageUrlInput().trim() || isUploading()"
+              (click)="addImageByUrl()"
+            >
+              <mat-icon>link</mat-icon>
+              {{ 'marketplace.admin.addImageUrl' | transloco }}
+            </button>
+          </div>
           <div class="image-grid">
             @for (img of images(); track img.id) {
               <figure class="image-tile" [class.image-tile--primary]="img.isPrimary">

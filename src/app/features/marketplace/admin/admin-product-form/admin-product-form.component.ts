@@ -7,7 +7,7 @@ import {
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { MatCardModule } from '@angular/material/card';
@@ -30,6 +30,7 @@ import type { MarketplaceProductImage } from '../../models/marketplace.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     RouterLink,
     TranslocoPipe,
     MatCardModule,
@@ -60,6 +61,7 @@ export class AdminProductFormComponent implements OnInit {
   isSaving = signal(false);
   isUploading = signal(false);
   images = signal<MarketplaceProductImage[]>([]);
+  imageUrlInput = signal('');
 
   form = this.fb.group({
     sku: ['', Validators.required],
@@ -159,6 +161,24 @@ export class AdminProductFormComponent implements OnInit {
         this.isUploading.set(false);
         input.value = '';
       },
+    });
+  }
+
+  addImageByUrl(): void {
+    if (!this.id) return;
+    const url = this.imageUrlInput().trim();
+    if (!url) return;
+    this.isUploading.set(true);
+    this.api.addImageByUrl(this.id, url, this.images().length === 0).subscribe({
+      next: (res) => {
+        this.images.update((imgs) => [...imgs, res.data]);
+        this.imageUrlInput.set('');
+        this.isUploading.set(false);
+        this.snackbar.success(
+          this.transloco.translate('marketplace.admin.imageUrlAdded'),
+        );
+      },
+      error: () => this.isUploading.set(false),
     });
   }
 

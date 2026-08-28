@@ -121,6 +121,13 @@ export class MarketplaceAdminApiService {
     );
   }
 
+  addImageByUrl(productId: string, url: string, isPrimary = false) {
+    return this.http.post<ApiResponse<MarketplaceProductImage>>(
+      `${this.base}/products/${productId}/images/url`,
+      { url, isPrimary },
+    );
+  }
+
   deleteImage(productId: string, imageId: string) {
     return this.http.delete<ApiResponse<{ deleted: boolean }>>(
       `${this.base}/products/${productId}/images/${imageId}`,
