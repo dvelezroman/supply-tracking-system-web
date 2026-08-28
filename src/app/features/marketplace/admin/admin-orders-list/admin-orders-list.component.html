@@ -1,0 +1,77 @@
+<div class="page-container">
+  <app-page-header
+    [title]="'marketplace.admin.ordersTitle' | transloco"
+    [subtitle]="'marketplace.admin.ordersSubtitle' | transloco"
+  />
+
+  <div class="filters">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>{{ 'common.search' | transloco }}</mat-label>
+      <input matInput [ngModel]="searchTerm()" (ngModelChange)="onSearch($event)" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'marketplace.admin.colStatus' | transloco }}</mat-label>
+      <mat-select [ngModel]="statusFilter()" (ngModelChange)="onStatus($event)">
+        <mat-option value="">{{ 'marketplace.admin.statusAll' | transloco }}</mat-option>
+        <mat-option value="PENDING">PENDING</mat-option>
+        <mat-option value="EMAILED">EMAILED</mat-option>
+        <mat-option value="CANCELLED">CANCELLED</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="table-wrap mat-elevation-z1">
+    <table mat-table [dataSource]="orders()" class="full-width">
+      <ng-container matColumnDef="orderNumber">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colOrder' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.orderNumber }}</td>
+      </ng-container>
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colCustomer' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">
+          <div>{{ row.customerName }}</div>
+          <small>{{ row.customerEmail }}</small>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colStatus' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip>{{ row.status }}</mat-chip>
+          @if (row.emailError) {
+            <mat-icon color="warn" [matTooltip]="row.emailError">error</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colSubtotal' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ formatMoney(row.subtotalCents, row.currency) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colCreated' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt | date: 'short' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <a mat-icon-button [routerLink]="['/marketplace/orders', row.id]">
+            <mat-icon>visibility</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+    <mat-paginator
+      [length]="totalItems()"
+      [pageIndex]="currentPage() - 1"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+</div>

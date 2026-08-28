@@ -1,0 +1,92 @@
+<div class="page-container">
+  <app-page-header
+    [title]="'marketplace.admin.productsTitle' | transloco"
+    [subtitle]="'marketplace.admin.productsSubtitle' | transloco"
+  >
+    <a mat-flat-button color="primary" routerLink="/marketplace/products/new">
+      <mat-icon>add</mat-icon>
+      {{ 'marketplace.admin.newProduct' | transloco }}
+    </a>
+  </app-page-header>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>{{ 'common.search' | transloco }}</mat-label>
+    <input
+      matInput
+      [ngModel]="searchTerm()"
+      (ngModelChange)="onSearch($event)"
+      [placeholder]="'marketplace.admin.searchPlaceholder' | transloco"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="table-wrap mat-elevation-z1">
+    <table mat-table [dataSource]="products()" class="full-width">
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          @if (primaryImage(row); as src) {
+            <img class="thumb" [src]="src" [alt]="row.name" width="48" height="48" />
+          } @else {
+            <mat-icon class="thumb-placeholder">image</mat-icon>
+          }
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sku">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colSku' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.sku }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colName' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colPrice' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ formatMoney(row.priceCents, row.currency) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colStock' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.stockQty }}</td>
+      </ng-container>
+      <ng-container matColumnDef="published">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colPublished' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip>{{
+              (row.published
+                ? 'marketplace.admin.publishedYes'
+                : 'marketplace.admin.publishedNo'
+              ) | transloco
+            }}</mat-chip>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef>{{ 'marketplace.admin.colUpdated' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.updatedAt | date: 'short' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <a mat-icon-button [routerLink]="['/marketplace/products', row.id]" [matTooltip]="'common.edit' | transloco">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button mat-icon-button color="warn" type="button" (click)="confirmDelete(row)" [matTooltip]="'common.delete' | transloco">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+    <mat-paginator
+      [length]="totalItems()"
+      [pageIndex]="currentPage() - 1"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+</div>

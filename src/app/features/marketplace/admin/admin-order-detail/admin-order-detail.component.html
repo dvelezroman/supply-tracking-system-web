@@ -1,0 +1,75 @@
+<div class="page-container">
+  <app-page-header
+    [title]="'marketplace.admin.orderDetailTitle' | transloco"
+    [subtitle]="order()?.orderNumber ?? ''"
+  >
+    <a mat-button routerLink="/marketplace/orders">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'common.back' | transloco }}
+    </a>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    @if (order(); as o) {
+      <div class="layout">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ 'marketplace.admin.customerInfo' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p><strong>{{ o.customerName }}</strong></p>
+            <p>{{ o.customerEmail }}</p>
+            @if (o.customerPhone) {
+              <p>{{ o.customerPhone }}</p>
+            }
+            @if (o.customerAddress) {
+              <p>{{ o.customerAddress }}</p>
+            }
+            @if (o.notes) {
+              <p class="notes">{{ o.notes }}</p>
+            }
+            <p>
+              <mat-chip>{{ o.status }}</mat-chip>
+              <span class="muted">{{ o.createdAt | date: 'medium' }}</span>
+            </p>
+            @if (o.emailError) {
+              <p class="error">{{ o.emailError }}</p>
+            }
+            @if (o.status !== 'CANCELLED') {
+              <button mat-stroked-button color="warn" type="button" [disabled]="isCancelling()" (click)="cancel()">
+                {{ 'marketplace.admin.cancelOrder' | transloco }}
+              </button>
+            }
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ 'marketplace.admin.orderLines' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ul class="lines">
+              @for (item of o.items; track item.sku + item.qty) {
+                <li>
+                  <div>
+                    <strong>{{ item.name }}</strong>
+                    <small>{{ item.sku }}</small>
+                  </div>
+                  <div class="line-meta">
+                    ×{{ item.qty }} · {{ formatMoney(item.unitPriceCents * item.qty, o.currency) }}
+                  </div>
+                </li>
+              }
+            </ul>
+            <p class="subtotal">
+              {{ 'marketplace.admin.colSubtotal' | transloco }}:
+              <strong>{{ formatMoney(o.subtotalCents, o.currency) }}</strong>
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+  }
+</div>

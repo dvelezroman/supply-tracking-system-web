@@ -72,6 +72,13 @@
         </div>
         <div class="landing__operatorBtns">
           <a
+            mat-stroked-button
+            routerLink="/tienda"
+            class="landing__op-btn landing__op-btn--shop"
+          >
+            {{ 'landing.toolbar.shop' | transloco }}
+          </a>
+          <a
             mat-button
             routerLink="/auth/login"
             class="landing__op-btn landing__op-btn--signin"

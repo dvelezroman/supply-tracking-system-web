@@ -1,0 +1,52 @@
+<div class="store">
+  <mat-toolbar class="store__toolbar">
+    <div class="store__toolbar-inner">
+      <a routerLink="/" class="store__brand">
+        @if (brand.logoUrl(); as logoSrc) {
+          <img
+            class="store__logo"
+            [src]="logoSrc"
+            alt=""
+            width="120"
+            height="36"
+            (error)="brand.onLogoError($event)"
+          />
+        }
+        <span class="store__title">{{ brand.landingTitle() }}</span>
+      </a>
+      <nav class="store__nav" aria-label="Tienda">
+        <a routerLink="/tienda" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" class="store__nav-link">
+          {{ 'marketplace.store.navShop' | transloco }}
+        </a>
+        <a routerLink="/" class="store__nav-link">{{ 'marketplace.store.navHome' | transloco }}</a>
+      </nav>
+      <div class="store__actions">
+        <app-language-toggle />
+        <app-theme-toggle />
+        <a
+          mat-icon-button
+          routerLink="/tienda/carrito"
+          class="store__cart"
+          [attr.aria-label]="'marketplace.store.cart' | transloco"
+        >
+          <mat-icon
+            [matBadge]="cart.itemCount()"
+            [matBadgeHidden]="cart.itemCount() === 0"
+            matBadgeColor="warn"
+            matBadgeSize="small"
+          >
+            shopping_cart
+          </mat-icon>
+        </a>
+      </div>
+    </div>
+  </mat-toolbar>
+
+  <main class="store__main">
+    <router-outlet />
+  </main>
+
+  <footer class="store__footer">
+    <p>{{ brand.landingTitle() }} · {{ 'marketplace.store.footer' | transloco }}</p>
+  </footer>
+</div>

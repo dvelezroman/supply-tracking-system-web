@@ -1,0 +1,35 @@
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+} @else {
+  @if (order(); as o) {
+    <section class="confirm">
+      <div class="confirm__badge">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <h1>{{ 'marketplace.store.confirmTitle' | transloco }}</h1>
+      <p class="confirm__number">
+        {{ 'marketplace.store.confirmOrder' | transloco: { order: o.orderNumber } }}
+      </p>
+      <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
+
+      <ul class="confirm__lines">
+        @for (item of o.items; track item.sku + item.qty) {
+          <li>
+            <span>{{ item.name }} ×{{ item.qty }}</span>
+            <strong>{{ formatMoney(item.unitPriceCents * item.qty, o.currency) }}</strong>
+          </li>
+        }
+      </ul>
+      <p class="confirm__total">
+        {{ 'marketplace.store.subtotal' | transloco }}:
+        <strong>{{ formatMoney(o.subtotalCents, o.currency) }}</strong>
+      </p>
+
+      <a routerLink="/tienda" class="marea-btn marea-btn--primary">
+        {{ 'marketplace.store.continueShopping' | transloco }}
+      </a>
+    </section>
+  } @else {
+    <p>{{ 'marketplace.store.orderNotFound' | transloco }}</p>
+  }
+}

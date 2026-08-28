@@ -1,0 +1,73 @@
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+} @else {
+  @if (product(); as p) {
+    <div class="detail">
+      <a routerLink="/tienda" class="detail__back">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'marketplace.store.backToShop' | transloco }}
+      </a>
+
+      <div class="detail__grid">
+        <div class="detail__gallery">
+          <div class="detail__main-img">
+            @if (activeImage(); as src) {
+              <img [src]="src" [alt]="p.name" width="640" height="480" />
+            } @else {
+              <div class="detail__placeholder"><mat-icon>inventory_2</mat-icon></div>
+            }
+          </div>
+          @if (p.images.length > 1) {
+            <div class="detail__thumbs">
+              @for (img of p.images; track img.id) {
+                <button type="button" class="detail__thumb" (click)="activeImage.set(img.url)">
+                  <img [src]="img.url" [alt]="p.name" width="72" height="72" />
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="detail__info">
+          @if (p.category) {
+            <span class="detail__cat">{{ p.category }}</span>
+          }
+          <h1>{{ p.name }}</h1>
+          <p class="detail__price">{{ formatMoney(p.priceCents, p.currency) }}</p>
+          @if (p.description) {
+            <p class="detail__desc">{{ p.description }}</p>
+          }
+          <p class="detail__stock">
+            {{
+              p.stockQty > 0
+                ? ('marketplace.store.inStock' | transloco: { qty: p.stockQty })
+                : ('marketplace.store.outOfStock' | transloco)
+            }}
+          </p>
+
+          @if (p.stockQty > 0) {
+            <div class="detail__buy">
+              <mat-form-field appearance="outline" class="detail__qty">
+                <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="1"
+                  [max]="p.stockQty"
+                  [ngModel]="qty()"
+                  (ngModelChange)="qty.set(+$event || 1)"
+                />
+              </mat-form-field>
+              <button type="button" class="marea-btn marea-btn--primary" (click)="addToCart()">
+                <mat-icon>add_shopping_cart</mat-icon>
+                {{ 'marketplace.store.addToCart' | transloco }}
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <p>{{ 'marketplace.store.notFound' | transloco }}</p>
+  }
+}

@@ -1,0 +1,20 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.search-field {
+  min-width: 240px;
+  flex: 1;
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 12px;
+}
+
+.full-width {
+  width: 100%;
+}

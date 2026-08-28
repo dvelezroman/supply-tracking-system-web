@@ -71,6 +71,24 @@ export class MainShellComponent implements OnInit {
   readonly navItems = [
     { labelKey: 'shell.nav.dashboard', icon: 'dashboard', route: '/dashboard' },
     { labelKey: 'shell.nav.products', icon: 'inventory_2', route: '/products' },
+    {
+      labelKey: 'shell.nav.marketplace',
+      icon: 'storefront',
+      route: '/marketplace/products',
+      adminOnly: true,
+    },
+    {
+      labelKey: 'shell.nav.marketplaceOrders',
+      icon: 'receipt_long',
+      route: '/marketplace/orders',
+      adminOnly: true,
+    },
+    {
+      labelKey: 'shell.nav.marketplaceSettings',
+      icon: 'tune',
+      route: '/marketplace/settings',
+      adminOnly: true,
+    },
     { labelKey: 'shell.nav.actors', icon: 'groups', route: '/actors' },
     {
       labelKey: 'shell.nav.restaurants',

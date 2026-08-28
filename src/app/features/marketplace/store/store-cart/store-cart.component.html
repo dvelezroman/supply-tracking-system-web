@@ -1,0 +1,63 @@
+<section class="cart">
+  <h1>{{ 'marketplace.store.cartTitle' | transloco }}</h1>
+
+  @if (cart.lines().length === 0) {
+    <div class="cart__empty">
+      <p>{{ 'marketplace.store.cartEmpty' | transloco }}</p>
+      <a routerLink="/tienda" class="marea-btn marea-btn--primary">
+        {{ 'marketplace.store.continueShopping' | transloco }}
+      </a>
+    </div>
+  } @else {
+    <ul class="cart__list">
+      @for (line of cart.lines(); track line.productId) {
+        <li class="cart__row">
+          <a [routerLink]="['/tienda', line.slug]" class="cart__media">
+            @if (line.imageUrl) {
+              <img [src]="line.imageUrl" [alt]="line.name" width="80" height="80" />
+            } @else {
+              <mat-icon>inventory_2</mat-icon>
+            }
+          </a>
+          <div class="cart__info">
+            <a [routerLink]="['/tienda', line.slug]">{{ line.name }}</a>
+            <small>{{ line.sku }}</small>
+            <p>{{ formatMoney(line.unitPriceCents, line.currency) }}</p>
+          </div>
+          <mat-form-field appearance="outline" class="cart__qty">
+            <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              [max]="line.stockQty"
+              [ngModel]="line.qty"
+              (ngModelChange)="cart.setQty(line.productId, +$event || 1)"
+            />
+          </mat-form-field>
+          <div class="cart__line-total">
+            {{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}
+          </div>
+          <button mat-icon-button type="button" (click)="cart.remove(line.productId)" [attr.aria-label]="'common.delete' | transloco">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </li>
+      }
+    </ul>
+
+    <div class="cart__footer">
+      <p class="cart__subtotal">
+        {{ 'marketplace.store.subtotal' | transloco }}:
+        <strong>{{ formatMoney(cart.subtotalCents()) }}</strong>
+      </p>
+      <div class="cart__actions">
+        <a routerLink="/tienda" class="marea-btn marea-btn--ghost">
+          {{ 'marketplace.store.continueShopping' | transloco }}
+        </a>
+        <a routerLink="/tienda/checkout" class="marea-btn marea-btn--primary">
+          {{ 'marketplace.store.checkout' | transloco }}
+        </a>
+      </div>
+    </div>
+  }
+</section>

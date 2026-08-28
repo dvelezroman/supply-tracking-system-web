@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +10,13 @@ import { MareaLandingImages } from '../../marea-landing-images';
   selector: 'app-marea-final-cta',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe, MatButtonModule, MatIconModule, LandingImageFallbackDirective],
+  imports: [
+    RouterLink,
+    TranslocoPipe,
+    MatButtonModule,
+    MatIconModule,
+    LandingImageFallbackDirective,
+  ],
   templateUrl: './marea-final-cta.component.html',
   styleUrl: './marea-final-cta.component.scss',
 })

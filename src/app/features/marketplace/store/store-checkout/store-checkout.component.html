@@ -1,0 +1,67 @@
+<section class="checkout">
+  <h1>{{ 'marketplace.store.checkoutTitle' | transloco }}</h1>
+
+  @if (lines().length === 0) {
+    <div class="checkout__empty">
+      <p>{{ 'marketplace.store.cartEmpty' | transloco }}</p>
+      <a routerLink="/tienda" class="marea-btn marea-btn--primary">
+        {{ 'marketplace.store.continueShopping' | transloco }}
+      </a>
+    </div>
+  } @else {
+    <div class="checkout__grid">
+      <form class="checkout__form" [formGroup]="form" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'marketplace.store.customerName' | transloco }}</mat-label>
+          <input matInput formControlName="customerName" autocomplete="name" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'marketplace.store.customerEmail' | transloco }}</mat-label>
+          <input matInput type="email" formControlName="customerEmail" autocomplete="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'marketplace.store.customerPhone' | transloco }}</mat-label>
+          <input matInput formControlName="customerPhone" autocomplete="tel" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'marketplace.store.customerAddress' | transloco }}</mat-label>
+          <textarea matInput rows="2" formControlName="customerAddress" autocomplete="street-address"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'marketplace.store.notes' | transloco }}</mat-label>
+          <textarea matInput rows="3" formControlName="notes"></textarea>
+        </mat-form-field>
+
+        <p class="checkout__hint">{{ 'marketplace.store.checkoutHint' | transloco }}</p>
+
+        <button
+          type="submit"
+          class="marea-btn marea-btn--primary"
+          [disabled]="form.invalid || isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <mat-spinner diameter="22" />
+          } @else {
+            {{ 'marketplace.store.placeOrder' | transloco }}
+          }
+        </button>
+      </form>
+
+      <aside class="checkout__summary">
+        <h2>{{ 'marketplace.store.orderSummary' | transloco }}</h2>
+        <ul>
+          @for (line of lines(); track line.productId) {
+            <li>
+              <span>{{ line.name }} ×{{ line.qty }}</span>
+              <strong>{{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}</strong>
+            </li>
+          }
+        </ul>
+        <p class="checkout__total">
+          {{ 'marketplace.store.subtotal' | transloco }}:
+          <strong>{{ formatMoney(subtotalCents()) }}</strong>
+        </p>
+      </aside>
+    </div>
+  }
+</section>

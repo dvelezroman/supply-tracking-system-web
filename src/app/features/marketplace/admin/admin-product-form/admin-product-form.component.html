@@ -1,0 +1,115 @@
+<div class="page-container">
+  <app-page-header
+    [title]="
+      (isEditMode()
+        ? 'marketplace.admin.editProduct'
+        : 'marketplace.admin.newProduct'
+      ) | transloco
+    "
+    [subtitle]="'marketplace.admin.productFormSubtitle' | transloco"
+  >
+    <a mat-button routerLink="/marketplace/products">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'common.back' | transloco }}
+    </a>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.colSku' | transloco }}</mat-label>
+            <input matInput formControlName="sku" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.slug' | transloco }}</mat-label>
+            <input matInput formControlName="slug" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="span-2">
+            <mat-label>{{ 'marketplace.admin.colName' | transloco }}</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="span-2">
+            <mat-label>{{ 'marketplace.admin.description' | transloco }}</mat-label>
+            <textarea matInput rows="4" formControlName="description"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.category' | transloco }}</mat-label>
+            <input matInput formControlName="category" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.priceUsd' | transloco }}</mat-label>
+            <input matInput type="number" step="0.01" min="0" formControlName="price" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.colStock' | transloco }}</mat-label>
+            <input matInput type="number" min="0" formControlName="stockQty" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.traceProductId' | transloco }}</mat-label>
+            <input matInput formControlName="traceProductId" />
+          </mat-form-field>
+          <div class="toggle-row span-2">
+            <mat-slide-toggle formControlName="published">
+              {{ 'marketplace.admin.publishedYes' | transloco }}
+            </mat-slide-toggle>
+          </div>
+          <div class="actions span-2">
+            <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isSaving()">
+              @if (isSaving()) {
+                <mat-spinner diameter="20" />
+              } @else {
+                {{ 'common.save' | transloco }}
+              }
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    @if (isEditMode()) {
+      <mat-card class="images-card">
+        <mat-card-header>
+          <mat-card-title>{{ 'marketplace.admin.imagesTitle' | transloco }}</mat-card-title>
+          <mat-card-subtitle>{{ 'marketplace.admin.imagesSubtitle' | transloco }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (isUploading()) {
+            <mat-progress-bar mode="indeterminate" />
+          }
+          <div class="upload-row">
+            <label class="upload-btn">
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" (change)="onFileSelected($event)" hidden />
+              <span mat-stroked-button>
+                <mat-icon>upload</mat-icon>
+                {{ 'marketplace.admin.uploadImage' | transloco }}
+              </span>
+            </label>
+          </div>
+          <div class="image-grid">
+            @for (img of images(); track img.id) {
+              <figure class="image-tile" [class.image-tile--primary]="img.isPrimary">
+                <img [src]="img.url" [alt]="img.key" width="160" height="160" />
+                <figcaption>
+                  @if (img.isPrimary) {
+                    <span>{{ 'marketplace.admin.primary' | transloco }}</span>
+                  } @else {
+                    <button mat-button type="button" (click)="setPrimary(img.id)">
+                      {{ 'marketplace.admin.setPrimary' | transloco }}
+                    </button>
+                  }
+                  <button mat-icon-button color="warn" type="button" (click)="removeImage(img.id)" [matTooltip]="'common.delete' | transloco">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </figcaption>
+              </figure>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  }
+</div>

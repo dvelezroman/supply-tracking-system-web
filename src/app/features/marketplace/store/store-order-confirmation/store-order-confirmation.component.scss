@@ -1,0 +1,70 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+.confirm {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  background: $marea-blanco;
+  border-radius: 14px;
+  border: 1px solid $border-ocean;
+  box-shadow: $shadow-ocean-sm;
+
+  h1 {
+    font-family: $font-marea-heading;
+    color: $marea-azul-profundo;
+    margin: 0.5rem 0;
+  }
+}
+
+.confirm__badge {
+  color: $marea-aguamarina;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.confirm__number {
+  font-weight: 700;
+  color: $marea-coral;
+}
+
+.confirm__lines {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+  text-align: left;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid $border-ocean;
+  }
+}
+
+.confirm__total {
+  text-align: right;
+  font-size: 1.1rem;
+}
+
+.marea-btn {
+  display: inline-flex;
+  margin-top: 1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: $font-marea-heading;
+  font-weight: 600;
+  text-decoration: none;
+  min-height: 44px;
+
+  &--primary {
+    background: $marea-coral;
+    color: $marea-blanco;
+  }
+}

@@ -1,0 +1,51 @@
+<section class="catalog">
+  <header class="catalog__hero">
+    <h1>{{ 'marketplace.store.catalogTitle' | transloco }}</h1>
+    <p>{{ 'marketplace.store.catalogSubtitle' | transloco }}</p>
+  </header>
+
+  @if (!storeEnabled()) {
+    <div class="catalog__soon">
+      <h2>{{ 'marketplace.store.comingSoon' | transloco }}</h2>
+      <p>{{ 'marketplace.store.comingSoonBody' | transloco }}</p>
+    </div>
+  } @else {
+    <mat-form-field appearance="outline" class="catalog__search">
+      <mat-label>{{ 'marketplace.store.search' | transloco }}</mat-label>
+      <input matInput [ngModel]="searchTerm()" (ngModelChange)="onSearch($event)" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" />
+    }
+
+    @if (!isLoading() && products().length === 0) {
+      <p class="catalog__empty">{{ 'marketplace.store.empty' | transloco }}</p>
+    }
+
+    <div class="catalog__grid">
+      @for (p of products(); track p.id) {
+        <a class="product-card" [routerLink]="['/tienda', p.slug]">
+          <div class="product-card__media">
+            @if (imageOf(p); as src) {
+              <img [src]="src" [alt]="p.name" loading="lazy" width="400" height="300" />
+            } @else {
+              <div class="product-card__placeholder">
+                <mat-icon>inventory_2</mat-icon>
+              </div>
+            }
+          </div>
+          <div class="product-card__body">
+            @if (p.category) {
+              <span class="product-card__cat">{{ p.category }}</span>
+            }
+            <h2>{{ p.name }}</h2>
+            <p class="product-card__price">{{ formatMoney(p.priceCents, p.currency) }}</p>
+            <span class="product-card__cta">{{ 'marketplace.store.viewProduct' | transloco }}</span>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</section>

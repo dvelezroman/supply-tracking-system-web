@@ -64,6 +64,15 @@
   }
 
   // WhatsApp brand: https://whatsappbrand.com/
+  &__shop {
+    background: $marea-coral !important;
+    color: #fff !important;
+
+    &:hover {
+      background: $marea-coral-hover !important;
+    }
+  }
+
   &__wa {
     background: #25d366 !important;
     color: #fff !important;

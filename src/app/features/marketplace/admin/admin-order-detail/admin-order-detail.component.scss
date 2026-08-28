@@ -1,0 +1,47 @@
+.layout {
+  display: grid;
+  gap: 16px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.muted {
+  margin-left: 12px;
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: #c62828;
+}
+
+.notes {
+  white-space: pre-wrap;
+}
+
+.lines {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+    small {
+      display: block;
+      opacity: 0.6;
+    }
+  }
+}
+
+.subtotal {
+  text-align: right;
+  margin-top: 16px;
+  font-size: 1.1rem;
+}

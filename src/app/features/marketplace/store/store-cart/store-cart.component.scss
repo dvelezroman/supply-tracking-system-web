@@ -1,0 +1,132 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+.cart h1 {
+  font-family: $font-marea-heading;
+  color: $marea-azul-profundo;
+  margin: 0 0 1.25rem;
+}
+
+.cart__empty {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  background: $marea-blanco;
+  border-radius: 14px;
+  border: 1px solid $border-ocean;
+}
+
+.cart__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart__row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: $marea-blanco;
+  border: 1px solid $border-ocean;
+  border-radius: 14px;
+
+  @media (min-width: 720px) {
+    grid-template-columns: 80px 1fr 110px 120px auto;
+  }
+}
+
+.cart__media {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: $marea-gris-claro;
+  display: grid;
+  place-items: center;
+  color: $marea-azul-claro;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.cart__info {
+  a {
+    color: $marea-azul-profundo;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: $font-marea-heading;
+  }
+
+  small {
+    display: block;
+    color: $marea-gris-medio;
+  }
+
+  p {
+    margin: 4px 0 0;
+    color: $marea-coral;
+    font-weight: 700;
+  }
+}
+
+.cart__qty {
+  width: 100px;
+}
+
+.cart__line-total {
+  font-weight: 700;
+  text-align: right;
+}
+
+.cart__footer {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: $marea-blanco;
+  border-radius: 14px;
+  border: 1px solid $border-ocean;
+}
+
+.cart__subtotal {
+  font-size: 1.15rem;
+  text-align: right;
+  margin: 0 0 1rem;
+}
+
+.cart__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.marea-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: $font-marea-heading;
+  font-weight: 600;
+  text-decoration: none;
+  min-height: 44px;
+  border: none;
+  cursor: pointer;
+
+  &--primary {
+    background: $marea-coral;
+    color: $marea-blanco;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $marea-azul-principal;
+    border: 1px solid rgba(20, 66, 114, 0.25);
+  }
+}

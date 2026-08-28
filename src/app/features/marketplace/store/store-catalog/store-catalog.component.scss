@@ -1,0 +1,115 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+.catalog__hero {
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0 0 0.35rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: $marea-azul-profundo;
+  }
+
+  p {
+    margin: 0;
+    color: $marea-gris-medio;
+    max-width: 40rem;
+  }
+}
+
+.catalog__search {
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 1.25rem;
+}
+
+.catalog__soon,
+.catalog__empty {
+  padding: 2rem;
+  text-align: center;
+  background: $marea-blanco;
+  border: 1px solid $border-ocean;
+  border-radius: 14px;
+  box-shadow: $shadow-ocean-sm;
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: $marea-blanco;
+  border: 1px solid $border-ocean;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: $shadow-ocean-sm;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(10, 38, 71, 0.12);
+  }
+
+  &__media {
+    aspect-ratio: 4 / 3;
+    background: $marea-gris-claro;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__placeholder {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: $marea-azul-claro;
+  }
+
+  &__body {
+    padding: 1rem 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+
+    h2 {
+      margin: 0;
+      font-family: $font-marea-heading;
+      font-size: 1.05rem;
+      color: $marea-azul-profundo;
+    }
+  }
+
+  &__cat {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $marea-azul-claro;
+    font-weight: 600;
+  }
+
+  &__price {
+    margin: 0;
+    font-weight: 700;
+    color: $marea-coral;
+    font-size: 1.1rem;
+  }
+
+  &__cta {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $marea-azul-principal;
+  }
+}

@@ -1,0 +1,104 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+.store {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: $gradient-surface;
+  color: $marea-gris-oscuro;
+  font-family: $font-marea-body;
+}
+
+.store__toolbar {
+  --mat-toolbar-container-text-color: #{$marea-blanco};
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $marea-azul-profundo !important;
+  color: $marea-blanco;
+  height: auto !important;
+  padding: 10px 16px;
+  box-shadow: 0 2px 12px rgba(10, 38, 71, 0.2);
+}
+
+.store__toolbar-inner {
+  width: 100%;
+  max-width: $marea-container;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.store__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.store__logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.store__title {
+  font-family: $font-marea-heading;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.store__nav {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.store__nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-family: $font-marea-heading;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  &.is-active,
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: $marea-blanco;
+  }
+}
+
+.store__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.store__cart {
+  color: $marea-blanco !important;
+}
+
+.store__main {
+  flex: 1;
+  width: 100%;
+  max-width: $marea-container;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3vw, 2rem) 16px;
+}
+
+.store__footer {
+  padding: 24px 16px;
+  text-align: center;
+  background: $marea-azul-profundo;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+}
