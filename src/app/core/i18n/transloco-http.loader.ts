@@ -8,9 +8,9 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   private http = inject(HttpClient);
 
   getTranslation(lang: string): Observable<Translation> {
-    // Cache-bust so new i18n keys (e.g. publicTrace.searchAnotherLot) appear after deploy
+    // Bump `v` after i18n JSON changes so Chrome/CDN drop stale cached files
     return this.http.get<Translation>(`/assets/i18n/${lang}.json`, {
-      params: { v: '20260825' },
+      params: { v: '20260829' },
     });
   }
 }
