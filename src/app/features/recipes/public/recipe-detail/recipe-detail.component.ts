@@ -3,14 +3,17 @@ import {
   Component,
   Input,
   OnInit,
+  computed,
   inject,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { startWith } from 'rxjs';
 import type { RecipeDetail, RecipeIngredient, RecipeStep } from '../../models/recipe.model';
 import {
   RecipesPublicApiService,
@@ -21,6 +24,7 @@ import {
   recipeCategoryI18nKey,
   recipeDifficultyI18nKey,
 } from '../shared/recipe-label.util';
+import { localizeRecipeFields } from '../shared/recipe-content-i18n';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -41,6 +45,7 @@ export class RecipeDetailComponent implements OnInit {
   @Input() slug!: string;
 
   private api = inject(RecipesPublicApiService);
+  private i18n = inject(TranslocoService);
 
   readonly categoryKey = recipeCategoryI18nKey;
   readonly difficultyKey = recipeDifficultyI18nKey;
@@ -49,6 +54,16 @@ export class RecipeDetailComponent implements OnInit {
   recipe = signal<RecipeDetail | null>(null);
   liked = signal(false);
   notFound = signal(false);
+
+  private readonly lang = toSignal(
+    this.i18n.langChanges$.pipe(startWith(this.i18n.getActiveLang())),
+    { initialValue: this.i18n.getActiveLang() },
+  );
+
+  readonly view = computed(() => {
+    const r = this.recipe();
+    return r ? localizeRecipeFields(r, this.lang()) : null;
+  });
 
   ngOnInit(): void {
     this.load();
@@ -74,12 +89,14 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   ingredients(): RecipeIngredient[] {
-    const r = this.recipe();
-    return Array.isArray(r?.ingredients) ? (r!.ingredients as RecipeIngredient[]) : [];
+    const r = this.view();
+    return Array.isArray(r?.ingredients)
+      ? (r!.ingredients as RecipeIngredient[])
+      : [];
   }
 
   steps(): RecipeStep[] {
-    const r = this.recipe();
+    const r = this.view();
     const list = Array.isArray(r?.steps) ? (r!.steps as RecipeStep[]) : [];
     return list.slice().sort((a, b) => a.order - b.order);
   }

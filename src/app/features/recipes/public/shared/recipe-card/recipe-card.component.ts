@@ -1,13 +1,16 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { startWith } from 'rxjs';
 import type { RecipeListItem } from '../../../models/recipe.model';
 import {
   recipeCategoryI18nKey,
   recipeDifficultyI18nKey,
 } from '../recipe-label.util';
+import { localizeRecipeFields } from '../recipe-content-i18n';
 
 @Component({
   selector: 'app-recipe-card',
@@ -18,12 +21,12 @@ import {
     <a class="recipe-card" [routerLink]="['/recetas', item().slug]">
       <div
         class="recipe-card__media"
-        [class.recipe-card__media--empty]="!item().imageUrl"
-        [style.background-image]="item().imageUrl ? 'url(' + item().imageUrl + ')' : null"
+        [class.recipe-card__media--empty]="!view().imageUrl"
+        [style.background-image]="view().imageUrl ? 'url(' + view().imageUrl + ')' : null"
         role="img"
-        [attr.aria-label]="item().name"
+        [attr.aria-label]="view().name"
       >
-        @if (!item().imageUrl) {
+        @if (!view().imageUrl) {
           <mat-icon aria-hidden="true">restaurant</mat-icon>
         }
         @if (badge()) {
@@ -31,36 +34,36 @@ import {
         }
       </div>
       <div class="recipe-card__body">
-        @if (item().category) {
+        @if (view().category) {
           <p class="recipe-card__cat">
-            @if (categoryKey(item().category); as catKey) {
+            @if (categoryKey(view().category); as catKey) {
               {{ catKey | transloco }}
             } @else {
-              {{ item().category }}
+              {{ view().category }}
             }
           </p>
         }
-        <h3 class="recipe-card__title">{{ item().name }}</h3>
-        @if (item().description) {
-          <p class="recipe-card__desc">{{ item().description }}</p>
+        <h3 class="recipe-card__title">{{ view().name }}</h3>
+        @if (view().description) {
+          <p class="recipe-card__desc">{{ view().description }}</p>
         }
         <div class="recipe-card__meta">
-          @if (item().difficulty) {
+          @if (view().difficulty) {
             <span class="recipe-card__chip">
               <mat-icon>signal_cellular_alt</mat-icon>
-              @if (difficultyKey(item().difficulty); as diffKey) {
+              @if (difficultyKey(view().difficulty); as diffKey) {
                 {{ diffKey | transloco }}
               } @else {
-                {{ item().difficulty }}
+                {{ view().difficulty }}
               }
             </span>
           }
-          @if (item().prepMinutes || item().cookMinutes) {
+          @if (view().prepMinutes || view().cookMinutes) {
             <span class="recipe-card__chip">
               <mat-icon>schedule</mat-icon>
               {{
                 'recipes.public.minutes'
-                  | transloco: { count: (item().prepMinutes ?? 0) + (item().cookMinutes ?? 0) }
+                  | transloco: { count: (view().prepMinutes ?? 0) + (view().cookMinutes ?? 0) }
               }}
             </span>
           }
@@ -72,7 +75,7 @@ import {
             [attr.aria-label]="'recipes.public.like' | transloco"
           >
             <mat-icon>favorite</mat-icon>
-            {{ item().likeCount }}
+            {{ view().likeCount }}
           </button>
         </div>
       </div>
@@ -203,12 +206,21 @@ import {
   ],
 })
 export class RecipeCardComponent {
+  private readonly i18n = inject(TranslocoService);
+
   item = input.required<RecipeListItem>();
   badge = input<string | null>(null);
   like = output<RecipeListItem>();
 
   categoryKey = recipeCategoryI18nKey;
   difficultyKey = recipeDifficultyI18nKey;
+
+  private readonly lang = toSignal(
+    this.i18n.langChanges$.pipe(startWith(this.i18n.getActiveLang())),
+    { initialValue: this.i18n.getActiveLang() },
+  );
+
+  readonly view = computed(() => localizeRecipeFields(this.item(), this.lang()));
 
   onLike(event: Event): void {
     event.preventDefault();

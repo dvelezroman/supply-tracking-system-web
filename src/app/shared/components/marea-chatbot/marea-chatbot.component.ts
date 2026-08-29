@@ -19,6 +19,7 @@ import { fromEvent } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { RecipesPublicApiService } from '../../../features/recipes/services/recipes-api.service';
 import { MAREA_CHAT_OPEN_EVENT } from '../../../features/landing/components/marea-mary-section/marea-mary-section.component';
+import { RECIPE_CONTENT_EN } from '../../../features/recipes/public/shared/recipe-content-i18n';
 
 export type MareaChatOptionId =
   | 'site'
@@ -220,6 +221,11 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
 
   isContactReply(line: MareaChatLine): boolean {
     return line.textKey === 'chatbot.replies.contact';
+  }
+
+  recipeRefName(ref: { slug: string; name: string }): string {
+    if (this.transloco.getActiveLang() !== 'en') return ref.name;
+    return RECIPE_CONTENT_EN[ref.slug]?.name ?? ref.name;
   }
 
   onLogoError(event: Event): void {

@@ -11,25 +11,25 @@
     <mat-progress-bar mode="indeterminate" />
   } @else if (notFound()) {
     <p>{{ 'recipes.public.notFound' | transloco }}</p>
-  } @else if (recipe()) {
+  } @else if (view()) {
     <header>
-      @if (recipe()!.category) {
+      @if (view()!.category) {
         <p class="cat">
-          @if (categoryKey(recipe()!.category); as catKey) {
+          @if (categoryKey(view()!.category); as catKey) {
             {{ catKey | transloco }}
           } @else {
-            {{ recipe()!.category }}
+            {{ view()!.category }}
           }
         </p>
       }
-      <h1>{{ recipe()!.name }}</h1>
-      <p class="desc">{{ recipe()!.description }}</p>
-      @if (recipe()!.difficulty) {
+      <h1>{{ view()!.name }}</h1>
+      <p class="desc">{{ view()!.description }}</p>
+      @if (view()!.difficulty) {
         <p class="diff">
-          @if (difficultyKey(recipe()!.difficulty); as diffKey) {
+          @if (difficultyKey(view()!.difficulty); as diffKey) {
             {{ diffKey | transloco }}
           } @else {
-            {{ recipe()!.difficulty }}
+            {{ view()!.difficulty }}
           }
         </p>
       }
@@ -38,7 +38,7 @@
         {{
           (liked() ? 'recipes.public.unlike' : 'recipes.public.like') | transloco
         }}
-        ({{ recipe()!.likeCount }})
+        ({{ view()!.likeCount }})
       </button>
     </header>
 
