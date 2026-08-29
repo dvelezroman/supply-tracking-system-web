@@ -1,9 +1,8 @@
 @use '../../../landing/styles/marea-tokens' as *;
 
 .recipes-showcase {
-  max-width: $marea-container;
-  margin: 0 auto;
-  padding: $section-pad-y 1rem;
+  @include marea-container;
+  padding-block: $section-pad-y;
 
   &__head {
     display: flex;

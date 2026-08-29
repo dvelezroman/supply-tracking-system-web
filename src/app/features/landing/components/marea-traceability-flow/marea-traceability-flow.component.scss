@@ -2,24 +2,25 @@
 
 .marea-trace {
   padding: $section-pad-y 0;
+  background: $marea-blanco;
 
   &__intro {
-    max-width: $marea-container;
-    margin: 0 auto 2rem;
+    @include marea-container;
+    margin-bottom: 2rem;
     display: grid;
     gap: clamp(1.5rem, 4vw, 2.5rem);
     align-items: start;
 
-    @media (min-width: 768px) {
+    @media (min-width: $bp-md) {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     }
   }
 
   &__figure {
     margin: 0;
-    border-radius: 16px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(10, 38, 71, 0.18);
+    box-shadow: none;
   }
 
   &__hero-img {
@@ -134,8 +135,7 @@
   }
 
   &__flow {
-    max-width: $marea-container;
-    margin: 0 auto;
+    @include marea-container;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
