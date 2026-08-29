@@ -225,7 +225,8 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
     ]);
     this.busy.set(true);
     this.shouldScroll = true;
-    this.api.chat(message).subscribe({
+    const lang = this.transloco.getActiveLang() === 'en' ? 'en' : 'es';
+    this.api.chat(message, { lang }).subscribe({
       next: (res) => {
         this.busy.set(false);
         this.lines.update((prev) => [

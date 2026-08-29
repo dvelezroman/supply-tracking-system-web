@@ -146,10 +146,11 @@ export class RecipesPublicApiService {
     });
   }
 
-  chat(message: string, sessionId?: string) {
+  chat(message: string, options?: { sessionId?: string; lang?: 'es' | 'en' }) {
     return this.http.post<ApiResponse<ChatResponse>>(this.chatBase, {
       message,
-      sessionId,
+      sessionId: options?.sessionId,
+      lang: options?.lang ?? 'es',
     });
   }
 }
