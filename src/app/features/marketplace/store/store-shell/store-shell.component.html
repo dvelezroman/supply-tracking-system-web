@@ -14,12 +14,7 @@
         }
         <span class="store__title">{{ brand.landingTitle() }}</span>
       </a>
-      <nav class="store__nav" aria-label="Tienda">
-        <a routerLink="/tienda" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" class="store__nav-link">
-          {{ 'marketplace.store.navShop' | transloco }}
-        </a>
-        <a routerLink="/" class="store__nav-link">{{ 'marketplace.store.navHome' | transloco }}</a>
-      </nav>
+
       <div class="store__actions">
         <app-language-toggle />
         <app-theme-toggle />
@@ -39,6 +34,18 @@
           </mat-icon>
         </a>
       </div>
+
+      <nav class="store__nav" aria-label="Tienda">
+        <a
+          routerLink="/tienda"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="store__nav-link"
+        >
+          {{ 'marketplace.store.navShop' | transloco }}
+        </a>
+        <a routerLink="/" class="store__nav-link">{{ 'marketplace.store.navHome' | transloco }}</a>
+      </nav>
     </div>
   </mat-toolbar>
 

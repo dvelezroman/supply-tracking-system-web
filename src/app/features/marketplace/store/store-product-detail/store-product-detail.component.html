@@ -47,11 +47,12 @@
 
           @if (p.stockQty > 0) {
             <div class="detail__buy">
-              <mat-form-field appearance="outline" class="detail__qty">
+              <mat-form-field appearance="outline" class="detail__qty" subscriptSizing="dynamic">
                 <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
                 <input
                   matInput
                   type="number"
+                  inputmode="numeric"
                   min="1"
                   [max]="p.stockQty"
                   [ngModel]="qty()"
@@ -68,6 +69,6 @@
       </div>
     </div>
   } @else {
-    <p>{{ 'marketplace.store.notFound' | transloco }}</p>
+    <p class="detail__missing">{{ 'marketplace.store.notFound' | transloco }}</p>
   }
 }

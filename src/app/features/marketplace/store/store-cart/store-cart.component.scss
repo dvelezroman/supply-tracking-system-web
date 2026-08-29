@@ -1,17 +1,51 @@
 @use '../../../landing/styles/marea-tokens' as *;
 
+.cart {
+  width: 100%;
+  min-width: 0;
+  // Room for sticky footer CTA on small screens
+  padding-bottom: 5.5rem;
+
+  @media (min-width: $bp-md) {
+    padding-bottom: 0;
+  }
+}
+
 .cart h1 {
   font-family: $font-marea-heading;
   color: $marea-azul-profundo;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1rem;
+  font-size: clamp(1.35rem, 5vw, 1.85rem);
+  line-height: 1.2;
+
+  @media (min-width: $bp-sm) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .cart__empty {
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: 2rem 1.15rem;
   background: $marea-blanco;
   border-radius: 14px;
   border: 1px solid $border-ocean;
+
+  @media (min-width: $bp-sm) {
+    padding: 2.5rem 1rem;
+  }
+
+  p {
+    margin: 0 0 1.25rem;
+    color: $marea-gris-medio;
+  }
+
+  .marea-btn {
+    width: 100%;
+
+    @media (min-width: $bp-sm) {
+      width: auto;
+    }
+  }
 }
 
 .cart__list {
@@ -20,33 +54,44 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .cart__row {
   display: grid;
-  grid-template-columns: 80px 1fr auto;
-  gap: 12px;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  grid-template-areas:
+    'media info remove'
+    'qty qty total';
+  gap: 10px 12px;
   align-items: center;
   padding: 12px;
   background: $marea-blanco;
   border: 1px solid $border-ocean;
   border-radius: 14px;
 
-  @media (min-width: 720px) {
-    grid-template-columns: 80px 1fr 110px 120px auto;
+  @media (min-width: $bp-sm) {
+    grid-template-columns: 80px minmax(0, 1fr) 100px 110px auto;
+    grid-template-areas: 'media info qty total remove';
+    gap: 12px;
   }
 }
 
 .cart__media {
-  width: 80px;
-  height: 80px;
+  grid-area: media;
+  width: 64px;
+  height: 64px;
   border-radius: 10px;
   overflow: hidden;
   background: $marea-gris-claro;
   display: grid;
   place-items: center;
   color: $marea-azul-claro;
+
+  @media (min-width: $bp-sm) {
+    width: 80px;
+    height: 80px;
+  }
 
   img {
     width: 100%;
@@ -56,53 +101,106 @@
 }
 
 .cart__info {
+  grid-area: info;
+  min-width: 0;
+
   a {
     color: $marea-azul-profundo;
     font-weight: 600;
     text-decoration: none;
     font-family: $font-marea-heading;
+    font-size: 0.95rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   small {
     display: block;
     color: $marea-gris-medio;
+    font-size: 0.75rem;
+    margin-top: 2px;
   }
+}
 
-  p {
-    margin: 4px 0 0;
-    color: $marea-coral;
-    font-weight: 700;
-  }
+.cart__unit {
+  margin: 4px 0 0;
+  color: $marea-coral;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .cart__qty {
-  width: 100px;
+  grid-area: qty;
+  width: 100%;
+  max-width: 120px;
+  margin: 0 !important;
+
+  @media (min-width: $bp-sm) {
+    max-width: 100px;
+  }
 }
 
 .cart__line-total {
+  grid-area: total;
   font-weight: 700;
   text-align: right;
+  font-size: 0.95rem;
+  color: $marea-azul-profundo;
+  white-space: nowrap;
+}
+
+.cart__remove {
+  grid-area: remove;
+  justify-self: end;
+  color: $marea-gris-medio;
 }
 
 .cart__footer {
-  margin-top: 1.5rem;
-  padding: 1.25rem;
+  margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
   background: $marea-blanco;
   border-radius: 14px;
   border: 1px solid $border-ocean;
+
+  // Sticky checkout bar on phones
+  @media (max-width: #{$bp-md - 0.02px}) {
+    position: sticky;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    z-index: 10;
+    margin-top: 1rem;
+    box-shadow: 0 -8px 28px rgba(6, 26, 51, 0.1);
+  }
+
+  @media (min-width: $bp-sm) {
+    padding: 1.25rem;
+  }
 }
 
 .cart__subtotal {
-  font-size: 1.15rem;
-  text-align: right;
-  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  text-align: left;
+  margin: 0 0 0.85rem;
+
+  @media (min-width: $bp-sm) {
+    font-size: 1.15rem;
+    text-align: right;
+    margin-bottom: 1rem;
+  }
 }
 
 .cart__actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-end;
+  flex-direction: column-reverse;
+  gap: 10px;
+
+  @media (min-width: $bp-sm) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+  }
 }
 
 .marea-btn {
@@ -115,9 +213,16 @@
   font-family: $font-marea-heading;
   font-weight: 600;
   text-decoration: none;
-  min-height: 44px;
+  min-height: 48px;
   border: none;
   cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (min-width: $bp-sm) {
+    width: auto;
+    min-height: 44px;
+  }
 
   &--primary {
     background: $marea-coral;

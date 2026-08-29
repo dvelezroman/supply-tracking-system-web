@@ -1,5 +1,16 @@
 @use '../../../landing/styles/marea-tokens' as *;
 
+.detail {
+  width: 100%;
+  min-width: 0;
+  // Sticky buy bar clearance
+  padding-bottom: 5.5rem;
+
+  @media (min-width: $bp-md) {
+    padding-bottom: 0;
+  }
+}
+
 .detail__back {
   display: inline-flex;
   align-items: center;
@@ -7,24 +18,41 @@
   color: $marea-azul-principal;
   text-decoration: none;
   font-weight: 600;
-  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  min-height: 44px;
+  padding-right: 8px;
+
+  @media (min-width: $bp-sm) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .detail__grid {
   display: grid;
-  gap: 2rem;
+  gap: 1.25rem;
+
+  @media (min-width: $bp-sm) {
+    gap: 1.5rem;
+  }
 
   @media (min-width: 860px) {
     grid-template-columns: 1.1fr 1fr;
+    gap: 2rem;
+    align-items: start;
   }
 }
 
 .detail__main-img {
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid $border-ocean;
   background: $marea-blanco;
   aspect-ratio: 4 / 3;
+
+  @media (min-width: $bp-sm) {
+    border-radius: 14px;
+  }
 
   img {
     width: 100%;
@@ -45,7 +73,10 @@
   display: flex;
   gap: 8px;
   margin-top: 10px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
 }
 
 .detail__thumb {
@@ -55,63 +86,108 @@
   overflow: hidden;
   cursor: pointer;
   background: $marea-blanco;
+  flex-shrink: 0;
+  @include touch-target;
 
   img {
     display: block;
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
+
+    @media (min-width: $bp-sm) {
+      width: 72px;
+      height: 72px;
+    }
   }
 }
 
 .detail__cat {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: $marea-azul-claro;
   font-weight: 600;
+
+  @media (min-width: $bp-sm) {
+    font-size: 0.75rem;
+  }
 }
 
 .detail__info h1 {
   margin: 0.35rem 0 0.5rem;
   font-family: $font-marea-heading;
   color: $marea-azul-profundo;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.35rem, 5vw, 2rem);
+  line-height: 1.2;
 }
 
 .detail__price {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
   font-weight: 700;
   color: $marea-coral;
-  margin: 0 0 1rem;
+  margin: 0 0 0.85rem;
 }
 
 .detail__desc {
   color: $marea-gris-oscuro;
   line-height: 1.6;
   white-space: pre-wrap;
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
 }
 
 .detail__stock {
   color: $marea-gris-medio;
   font-size: 0.9rem;
+  margin: 0;
 }
 
 .detail__buy {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: stretch;
+  gap: 10px;
   margin-top: 1rem;
+
+  @media (max-width: #{$bp-md - 0.02px}) {
+    position: sticky;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    z-index: 10;
+    margin-top: 1.25rem;
+    padding: 12px;
+    background: $marea-blanco;
+    border: 1px solid $border-ocean;
+    border-radius: 14px;
+    box-shadow: 0 -8px 28px rgba(6, 26, 51, 0.1);
+  }
+
+  @media (min-width: $bp-sm) {
+    gap: 12px;
+    align-items: flex-start;
+  }
 }
 
 .detail__qty {
-  width: 110px;
+  width: 96px;
+  margin: 0 !important;
+  flex-shrink: 0;
+
+  @media (min-width: $bp-sm) {
+    width: 110px;
+  }
+}
+
+.detail__missing {
+  text-align: center;
+  color: $marea-gris-medio;
+  padding: 2rem 1rem;
 }
 
 .marea-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   border: none;
   border-radius: 10px;
@@ -119,14 +195,23 @@
   font-family: $font-marea-heading;
   font-weight: 600;
   cursor: pointer;
-  min-height: 44px;
+  min-height: 48px;
+  flex: 1;
+  box-sizing: border-box;
+
+  @media (min-width: $bp-md) {
+    flex: 0 1 auto;
+    min-height: 44px;
+  }
 
   &--primary {
     background: $marea-coral;
     color: $marea-blanco;
 
-    &:hover {
-      background: $marea-coral-hover;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: $marea-coral-hover;
+      }
     }
   }
 }

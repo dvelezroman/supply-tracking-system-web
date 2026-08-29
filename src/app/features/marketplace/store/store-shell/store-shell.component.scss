@@ -7,87 +7,143 @@
   background: $gradient-surface;
   color: $marea-gris-oscuro;
   font-family: $font-marea-body;
+  overflow-x: clip;
 }
 
 .store__toolbar {
   --mat-toolbar-container-text-color: #{$marea-blanco};
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   background: $marea-azul-profundo !important;
   color: $marea-blanco;
   height: auto !important;
-  padding: 10px 16px;
+  min-height: 52px;
+  padding: max(8px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 8px
+    max(12px, env(safe-area-inset-left, 0px));
   box-shadow: 0 2px 12px rgba(10, 38, 71, 0.2);
-
-  @media (max-width: 899.98px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
 }
 
 .store__toolbar-inner {
   width: 100%;
   max-width: $marea-container;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'brand actions'
+    'nav nav';
   align-items: center;
-  gap: 12px;
+  column-gap: 8px;
+  row-gap: 6px;
+
+  @media (min-width: $bp-md) {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
 }
 
 .store__brand {
+  grid-area: brand;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-decoration: none;
   color: inherit;
   min-width: 0;
+  max-width: 100%;
 }
 
 .store__logo {
-  height: 36px;
+  height: 32px;
   width: auto;
+  max-width: 96px;
   object-fit: contain;
+  flex-shrink: 0;
+
+  @media (min-width: $bp-sm) {
+    height: 36px;
+    max-width: 120px;
+  }
 }
 
 .store__title {
   font-family: $font-marea-heading;
   font-weight: 700;
   letter-spacing: 0.04em;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+
+  @media (max-width: 379px) {
+    display: none;
+  }
+
+  @media (min-width: $bp-sm) {
+    font-size: 0.95rem;
+  }
 }
 
 .store__nav {
+  grid-area: nav;
   display: flex;
-  gap: 8px;
-  flex: 1;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: $bp-md) {
+    flex: 1;
+    gap: 8px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
 }
 
 .store__nav-link {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-family: $font-marea-heading;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
   padding: 8px 12px;
   border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  @include touch-target;
+  display: inline-flex;
+  align-items: center;
 
   &.is-active,
   &:hover {
     background: rgba(255, 255, 255, 0.1);
     color: $marea-blanco;
   }
+
+  @media (min-width: $bp-sm) {
+    font-size: 0.85rem;
+  }
 }
 
 .store__actions {
+  grid-area: actions;
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: auto;
+  gap: 0;
+  flex-shrink: 0;
+
+  @media (min-width: $bp-md) {
+    margin-left: auto;
+    gap: 4px;
+  }
 }
 
 .store__cart {
@@ -99,18 +155,32 @@
   width: 100%;
   max-width: $marea-container;
   margin: 0 auto;
-  padding: clamp(1.25rem, 3vw, 2rem) 16px;
+  padding: 1rem max(12px, env(safe-area-inset-left), env(safe-area-inset-right))
+    max(1.5rem, env(safe-area-inset-bottom));
+  box-sizing: border-box;
 
-  @media (max-width: 899.98px) {
-    // Clear fixed toolbar
-    padding-top: calc(56px + env(safe-area-inset-top, 0px) + clamp(1.25rem, 3vw, 2rem));
+  @media (min-width: $bp-sm) {
+    padding: 1.25rem max(16px, env(safe-area-inset-left), env(safe-area-inset-right))
+      max(1.75rem, env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: $bp-md) {
+    padding: clamp(1.25rem, 3vw, 2rem) max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
   }
 }
 
 .store__footer {
-  padding: 24px 16px;
+  padding: 20px max(16px, env(safe-area-inset-left), env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom));
   text-align: center;
   background: $marea-azul-profundo;
   color: rgba(255, 255, 255, 0.75);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+
+  p {
+    margin: 0;
+    max-width: 28rem;
+    margin-inline: auto;
+  }
 }

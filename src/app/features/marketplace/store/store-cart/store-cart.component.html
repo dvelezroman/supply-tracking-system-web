@@ -22,13 +22,14 @@
           <div class="cart__info">
             <a [routerLink]="['/tienda', line.slug]">{{ line.name }}</a>
             <small>{{ line.sku }}</small>
-            <p>{{ formatMoney(line.unitPriceCents, line.currency) }}</p>
+            <p class="cart__unit">{{ formatMoney(line.unitPriceCents, line.currency) }}</p>
           </div>
-          <mat-form-field appearance="outline" class="cart__qty">
+          <mat-form-field appearance="outline" class="cart__qty" subscriptSizing="dynamic">
             <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
             <input
               matInput
               type="number"
+              inputmode="numeric"
               min="1"
               [max]="line.stockQty"
               [ngModel]="line.qty"
@@ -38,7 +39,13 @@
           <div class="cart__line-total">
             {{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}
           </div>
-          <button mat-icon-button type="button" (click)="cart.remove(line.productId)" [attr.aria-label]="'common.delete' | transloco">
+          <button
+            mat-icon-button
+            type="button"
+            class="cart__remove"
+            (click)="cart.remove(line.productId)"
+            [attr.aria-label]="'common.delete' | transloco"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </li>
