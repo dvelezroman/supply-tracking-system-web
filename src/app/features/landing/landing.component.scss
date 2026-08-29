@@ -31,6 +31,13 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: none;
 
+  @media (max-width: 899.98px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
   app-language-toggle ::ng-deep .mat-mdc-icon-button {
     color: rgba(255, 255, 255, 0.92);
     @include touch-target;
@@ -208,6 +215,17 @@
   margin: 0;
   padding: 0 0 max(2rem, env(safe-area-inset-bottom));
   box-sizing: border-box;
+
+  @media (max-width: 899.98px) {
+    padding-top: calc(52px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+:host-context(html.marea-dock-active) .landing__main {
+  @media (max-width: 899.98px) {
+    padding-bottom: calc(100px + 64px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .landing__footer {
@@ -223,6 +241,20 @@
   color: rgba(255, 255, 255, 0.8);
   background: $marea-azul-profundo;
   border-top: 0;
+
+  @media (max-width: 899.98px) {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
+  }
+}
+
+:host-context(html.marea-dock-active) .landing__footer {
+  @media (max-width: 899.98px) {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .landing__footer-dev {

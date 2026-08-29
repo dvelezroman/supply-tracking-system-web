@@ -64,7 +64,17 @@
                 </p>
               } @else {
                 <p class="marea-chat__text">
-                  {{ line.plain || (line.textKey | transloco) }}
+                  @for (part of botTextParts(line); track $index) {
+                    @if (part.kind === 'link') {
+                      <a
+                        class="marea-chat__inline-link"
+                        [routerLink]="part.commands"
+                        (click)="close()"
+                      >{{ part.label }}</a>
+                    } @else {
+                      {{ part.value }}
+                    }
+                  }
                 </p>
                 @if (line.recipeRefs?.length) {
                   <div class="marea-chat__refs">

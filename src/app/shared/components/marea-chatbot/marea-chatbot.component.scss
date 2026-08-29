@@ -364,6 +364,24 @@ $header-gap: 10px;
   }
 }
 
+.marea-chat__inline-link {
+  color: $azul-claro;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-all;
+
+  &:hover {
+    color: $azul-principal;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $amarillo;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
 .marea-chat__bubble--busy {
   display: inline-flex;
   align-items: center;
@@ -736,6 +754,14 @@ $header-gap: 10px;
     background: #1e2a36;
     color: rgba(255, 255, 255, 0.92);
     border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .marea-chat__inline-link {
+    color: #7eb6e8;
+
+    &:hover {
+      color: #a8d0f0;
+    }
   }
 
   .marea-chat__row--user .marea-chat__bubble {

@@ -12,47 +12,53 @@
     </header>
 
     <nav class="marea-explore__grid" [attr.aria-label]="'landing.marea.explore.navAria' | transloco">
-      <a routerLink="/recetas" class="marea-explore__card marea-explore__card--recipes">
-        <span class="marea-explore__icon" aria-hidden="true">
-          <mat-icon>menu_book</mat-icon>
-        </span>
-        <span class="marea-explore__card-body">
-          <span class="marea-explore__card-title">{{ 'landing.marea.explore.recipesTitle' | transloco }}</span>
-          <span class="marea-explore__card-desc">{{ 'landing.marea.explore.recipesDesc' | transloco }}</span>
-          <span class="marea-explore__card-cta">
-            {{ 'landing.marea.explore.recipesCta' | transloco }}
-            <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      <div class="marea-explore__cell">
+        <a routerLink="/recetas" class="marea-explore__card marea-explore__card--recipes">
+          <span class="marea-explore__icon" aria-hidden="true">
+            <mat-icon>menu_book</mat-icon>
           </span>
-        </span>
-      </a>
+          <span class="marea-explore__card-body">
+            <span class="marea-explore__card-title">{{ 'landing.marea.explore.recipesTitle' | transloco }}</span>
+            <span class="marea-explore__card-desc">{{ 'landing.marea.explore.recipesDesc' | transloco }}</span>
+            <span class="marea-explore__card-cta">
+              {{ 'landing.marea.explore.recipesCta' | transloco }}
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+            </span>
+          </span>
+        </a>
+      </div>
 
-      <button type="button" class="marea-explore__card marea-explore__card--mary" (click)="openMary()">
-        <span class="marea-explore__icon" aria-hidden="true">
-          <mat-icon>smart_toy</mat-icon>
-        </span>
-        <span class="marea-explore__card-body">
-          <span class="marea-explore__card-title">{{ 'landing.marea.explore.maryTitle' | transloco }}</span>
-          <span class="marea-explore__card-desc">{{ 'landing.marea.explore.maryDesc' | transloco }}</span>
-          <span class="marea-explore__card-cta">
-            {{ 'landing.marea.explore.maryCta' | transloco }}
-            <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      <div class="marea-explore__cell">
+        <button type="button" class="marea-explore__card marea-explore__card--mary" (click)="openMary()">
+          <span class="marea-explore__icon" aria-hidden="true">
+            <mat-icon>smart_toy</mat-icon>
           </span>
-        </span>
-      </button>
+          <span class="marea-explore__card-body">
+            <span class="marea-explore__card-title">{{ 'landing.marea.explore.maryTitle' | transloco }}</span>
+            <span class="marea-explore__card-desc">{{ 'landing.marea.explore.maryDesc' | transloco }}</span>
+            <span class="marea-explore__card-cta">
+              {{ 'landing.marea.explore.maryCta' | transloco }}
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+            </span>
+          </span>
+        </button>
+      </div>
 
-      <a routerLink="/trace" class="marea-explore__card marea-explore__card--trace">
-        <span class="marea-explore__icon" aria-hidden="true">
-          <mat-icon>qr_code_scanner</mat-icon>
-        </span>
-        <span class="marea-explore__card-body">
-          <span class="marea-explore__card-title">{{ 'landing.marea.explore.traceTitle' | transloco }}</span>
-          <span class="marea-explore__card-desc">{{ 'landing.marea.explore.traceDesc' | transloco }}</span>
-          <span class="marea-explore__card-cta">
-            {{ 'landing.marea.explore.traceCta' | transloco }}
-            <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      <div class="marea-explore__cell">
+        <a routerLink="/trace" class="marea-explore__card marea-explore__card--trace">
+          <span class="marea-explore__icon" aria-hidden="true">
+            <mat-icon>qr_code_scanner</mat-icon>
           </span>
-        </span>
-      </a>
+          <span class="marea-explore__card-body">
+            <span class="marea-explore__card-title">{{ 'landing.marea.explore.traceTitle' | transloco }}</span>
+            <span class="marea-explore__card-desc">{{ 'landing.marea.explore.traceDesc' | transloco }}</span>
+            <span class="marea-explore__card-cta">
+              {{ 'landing.marea.explore.traceCta' | transloco }}
+              <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+            </span>
+          </span>
+        </a>
+      </div>
     </nav>
   </div>
 </section>

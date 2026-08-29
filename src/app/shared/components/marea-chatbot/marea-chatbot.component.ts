@@ -37,6 +37,41 @@ export interface MareaChatLine {
   recipeRefs?: { slug: string; name: string }[];
 }
 
+/** Inline segments for bot copy: plain text or in-app recipe links. */
+export type MareaChatTextPart =
+  | { kind: 'text'; value: string }
+  | { kind: 'link'; label: string; commands: string[] };
+
+/** `/recetas` or `/recetas/{slug}`, optional surrounding `**markdown**`. */
+const RECIPE_PATH_RE =
+  /\*\*(\/recetas(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)\*\*|(\/recetas(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)/gi;
+
+function splitRecipePathParts(text: string): MareaChatTextPart[] {
+  if (!text) return [{ kind: 'text', value: '' }];
+  const parts: MareaChatTextPart[] = [];
+  let last = 0;
+  for (const match of text.matchAll(RECIPE_PATH_RE)) {
+    const index = match.index ?? 0;
+    if (index > last) {
+      parts.push({ kind: 'text', value: text.slice(last, index) });
+    }
+    const path = match[1] ?? match[2] ?? match[0];
+    const slug = path.startsWith('/recetas/')
+      ? path.slice('/recetas/'.length)
+      : null;
+    parts.push({
+      kind: 'link',
+      label: path,
+      commands: slug ? ['/recetas', slug] : ['/recetas'],
+    });
+    last = index + match[0].length;
+  }
+  if (last < text.length) {
+    parts.push({ kind: 'text', value: text.slice(last) });
+  }
+  return parts.length ? parts : [{ kind: 'text', value: text }];
+}
+
 const CHAT_OPTIONS: {
   id: MareaChatOptionId;
   labelKey: string;
@@ -261,6 +296,14 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
 
   isContactReply(line: MareaChatLine): boolean {
     return line.textKey === 'chatbot.replies.contact';
+  }
+
+  botTextParts(line: MareaChatLine): MareaChatTextPart[] {
+    const text =
+      line.plain ??
+      (line.textKey ? this.transloco.translate(line.textKey) : '') ??
+      '';
+    return splitRecipePathParts(text);
   }
 
   recipeRefName(ref: { slug: string; name: string }): string {

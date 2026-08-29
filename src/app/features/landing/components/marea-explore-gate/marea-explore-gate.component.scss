@@ -17,7 +17,7 @@
     margin-bottom: 1.5rem;
     max-width: 36rem;
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-lg) {
       text-align: center;
       margin-inline: auto;
       margin-bottom: 2rem;
@@ -42,92 +42,81 @@
     color: $marea-gris-medio;
   }
 
-  // Mobile-first: stacked tiles; gap, not shared border cage
+  // Grid on cells (not on <a>/<button>) — avoids button UA layout bugs / overlap
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.85rem;
-
-    @media (min-width: $bp-md) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
+    gap: 1rem;
+    align-items: stretch;
+    isolation: isolate;
 
     @media (min-width: $bp-lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1.25rem;
     }
   }
 
+  &__cell {
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
   &__card {
-    appearance: none;
-    position: relative;
+    // Kill UA differences between <a> and <button>
+    all: unset;
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     gap: 1rem;
     width: 100%;
-    min-height: 0;
+    height: 100%;
+    min-width: 0;
+    max-width: 100%;
     margin: 0;
-    padding: 1.15rem 1.15rem 1.15rem 1.05rem;
+    padding: 1.2rem 1.2rem 1.2rem 1.15rem;
     text-align: left;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    font: inherit;
+    font-family: $font-marea-body;
     border: 1px solid $border-ocean;
+    border-left: 4px solid $marea-azul-claro;
     border-radius: 12px;
     background: $marea-blanco;
-    box-shadow: none;
     overflow: hidden;
+    position: relative;
+    z-index: 0;
     transition:
       border-color 0.2s ease,
-      background 0.2s ease,
-      transform 0.2s ease;
+      background 0.2s ease;
 
-    // Accent bar — identity per path
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: $marea-azul-claro;
+    &--recipes {
+      border-left-color: $marea-coral;
     }
 
-    &--recipes::before {
-      background: $marea-coral;
+    &--mary {
+      border-left-color: #c9a227;
     }
 
-    &--mary::before {
-      background: #c9a227;
+    &--trace {
+      border-left-color: $marea-azul-claro;
     }
 
-    &--trace::before {
-      background: $marea-azul-claro;
-    }
-
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-lg) {
       flex-direction: column;
       gap: 1.15rem;
-      min-height: 100%;
       padding: 1.5rem 1.35rem 1.35rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       text-decoration: none;
       color: inherit;
-      border-color: rgba(15, 52, 96, 0.28);
       background: #fafcfe;
-      transform: translateY(-2px);
-
-      .marea-explore__card-cta {
-        gap: 0.45rem;
-      }
-    }
-
-    &:active {
-      transform: translateY(0);
+      border-color: rgba(15, 52, 96, 0.28);
     }
 
     &:focus-visible {
@@ -135,18 +124,24 @@
       outline-offset: 3px;
     }
 
-    &--recipes:hover {
+    &--recipes:hover,
+    &--recipes:focus-visible {
       border-color: rgba(232, 93, 93, 0.45);
+      border-left-color: $marea-coral;
       background: rgba(232, 93, 93, 0.04);
     }
 
-    &--mary:hover {
+    &--mary:hover,
+    &--mary:focus-visible {
       border-color: rgba(201, 162, 39, 0.5);
+      border-left-color: #c9a227;
       background: rgba(232, 197, 71, 0.08);
     }
 
-    &--trace:hover {
+    &--trace:hover,
+    &--trace:focus-visible {
       border-color: rgba(42, 111, 173, 0.45);
+      border-left-color: $marea-azul-claro;
       background: rgba(42, 111, 173, 0.05);
     }
   }
@@ -191,7 +186,7 @@
       }
     }
 
-    @media (min-width: $bp-md) {
+    @media (min-width: $bp-lg) {
       width: 56px;
       height: 56px;
 
@@ -212,6 +207,7 @@
   }
 
   &__card-title {
+    display: block;
     font-family: $font-marea-heading;
     font-size: 1.125rem;
     font-weight: 700;
@@ -221,8 +217,10 @@
   }
 
   &__card-desc {
+    display: block;
     font-family: $font-marea-body;
     font-size: 0.9rem;
+    font-weight: 400;
     line-height: 1.5;
     color: $marea-gris-medio;
     flex: 1 1 auto;
@@ -232,15 +230,14 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    margin-top: 0.65rem;
-    padding-top: 0.65rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
     border-top: 1px solid rgba(15, 52, 96, 0.08);
     font-family: $font-marea-heading;
     font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     color: $marea-azul-claro;
-    transition: gap 0.2s ease;
 
     mat-icon {
       font-size: 16px;
@@ -258,16 +255,6 @@
 
     .marea-explore__card--trace & {
       color: $marea-azul-claro;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marea-explore__card {
-    transition: border-color 0.15s ease, background 0.15s ease;
-
-    &:hover {
-      transform: none;
     }
   }
 }
