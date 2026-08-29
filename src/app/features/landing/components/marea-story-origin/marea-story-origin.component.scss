@@ -2,24 +2,24 @@
 
 .marea-story {
   padding: $section-pad-y 0;
+  background: $marea-gris-claro;
 
   &__grid {
+    @include marea-container;
     display: grid;
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
     align-items: center;
-    max-width: $marea-container;
-    margin: 0 auto;
 
-    @media (min-width: 768px) {
+    @media (min-width: $bp-md) {
       grid-template-columns: 1fr 1.1fr;
     }
   }
 
   &__figure {
     margin: 0;
-    border-radius: 16px;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(10, 38, 71, 0.2);
+    box-shadow: none;
   }
 
   &__photo {

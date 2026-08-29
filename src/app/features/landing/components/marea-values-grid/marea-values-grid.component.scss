@@ -2,21 +2,11 @@
 
 .marea-values {
   padding: $section-pad-y 0;
-  background: linear-gradient(180deg, rgba(245, 230, 211, 0.35) 0%, transparent 100%);
-  margin: 0 -1rem;
-  padding-left: max(1rem, env(safe-area-inset-left));
-  padding-right: max(1rem, env(safe-area-inset-right));
-
-  @media (min-width: 600px) {
-    margin: 0 -1.25rem;
-    border-radius: 20px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+  background: $marea-blanco;
+  margin: 0;
 
   &__block {
-    max-width: $marea-container;
-    margin: 0 auto;
+    @include marea-container;
 
     & + & {
       margin-top: 3rem;
@@ -70,16 +60,23 @@
   }
 
   &__card {
-    background: $marea-blanco;
-    border-radius: 14px;
-    padding: 1.35rem 1.15rem;
-    border: 1px solid rgba(20, 66, 114, 0.1);
-    box-shadow: 0 4px 16px rgba(10, 38, 71, 0.06);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: transparent;
+    border-radius: 0;
+    padding: 1.15rem 0;
+    border: none;
+    border-bottom: 1px solid $border-ocean;
+    box-shadow: none;
+    transition: none;
+
+    @media (min-width: $bp-sm) {
+      padding: 1.15rem;
+      border: 1px solid $border-ocean;
+      border-bottom: 1px solid $border-ocean;
+    }
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(10, 38, 71, 0.12);
+      transform: none;
+      box-shadow: none;
     }
 
     &--deep {

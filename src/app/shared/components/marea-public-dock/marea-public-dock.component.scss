@@ -17,16 +17,9 @@
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 -6px 24px rgba(10, 38, 71, 0.28);
 
-  /* Desktop: compact floating pill — less chrome */
+  /* Solo pantallas pequeñas */
   @media (min-width: 900px) {
-    left: 50%;
-    right: auto;
-    bottom: 16px;
-    transform: translateX(-50%);
-    width: min(440px, calc(100% - 2rem));
-    border-radius: 18px;
-    padding: 8px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    display: none !important;
   }
 }
 

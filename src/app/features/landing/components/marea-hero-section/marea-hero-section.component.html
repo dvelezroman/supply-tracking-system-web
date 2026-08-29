@@ -1,67 +1,43 @@
 <section class="marea-hero" id="marea-hero" aria-labelledby="marea-hero-title">
-  <div class="marea-hero__bg" aria-hidden="true">
+  <div class="marea-hero__media" aria-hidden="true">
     <img
-      class="marea-hero__bg-photo"
+      class="marea-hero__photo"
       [src]="img.heroBackground"
       alt=""
       appLandingImageFallback="heroBackground"
     />
+    <div class="marea-hero__veil"></div>
   </div>
+
   <div class="marea-hero__inner">
-    <div class="marea-hero__layout">
-      <div class="marea-hero__copy">
-        <p class="marea-hero__badge">{{ 'landing.marea.hero.badge' | transloco }}</p>
-        <h1 id="marea-hero-title" class="marea-hero__title">
-          <span class="marea-hero__title-line">{{ 'landing.marea.hero.titleLine1' | transloco }}</span>
-          <span class="marea-hero__title-line marea-hero__title-line--emphasis">{{
-            'landing.marea.hero.titleLine2' | transloco
-          }}</span>
-        </h1>
-        <p class="marea-hero__subtitle">{{ 'landing.marea.hero.subtitle' | transloco }}</p>
-        <div class="marea-hero__ctas">
-          <a routerLink="/recetas" class="marea-btn marea-btn--primary">
-            <mat-icon aria-hidden="true">menu_book</mat-icon>
-            {{ 'landing.marea.hero.ctaRecipes' | transloco }}
-          </a>
-          <a
-            routerLink="/trace"
-            class="marea-hero__trace-cta"
-            [attr.aria-describedby]="'marea-hero-trace-hint'"
-          >
-            <span class="marea-hero__trace-cta-main">
-              <mat-icon aria-hidden="true">qr_code_scanner</mat-icon>
-              <span>{{ 'landing.marea.hero.ctaTrace' | transloco }}</span>
-            </span>
-            <span id="marea-hero-trace-hint" class="marea-hero__trace-cta-hint">
-              {{ 'landing.marea.hero.ctaTraceHint' | transloco }}
-            </span>
-          </a>
-          <button type="button" class="marea-btn marea-btn--ghost" (click)="scrollTo('marea-story')">
-            {{ 'landing.marea.hero.ctaStory' | transloco }}
-          </button>
-        </div>
-        <button
-          type="button"
-          class="marea-hero__scroll"
-          (click)="scrollTo('explorar')"
-          [attr.aria-label]="'landing.marea.hero.scrollHint' | transloco"
-        >
-          <span>{{ 'landing.marea.hero.scrollHint' | transloco }}</span>
-          <mat-icon class="marea-hero__scroll-icon">expand_more</mat-icon>
-        </button>
-      </div>
-      <figure class="marea-hero__figure">
-        <img
-          class="marea-hero__product"
-          [src]="img.heroProduct"
-          width="640"
-          height="800"
-          loading="eager"
-          decoding="async"
-          [alt]="'landing.marea.images.heroProduct' | transloco"
-          appLandingImageFallback="heroProduct"
-        />
-      </figure>
+    <p class="marea-hero__brand">{{ 'landing.toolbar.brandTitle' | transloco }}</p>
+    <h1 id="marea-hero-title" class="marea-hero__title">
+      <span class="marea-hero__title-line">{{ 'landing.marea.hero.titleLine1' | transloco }}</span>
+      <span class="marea-hero__title-line marea-hero__title-line--emphasis">{{
+        'landing.marea.hero.titleLine2' | transloco
+      }}</span>
+    </h1>
+    <p class="marea-hero__subtitle">{{ 'landing.marea.hero.subtitle' | transloco }}</p>
+
+    <div class="marea-hero__ctas">
+      <a routerLink="/recetas" class="marea-btn marea-btn--primary">
+        <mat-icon aria-hidden="true">menu_book</mat-icon>
+        {{ 'landing.marea.hero.ctaRecipes' | transloco }}
+      </a>
+      <a routerLink="/trace" class="marea-btn marea-btn--ghost">
+        <mat-icon aria-hidden="true">qr_code_scanner</mat-icon>
+        {{ 'landing.marea.hero.ctaTrace' | transloco }}
+      </a>
     </div>
+
+    <button
+      type="button"
+      class="marea-hero__scroll"
+      (click)="scrollTo('explorar')"
+      [attr.aria-label]="'landing.marea.hero.scrollHint' | transloco"
+    >
+      <span>{{ 'landing.marea.hero.scrollHint' | transloco }}</span>
+      <mat-icon class="marea-hero__scroll-icon" aria-hidden="true">expand_more</mat-icon>
+    </button>
   </div>
 </section>

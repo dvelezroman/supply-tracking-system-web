@@ -3,21 +3,16 @@
 .marea-timeline {
   padding: $section-pad-y 0;
   background: $marea-gris-claro;
-  margin: 0 -1rem;
-  padding-left: max(1rem, env(safe-area-inset-left));
-  padding-right: max(1rem, env(safe-area-inset-right));
-
-  @media (min-width: 600px) {
-    margin: 0 -1.25rem;
-    border-radius: 20px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+  margin: 0;
 
   &__header {
-    max-width: $marea-container;
-    margin: 0 auto 2rem;
-    text-align: center;
+    @include marea-container;
+    margin-bottom: 2rem;
+    text-align: left;
+
+    @media (min-width: $bp-md) {
+      text-align: center;
+    }
   }
 
   &__title {

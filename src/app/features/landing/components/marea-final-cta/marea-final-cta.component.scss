@@ -2,19 +2,13 @@
 
 .marea-final {
   padding: clamp(2.5rem, 5vw, 3.5rem) 0;
-  margin: 0 -1rem 2rem;
+  margin: 0;
   background: $gradient-ocean;
   border-radius: 0;
 
-  @media (min-width: 600px) {
-    margin: 0 -1.25rem 2rem;
-    border-radius: 20px;
-  }
-
   &__inner {
+    @include marea-container;
     max-width: 640px;
-    margin: 0 auto;
-    padding: 0 1rem;
     text-align: center;
   }
 

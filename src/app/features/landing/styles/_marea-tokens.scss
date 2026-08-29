@@ -1,34 +1,57 @@
-// Marea Alta — design tokens (plan marea-alta-landing-plan.md, alineada a logo: azul océano + coral + sol/arena)
-$marea-azul-profundo: #0a2647;
-$marea-azul-principal: #144272;
-$marea-azul-claro: #2c74b3;
-$marea-celeste: #205295;
-$marea-coral: #ff6b6b;
-$marea-coral-hover: #ff5252;
-$marea-amarillo: #ffd93d;
+// Marea Alta — design tokens (océano profundo + coral marca; surfaces frías, no cream/terracotta)
+$marea-azul-profundo: #061a33;
+$marea-azul-principal: #0f3460;
+$marea-azul-claro: #2a6fad;
+$marea-celeste: #1b4f82;
+$marea-coral: #e85d5d;
+$marea-coral-hover: #d94848;
+$marea-amarillo: #e8c547;
 $marea-blanco: #ffffff;
-$marea-arena: #f5e6d3;
-$marea-gris-claro: #f7f9fc;
-$marea-gris-medio: #718096;
-$marea-gris-oscuro: #2d3748;
-$marea-negro: #1a202c;
-// Trazabilidad / “éxito” con la misma familia fría (sin verde Material)
-$marea-aguamarina: #2d9a8f;
-// Acento terciario (diagramas, un nodo de cadena) — mantiene armonía con azules
-$marea-indigo-mar: #4a5fc1;
+$marea-arena: #e8eef4; // cool salt — not warm cream
+$marea-gris-claro: #f3f6f9;
+$marea-gris-medio: #5c6b7a;
+$marea-gris-oscuro: #1e2a36;
+$marea-negro: #0c1218;
+$marea-aguamarina: #2a8f86;
+$marea-indigo-mar: #3d5a9a;
 
-$gradient-ocean: linear-gradient(135deg, $marea-azul-profundo 0%, $marea-azul-principal 55%, #1e3a5f 100%);
-$gradient-hero-overlay: linear-gradient(180deg, rgba(10, 38, 71, 0.88) 0%, rgba(10, 38, 71, 0.55) 45%, rgba(247, 249, 252, 0.96) 100%);
-$gradient-surface: linear-gradient(165deg, $marea-gris-claro 0%, #eef2f6 40%, #e8ecf2 100%);
-$gradient-cta-warm: linear-gradient(120deg, rgba(245, 230, 211, 0.55) 0%, $marea-gris-claro 55%);
+$gradient-ocean: linear-gradient(145deg, $marea-azul-profundo 0%, $marea-azul-principal 60%, #163a5c 100%);
+$gradient-hero-overlay: linear-gradient(
+  195deg,
+  rgba(6, 26, 51, 0.55) 0%,
+  rgba(6, 26, 51, 0.72) 42%,
+  rgba(6, 26, 51, 0.92) 100%
+);
+$gradient-surface: linear-gradient(180deg, #eef3f8 0%, $marea-gris-claro 48%, #e6edf4 100%);
+$gradient-cta-warm: linear-gradient(120deg, rgba(232, 238, 244, 0.9) 0%, $marea-gris-claro 55%);
 
-$font-marea-heading: 'Montserrat', 'Roboto', system-ui, sans-serif;
-$font-marea-body: 'Open Sans', 'Roboto', system-ui, sans-serif;
-$font-marea-quote: 'Playfair Display', Georgia, serif;
+// Distinctive pair — not Inter/Roboto/system default stack
+$font-marea-heading: 'Sora', 'Montserrat', system-ui, sans-serif;
+$font-marea-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
+$font-marea-quote: 'Fraunces', Georgia, serif;
+$font-marea-brand: 'Sora', system-ui, sans-serif;
 
-$marea-container: 1200px;
-$section-pad-y: clamp(3rem, 6vw, 5rem);
+$marea-container: 1120px;
+$section-pad-y: clamp(2.75rem, 7vw, 5rem);
+$section-pad-x: clamp(1rem, 4vw, 1.75rem);
 
-// Uso semántico (texto, bordes, MDC)
-$shadow-ocean-sm: 0 4px 20px rgba(10, 38, 71, 0.07);
-$border-ocean: rgba(20, 66, 114, 0.12);
+$shadow-ocean-sm: 0 1px 0 rgba(6, 26, 51, 0.04);
+$border-ocean: rgba(15, 52, 96, 0.14);
+
+$bp-sm: 600px;
+$bp-md: 768px;
+$bp-lg: 960px;
+$bp-xl: 1200px;
+
+@mixin marea-container {
+  width: 100%;
+  max-width: $marea-container;
+  margin-inline: auto;
+  padding-inline: max($section-pad-x, env(safe-area-inset-left), env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+
+@mixin touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}

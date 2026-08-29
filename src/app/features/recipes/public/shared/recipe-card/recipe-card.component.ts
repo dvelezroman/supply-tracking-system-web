@@ -44,7 +44,10 @@ import type { RecipeListItem } from '../../../models/recipe.model';
           @if (item().prepMinutes || item().cookMinutes) {
             <span class="recipe-card__chip">
               <mat-icon>schedule</mat-icon>
-              {{ (item().prepMinutes ?? 0) + (item().cookMinutes ?? 0) }} min
+              {{
+                'recipes.public.minutes'
+                  | transloco: { count: (item().prepMinutes ?? 0) + (item().cookMinutes ?? 0) }
+              }}
             </span>
           }
           <button

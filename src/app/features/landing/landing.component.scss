@@ -1,15 +1,6 @@
 @use './styles/marea-tokens' as *;
 
-// Mobile-first: base styles for narrow viewports; enhance from ~600–768px up.
-
-$bp-sm: 600px;
-$bp-md: 768px;
-$bp-lg: 900px;
-
-@mixin touch-target {
-  min-height: 44px;
-  min-width: 44px;
-}
+// Mobile-first: base = phone; enhance at min-width breakpoints.
 
 .landing {
   min-height: 100%;
@@ -18,284 +9,205 @@ $bp-lg: 900px;
   flex-direction: column;
   background: $gradient-surface;
   color: $marea-gris-oscuro;
-  /* iOS safe area for standalone / notch */
   padding-bottom: env(safe-area-inset-bottom, 0);
+  font-family: $font-marea-body;
 }
 
-// ── Toolbar (stacked on phones, single row on tablet+) — paleta Marea, no indigo de Material
+// ── Toolbar: one slim row on phone (dock handles Recetas/Tienda/Mary) ───────
 .landing__toolbar {
   --mat-toolbar-container-text-color: #{$marea-blanco};
-  --mat-toolbar-standard-height: 56px;
+  --mat-toolbar-standard-height: 52px;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 20;
   height: auto !important;
-  min-height: 56px;
-  padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));
-  padding-top: max(12px, env(safe-area-inset-top));
-  background: $marea-azul-profundo !important;
+  min-height: 52px;
+  padding: 0 max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left));
+  padding-top: env(safe-area-inset-top, 0);
+  background: rgba(6, 26, 51, 0.92) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: $marea-blanco;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 2px 12px rgba(10, 38, 71, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
 
   app-language-toggle ::ng-deep .mat-mdc-icon-button {
-    color: rgba(255, 255, 255, 0.95);
+    color: rgba(255, 255, 255, 0.92);
     @include touch-target;
   }
 
   app-theme-toggle {
-    color: rgba(255, 255, 255, 0.95);
-  }
-
-  .landing__title {
-    color: rgba(255, 255, 255, 0.95);
-  }
-
-  .landing__nav-shop {
-    --mdc-filled-button-container-color: #{$marea-coral};
-    --mdc-filled-button-label-text-color: #{$marea-blanco};
-    --mat-filled-button-state-layer-color: #{$marea-blanco};
-    background: $marea-coral !important;
-    color: $marea-blanco !important;
-
-    &--recipes {
-      --mdc-filled-button-container-color: #{$marea-azul-claro};
-      background: $marea-azul-claro !important;
-      box-shadow: 0 4px 14px rgba(44, 116, 179, 0.4);
-    }
-  }
-
-  .landing__nav-ops {
-    color: rgba(255, 255, 255, 0.72);
-
-    &--muted {
-      opacity: 0.75;
-      font-size: 0.75rem;
-    }
+    color: rgba(255, 255, 255, 0.92);
   }
 }
 
 .landing__toolbar-inner {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
-  max-width: 100%;
+  max-width: $marea-container;
+  margin-inline: auto;
+  min-height: 52px;
   box-sizing: border-box;
 }
 
 .landing__brandLine {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-height: 44px;
   min-width: 0;
+  flex: 1 1 auto;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .landing__logo {
   display: block;
-  height: 36px;
+  height: 32px;
   width: auto;
-  max-width: min(140px, 38vw);
+  max-width: min(120px, 42vw);
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .landing__toolbar-icon {
   flex-shrink: 0;
-  font-size: 28px;
-  width: 28px;
-  height: 28px;
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
 }
 
 .landing__title {
-  font-size: clamp(0.8rem, 2.8vw, 1.05rem);
-  font-weight: 500;
-  line-height: 1.2;
-  min-width: 0;
-  letter-spacing: -0.01em;
-}
-
-.landing__actionsLine {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
-  width: 100%;
-}
-
-.landing__nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  width: 100%;
-
-  .landing__nav-shop {
-    grid-column: span 1;
-  }
-
-  .landing__nav-ops {
-    grid-column: span 1;
-  }
-}
-
-.landing__nav-shop {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 52px;
-  padding: 10px 16px !important;
-  border-radius: 12px !important;
+  font-family: $font-marea-brand;
+  font-size: 0.7rem;
   font-weight: 600;
-  text-align: left;
-  box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
-
-  mat-icon {
-    flex-shrink: 0;
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
-  }
-
-  &:hover {
-    filter: brightness(1.05);
-  }
-
-  &:focus-visible {
-    outline: 2px solid $marea-blanco;
-    outline-offset: 2px;
-  }
-}
-
-.landing__nav-shop-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  min-width: 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   line-height: 1.2;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.95);
+
+  @media (max-width: 379px) {
+    display: none; // logo alone on very narrow
+  }
 }
 
-.landing__nav-shop-label {
-  font-size: 0.95rem;
-  font-weight: 700;
+// Desktop nav hidden on phone — bottom dock covers consumer paths
+.landing__nav--desktop {
+  display: none;
+
+  @media (min-width: $bp-md) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 1 auto;
+  }
 }
 
-.landing__nav-shop-hint {
-  font-size: 0.72rem;
-  font-weight: 500;
-  opacity: 0.9;
-  white-space: normal;
-}
-
-.landing__nav-ops {
-  @include touch-target;
+.landing__nav-link {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  font-weight: 500;
+  min-height: 40px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-family: $font-marea-body;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.06);
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    opacity: 0.85;
-  }
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
 
   &:hover {
     color: $marea-blanco;
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.1);
     text-decoration: none;
   }
 
   &:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline: 2px solid rgba(255, 255, 255, 0.65);
     outline-offset: 2px;
+  }
+
+  &--accent {
+    color: $marea-blanco;
+    background: $marea-coral;
+
+    &:hover {
+      background: $marea-coral-hover;
+      color: $marea-blanco;
+    }
+  }
+
+  &--muted {
+    font-weight: 500;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.55);
   }
 }
 
 .landing__prefs {
   display: flex;
   align-items: center;
-  align-self: flex-end;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
 }
 
-@media (min-width: $bp-md) {
-  .landing__toolbar-inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+.landing__ops-mobile {
+  @include touch-target;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  text-decoration: none;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 
-  .landing__actionsLine {
-    flex-direction: row;
-    align-items: center;
-    width: auto;
-    flex-shrink: 0;
-    gap: 12px;
+  &:hover {
+    color: $marea-blanco;
+    background: rgba(255, 255, 255, 0.1);
   }
 
-  .landing__nav {
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-    width: auto;
-    gap: 10px;
-  }
-
-  .landing__nav-shop {
-    min-height: 44px;
-    padding: 8px 14px !important;
-  }
-
-  .landing__nav-shop-hint {
+  @media (min-width: $bp-md) {
     display: none;
   }
-
-  .landing__nav-ops {
-    justify-content: flex-start;
-    white-space: nowrap;
-    min-height: 40px;
-  }
-
-  .landing__prefs {
-    align-self: auto;
-  }
 }
 
-// ── Main column ─────────────────────────────────────────────────────────────
+// ── Main: full-bleed storytelling; diagrams constrained ─────────────────────
 .landing__marea {
   width: 100%;
-  margin: 0 auto 12px;
+  margin: 0;
 }
 
 .landing__main {
   flex: 1;
   width: 100%;
-  max-width: min(100%, 1200px);
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 0 max(2rem, env(safe-area-inset-bottom));
   box-sizing: border-box;
-  /* Mobile-first padding */
-  padding: 20px max(16px, env(safe-area-inset-right)) 48px max(16px, env(safe-area-inset-left));
-
-  @media (min-width: $bp-sm) {
-    padding: 28px 20px 56px;
-  }
-
-  @media (min-width: $bp-lg) {
-    padding: 36px 28px 64px;
-  }
 }
 
 .landing__footer {
@@ -303,13 +215,13 @@ $bp-lg: 900px;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 16px max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom))
+  padding: 20px max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
   text-align: center;
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: rgba(255, 255, 255, 0.85);
-  background: #0f2f4f;
+  color: rgba(255, 255, 255, 0.8);
+  background: $marea-azul-profundo;
   border-top: 0;
 }
 
@@ -322,7 +234,7 @@ $bp-lg: 900px;
 }
 
 .landing__footer-dev-label {
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -334,51 +246,41 @@ $bp-lg: 900px;
 .landing__footer-logo {
   display: block;
   width: auto;
-  height: 48px;
+  height: 44px;
   object-fit: contain;
 }
 
-
-// ── Social networks (after diagram sections) ────────────────────────────────
+// ── Social ──────────────────────────────────────────────────────────────────
 .landing-social {
-  margin-bottom: 28px;
-  padding: 22px 18px 24px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid $border-ocean;
-  box-shadow: $shadow-ocean-sm;
+  @include marea-container;
+  margin-bottom: 1.5rem;
+  padding-block: 1.75rem;
   text-align: center;
-
-  @media (min-width: $bp-sm) {
-    margin-bottom: 36px;
-    padding: 26px 22px 28px;
-  }
+  border-top: 1px solid $border-ocean;
 
   &__title {
-    margin: 0 0 8px;
-    font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.15rem, 3.5vw, 1.4rem);
     font-weight: 600;
     line-height: 1.3;
     color: $marea-azul-profundo;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
   }
 
   &__lead {
-    margin: 0 0 18px;
+    margin: 0 auto 1.25rem;
     font-size: 0.9375rem;
     line-height: 1.55;
-    color: rgba(15, 47, 79, 0.82);
+    color: $marea-gris-medio;
     max-width: 36rem;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   &__list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: stretch;
-    gap: 10px 12px;
+    gap: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -389,14 +291,14 @@ $bp-lg: 900px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 16px;
-    border-radius: 999px;
-    font-size: 0.9375rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
     color: #fff;
     border: 1px solid transparent;
-    transition: filter 0.15s ease, transform 0.12s ease;
+    transition: filter 0.15s ease;
 
     &:hover {
       filter: brightness(1.08);
@@ -411,8 +313,8 @@ $bp-lg: 900px;
 
   &__icon {
     display: inline-flex;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
 
     svg {
@@ -431,42 +333,33 @@ $bp-lg: 900px;
   }
 
   &__link--tiktok {
-    background: #000000;
-    border-color: rgba(255, 255, 255, 0.12);
+    background: #121212;
   }
 }
 
-// ── Flow diagrams (mobile-first) ────────────────────────────────────────────
+// ── Flow diagrams ───────────────────────────────────────────────────────────
 .diagram {
-  margin-bottom: 28px;
-  padding: 20px 16px 22px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid $border-ocean;
-  box-shadow: $shadow-ocean-sm;
-
-  @media (min-width: $bp-sm) {
-    margin-bottom: 36px;
-    padding: 24px 22px 26px;
-  }
+  @include marea-container;
+  margin-bottom: 2rem;
+  padding-block: 1.75rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
 
   &__header {
-    margin-bottom: 16px;
+    margin-bottom: 1.25rem;
     text-align: left;
-
-    @media (min-width: $bp-sm) {
-      text-align: center;
-      margin-bottom: 18px;
-    }
   }
 
   &__title {
-    margin: 0 0 8px;
-    font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+    margin: 0 0 0.5rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.15rem, 3.5vw, 1.4rem);
     font-weight: 600;
     line-height: 1.3;
     color: $marea-azul-profundo;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
   }
 
   &__lead {
@@ -475,19 +368,12 @@ $bp-lg: 900px;
     line-height: 1.55;
     color: $marea-gris-medio;
     max-width: 40rem;
-
-    @media (min-width: $bp-sm) {
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
 
   &__package-figure {
-    margin: 0 auto 18px;
-    max-width: min(560px, 100%);
-    border-radius: 14px;
+    margin: 0 auto 1.25rem;
+    max-width: min(520px, 100%);
     overflow: hidden;
-    box-shadow: 0 10px 32px rgba(10, 38, 71, 0.14);
   }
 
   &__package-img {
@@ -498,60 +384,40 @@ $bp-lg: 900px;
 
   &__visual {
     position: relative;
-    min-height: 280px;
+    min-height: 240px;
     display: flex;
     align-items: stretch;
     justify-content: center;
   }
 
   &__svg--consumer-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 1;
+    display: none; // drop decorative SVG card on mobile/desktop — content first
   }
-
 }
 
 .diagram--chain {
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(230, 242, 255, 0.35) 38%,
-    $marea-gris-claro 100%
-  );
-  border-color: $border-ocean;
-  box-shadow: $shadow-ocean-sm;
+  background: transparent;
 }
 
 .diagram-flow {
   list-style: none;
   margin: 0;
-  padding: 18px 14px 20px;
-
-  > li {
-    list-style: none;
-  }
+  padding: 0;
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 0;
 
-  @media (min-width: $bp-sm) {
-    padding: 22px 20px 24px;
-    max-width: 400px;
+  > li {
+    list-style: none;
   }
 
-  &--consumer {
-    @media (min-width: 1100px) {
+  @media (min-width: $bp-xl) {
+    &--consumer {
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: center;
@@ -566,63 +432,64 @@ $bp-lg: 900px;
     flex-direction: row;
     align-items: flex-start;
     gap: 14px;
-    padding: 14px 14px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(15, 23, 42, 0.07);
-    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    padding: 1rem 0;
+    border-bottom: 1px solid $border-ocean;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
 
-    @media (min-width: 1100px) {
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    @media (min-width: $bp-xl) {
       flex: 0 1 200px;
       max-width: 220px;
-      min-height: 140px;
+      min-height: 120px;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 16px 12px;
+      align-items: flex-start;
+      text-align: left;
+      padding: 0 0.5rem;
+      border-bottom: none;
+      border-left: 2px solid $marea-azul-claro;
+      padding-left: 1rem;
     }
   }
 
   &__arrow {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4px 0 6px;
-    flex-shrink: 0;
+    display: none;
 
-    @media (min-width: 1100px) {
+    @media (min-width: $bp-xl) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0 2px;
       align-self: center;
+      flex-shrink: 0;
 
       svg {
         transform: rotate(-90deg);
-        width: 32px;
-        height: 28px;
+        width: 28px;
+        height: 24px;
       }
     }
   }
 
   &__icon-wrap {
     flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, rgba(44, 116, 179, 0.12), rgba(32, 82, 149, 0.08));
+    background: rgba(42, 111, 173, 0.1);
 
     mat-icon {
-      font-size: 26px;
-      width: 26px;
-      height: 26px;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
       color: $marea-azul-principal;
-    }
-
-    @media (min-width: 1100px) {
-      width: 48px;
-      height: 48px;
     }
   }
 
@@ -634,6 +501,7 @@ $bp-lg: 900px;
   }
 
   &__label {
+    font-family: $font-marea-heading;
     font-size: 0.9375rem;
     font-weight: 600;
     color: $marea-azul-profundo;
@@ -654,185 +522,158 @@ $chain-bp: 1024px;
   margin: 0;
   padding: 0;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -4px 0 auto;
-    height: min(320px, 55vw);
-    border-radius: 20px;
-    background: radial-gradient(ellipse 80% 70% at 12% 0%, rgba(45, 154, 143, 0.08) 0%, transparent 55%),
-      radial-gradient(ellipse 75% 60% at 88% 20%, rgba(44, 116, 179, 0.1) 0%, transparent 52%),
-      radial-gradient(ellipse 60% 50% at 48% 100%, rgba(74, 95, 193, 0.07) 0%, transparent 48%);
-    pointer-events: none;
-  }
-
   &__stages {
     list-style: none;
     margin: 0;
-    padding: 4px 0 0;
-    position: relative;
-    z-index: 1;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     gap: 0;
 
     @media (min-width: $chain-bp) {
       flex-direction: row;
       align-items: stretch;
+      gap: 0;
     }
   }
 
   &__item {
-    position: relative;
     list-style: none;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
 
     @media (min-width: $chain-bp) {
       flex: 1 1 0;
       flex-direction: row;
-      align-items: center;
+      align-items: stretch;
     }
   }
 
   &__card {
     position: relative;
     margin: 0;
-    padding: 18px 16px 16px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid $border-ocean;
-    box-shadow: 0 2px 12px rgba(10, 38, 71, 0.05), 0 8px 28px rgba(10, 38, 71, 0.04);
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-    text-align: center;
+    padding: 1.15rem 0 1.25rem;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $border-ocean;
+    box-shadow: none;
+    text-align: left;
     flex: 1 1 auto;
+    transition: none;
 
     @media (min-width: $chain-bp) {
-      text-align: left;
-      min-height: 200px;
+      min-height: 180px;
       display: flex;
       flex-direction: column;
+      border-bottom: none;
+      border-top: 3px solid transparent;
+      padding: 1rem 0.75rem 0;
     }
 
     &:hover {
-      border-color: rgba(20, 66, 114, 0.22);
-      box-shadow: 0 4px 20px rgba(10, 38, 71, 0.1), 0 12px 40px rgba(20, 66, 114, 0.07);
-      transform: translateY(-2px);
+      transform: none;
+      box-shadow: none;
     }
   }
 
   &__accent {
-    position: absolute;
-    top: 0;
-    left: 8px;
-    right: 8px;
-    height: 3px;
-    border-radius: 0 0 3px 3px;
+    display: none;
+
+    @media (min-width: $chain-bp) {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0.75rem;
+      height: 3px;
+      border-radius: 0;
+    }
   }
 
   &__item--origin &__accent {
-    background: linear-gradient(90deg, #0d5c52, $marea-aguamarina);
+    background: $marea-aguamarina;
   }
   &__item--process &__accent {
-    background: linear-gradient(90deg, $marea-azul-principal, $marea-azul-claro);
+    background: $marea-azul-claro;
   }
   &__item--label &__accent {
-    background: linear-gradient(90deg, #3d4a9e, $marea-indigo-mar);
+    background: $marea-indigo-mar;
   }
   &__item--phone &__accent {
-    background: linear-gradient(90deg, #0a5c54, $marea-aguamarina);
+    background: $marea-aguamarina;
   }
 
   &__item--origin &__index {
-    background: rgba(45, 154, 143, 0.15);
-    color: darken($marea-aguamarina, 8%);
+    color: $marea-aguamarina;
   }
   &__item--process &__index {
-    background: rgba(44, 116, 179, 0.12);
-    color: $marea-azul-principal;
+    color: $marea-azul-claro;
   }
   &__item--label &__index {
-    background: rgba(74, 95, 193, 0.12);
     color: $marea-indigo-mar;
   }
   &__item--phone &__index {
-    background: rgba(45, 154, 143, 0.15);
-    color: darken($marea-aguamarina, 8%);
+    color: $marea-aguamarina;
   }
 
-  &__item--origin &__icon {
-    background: linear-gradient(150deg, rgba(45, 154, 143, 0.25), rgba(10, 92, 84, 0.08));
-    mat-icon {
-      color: #0a5c54;
-    }
+  &__item--origin &__icon mat-icon {
+    color: $marea-aguamarina;
   }
-  &__item--process &__icon {
-    background: linear-gradient(150deg, rgba(44, 116, 179, 0.22), rgba(20, 66, 114, 0.08));
-    mat-icon {
-      color: $marea-azul-principal;
-    }
+  &__item--process &__icon mat-icon {
+    color: $marea-azul-principal;
   }
-  &__item--label &__icon {
-    background: linear-gradient(150deg, rgba(74, 95, 193, 0.2), rgba(45, 58, 120, 0.08));
-    mat-icon {
-      color: $marea-indigo-mar;
-    }
+  &__item--label &__icon mat-icon {
+    color: $marea-indigo-mar;
   }
-  &__item--phone &__icon {
-    background: linear-gradient(150deg, rgba(45, 154, 143, 0.25), rgba(10, 92, 84, 0.08));
-    mat-icon {
-      color: #0a5c54;
-    }
+  &__item--phone &__icon mat-icon {
+    color: $marea-aguamarina;
   }
 
   &__index {
     position: absolute;
-    top: 10px;
-    right: 12px;
-    font-size: 0.69rem;
+    top: 1.15rem;
+    right: 0;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     line-height: 1;
-    padding: 0.3rem 0.45rem;
-    border-radius: 999px;
+    padding: 0;
+    background: transparent;
   }
 
   &__icon {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 12px;
-    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 0.65rem;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-
-    @media (min-width: $chain-bp) {
-      margin: 0 0 10px 0;
-    }
+    background: rgba(15, 52, 96, 0.06);
+    box-shadow: none;
 
     mat-icon {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
     }
   }
 
   &__name {
-    margin: 0 0 6px;
+    margin: 0 0 0.4rem;
     font-size: 0.98rem;
     font-weight: 600;
     line-height: 1.3;
     font-family: $font-marea-heading;
     color: $marea-azul-profundo;
+    padding-right: 1.5rem;
   }
 
   &__desc {
     margin: 0;
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     line-height: 1.5;
     font-family: $font-marea-body;
     color: $marea-gris-medio;
@@ -840,58 +681,31 @@ $chain-bp: 1024px;
   }
 
   &__bridge {
-    position: relative;
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 0 10px;
-    gap: 0;
-    min-height: 40px;
+    display: none;
 
     @media (min-width: $chain-bp) {
-      flex: 0 0 40px;
-      width: 40px;
-      flex-direction: row;
-      padding: 0 0 0 2px;
-      min-height: 0;
+      display: flex;
+      flex: 0 0 28px;
+      width: 28px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
   }
 
   &__bridge-line {
     display: block;
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(180deg, rgba(20, 66, 114, 0.35) 0%, rgba(20, 66, 114, 0.1) 100%);
-
-    @media (min-width: $chain-bp) {
-      width: 14px;
-      height: 2px;
-      background: linear-gradient(
-        90deg,
-        rgba(20, 66, 114, 0.12) 0%,
-        rgba(20, 66, 114, 0.38) 50%,
-        rgba(20, 66, 114, 0.15) 100%
-      );
-    }
+    width: 100%;
+    height: 1px;
+    background: $border-ocean;
   }
 
   &__bridge-ico {
-    width: 22px;
-    height: 22px;
-    font-size: 22px;
-    color: rgba(20, 66, 114, 0.45);
-    transform: rotate(90deg);
-
-    @media (min-width: $chain-bp) {
-      margin-left: -2px;
-      transform: none;
-    }
+    display: none;
   }
 }
 
-// ── Full-screen intro video (above toolbar)
+// ── Intro video ─────────────────────────────────────────────────────────────
 .landing-intro {
   position: fixed;
   inset: 0;
@@ -899,31 +713,34 @@ $chain-bp: 1024px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #050d18;
-  padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px))
-    max(5.5rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+  background: #030a12;
+  padding: max(0.5rem, env(safe-area-inset-top, 0px)) max(0.5rem, env(safe-area-inset-right, 0px))
+    max(5rem, env(safe-area-inset-bottom, 0px)) max(0.5rem, env(safe-area-inset-left, 0px));
 
-  /* Centered “cinema” frame — bounded width/height so the clip isn’t stretched edge-to-edge */
   &__frame {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: min(1040px, 92vw);
+    width: 100%;
+    height: 100%;
+    max-height: calc(100dvh - 5.5rem);
   }
 
   &__video {
     display: block;
-    width: auto;
-    max-width: min(1040px, 92vw);
-    max-height: min(72dvh, calc(min(1040px, 92vw) * 9 / 16));
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     height: auto;
     object-fit: contain;
     background: #000;
-    border-radius: 14px;
-    box-shadow:
-      0 8px 40px rgba(0, 0, 0, 0.45),
-      0 0 0 1px rgba(255, 255, 255, 0.06);
+    border-radius: 0;
+
+    @media (min-width: $bp-md) {
+      max-width: min(1040px, 92vw);
+      border-radius: 8px;
+    }
   }
 
   &__chrome {
@@ -975,7 +792,7 @@ $chain-bp: 1024px;
 
   &__skip {
     font-weight: 600;
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 0 1.25rem;
     min-height: 44px;
   }

@@ -2,12 +2,14 @@
   position: fixed;
   z-index: 1001;
   right: max(16px, env(safe-area-inset-right));
-  /* Sit above public dock (~58px + safe area) on mobile */
-  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  bottom: max(16px, env(safe-area-inset-bottom));
   font-family: Roboto, sans-serif;
 
-  @media (min-width: 900px) {
-    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  /* Sit above mobile dock when present */
+  @media (max-width: 899px) {
+    html.marea-dock-active & {
+      bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    }
   }
 }
 
@@ -74,7 +76,7 @@ $marea-chat-header-gap: 10px;
   );
   right: max(16px, env(safe-area-inset-right));
   bottom: calc(
-    64px + #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
+    #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
   );
   width: min(100vw - 32px, 380px);
   display: flex;
@@ -87,6 +89,14 @@ $marea-chat-header-gap: 10px;
     0 4px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
   max-height: none;
+
+  @media (max-width: 899px) {
+    html.marea-dock-active & {
+      bottom: calc(
+        64px + #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
+      );
+    }
+  }
 }
 
 .marea-chat__head {
