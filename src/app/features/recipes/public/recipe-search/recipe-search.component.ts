@@ -25,6 +25,7 @@ import {
 } from '../../services/recipes-api.service';
 import { RecipeCardComponent } from '../shared/recipe-card/recipe-card.component';
 import { MAREA_CHAT_OPEN_EVENT } from '../../../landing/components/marea-mary-section/marea-mary-section.component';
+import { LanguageToggleComponent } from '../../../../shared/components/language-toggle/language-toggle.component';
 
 const CATEGORY_CHIPS = [
   { id: 'all', labelKey: 'recipes.public.filterAll', category: undefined as string | undefined },
@@ -53,6 +54,7 @@ const CATEGORY_CHIPS = [
     MatProgressBarModule,
     MatPaginatorModule,
     RecipeCardComponent,
+    LanguageToggleComponent,
   ],
   templateUrl: './recipe-search.component.html',
   styleUrl: './recipe-search.component.scss',

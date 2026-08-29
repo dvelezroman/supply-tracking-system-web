@@ -40,16 +40,29 @@
     "createActor": "Crear actor",
     "createRestaurant": "Crear restaurante",
     "createUser": "Crear usuario",
-    "recordEvent": "Registrar evento"
+    "recordEvent": "Registrar evento",
+    "paginator": {
+      "itemsPerPage": "Elementos por página:",
+      "nextPage": "Página siguiente",
+      "previousPage": "Página anterior",
+      "firstPage": "Primera página",
+      "lastPage": "Última página",
+      "range": "{{start}} – {{end}} de {{length}}",
+      "rangeEmpty": "0 de {{length}}"
+    }
   },
   "chatbot": {
     "title": "Mary · asistenta Marea Alta",
     "open": "Abrir chat con Mary",
     "close": "Cerrar chat con Mary",
+    "online": "En línea · lista para ayudar",
+    "typing": "Mary está escribiendo",
+    "send": "Enviar mensaje",
+    "recipeLinks": "Recetas sugeridas",
     "welcome": "¡Hola! Soy Mary, la asistenta virtual de Marea Alta. Elija un tema o escríbame sobre recetas, trazabilidad o el producto.\n\nSi necesita hablar con el equipo, use «Contacto / WhatsApp».",
-    "chooseTopic": "Temas rápidos o escriba su pregunta:",
+    "chooseTopic": "Temas rápidos",
     "optionsAria": "Temas de ayuda",
-    "restart": "Volver al mensaje de bienvenida",
+    "restart": "Reiniciar conversación",
     "askPlaceholder": "Pregunte por recetas, ceviche, ajillo…",
     "ragError": "No pude consultar el conocimiento ahora. Pruebe el buscador en /recetas o WhatsApp.",
     "options": {
@@ -60,6 +73,9 @@
       "restaurants": "Para restaurantes",
       "recipes": "Recetas con camarón",
       "contact": "Contacto / WhatsApp"
+    },
+    "prompts": {
+      "recipes": "Sugiere recetas con camarón Marea Alta: ceviche, cóctel o plato fuerte"
     },
     "replies": {
       "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o al usar la consulta por código: es una página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
@@ -1157,6 +1173,13 @@
       "filterEntrada": "Entradas / Cóctel",
       "filterFuerte": "Plato fuerte",
       "filterTransicion": "Transición",
+      "categories": {
+        "entradaCoctel": "Entradas / Cóctel",
+        "platoFuerte": "Plato fuerte",
+        "platoFuerteEntrada": "Plato fuerte / Entrada",
+        "platoFuerteAcompanante": "Plato fuerte / Acompañante",
+        "entradaTransicion": "Entrada / Transición"
+      },
       "badgeRecommended": "Recomendada",
       "badgePopular": "Popular",
       "minutes": "{{count}} min",

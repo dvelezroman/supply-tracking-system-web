@@ -18,6 +18,8 @@ import { TranslocoHttpLoader } from './core/i18n/transloco-http.loader';
 import { translocoAppInit } from './core/i18n/transloco-init';
 import { ThemeService } from './core/services/theme.service';
 import { themeAppInit } from './core/theme/theme-init';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { TranslocoPaginatorIntl } from './core/i18n/transloco-paginator-intl';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +36,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    { provide: MatPaginatorIntl, useClass: TranslocoPaginatorIntl },
     {
       provide: APP_INITIALIZER,
       useFactory: translocoAppInit,

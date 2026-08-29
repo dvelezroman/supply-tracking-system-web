@@ -5,10 +5,13 @@
         <mat-icon>arrow_back</mat-icon>
         {{ 'recipes.public.backHome' | transloco }}
       </a>
-      <button type="button" mat-stroked-button class="recipes-page__mary" (click)="openMary()">
-        <mat-icon>smart_toy</mat-icon>
-        {{ 'recipes.public.askMary' | transloco }}
-      </button>
+      <div class="recipes-page__nav-actions">
+        <button type="button" mat-stroked-button class="recipes-page__mary" (click)="openMary()">
+          <mat-icon>smart_toy</mat-icon>
+          {{ 'recipes.public.askMary' | transloco }}
+        </button>
+        <app-language-toggle />
+      </div>
     </div>
     <h1>{{ 'recipes.public.title' | transloco }}</h1>
     <p class="recipes-page__lead">{{ 'recipes.public.subtitle' | transloco }}</p>

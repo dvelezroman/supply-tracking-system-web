@@ -8,27 +8,44 @@
     >
       <header class="marea-chat__head">
         <div class="marea-chat__head-brand">
-          <img
-            class="marea-chat__head-logo"
-            [src]="logoUrl"
-            alt=""
-            width="36"
-            height="36"
-            (error)="onLogoError($event)"
-          />
-          <span class="marea-chat__head-title">{{ 'chatbot.title' | transloco }}</span>
+          <div class="marea-chat__head-avatar" aria-hidden="true">
+            <img
+              class="marea-chat__head-logo"
+              [src]="logoUrl"
+              alt=""
+              width="40"
+              height="40"
+              (error)="onLogoError($event)"
+            />
+            <span class="marea-chat__online-dot"></span>
+          </div>
+          <div class="marea-chat__head-copy">
+            <span class="marea-chat__head-title">{{ 'chatbot.title' | transloco }}</span>
+            <span class="marea-chat__head-status">{{ 'chatbot.online' | transloco }}</span>
+          </div>
         </div>
-        <button
-          type="button"
-          class="marea-chat__icon-btn"
-          (click)="close()"
-          [attr.aria-label]="'chatbot.close' | transloco"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
+        <div class="marea-chat__head-actions">
+          <button
+            type="button"
+            class="marea-chat__icon-btn"
+            (click)="reset()"
+            [attr.aria-label]="'chatbot.restart' | transloco"
+            [attr.title]="'chatbot.restart' | transloco"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+          <button
+            type="button"
+            class="marea-chat__icon-btn"
+            (click)="close()"
+            [attr.aria-label]="'chatbot.close' | transloco"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
       </header>
 
-      <div class="marea-chat__messages">
+      <div #messages class="marea-chat__messages">
         @for (line of lines(); track $index) {
           <div
             class="marea-chat__row"
@@ -37,7 +54,7 @@
           >
             @if (line.role === 'bot') {
               <div class="marea-chat__avatar" aria-hidden="true">
-                <img [src]="logoUrl" alt="" width="32" height="32" (error)="onLogoError($event)" />
+                <img [src]="logoUrl" alt="" width="28" height="28" (error)="onLogoError($event)" />
               </div>
             }
             <div class="marea-chat__bubble">
@@ -46,21 +63,27 @@
                   {{ line.plain || (line.textKey | transloco) }}
                 </p>
               } @else {
-                <p class="marea-chat__text" style="white-space: pre-line">
+                <p class="marea-chat__text">
                   {{ line.plain || (line.textKey | transloco) }}
                 </p>
                 @if (line.recipeRefs?.length) {
                   <div class="marea-chat__refs">
+                    <p class="marea-chat__refs-label">{{ 'chatbot.recipeLinks' | transloco }}</p>
                     @for (ref of line.recipeRefs; track ref.slug) {
-                      <a mat-stroked-button [routerLink]="['/recetas', ref.slug]" (click)="close()">
-                        {{ ref.name }}
+                      <a
+                        class="marea-chat__ref"
+                        [routerLink]="['/recetas', ref.slug]"
+                        (click)="close()"
+                      >
+                        <mat-icon aria-hidden="true">restaurant_menu</mat-icon>
+                        <span>{{ ref.name }}</span>
+                        <mat-icon class="marea-chat__ref-arrow" aria-hidden="true">chevron_right</mat-icon>
                       </a>
                     }
                   </div>
                 }
                 @if (isContactReply(line)) {
                   <a
-                    mat-flat-button
                     class="marea-chat__wa"
                     [href]="'landing.marea.finalCta.whatsappUrl' | transloco"
                     target="_blank"
@@ -82,51 +105,65 @@
         }
         @if (busy()) {
           <div class="marea-chat__row marea-chat__row--bot">
-            <div class="marea-chat__bubble marea-chat__bubble--busy">
-              <mat-spinner diameter="22" />
+            <div class="marea-chat__avatar" aria-hidden="true">
+              <img [src]="logoUrl" alt="" width="28" height="28" (error)="onLogoError($event)" />
+            </div>
+            <div class="marea-chat__bubble marea-chat__bubble--busy" [attr.aria-label]="'chatbot.typing' | transloco">
+              <span class="marea-chat__typing" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
             </div>
           </div>
         }
       </div>
 
-      <p class="marea-chat__hint">{{ 'chatbot.chooseTopic' | transloco }}</p>
-      <div class="marea-chat__chips" role="group" [attr.aria-label]="'chatbot.optionsAria' | transloco">
-        @for (opt of optionRows; track opt.id) {
-          <button type="button" mat-stroked-button class="marea-chat__chip" (click)="pick(opt.id)">
-            {{ opt.labelKey | transloco }}
+      <div class="marea-chat__footer">
+        <p class="marea-chat__hint">{{ 'chatbot.chooseTopic' | transloco }}</p>
+        <div class="marea-chat__chips" role="group" [attr.aria-label]="'chatbot.optionsAria' | transloco">
+          @for (opt of optionRows; track opt.id) {
+            <button
+              type="button"
+              class="marea-chat__chip"
+              [disabled]="busy()"
+              (click)="pick(opt.id)"
+            >
+              <mat-icon aria-hidden="true">{{ opt.icon }}</mat-icon>
+              <span>{{ opt.labelKey | transloco }}</span>
+            </button>
+          }
+        </div>
+
+        <form class="marea-chat__composer" (submit)="$event.preventDefault(); submit()">
+          <label class="marea-chat__composer-field">
+            <span class="visually-hidden">{{ 'chatbot.askPlaceholder' | transloco }}</span>
+            <input
+              type="text"
+              class="marea-chat__composer-input"
+              [ngModel]="draft()"
+              (ngModelChange)="draft.set($event)"
+              [disabled]="busy()"
+              [placeholder]="'chatbot.askPlaceholder' | transloco"
+              autocomplete="off"
+              enterkeyhint="send"
+            />
+          </label>
+          <button
+            class="marea-chat__send"
+            type="submit"
+            [disabled]="busy() || !draft().trim()"
+            [attr.aria-label]="'chatbot.send' | transloco"
+          >
+            <mat-icon>send</mat-icon>
           </button>
-        }
+        </form>
       </div>
-
-      <form class="marea-chat__composer" (submit)="$event.preventDefault(); submit()">
-        <mat-form-field appearance="outline" class="marea-chat__input">
-          <mat-label>{{ 'chatbot.askPlaceholder' | transloco }}</mat-label>
-          <input
-            matInput
-            [ngModel]="draft()"
-            (ngModelChange)="draft.set($event)"
-            [disabled]="busy()"
-          />
-        </mat-form-field>
-        <button
-          mat-flat-button
-          color="primary"
-          type="submit"
-          [disabled]="busy() || !draft().trim()"
-        >
-          <mat-icon>send</mat-icon>
-        </button>
-      </form>
-
-      <button type="button" mat-button class="marea-chat__restart" (click)="reset()">
-        {{ 'chatbot.restart' | transloco }}
-      </button>
     </div>
   }
 
   <button
     type="button"
     class="marea-chat__fab"
+    [class.marea-chat__fab--open]="open()"
     (click)="toggle()"
     [attr.aria-expanded]="open()"
     [attr.aria-label]="open() ? ('chatbot.close' | transloco) : ('chatbot.open' | transloco)"
@@ -139,10 +176,11 @@
           class="marea-chat__fab-logo"
           [src]="logoUrl"
           alt=""
-          width="28"
-          height="28"
+          width="30"
+          height="30"
           (error)="onLogoError($event)"
         />
+        <span class="marea-chat__fab-pulse" aria-hidden="true"></span>
       }
     </span>
   </button>

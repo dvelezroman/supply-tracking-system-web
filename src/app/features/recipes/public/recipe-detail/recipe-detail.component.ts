@@ -16,6 +16,11 @@ import {
   RecipesPublicApiService,
   getRecipeClientKey,
 } from '../../services/recipes-api.service';
+import { LanguageToggleComponent } from '../../../../shared/components/language-toggle/language-toggle.component';
+import {
+  recipeCategoryI18nKey,
+  recipeDifficultyI18nKey,
+} from '../shared/recipe-label.util';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -27,6 +32,7 @@ import {
     MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
+    LanguageToggleComponent,
   ],
   templateUrl: './recipe-detail.component.html',
   styleUrl: './recipe-detail.component.scss',
@@ -35,6 +41,9 @@ export class RecipeDetailComponent implements OnInit {
   @Input() slug!: string;
 
   private api = inject(RecipesPublicApiService);
+
+  readonly categoryKey = recipeCategoryI18nKey;
+  readonly difficultyKey = recipeDifficultyI18nKey;
 
   isLoading = signal(true);
   recipe = signal<RecipeDetail | null>(null);

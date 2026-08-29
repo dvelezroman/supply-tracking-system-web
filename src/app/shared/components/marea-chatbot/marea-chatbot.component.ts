@@ -1,10 +1,13 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  ElementRef,
   OnInit,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -12,9 +15,6 @@ import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { fromEvent } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { RecipesPublicApiService } from '../../../features/recipes/services/recipes-api.service';
@@ -31,9 +31,7 @@ export type MareaChatOptionId =
 
 export interface MareaChatLine {
   role: 'user' | 'bot';
-  /** i18n key when plain is absent */
   textKey?: string;
-  /** Raw text (RAG replies) */
   plain?: string;
   recipeRefs?: { slug: string; name: string }[];
 }
@@ -41,30 +39,51 @@ export interface MareaChatLine {
 const CHAT_OPTIONS: {
   id: MareaChatOptionId;
   labelKey: string;
+  icon: string;
   replyKey?: string;
-  prompt?: string;
+  /** Transloco key for the RAG prompt sent when this chip is picked. */
+  promptKey?: string;
 }[] = [
-  { id: 'site', labelKey: 'chatbot.options.site', replyKey: 'chatbot.replies.site' },
+  {
+    id: 'site',
+    labelKey: 'chatbot.options.site',
+    icon: 'travel_explore',
+    replyKey: 'chatbot.replies.site',
+  },
   {
     id: 'product',
     labelKey: 'chatbot.options.product',
+    icon: 'set_meal',
     replyKey: 'chatbot.replies.product',
   },
-  { id: 'qr', labelKey: 'chatbot.options.qr', replyKey: 'chatbot.replies.qr' },
-  { id: 'info', labelKey: 'chatbot.options.info', replyKey: 'chatbot.replies.info' },
+  {
+    id: 'qr',
+    labelKey: 'chatbot.options.qr',
+    icon: 'qr_code_scanner',
+    replyKey: 'chatbot.replies.qr',
+  },
+  {
+    id: 'info',
+    labelKey: 'chatbot.options.info',
+    icon: 'info',
+    replyKey: 'chatbot.replies.info',
+  },
   {
     id: 'restaurants',
     labelKey: 'chatbot.options.restaurants',
+    icon: 'restaurant',
     replyKey: 'chatbot.replies.restaurants',
   },
   {
     id: 'recipes',
     labelKey: 'chatbot.options.recipes',
-    prompt: 'Sugiere recetas con camarón Marea Alta: ceviche, cóctel o plato fuerte',
+    icon: 'menu_book',
+    promptKey: 'chatbot.prompts.recipes',
   },
   {
     id: 'contact',
     labelKey: 'chatbot.options.contact',
+    icon: 'chat',
     replyKey: 'chatbot.replies.contact',
   },
 ];
@@ -73,23 +92,17 @@ const CHAT_OPTIONS: {
   selector: 'app-marea-chatbot',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    RouterLink,
-    TranslocoPipe,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [FormsModule, RouterLink, TranslocoPipe, MatButtonModule, MatIconModule],
   templateUrl: './marea-chatbot.component.html',
   styleUrl: './marea-chatbot.component.scss',
 })
-export class MareaChatbotComponent implements OnInit {
+export class MareaChatbotComponent implements OnInit, AfterViewChecked {
   private api = inject(RecipesPublicApiService);
   private transloco = inject(TranslocoService);
   private destroyRef = inject(DestroyRef);
+
+  private messagesEl = viewChild<ElementRef<HTMLElement>>('messages');
+  private shouldScroll = false;
 
   readonly logoUrl = environment.labelLogoUrl;
   private readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
@@ -106,11 +119,19 @@ export class MareaChatbotComponent implements OnInit {
       .subscribe((ev) => this.openFromLanding(ev.detail?.promptKey));
   }
 
+  ngAfterViewChecked(): void {
+    if (!this.shouldScroll) return;
+    this.shouldScroll = false;
+    const el = this.messagesEl()?.nativeElement;
+    if (el) el.scrollTop = el.scrollHeight;
+  }
+
   toggle(): void {
     const next = !this.open();
     this.open.set(next);
     if (next && this.lines().length === 0) {
       this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
+      this.shouldScroll = true;
     }
   }
 
@@ -118,6 +139,7 @@ export class MareaChatbotComponent implements OnInit {
     this.open.set(true);
     if (this.lines().length === 0) {
       this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
+      this.shouldScroll = true;
     }
     if (promptKey) {
       const prompt = this.transloco.translate(promptKey);
@@ -133,10 +155,11 @@ export class MareaChatbotComponent implements OnInit {
 
   pick(id: MareaChatOptionId): void {
     const opt = CHAT_OPTIONS.find((o) => o.id === id);
-    if (!opt) return;
+    if (!opt || this.busy()) return;
 
-    if (opt.prompt) {
-      this.sendMessage(opt.prompt, this.transloco.translate(opt.labelKey));
+    if (opt.promptKey) {
+      const prompt = this.transloco.translate(opt.promptKey);
+      this.sendMessage(prompt, this.transloco.translate(opt.labelKey));
       return;
     }
 
@@ -145,6 +168,7 @@ export class MareaChatbotComponent implements OnInit {
       { role: 'user', textKey: opt.labelKey },
       { role: 'bot', textKey: opt.replyKey! },
     ]);
+    this.shouldScroll = true;
   }
 
   submit(): void {
@@ -160,6 +184,7 @@ export class MareaChatbotComponent implements OnInit {
       { role: 'user', plain: userLabel ?? message },
     ]);
     this.busy.set(true);
+    this.shouldScroll = true;
     this.api.chat(message).subscribe({
       next: (res) => {
         this.busy.set(false);
@@ -171,6 +196,7 @@ export class MareaChatbotComponent implements OnInit {
             recipeRefs: res.data.recipeRefs ?? [],
           },
         ]);
+        this.shouldScroll = true;
       },
       error: () => {
         this.busy.set(false);
@@ -181,6 +207,7 @@ export class MareaChatbotComponent implements OnInit {
             plain: this.transloco.translate('chatbot.ragError'),
           },
         ]);
+        this.shouldScroll = true;
       },
     });
   }
@@ -188,6 +215,7 @@ export class MareaChatbotComponent implements OnInit {
   reset(): void {
     this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
     this.draft.set('');
+    this.shouldScroll = true;
   }
 
   isContactReply(line: MareaChatLine): boolean {

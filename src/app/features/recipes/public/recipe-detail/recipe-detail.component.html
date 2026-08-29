@@ -1,8 +1,11 @@
 <section class="recipe-detail">
-  <a mat-button routerLink="/recetas">
-    <mat-icon>arrow_back</mat-icon>
-    {{ 'recipes.public.backToSearch' | transloco }}
-  </a>
+  <div class="recipe-detail__nav">
+    <a mat-button routerLink="/recetas">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'recipes.public.backToSearch' | transloco }}
+    </a>
+    <app-language-toggle />
+  </div>
 
   @if (isLoading()) {
     <mat-progress-bar mode="indeterminate" />
@@ -10,9 +13,26 @@
     <p>{{ 'recipes.public.notFound' | transloco }}</p>
   } @else if (recipe()) {
     <header>
-      <p class="cat">{{ recipe()!.category }}</p>
+      @if (recipe()!.category) {
+        <p class="cat">
+          @if (categoryKey(recipe()!.category); as catKey) {
+            {{ catKey | transloco }}
+          } @else {
+            {{ recipe()!.category }}
+          }
+        </p>
+      }
       <h1>{{ recipe()!.name }}</h1>
       <p class="desc">{{ recipe()!.description }}</p>
+      @if (recipe()!.difficulty) {
+        <p class="diff">
+          @if (difficultyKey(recipe()!.difficulty); as diffKey) {
+            {{ diffKey | transloco }}
+          } @else {
+            {{ recipe()!.difficulty }}
+          }
+        </p>
+      }
       <button mat-flat-button color="primary" type="button" (click)="toggleLike()">
         <mat-icon>{{ liked() ? 'favorite' : 'favorite_border' }}</mat-icon>
         {{

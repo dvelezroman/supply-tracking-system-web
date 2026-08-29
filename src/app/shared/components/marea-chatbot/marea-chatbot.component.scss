@@ -1,11 +1,37 @@
+$azul-profundo: #061a33;
+$azul-principal: #0f3460;
+$azul-claro: #2a6fad;
+$coral: #e85d5d;
+$amarillo: #e8c547;
+$gris-claro: #f3f6f9;
+$gris-medio: #5c6b7a;
+$font-heading: 'Sora', 'Montserrat', system-ui, sans-serif;
+$font-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
+
+$fab-size: 58px;
+$fab-gap: 12px;
+$header-clearance: 64px;
+$header-gap: 10px;
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .marea-chat {
   position: fixed;
   z-index: 1001;
   right: max(16px, env(safe-area-inset-right));
   bottom: max(16px, env(safe-area-inset-bottom));
-  font-family: Roboto, sans-serif;
+  font-family: $font-body;
 
-  /* Sit above mobile dock when present */
   @media (max-width: 899px) {
     html.marea-dock-active & {
       bottom: calc(64px + env(safe-area-inset-bottom, 0px));
@@ -13,100 +39,149 @@
   }
 }
 
+/* ── FAB ─────────────────────────────────────────────────────────────── */
 .marea-chat__fab {
-  width: 56px;
-  height: 56px;
+  position: relative;
+  width: $fab-size;
+  height: $fab-size;
   border-radius: 50%;
   border: none;
   padding: 0;
   cursor: pointer;
+  background: linear-gradient(145deg, $azul-principal 0%, $azul-profundo 100%);
   box-shadow:
-    0 4px 12px rgba(10, 38, 71, 0.35),
-    0 2px 4px rgba(0, 0, 0, 0.12);
-  background: linear-gradient(145deg, #0d3358 0%, #0a2647 100%);
+    0 8px 24px rgba(6, 26, 51, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.15);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 
   &:hover {
-    transform: scale(1.04);
+    transform: scale(1.06);
     box-shadow:
-      0 6px 16px rgba(10, 38, 71, 0.45),
-      0 2px 6px rgba(0, 0, 0, 0.15);
+      0 12px 28px rgba(6, 26, 51, 0.48),
+      0 4px 10px rgba(0, 0, 0, 0.18);
   }
 
   &:focus-visible {
-    outline: 2px solid #c9a227;
+    outline: 2px solid $amarillo;
     outline-offset: 3px;
+  }
+
+  &--open {
+    background: linear-gradient(145deg, $coral 0%, #c44545 100%);
   }
 }
 
 .marea-chat__fab-inner {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .marea-chat__fab-logo {
   display: block;
   object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 4px;
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .marea-chat__fab-close {
   color: #fff;
-  font-size: 28px;
-  width: 28px;
-  height: 28px;
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
 }
 
-/* Clears sticky app bars (Material ~56–64px) without covering them */
-$marea-chat-fab-gap: 12px;
-$marea-chat-fab-size: 56px;
-$marea-chat-header-clearance: 64px;
-$marea-chat-header-gap: 10px;
+.marea-chat__fab-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(232, 197, 71, 0.55);
+  animation: chat-fab-pulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
 
-.marea-chat__panel {
-  position: fixed;
-  top: calc(
-    env(safe-area-inset-top, 0px) + #{$marea-chat-header-clearance} + #{$marea-chat-header-gap}
-  );
-  right: max(16px, env(safe-area-inset-right));
-  bottom: calc(
-    #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
-  );
-  width: min(100vw - 32px, 380px);
-  display: flex;
-  flex-direction: column;
-  border-radius: 16px;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.87);
-  box-shadow:
-    0 12px 40px rgba(10, 38, 71, 0.25),
-    0 4px 12px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  max-height: none;
-
-  @media (max-width: 899px) {
-    html.marea-dock-active & {
-      bottom: calc(
-        64px + #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
-      );
-    }
+@keyframes chat-fab-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 
+/* ── Panel ───────────────────────────────────────────────────────────── */
+.marea-chat__panel {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + #{$header-clearance} + #{$header-gap});
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(#{$fab-size} + #{$fab-gap} + env(safe-area-inset-bottom, 0px));
+  width: min(100vw - 28px, 400px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  background: $gris-claro;
+  color: $azul-profundo;
+  box-shadow:
+    0 20px 48px rgba(6, 26, 51, 0.28),
+    0 4px 14px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(15, 52, 96, 0.1);
+  animation: chat-panel-in 0.28s ease-out;
+
+  @media (max-width: 899px) {
+    html.marea-dock-active & {
+      bottom: calc(64px + #{$fab-size} + #{$fab-gap} + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (max-width: 420px) {
+    width: calc(100vw - 20px);
+    right: max(10px, env(safe-area-inset-right));
+    border-radius: 16px;
+  }
+}
+
+@keyframes chat-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────── */
 .marea-chat__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 12px 12px 12px 16px;
-  background: linear-gradient(135deg, #0a2647 0%, #123a5c 100%);
+  gap: 10px;
+  padding: 14px 12px 14px 14px;
+  background: linear-gradient(135deg, $azul-profundo 0%, $azul-principal 55%, #163a5c 100%);
   color: #fff;
+  flex-shrink: 0;
 }
 
 .marea-chat__head-brand {
@@ -116,25 +191,63 @@ $marea-chat-header-gap: 10px;
   min-width: 0;
 }
 
-.marea-chat__head-logo {
+.marea-chat__head-avatar {
+  position: relative;
   flex-shrink: 0;
+}
+
+.marea-chat__head-logo {
+  display: block;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: #fff;
   object-fit: contain;
-  padding: 2px;
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.marea-chat__online-dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #3dcf8e;
+  border: 2px solid $azul-profundo;
+}
+
+.marea-chat__head-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .marea-chat__head-title {
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
+  font-family: $font-heading;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.marea-chat__icon-btn {
+.marea-chat__head-status {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.marea-chat__head-actions {
+  display: flex;
+  gap: 4px;
   flex-shrink: 0;
+}
+
+.marea-chat__icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,81 +255,108 @@ $marea-chat-header-gap: 10px;
   height: 40px;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
   cursor: pointer;
+  transition: background 0.2s ease;
 
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
 
   mat-icon {
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
 }
 
+/* ── Messages ────────────────────────────────────────────────────────── */
 .marea-chat__messages {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 12px 12px 8px;
+  padding: 14px 12px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  scroll-behavior: smooth;
+  background:
+    radial-gradient(ellipse 80% 40% at 100% 0%, rgba(42, 111, 173, 0.08), transparent 55%),
+    $gris-claro;
 }
 
 .marea-chat__row {
   display: flex;
   gap: 8px;
   align-items: flex-end;
+  animation: chat-bubble-in 0.22s ease-out;
 
   &--user {
     flex-direction: row-reverse;
   }
 }
 
+@keyframes chat-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .marea-chat__avatar {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
-  border: 1px solid rgba(10, 38, 71, 0.12);
+  border: 1px solid rgba(15, 52, 96, 0.12);
+  margin-bottom: 2px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
+    padding: 2px;
+    box-sizing: border-box;
   }
 }
 
 .marea-chat__bubble {
-  max-width: calc(100% - 44px);
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(10, 38, 71, 0.06);
-  color: rgba(0, 0, 0, 0.87);
+  max-width: min(86%, 300px);
+  padding: 11px 13px;
+  border-radius: 16px;
+  background: #fff;
+  color: $azul-profundo;
+  box-shadow: 0 1px 3px rgba(6, 26, 51, 0.06);
+  border: 1px solid rgba(15, 52, 96, 0.08);
 }
 
 .marea-chat__row--user .marea-chat__bubble {
-  background: #0a2647;
+  background: linear-gradient(145deg, $azul-principal 0%, $azul-profundo 100%);
   color: #fff;
-  border-bottom-right-radius: 4px;
+  border: none;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 4px 12px rgba(6, 26, 51, 0.2);
 }
 
 .marea-chat__row--bot .marea-chat__bubble {
-  border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 5px;
 }
 
 .marea-chat__text {
   margin: 0;
   font-size: 0.875rem;
-  line-height: 1.45;
+  line-height: 1.5;
   color: inherit;
+  white-space: pre-line;
+  word-break: break-word;
 
   &--user {
     font-weight: 500;
@@ -224,133 +364,364 @@ $marea-chat-header-gap: 10px;
   }
 }
 
+.marea-chat__bubble--busy {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 12px 16px;
+}
+
+.marea-chat__typing {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+
+  i {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $azul-claro;
+    opacity: 0.45;
+    animation: chat-typing 1.2s ease-in-out infinite;
+
+    &:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.36s;
+    }
+  }
+}
+
+@keyframes chat-typing {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.marea-chat__refs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.marea-chat__refs-label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $gris-medio;
+}
+
+.marea-chat__ref {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: rgba(42, 111, 173, 0.08);
+  border: 1px solid rgba(42, 111, 173, 0.18);
+  color: $azul-principal;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: $coral;
+  }
+
+  span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: rgba(42, 111, 173, 0.14);
+    border-color: $azul-claro;
+    text-decoration: none;
+    color: $azul-profundo;
+  }
+}
+
+.marea-chat__ref-arrow {
+  opacity: 0.55 !important;
+  color: inherit !important;
+}
+
 .marea-chat__wa {
-  margin-top: 12px;
-  width: 100%;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #25d366 !important;
-  color: #fff !important;
+  margin-top: 12px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: #25d366;
+  color: #fff;
+  font-family: $font-heading;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    color: #fff;
+    text-decoration: none;
+  }
 }
 
 .marea-chat__wa-icon {
   display: inline-flex;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+.marea-chat__footer {
+  flex-shrink: 0;
+  padding: 10px 12px 12px;
+  background: #fff;
+  border-top: 1px solid rgba(15, 52, 96, 0.1);
+  box-shadow: 0 -6px 16px rgba(6, 26, 51, 0.04);
 }
 
 .marea-chat__hint {
-  margin: 0;
-  padding: 0 14px 6px;
-  font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.6);
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $gris-medio;
 }
 
 .marea-chat__chips {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 4px 12px 8px;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  margin: 0 -2px;
+  padding-inline: 2px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .marea-chat__chip {
-  font-size: 0.75rem !important;
-  line-height: 1.2 !important;
-  border-radius: 999px !important;
-  border-color: rgba(10, 38, 71, 0.35) !important;
-  color: #0a2647 !important;
-  --mdc-outlined-button-label-text-color: #0a2647;
-  --mdc-outlined-button-outline-color: rgba(10, 38, 71, 0.35);
-  --mat-outlined-button-state-layer-color: #0a2647;
+  appearance: none;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  padding: 0 12px 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 52, 96, 0.16);
+  background: $gris-claro;
+  color: $azul-principal;
+  font-family: $font-body;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    color: $coral;
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba(42, 111, 173, 0.1);
+    border-color: $azul-claro;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
-.marea-chat__restart {
-  align-self: stretch;
-  margin: 0 8px 10px;
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.65);
-  --mdc-text-button-label-text-color: rgba(0, 0, 0, 0.65);
+.marea-chat__composer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-/* Dark theme: readable bot text + question chips (no white-on-washed) */
+.marea-chat__composer-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.marea-chat__composer-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 52, 96, 0.16);
+  background: $gris-claro;
+  color: $azul-profundo;
+  font-family: $font-body;
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+
+  &::placeholder {
+    color: $gris-medio;
+    opacity: 0.85;
+  }
+
+  &:focus {
+    border-color: $azul-claro;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(42, 111, 173, 0.18);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.marea-chat__send {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: $coral;
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover:not(:disabled) {
+    background: #d94848;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────────── */
 :host-context(html.theme-dark) {
   .marea-chat__panel {
-    background: var(--st-surface, #1e1e1e);
-    color: var(--st-text, rgba(255, 255, 255, 0.92));
-    box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.45),
-      0 4px 12px rgba(0, 0, 0, 0.3);
+    background: #15202b;
+    color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .marea-chat__messages {
+    background:
+      radial-gradient(ellipse 80% 40% at 100% 0%, rgba(42, 111, 173, 0.15), transparent 55%),
+      #15202b;
   }
 
   .marea-chat__bubble {
-    background: var(--st-surface-raised, #2c2c2c);
-    color: var(--st-text, rgba(255, 255, 255, 0.92));
+    background: #1e2a36;
+    color: rgba(255, 255, 255, 0.92);
+    border-color: rgba(255, 255, 255, 0.08);
   }
 
   .marea-chat__row--user .marea-chat__bubble {
-    background: #1e3a5f;
-    color: #fff;
+    background: linear-gradient(145deg, #1b4f82 0%, #0f3460 100%);
   }
 
-  .marea-chat__text {
-    color: inherit;
+  .marea-chat__refs-label {
+    color: rgba(255, 255, 255, 0.55);
+  }
 
-    &--user {
-      color: #fff;
-    }
+  .marea-chat__ref {
+    background: rgba(42, 111, 173, 0.2);
+    border-color: rgba(42, 111, 173, 0.35);
+    color: #9ec5ea;
+  }
+
+  .marea-chat__footer {
+    background: #1a2430;
+    border-top-color: rgba(255, 255, 255, 0.08);
   }
 
   .marea-chat__hint {
-    color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .marea-chat__chip {
-    color: var(--st-accent, #c5cae9) !important;
-    border-color: rgba(197, 202, 233, 0.45) !important;
-    background: rgba(159, 168, 218, 0.12) !important;
-    --mdc-outlined-button-label-text-color: var(--st-accent, #c5cae9);
-    --mdc-outlined-button-outline-color: rgba(197, 202, 233, 0.45);
-    --mat-outlined-button-state-layer-color: #c5cae9;
+    background: #243040;
+    border-color: rgba(255, 255, 255, 0.14);
+    color: #c5d4e5;
   }
 
-  .marea-chat__restart {
-    color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
-    --mdc-text-button-label-text-color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
-  }
+  .marea-chat__composer-input {
+    background: #243040;
+    border-color: rgba(255, 255, 255, 0.14);
+    color: #fff;
 
-  .marea-chat__composer {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-start;
-    padding: 0 0.25rem;
-  }
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
 
-  .marea-chat__input {
-    flex: 1;
-  }
-
-  .marea-chat__refs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.5rem;
-  }
-
-  .marea-chat__bubble--busy {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 40px;
+    &:focus {
+      background: #2a3848;
+      border-color: $azul-claro;
+    }
   }
 
   .marea-chat__avatar {
     border-color: rgba(255, 255, 255, 0.16);
+    background: #1e2a36;
   }
-}
 
-@media (max-width: 380px) {
-  .marea-chat__panel {
-    width: calc(100vw - 24px);
-    right: max(12px, env(safe-area-inset-right));
+  .marea-chat__typing i {
+    background: #9ec5ea;
   }
 }

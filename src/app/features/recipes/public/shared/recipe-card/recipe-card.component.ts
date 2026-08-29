@@ -4,6 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslocoPipe } from '@jsverse/transloco';
 import type { RecipeListItem } from '../../../models/recipe.model';
+import {
+  recipeCategoryI18nKey,
+  recipeDifficultyI18nKey,
+} from '../recipe-label.util';
 
 @Component({
   selector: 'app-recipe-card',
@@ -28,7 +32,13 @@ import type { RecipeListItem } from '../../../models/recipe.model';
       </div>
       <div class="recipe-card__body">
         @if (item().category) {
-          <p class="recipe-card__cat">{{ item().category }}</p>
+          <p class="recipe-card__cat">
+            @if (categoryKey(item().category); as catKey) {
+              {{ catKey | transloco }}
+            } @else {
+              {{ item().category }}
+            }
+          </p>
         }
         <h3 class="recipe-card__title">{{ item().name }}</h3>
         @if (item().description) {
@@ -38,7 +48,11 @@ import type { RecipeListItem } from '../../../models/recipe.model';
           @if (item().difficulty) {
             <span class="recipe-card__chip">
               <mat-icon>signal_cellular_alt</mat-icon>
-              {{ item().difficulty }}
+              @if (difficultyKey(item().difficulty); as diffKey) {
+                {{ diffKey | transloco }}
+              } @else {
+                {{ item().difficulty }}
+              }
             </span>
           }
           @if (item().prepMinutes || item().cookMinutes) {
@@ -192,6 +206,9 @@ export class RecipeCardComponent {
   item = input.required<RecipeListItem>();
   badge = input<string | null>(null);
   like = output<RecipeListItem>();
+
+  categoryKey = recipeCategoryI18nKey;
+  difficultyKey = recipeDifficultyI18nKey;
 
   onLike(event: Event): void {
     event.preventDefault();

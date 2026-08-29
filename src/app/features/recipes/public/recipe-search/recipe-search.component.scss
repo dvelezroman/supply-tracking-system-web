@@ -21,6 +21,13 @@
     margin-bottom: 0.85rem;
   }
 
+  &__nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
   &__back {
     margin-left: -8px;
   }

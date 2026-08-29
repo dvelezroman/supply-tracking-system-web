@@ -40,16 +40,29 @@
     "createActor": "Create actor",
     "createRestaurant": "Create restaurant",
     "createUser": "Create user",
-    "recordEvent": "Record event"
+    "recordEvent": "Record event",
+    "paginator": {
+      "itemsPerPage": "Items per page:",
+      "nextPage": "Next page",
+      "previousPage": "Previous page",
+      "firstPage": "First page",
+      "lastPage": "Last page",
+      "range": "{{start}} – {{end}} of {{length}}",
+      "rangeEmpty": "0 of {{length}}"
+    }
   },
   "chatbot": {
     "title": "Mary — Marea Alta assistant",
     "open": "Open chat with Mary",
     "close": "Close Mary’s chat",
+    "online": "Online · ready to help",
+    "typing": "Mary is typing",
+    "send": "Send message",
+    "recipeLinks": "Suggested recipes",
     "welcome": "Hi! I’m Mary, Marea Alta’s virtual assistant. Pick a topic or ask about recipes, traceability, or the product.\n\nTo reach our team, choose “Contact / WhatsApp.”",
-    "chooseTopic": "Quick topics or type your question:",
+    "chooseTopic": "Quick topics",
     "optionsAria": "Help topics",
-    "restart": "Back to welcome message",
+    "restart": "Restart conversation",
     "askPlaceholder": "Ask about recipes, ceviche, garlic shrimp…",
     "ragError": "I couldn’t reach the knowledge base right now. Try /recetas or WhatsApp.",
     "options": {
@@ -60,6 +73,9 @@
       "restaurants": "For restaurants",
       "recipes": "Shrimp recipes",
       "contact": "Contact / WhatsApp"
+    },
+    "prompts": {
+      "recipes": "Suggest Marea Alta shrimp recipes: ceviche, cocktail, or a main dish"
     },
     "replies": {
       "site": "This site connects anyone buying or serving our shrimp with a verifiable story for each lot. The home page introduces Marea Alta. Public traceability opens when you scan the package QR or use the lot lookup: it’s a read-only page—no account needed.\n\nSupply-chain operators use a separate sign-in console to record milestones; you only see what was published for that lot.",
@@ -1157,6 +1173,13 @@
       "filterEntrada": "Starters / Cocktail",
       "filterFuerte": "Mains",
       "filterTransicion": "Transition",
+      "categories": {
+        "entradaCoctel": "Starters / Cocktail",
+        "platoFuerte": "Mains",
+        "platoFuerteEntrada": "Main / Starter",
+        "platoFuerteAcompanante": "Main / Side",
+        "entradaTransicion": "Transition"
+      },
       "badgeRecommended": "Recommended",
       "badgePopular": "Popular",
       "minutes": "{{count}} min",
