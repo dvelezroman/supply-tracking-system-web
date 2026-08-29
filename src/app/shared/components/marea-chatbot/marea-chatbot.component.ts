@@ -37,39 +37,43 @@ export interface MareaChatLine {
   recipeRefs?: { slug: string; name: string }[];
 }
 
-/** Inline segments for bot copy: plain text or in-app recipe links. */
-export type MareaChatTextPart =
-  | { kind: 'text'; value: string }
-  | { kind: 'link'; label: string; commands: string[] };
+/** Nav CTA extracted from `/recetas` paths (or recipeRefs). */
+export type MareaChatNavBtn = {
+  key: string;
+  label: string;
+  commands: string[];
+  icon: string;
+};
 
 /** `/recetas` or `/recetas/{slug}`, optional surrounding `**markdown**`. */
 const RECIPE_PATH_RE =
   /\*\*(\/recetas(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)\*\*|(\/recetas(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?)/gi;
 
-function splitRecipePathParts(text: string): MareaChatTextPart[] {
-  if (!text) return [{ kind: 'text', value: '' }];
-  const parts: MareaChatTextPart[] = [];
-  let last = 0;
+function extractRecipePaths(text: string): { path: string; slug: string | null }[] {
+  const out: { path: string; slug: string | null }[] = [];
+  const seen = new Set<string>();
   for (const match of text.matchAll(RECIPE_PATH_RE)) {
-    const index = match.index ?? 0;
-    if (index > last) {
-      parts.push({ kind: 'text', value: text.slice(last, index) });
-    }
     const path = match[1] ?? match[2] ?? match[0];
+    if (seen.has(path)) continue;
+    seen.add(path);
     const slug = path.startsWith('/recetas/')
       ? path.slice('/recetas/'.length)
       : null;
-    parts.push({
-      kind: 'link',
-      label: path,
-      commands: slug ? ['/recetas', slug] : ['/recetas'],
-    });
-    last = index + match[0].length;
+    out.push({ path, slug });
   }
-  if (last < text.length) {
-    parts.push({ kind: 'text', value: text.slice(last) });
-  }
-  return parts.length ? parts : [{ kind: 'text', value: text }];
+  return out;
+}
+
+function stripRecipePaths(text: string): string {
+  return text
+    .replace(RECIPE_PATH_RE, '')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/ +\./g, '.')
+    .replace(/ +,/g, ',')
+    .replace(/:\s*$/gm, '.')
+    .trim();
 }
 
 const CHAT_OPTIONS: {
@@ -298,12 +302,66 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
     return line.textKey === 'chatbot.replies.contact';
   }
 
-  botTextParts(line: MareaChatLine): MareaChatTextPart[] {
-    const text =
+  private lineText(line: MareaChatLine): string {
+    return (
       line.plain ??
       (line.textKey ? this.transloco.translate(line.textKey) : '') ??
-      '';
-    return splitRecipePathParts(text);
+      ''
+    );
+  }
+
+  /** Bot copy without raw `/recetas…` paths (those become buttons). */
+  botPlainText(line: MareaChatLine): string {
+    return stripRecipePaths(this.lineText(line));
+  }
+
+  /** Path mentions + RAG recipeRefs → unique nav buttons. */
+  botNavButtons(line: MareaChatLine): MareaChatNavBtn[] {
+    const text = this.lineText(line);
+    const buttons: MareaChatNavBtn[] = [];
+    const seen = new Set<string>();
+
+    const push = (btn: MareaChatNavBtn) => {
+      if (seen.has(btn.key)) return;
+      seen.add(btn.key);
+      buttons.push(btn);
+    };
+
+    for (const { slug } of extractRecipePaths(text)) {
+      if (!slug) {
+        push({
+          key: 'list',
+          label: this.transloco.translate('chatbot.openRecipes'),
+          commands: ['/recetas'],
+          icon: 'menu_book',
+        });
+        continue;
+      }
+      const name =
+        line.recipeRefs?.find((r) => r.slug === slug)?.name ??
+        (this.transloco.getActiveLang() === 'en'
+          ? RECIPE_CONTENT_EN[slug]?.name
+          : undefined);
+      push({
+        key: slug,
+        label: name
+          ? this.recipeRefName({ slug, name })
+          : this.transloco.translate('chatbot.openRecipe'),
+        commands: ['/recetas', slug],
+        icon: 'restaurant_menu',
+      });
+    }
+
+    for (const ref of line.recipeRefs ?? []) {
+      push({
+        key: ref.slug,
+        label: this.recipeRefName(ref),
+        commands: ['/recetas', ref.slug],
+        icon: 'restaurant_menu',
+      });
+    }
+
+    return buttons;
   }
 
   recipeRefName(ref: { slug: string; name: string }): string {

@@ -63,34 +63,23 @@
                   {{ line.plain || (line.textKey | transloco) }}
                 </p>
               } @else {
-                <p class="marea-chat__text">
-                  @for (part of botTextParts(line); track $index) {
-                    @if (part.kind === 'link') {
-                      <a
-                        class="marea-chat__inline-link"
-                        [routerLink]="part.commands"
-                        (click)="close()"
-                      >{{ part.label }}</a>
-                    } @else {
-                      {{ part.value }}
-                    }
+                <p class="marea-chat__text">{{ botPlainText(line) }}</p>
+                @if (botNavButtons(line); as navBtns) {
+                  @if (navBtns.length) {
+                    <div class="marea-chat__refs">
+                      @for (btn of navBtns; track btn.key) {
+                        <a
+                          class="marea-chat__ref"
+                          [routerLink]="btn.commands"
+                          (click)="close()"
+                        >
+                          <mat-icon aria-hidden="true">{{ btn.icon }}</mat-icon>
+                          <span>{{ btn.label }}</span>
+                          <mat-icon class="marea-chat__ref-arrow" aria-hidden="true">chevron_right</mat-icon>
+                        </a>
+                      }
+                    </div>
                   }
-                </p>
-                @if (line.recipeRefs?.length) {
-                  <div class="marea-chat__refs">
-                    <p class="marea-chat__refs-label">{{ 'chatbot.recipeLinks' | transloco }}</p>
-                    @for (ref of line.recipeRefs; track ref.slug) {
-                      <a
-                        class="marea-chat__ref"
-                        [routerLink]="['/recetas', ref.slug]"
-                        (click)="close()"
-                      >
-                        <mat-icon aria-hidden="true">restaurant_menu</mat-icon>
-                        <span>{{ recipeRefName(ref) }}</span>
-                        <mat-icon class="marea-chat__ref-arrow" aria-hidden="true">chevron_right</mat-icon>
-                      </a>
-                    }
-                  </div>
                 }
                 @if (isContactReply(line)) {
                   <a
