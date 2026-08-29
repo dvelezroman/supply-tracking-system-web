@@ -146,11 +146,72 @@
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
+    align-items: stretch;
     margin-bottom: 2.5rem;
 
     @media (min-width: 900px) {
       justify-content: flex-start;
+      align-items: flex-start;
     }
+  }
+
+  &__trace-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    max-width: 22rem;
+    padding: 0.85rem 1.15rem;
+    border-radius: 12px;
+    text-decoration: none;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.12);
+    color: $marea-blanco;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+
+    @media (max-width: 899px) {
+      margin-inline: auto;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $marea-blanco;
+      outline-offset: 3px;
+    }
+  }
+
+  &__trace-cta-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: $font-marea-heading;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.25;
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+  }
+
+  &__trace-cta-hint {
+    display: block;
+    font-family: $font-marea-body;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.82);
   }
 
   &__scroll {
@@ -210,6 +271,12 @@
     background: $marea-coral;
     color: $marea-blanco;
     box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
+    align-self: center;
+
+    @media (min-width: 900px) {
+      align-self: flex-start;
+      margin-top: 0.35rem;
+    }
 
     &:hover {
       background: $marea-coral-hover;

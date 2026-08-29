@@ -66,25 +66,33 @@
         <span class="landing__title">{{ brand.landingTitle() }}</span>
       </div>
       <div class="landing__actionsLine">
+        <nav class="landing__nav" [attr.aria-label]="'landing.toolbar.navAria' | transloco">
+          <a
+            mat-flat-button
+            color="primary"
+            routerLink="/tienda"
+            class="landing__nav-shop"
+            [attr.title]="'landing.toolbar.shopHint' | transloco"
+          >
+            <mat-icon aria-hidden="true">storefront</mat-icon>
+            <span class="landing__nav-shop-text">
+              <span class="landing__nav-shop-label">{{ 'landing.toolbar.shop' | transloco }}</span>
+              <span class="landing__nav-shop-hint">{{ 'landing.toolbar.shopHint' | transloco }}</span>
+            </span>
+          </a>
+          <a
+            routerLink="/auth/login"
+            class="landing__nav-ops"
+            [attr.title]="'landing.toolbar.operatorHint' | transloco"
+            [attr.aria-label]="'landing.toolbar.operatorAria' | transloco"
+          >
+            <mat-icon aria-hidden="true">badge</mat-icon>
+            <span>{{ 'landing.toolbar.operatorSignIn' | transloco }}</span>
+          </a>
+        </nav>
         <div class="landing__prefs">
           <app-language-toggle class="landing__langToggle" />
           <app-theme-toggle />
-        </div>
-        <div class="landing__operatorBtns">
-          <a
-            mat-stroked-button
-            routerLink="/tienda"
-            class="landing__op-btn landing__op-btn--shop"
-          >
-            {{ 'landing.toolbar.shop' | transloco }}
-          </a>
-          <a
-            mat-button
-            routerLink="/auth/login"
-            class="landing__op-btn landing__op-btn--signin"
-          >
-            {{ 'landing.toolbar.operatorSignIn' | transloco }}
-          </a>
         </div>
       </div>
     </div>

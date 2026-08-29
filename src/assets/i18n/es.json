@@ -91,8 +91,12 @@
   "landing": {
     "toolbar": {
       "brandTitle": "MAREA ALTA",
+      "navAria": "Accesos principales",
       "shop": "Tienda",
-      "operatorSignIn": "Acceso operadores"
+      "shopHint": "Comprar productos Marea Alta",
+      "operatorSignIn": "Operadores",
+      "operatorHint": "Consola interna de la cadena de suministro",
+      "operatorAria": "Acceso operadores — consola interna, no para clientes"
     },
     "intro": {
       "skip": "Saltar intro",
@@ -114,6 +118,7 @@
         "subtitle": "Producto 100 % natural, libre de químicos; trazabilidad total con un QR en el empaque y código de lote único. No somos un simple distribuidor: somos custodios de un estándar superior.",
         "ctaStory": "Cómo nace Marea Alta",
         "ctaTrace": "Consultar un lote",
+        "ctaTraceHint": "Si ya tiene el producto: verifique origen y cadena con el código de lote del empaque. Sin cuenta.",
         "scrollHint": "Conozca nuestra propuesta"
       },
       "story": {

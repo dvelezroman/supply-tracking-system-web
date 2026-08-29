@@ -91,8 +91,12 @@
   "landing": {
     "toolbar": {
       "brandTitle": "MAREA ALTA",
+      "navAria": "Primary navigation",
       "shop": "Shop",
-      "operatorSignIn": "Operator sign in"
+      "shopHint": "Buy Marea Alta products",
+      "operatorSignIn": "Operators",
+      "operatorHint": "Internal supply-chain console",
+      "operatorAria": "Operator sign-in — internal console, not for customers"
     },
     "intro": {
       "skip": "Skip intro",
@@ -114,6 +118,7 @@
         "subtitle": "100% natural product, free of unnecessary chemicals; full traceability with one QR on the pack and a unique lot code. We’re not just another distributor—we guard a higher standard.",
         "ctaStory": "How Marea Alta began",
         "ctaTrace": "Look up a lot",
+        "ctaTraceHint": "Already have the product? Verify origin and chain with the lot code on the pack. No account needed.",
         "scrollHint": "Explore our promise"
       },
       "story": {
