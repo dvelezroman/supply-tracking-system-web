@@ -70,6 +70,19 @@
           <a
             mat-flat-button
             color="primary"
+            routerLink="/recetas"
+            class="landing__nav-shop landing__nav-shop--recipes"
+            [attr.title]="'landing.toolbar.recipesHint' | transloco"
+          >
+            <mat-icon aria-hidden="true">menu_book</mat-icon>
+            <span class="landing__nav-shop-text">
+              <span class="landing__nav-shop-label">{{ 'landing.toolbar.recipes' | transloco }}</span>
+              <span class="landing__nav-shop-hint">{{ 'landing.toolbar.recipesHint' | transloco }}</span>
+            </span>
+          </a>
+          <a
+            mat-flat-button
+            color="primary"
             routerLink="/tienda"
             class="landing__nav-shop"
             [attr.title]="'landing.toolbar.shopHint' | transloco"
@@ -80,18 +93,19 @@
               <span class="landing__nav-shop-hint">{{ 'landing.toolbar.shopHint' | transloco }}</span>
             </span>
           </a>
-          <a
-            routerLink="/recetas"
+          <button
+            type="button"
             class="landing__nav-ops"
-            [attr.title]="'recipes.public.searchAll' | transloco"
-            [attr.aria-label]="'recipes.public.searchAll' | transloco"
+            [attr.title]="'landing.marea.mary.nav' | transloco"
+            [attr.aria-label]="'landing.marea.mary.nav' | transloco"
+            (click)="openMary()"
           >
-            <mat-icon aria-hidden="true">menu_book</mat-icon>
-            <span>{{ 'recipes.public.searchAll' | transloco }}</span>
-          </a>
+            <mat-icon aria-hidden="true">smart_toy</mat-icon>
+            <span>{{ 'landing.marea.mary.nav' | transloco }}</span>
+          </button>
           <a
             routerLink="/auth/login"
-            class="landing__nav-ops"
+            class="landing__nav-ops landing__nav-ops--muted"
             [attr.title]="'landing.toolbar.operatorHint' | transloco"
             [attr.aria-label]="'landing.toolbar.operatorAria' | transloco"
           >
@@ -110,12 +124,14 @@
   <main class="landing__main">
     <div class="landing__marea">
       <app-marea-hero-section />
+      <app-marea-explore-gate />
+      <app-marea-mary-section />
+      <app-marea-recipes-trending />
       <app-marea-story-origin />
       <app-marea-legacy-timeline />
       <app-marea-traceability-flow />
       <app-marea-values-grid />
       <app-marea-testimonials />
-      <app-marea-recipes-trending />
       <app-marea-final-cta />
     </div>
 

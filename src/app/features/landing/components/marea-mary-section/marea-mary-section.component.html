@@ -1,0 +1,57 @@
+<section class="marea-mary" id="mary" aria-labelledby="marea-mary-title">
+  <div class="marea-mary__inner">
+    <div class="marea-mary__intro">
+      <div class="marea-mary__avatar-wrap" aria-hidden="true">
+        <img
+          class="marea-mary__avatar"
+          [src]="logoUrl"
+          alt=""
+          width="88"
+          height="88"
+          (error)="onLogoError($event)"
+        />
+        <span class="marea-mary__pulse"></span>
+      </div>
+      <p class="marea-mary__eyebrow">{{ 'landing.marea.mary.eyebrow' | transloco }}</p>
+      <h2 id="marea-mary-title" class="marea-mary__title">
+        {{ 'landing.marea.mary.title' | transloco }}
+      </h2>
+      <p class="marea-mary__lead">{{ 'landing.marea.mary.lead' | transloco }}</p>
+      <div class="marea-mary__actions">
+        <button type="button" mat-flat-button class="marea-mary__cta" (click)="openMary()">
+          <mat-icon aria-hidden="true">chat</mat-icon>
+          {{ 'landing.marea.mary.ctaChat' | transloco }}
+        </button>
+        <a mat-stroked-button class="marea-mary__cta-sec" routerLink="/recetas">
+          <mat-icon aria-hidden="true">menu_book</mat-icon>
+          {{ 'landing.marea.mary.ctaRecipes' | transloco }}
+        </a>
+      </div>
+    </div>
+
+    <div class="marea-mary__panel">
+      <ul class="marea-mary__features" role="list">
+        @for (f of features; track f.titleKey) {
+          <li class="marea-mary__feature">
+            <mat-icon class="marea-mary__feature-icon" aria-hidden="true">{{ f.icon }}</mat-icon>
+            <div>
+              <h3 class="marea-mary__feature-title">{{ f.titleKey | transloco }}</h3>
+              <p class="marea-mary__feature-body">{{ f.bodyKey | transloco }}</p>
+            </div>
+          </li>
+        }
+      </ul>
+
+      <div class="marea-mary__prompts" role="group" [attr.aria-label]="'landing.marea.mary.promptsAria' | transloco">
+        <p class="marea-mary__prompts-label">{{ 'landing.marea.mary.tryAsking' | transloco }}</p>
+        <div class="marea-mary__prompt-chips">
+          @for (key of prompts; track key) {
+            <button type="button" class="marea-mary__prompt" (click)="openMary(key)">
+              {{ key | transloco }}
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

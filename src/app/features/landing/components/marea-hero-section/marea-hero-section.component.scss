@@ -143,15 +143,24 @@
 
   &__ctas {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: stretch;
     align-items: stretch;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.75rem;
+    width: 100%;
+    max-width: 22rem;
+    margin-inline: auto;
 
     @media (min-width: 900px) {
+      flex-direction: row;
+      flex-wrap: wrap;
       justify-content: flex-start;
-      align-items: flex-start;
+      align-items: stretch;
+      max-width: none;
+      margin-inline: 0;
+      gap: 12px;
     }
   }
 
@@ -161,7 +170,7 @@
     align-items: flex-start;
     gap: 6px;
     width: 100%;
-    max-width: 22rem;
+    max-width: none;
     padding: 0.85rem 1.15rem;
     border-radius: 12px;
     text-decoration: none;
@@ -170,9 +179,11 @@
     color: $marea-blanco;
     border: 1px solid rgba(255, 255, 255, 0.45);
     transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    min-height: 48px;
+    box-sizing: border-box;
 
-    @media (max-width: 899px) {
-      margin-inline: auto;
+    @media (min-width: 900px) {
+      max-width: 22rem;
     }
 
     &:hover {
@@ -258,29 +269,43 @@
 }
 
 .marea-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
   font-family: $font-marea-heading;
   font-weight: 600;
   font-size: 0.95rem;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (min-width: 900px) {
+    width: auto;
+  }
 
   &--primary {
     background: $marea-coral;
     color: $marea-blanco;
     box-shadow: 0 4px 14px rgba(255, 107, 107, 0.35);
-    align-self: center;
-
-    @media (min-width: 900px) {
-      align-self: flex-start;
-      margin-top: 0.35rem;
-    }
 
     &:hover {
       background: $marea-coral-hover;
       transform: translateY(-2px);
+      color: $marea-blanco;
+      text-decoration: none;
     }
   }
 
@@ -291,6 +316,7 @@
 
     &:hover {
       background: rgba(255, 255, 255, 0.2);
+      color: $marea-blanco;
     }
   }
 }

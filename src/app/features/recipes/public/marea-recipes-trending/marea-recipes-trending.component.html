@@ -1,0 +1,77 @@
+<section class="recipes-showcase" id="recetas-marea" aria-labelledby="recipes-showcase-title">
+  <div class="recipes-showcase__head">
+    <div class="recipes-showcase__titles">
+      <p class="recipes-showcase__eyebrow">{{ 'recipes.public.sectionEyebrow' | transloco }}</p>
+      <h2 id="recipes-showcase-title">{{ 'recipes.public.sectionTitle' | transloco }}</h2>
+      <p class="recipes-showcase__lead">{{ 'recipes.public.sectionLead' | transloco }}</p>
+    </div>
+    <a mat-flat-button color="primary" class="recipes-showcase__all" routerLink="/recetas">
+      <mat-icon>search</mat-icon>
+      {{ 'recipes.public.searchAll' | transloco }}
+    </a>
+  </div>
+
+  <div
+    class="recipes-showcase__rails"
+    role="tablist"
+    [attr.aria-label]="'recipes.public.railsAria' | transloco"
+  >
+    <button
+      type="button"
+      role="tab"
+      class="recipes-showcase__rail"
+      [class.recipes-showcase__rail--active]="rail() === 'recommended'"
+      [attr.aria-selected]="rail() === 'recommended'"
+      (click)="setRail('recommended')"
+    >
+      <mat-icon aria-hidden="true">auto_awesome</mat-icon>
+      {{ 'recipes.public.railRecommended' | transloco }}
+    </button>
+    <button
+      type="button"
+      role="tab"
+      class="recipes-showcase__rail"
+      [class.recipes-showcase__rail--active]="rail() === 'popular'"
+      [attr.aria-selected]="rail() === 'popular'"
+      (click)="setRail('popular')"
+    >
+      <mat-icon aria-hidden="true">local_fire_department</mat-icon>
+      {{ 'recipes.public.railPopular' | transloco }}
+    </button>
+  </div>
+
+  <div
+    class="recipes-showcase__filters"
+    role="group"
+    [attr.aria-label]="'recipes.public.filtersAria' | transloco"
+  >
+    @for (f of filters; track f.id) {
+      <button
+        type="button"
+        class="recipes-showcase__chip"
+        [class.recipes-showcase__chip--active]="filterId() === f.id"
+        (click)="setFilter(f.id)"
+      >
+        {{ f.labelKey | transloco }}
+      </button>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" class="recipes-showcase__loading" />
+  }
+
+  <div class="recipes-showcase__grid" role="tabpanel">
+    @for (item of filtered(); track item.id) {
+      <app-recipe-card
+        [item]="item"
+        [badge]="badgeFor(item)"
+        (like)="toggleLike($event)"
+      />
+    } @empty {
+      @if (!isLoading()) {
+        <p class="recipes-showcase__empty">{{ 'recipes.public.empty' | transloco }}</p>
+      }
+    }
+  </div>
+</section>

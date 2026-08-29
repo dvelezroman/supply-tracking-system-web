@@ -1,0 +1,86 @@
+:host {
+  display: contents;
+}
+
+.marea-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+  background: rgba(10, 38, 71, 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 -6px 24px rgba(10, 38, 71, 0.28);
+
+  /* Desktop: compact floating pill — less chrome */
+  @media (min-width: 900px) {
+    left: 50%;
+    right: auto;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: min(440px, calc(100% - 2rem));
+    border-radius: 18px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+}
+
+.marea-dock__item {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 52px;
+  padding: 6px 4px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-family: 'Open Sans', Roboto, system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    outline: none;
+  }
+
+  &--active {
+    color: #fff;
+    background: rgba(44, 116, 179, 0.45);
+  }
+
+  &--accent.marea-dock__item--active {
+    background: rgba(255, 107, 107, 0.35);
+  }
+
+  &--mary {
+    color: #ffd93d;
+
+    mat-icon {
+      color: #ffd93d;
+    }
+  }
+}

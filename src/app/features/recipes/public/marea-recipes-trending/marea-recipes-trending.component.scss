@@ -1,0 +1,153 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+.recipes-showcase {
+  max-width: $marea-container;
+  margin: 0 auto;
+  padding: $section-pad-y 1rem;
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $marea-coral;
+  }
+
+  h2 {
+    margin: 0 0 0.4rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.45rem, 3vw, 1.9rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__lead {
+    margin: 0;
+    max-width: 36rem;
+    font-family: $font-marea-body;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: $marea-gris-medio;
+  }
+
+  &__all {
+    mat-icon {
+      margin-right: 0.2rem;
+    }
+  }
+
+  &__rails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  &__rail {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.55rem 1rem;
+    border-radius: 12px;
+    border: 1px solid $border-ocean;
+    background: $marea-blanco;
+    color: $marea-azul-principal;
+    font-family: $font-marea-heading;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      border-color: $marea-azul-claro;
+      transform: translateY(-1px);
+    }
+
+    &--active {
+      background: $marea-azul-principal;
+      border-color: $marea-azul-principal;
+      color: $marea-blanco;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__chip {
+    appearance: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(20, 66, 114, 0.18);
+    background: $marea-gris-claro;
+    color: $marea-azul-principal;
+    font-family: $font-marea-body;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      border-color: $marea-coral;
+    }
+
+    &--active {
+      background: rgba(255, 107, 107, 0.12);
+      border-color: $marea-coral;
+      color: #c44545;
+    }
+  }
+
+  &__loading {
+    margin-bottom: 1rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    @media (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__empty {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 2rem 0;
+    text-align: center;
+    color: $marea-gris-medio;
+  }
+}

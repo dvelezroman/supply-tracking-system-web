@@ -1,9 +1,14 @@
 .marea-chat {
   position: fixed;
-  z-index: 1000;
+  z-index: 1001;
   right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
+  /* Sit above public dock (~58px + safe area) on mobile */
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
   font-family: Roboto, sans-serif;
+
+  @media (min-width: 900px) {
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .marea-chat__fab {
@@ -69,7 +74,7 @@ $marea-chat-header-gap: 10px;
   );
   right: max(16px, env(safe-area-inset-right));
   bottom: calc(
-    #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
+    64px + #{$marea-chat-fab-size} + #{$marea-chat-fab-gap} + env(safe-area-inset-bottom, 0px)
   );
   width: min(100vw - 32px, 380px);
   display: flex;

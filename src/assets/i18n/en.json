@@ -92,11 +92,13 @@
     "optionalDetails": "Optional details…"
   },
   "landing": {
-    "toolbar": {
+      "toolbar": {
       "brandTitle": "MAREA ALTA",
       "navAria": "Primary navigation",
       "shop": "Shop",
       "shopHint": "Buy Marea Alta products",
+      "recipes": "Recipes",
+      "recipesHint": "Browse dishes and cocktails",
       "operatorSignIn": "Operators",
       "operatorHint": "Internal supply-chain console",
       "operatorAria": "Operator sign-in — internal console, not for customers"
@@ -120,9 +122,10 @@
         "titleLine2": "We sell health, confidence, and a story of excellence.",
         "subtitle": "100% natural product, free of unnecessary chemicals; full traceability with one QR on the pack and a unique lot code. We’re not just another distributor—we guard a higher standard.",
         "ctaStory": "How Marea Alta began",
+        "ctaRecipes": "Explore recipes",
         "ctaTrace": "Look up a lot",
         "ctaTraceHint": "Already have the product? Verify origin and chain with the lot code on the pack. No account needed.",
-        "scrollHint": "Explore our promise"
+        "scrollHint": "See how to get started"
       },
       "story": {
         "kicker": "How Marea Alta began",
@@ -248,11 +251,54 @@
         "title": "Raise the standard for your business",
         "menuImageAlt":
           "Restaurant menu card with QR codes next to seafood dishes at an oceanfront table—traceability on the menu",
-        "subtitle": "Shop online, message us on WhatsApp for supply—or verify a lot with the QR on the package.",
+        "subtitle": "Shop online, browse recipes with Mary, message us on WhatsApp—or verify a lot with the QR on the package.",
         "shop": "Go to shop",
+        "recipes": "Browse recipes",
         "whatsapp": "Message us on WhatsApp",
         "whatsappUrl": "https://wa.me/593999530981",
         "lookup": "Verify lot code"
+      },
+      "explore": {
+        "title": "What do you want to do?",
+        "lead": "Three clear paths: cook, ask Mary, or verify a lot.",
+        "navAria": "Marea Alta quick links",
+        "recipesTitle": "Recipes",
+        "recipesDesc": "Ceviche, garlic shrimp, cocktails and mains with Marea Alta shrimp. Filters, popular and recommended.",
+        "recipesCta": "Go to recipes",
+        "maryTitle": "Mary · assistant",
+        "maryDesc": "AI chat: recipe ideas, QR help, and product answers.",
+        "maryCta": "Chat with Mary",
+        "traceTitle": "Traceability",
+        "traceDesc": "Scan the QR or enter the lot code on the pack. No app or account.",
+        "traceCta": "Look up lot"
+      },
+      "dock": {
+        "aria": "Public navigation",
+        "home": "Home",
+        "recipes": "Recipes",
+        "mary": "Mary",
+        "shop": "Shop"
+      },
+      "mary": {
+        "nav": "Mary",
+        "eyebrow": "Virtual assistant",
+        "title": "Meet Mary",
+        "lead": "Mary is Marea Alta’s chat. She suggests shrimp recipes, explains how to read the QR, and helps restaurants—using indexed knowledge (RAG) from our published recipes.",
+        "ctaChat": "Open chat with Mary",
+        "ctaRecipes": "See all recipes",
+        "tryAsking": "Try asking",
+        "promptsAria": "Sample questions for Mary",
+        "prompt1": "How do I make ceviche with PD tail-off?",
+        "prompt2": "Easy recipes for restaurants",
+        "prompt3": "What do I see after scanning the QR?",
+        "f1Title": "Shrimp recipes",
+        "f1Body": "Ceviche, cocktail, garlic shrimp and mains by presentation.",
+        "f2Title": "AI on your corpus",
+        "f2Body": "Answers use published recipes indexed in our knowledge base.",
+        "f3Title": "Clear traceability",
+        "f3Body": "Step-by-step help to verify a lot from the package.",
+        "f4Title": "Human contact",
+        "f4Body": "For sales or WhatsApp, Mary hands you to the team."
       },
       "social": {
         "title": "Social networks",
@@ -1081,8 +1127,9 @@
     },
     "public": {
       "title": "Marea Alta shrimp recipes",
-      "subtitle": "Search dishes, starters and cocktails made with our shrimp",
+      "subtitle": "Search dishes, starters and cocktails. Filter by type or ask Mary.",
       "searchPlaceholder": "Ceviche, garlic shrimp, cocktail…",
+      "sortLabel": "Sort",
       "sortPopular": "Most popular",
       "sortRecent": "Newest",
       "sortRelevance": "Relevance",
@@ -1093,10 +1140,34 @@
       "ingredients": "Ingredients",
       "steps": "Steps",
       "backToSearch": "Back to search",
+      "backHome": "Home",
+      "askMary": "Ask Mary",
       "notFound": "Recipe not found",
       "trendingTitle": "Popular recipes",
       "trendingSubtitle": "Community favorites",
-      "searchAll": "Search recipes"
+      "searchAll": "Recipes",
+      "sectionEyebrow": "Marea Alta kitchen",
+      "sectionTitle": "Recipes to inspire",
+      "sectionLead": "Trending picks or community favorites. Filter by dish type.",
+      "railsAria": "Recipe list type",
+      "railRecommended": "Recommended",
+      "railPopular": "Popular",
+      "filtersAria": "Category filters",
+      "filterAll": "All",
+      "filterEntrada": "Starters / Cocktail",
+      "filterFuerte": "Mains",
+      "filterTransicion": "Transition",
+      "badgeRecommended": "Recommended",
+      "badgePopular": "Popular",
+      "railPopularPage": "Most popular",
+      "railRecommendedPage": "Recommended for you",
+      "resultsTitle": "Results",
+      "categoryFilter": "Category",
+      "difficultyFilter": "Difficulty",
+      "difficultyAll": "All",
+      "difficultyEasy": "Easy",
+      "difficultyMedium": "Medium",
+      "difficultyHard": "Hard"
     }
   }
 }

@@ -1,20 +1,32 @@
-<section class="recipes-search">
-  <header class="hero">
+<section class="recipes-page">
+  <header class="recipes-page__top">
+    <div class="recipes-page__nav">
+      <a mat-button routerLink="/" class="recipes-page__back">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'recipes.public.backHome' | transloco }}
+      </a>
+      <button type="button" mat-stroked-button class="recipes-page__mary" (click)="openMary()">
+        <mat-icon>smart_toy</mat-icon>
+        {{ 'recipes.public.askMary' | transloco }}
+      </button>
+    </div>
     <h1>{{ 'recipes.public.title' | transloco }}</h1>
-    <p>{{ 'recipes.public.subtitle' | transloco }}</p>
-    <div class="controls">
-      <mat-form-field appearance="outline" class="q">
+    <p class="recipes-page__lead">{{ 'recipes.public.subtitle' | transloco }}</p>
+
+    <div class="recipes-page__controls">
+      <mat-form-field appearance="outline" class="recipes-page__q" subscriptSizing="dynamic">
         <mat-label>{{ 'common.search' | transloco }}</mat-label>
         <input
           matInput
           [ngModel]="q()"
           (ngModelChange)="onSearch($event)"
           [placeholder]="'recipes.public.searchPlaceholder' | transloco"
+          enterkeyhint="search"
         />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="sort">
-        <mat-label>Sort</mat-label>
+      <mat-form-field appearance="outline" class="recipes-page__sort" subscriptSizing="dynamic">
+        <mat-label>{{ 'recipes.public.sortLabel' | transloco }}</mat-label>
         <mat-select [ngModel]="sort()" (ngModelChange)="onSort($event)">
           <mat-option value="popular">{{ 'recipes.public.sortPopular' | transloco }}</mat-option>
           <mat-option value="recent">{{ 'recipes.public.sortRecent' | transloco }}</mat-option>
@@ -22,39 +34,78 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <div
+      class="recipes-page__chips"
+      role="group"
+      [attr.aria-label]="'recipes.public.filtersAria' | transloco"
+    >
+      @for (chip of categoryChips; track chip.id) {
+        <button
+          type="button"
+          class="recipes-page__chip"
+          [class.recipes-page__chip--active]="categoryId() === chip.id"
+          (click)="setCategory(chip.id)"
+        >
+          {{ chip.labelKey | transloco }}
+        </button>
+      }
+    </div>
   </header>
 
   @if (isLoading()) {
     <mat-progress-bar mode="indeterminate" />
   }
 
-  <div class="results">
-    @for (item of items(); track item.id) {
-      <a class="result" [routerLink]="['/recetas', item.slug]">
-        <div class="body">
-          <h2>{{ item.name }}</h2>
-          <p class="cat">{{ item.category || '—' }}</p>
-          <p class="desc">{{ item.description }}</p>
+  @if (showRails()) {
+    @if (recommended().length) {
+      <section class="recipes-page__rail" aria-labelledby="rail-rec-title">
+        <h2 id="rail-rec-title">{{ 'recipes.public.railRecommendedPage' | transloco }}</h2>
+        <div class="recipes-page__grid recipes-page__grid--rail">
+          @for (item of recommended(); track item.id) {
+            <app-recipe-card
+              [item]="item"
+              [badge]="'recipes.public.badgeRecommended' | transloco"
+              (like)="toggleLike($event)"
+            />
+          }
         </div>
-        <div class="meta">
-          <button mat-stroked-button type="button" (click)="toggleLike(item, $event)">
-            <mat-icon>favorite</mat-icon>
-            {{ item.likeCount }}
-          </button>
-        </div>
-      </a>
-    } @empty {
-      @if (!isLoading()) {
-        <p class="empty">{{ 'recipes.public.empty' | transloco }}</p>
-      }
+      </section>
     }
-  </div>
+    @if (popular().length) {
+      <section class="recipes-page__rail" aria-labelledby="rail-pop-title">
+        <h2 id="rail-pop-title">{{ 'recipes.public.railPopularPage' | transloco }}</h2>
+        <div class="recipes-page__grid recipes-page__grid--rail">
+          @for (item of popular(); track item.id) {
+            <app-recipe-card
+              [item]="item"
+              [badge]="'recipes.public.badgePopular' | transloco"
+              (like)="toggleLike($event)"
+            />
+          }
+        </div>
+      </section>
+    }
+  }
 
-  <mat-paginator
-    [length]="total()"
-    [pageIndex]="page() - 1"
-    [pageSize]="pageSize()"
-    [pageSizeOptions]="[12, 24, 48]"
-    (page)="onPage($event)"
-  />
+  <section class="recipes-page__results" aria-labelledby="results-title">
+    <h2 id="results-title">{{ 'recipes.public.resultsTitle' | transloco }}</h2>
+    <div class="recipes-page__grid">
+      @for (item of items(); track item.id) {
+        <app-recipe-card [item]="item" (like)="toggleLike($event)" />
+      } @empty {
+        @if (!isLoading()) {
+          <p class="recipes-page__empty">{{ 'recipes.public.empty' | transloco }}</p>
+        }
+      }
+    </div>
+
+    <mat-paginator
+      [length]="total()"
+      [pageIndex]="page() - 1"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[12, 24, 48]"
+      (page)="onPage($event)"
+    />
+  </section>
 </section>

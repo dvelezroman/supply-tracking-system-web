@@ -19,9 +19,10 @@
         </h1>
         <p class="marea-hero__subtitle">{{ 'landing.marea.hero.subtitle' | transloco }}</p>
         <div class="marea-hero__ctas">
-          <button type="button" class="marea-btn marea-btn--primary" (click)="scrollTo('marea-story')">
-            {{ 'landing.marea.hero.ctaStory' | transloco }}
-          </button>
+          <a routerLink="/recetas" class="marea-btn marea-btn--primary">
+            <mat-icon aria-hidden="true">menu_book</mat-icon>
+            {{ 'landing.marea.hero.ctaRecipes' | transloco }}
+          </a>
           <a
             routerLink="/trace"
             class="marea-hero__trace-cta"
@@ -35,11 +36,14 @@
               {{ 'landing.marea.hero.ctaTraceHint' | transloco }}
             </span>
           </a>
+          <button type="button" class="marea-btn marea-btn--ghost" (click)="scrollTo('marea-story')">
+            {{ 'landing.marea.hero.ctaStory' | transloco }}
+          </button>
         </div>
         <button
           type="button"
           class="marea-hero__scroll"
-          (click)="scrollTo('marea-story')"
+          (click)="scrollTo('explorar')"
           [attr.aria-label]="'landing.marea.hero.scrollHint' | transloco"
         >
           <span>{{ 'landing.marea.hero.scrollHint' | transloco }}</span>

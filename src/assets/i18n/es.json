@@ -92,11 +92,13 @@
     "optionalDetails": "Detalles opcionales…"
   },
   "landing": {
-    "toolbar": {
+      "toolbar": {
       "brandTitle": "MAREA ALTA",
       "navAria": "Accesos principales",
       "shop": "Tienda",
       "shopHint": "Comprar productos Marea Alta",
+      "recipes": "Recetas",
+      "recipesHint": "Explorar platos y cócteles",
       "operatorSignIn": "Operadores",
       "operatorHint": "Consola interna de la cadena de suministro",
       "operatorAria": "Acceso operadores — consola interna, no para clientes"
@@ -120,9 +122,10 @@
         "titleLine2": "Acá vendemos salud, confianza y una historia de excelencia.",
         "subtitle": "Producto 100 % natural, libre de químicos; trazabilidad total con un QR en el empaque y código de lote único. No somos un simple distribuidor: somos custodios de un estándar superior.",
         "ctaStory": "Cómo nace Marea Alta",
+        "ctaRecipes": "Explorar recetas",
         "ctaTrace": "Consultar un lote",
         "ctaTraceHint": "Si ya tiene el producto: verifique origen y cadena con el código de lote del empaque. Sin cuenta.",
-        "scrollHint": "Conozca nuestra propuesta"
+        "scrollHint": "Descubra cómo empezar"
       },
       "story": {
         "kicker": "Cómo nace Marea Alta",
@@ -248,11 +251,54 @@
         "title": "Eleve el estándar de su negocio",
         "menuImageAlt":
           "Menú de restaurante frente al mar con códigos QR junto a platos de mariscos — trazabilidad en la carta",
-        "subtitle": "Compre en la tienda, escríbanos por WhatsApp para abastecimiento — o verifique un lote con el QR del envase.",
+        "subtitle": "Compre en la tienda, explore recetas con Mary, escríbanos por WhatsApp — o verifique un lote con el QR del envase.",
         "shop": "Ir a la tienda",
+        "recipes": "Ver recetas",
         "whatsapp": "Escríbanos por WhatsApp",
         "whatsappUrl": "https://wa.me/593999530981",
         "lookup": "Verificar código de lote"
+      },
+      "explore": {
+        "title": "¿Qué quiere hacer ahora?",
+        "lead": "Tres caminos claros: cocinar, preguntar a Mary o verificar un lote.",
+        "navAria": "Accesos rápidos Marea Alta",
+        "recipesTitle": "Recetas",
+        "recipesDesc": "Ceviches, ajillos, cócteles y platos con camarón Marea Alta. Filtros, populares y recomendados.",
+        "recipesCta": "Ir a recetas",
+        "maryTitle": "Mary · asistenta",
+        "maryDesc": "Chat con IA: sugiere recetas, explica trazabilidad y responde dudas del producto.",
+        "maryCta": "Hablar con Mary",
+        "traceTitle": "Trazabilidad",
+        "traceDesc": "Escanee el QR o ingrese el código de lote del empaque. Sin app ni cuenta.",
+        "traceCta": "Consultar lote"
+      },
+      "dock": {
+        "aria": "Navegación pública",
+        "home": "Inicio",
+        "recipes": "Recetas",
+        "mary": "Mary",
+        "shop": "Tienda"
+      },
+      "mary": {
+        "nav": "Mary",
+        "eyebrow": "Asistenta virtual",
+        "title": "Conozca a Mary",
+        "lead": "Mary es la chat de Marea Alta. Sugiere recetas con nuestro camarón, explica cómo leer el QR y orienta a restaurantes — con conocimiento indexado (RAG) de nuestras recetas publicadas.",
+        "ctaChat": "Abrir chat con Mary",
+        "ctaRecipes": "Ver todas las recetas",
+        "tryAsking": "Pruebe preguntarle",
+        "promptsAria": "Ejemplos de preguntas para Mary",
+        "prompt1": "¿Cómo preparo un ceviche con cola PD?",
+        "prompt2": "Recetas fáciles para restaurante",
+        "prompt3": "¿Qué veo al escanear el QR?",
+        "f1Title": "Recetas con camarón",
+        "f1Body": "Ideas de ceviche, cóctel, ajillo y platos fuertes según presentación.",
+        "f2Title": "IA con su corpus",
+        "f2Body": "Responde con recetas publicadas e indexadas en nuestra base de conocimiento.",
+        "f3Title": "Trazabilidad clara",
+        "f3Body": "Le guía paso a paso para verificar un lote desde el empaque.",
+        "f4Title": "Contacto humano",
+        "f4Body": "Si necesita comercial o WhatsApp, Mary le pasa al equipo."
       },
       "social": {
         "title": "Redes sociales",
@@ -1081,8 +1127,9 @@
     },
     "public": {
       "title": "Recetas con camarón Marea Alta",
-      "subtitle": "Busque platos, entradas y cócteles elaborados con nuestro camarón",
+      "subtitle": "Busque platos, entradas y cócteles. Filtre por tipo o pregunte a Mary.",
       "searchPlaceholder": "Ceviche, ajillo, cóctel…",
+      "sortLabel": "Ordenar",
       "sortPopular": "Más populares",
       "sortRecent": "Más recientes",
       "sortRelevance": "Relevancia",
@@ -1093,10 +1140,34 @@
       "ingredients": "Ingredientes",
       "steps": "Preparación",
       "backToSearch": "Volver al buscador",
+      "backHome": "Inicio",
+      "askMary": "Preguntar a Mary",
       "notFound": "Receta no encontrada",
       "trendingTitle": "Recetas populares",
       "trendingSubtitle": "Las más gustadas por nuestra comunidad",
-      "searchAll": "Buscar recetas"
+      "searchAll": "Recetas",
+      "sectionEyebrow": "Cocina Marea Alta",
+      "sectionTitle": "Recetas para inspirarse",
+      "sectionLead": "Recomendadas por tendencia o las más populares. Filtre por tipo de plato.",
+      "railsAria": "Tipo de listado de recetas",
+      "railRecommended": "Recomendadas",
+      "railPopular": "Populares",
+      "filtersAria": "Filtros por categoría",
+      "filterAll": "Todas",
+      "filterEntrada": "Entradas / Cóctel",
+      "filterFuerte": "Plato fuerte",
+      "filterTransicion": "Transición",
+      "badgeRecommended": "Recomendada",
+      "badgePopular": "Popular",
+      "railPopularPage": "Más populares",
+      "railRecommendedPage": "Recomendadas para usted",
+      "resultsTitle": "Resultados",
+      "categoryFilter": "Categoría",
+      "difficultyFilter": "Dificultad",
+      "difficultyAll": "Todas",
+      "difficultyEasy": "Fácil",
+      "difficultyMedium": "Media",
+      "difficultyHard": "Difícil"
     }
   }
 }

@@ -1,0 +1,249 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-mary {
+  padding: $section-pad-y 0;
+  margin: 0 -1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(44, 116, 179, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 80%, rgba(255, 107, 107, 0.12), transparent 50%),
+    linear-gradient(165deg, #0a2647 0%, #144272 48%, #1e3a5f 100%);
+  color: $marea-blanco;
+
+  @media (min-width: 600px) {
+    margin: 0 -1.25rem;
+    border-radius: 20px;
+  }
+
+  &__inner {
+    max-width: $marea-container;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    gap: 2rem;
+
+    @media (min-width: 900px) {
+      grid-template-columns: 1fr 1.15fr;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 0 2rem;
+    }
+  }
+
+  &__intro {
+    text-align: center;
+
+    @media (min-width: 900px) {
+      text-align: left;
+    }
+  }
+
+  &__avatar-wrap {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: $marea-blanco;
+    padding: 10px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 1;
+  }
+
+  &__pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 217, 61, 0.55);
+    animation: mary-pulse 2.4s ease-out infinite;
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.4rem;
+    font-family: $font-marea-body;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $marea-amarillo;
+  }
+
+  &__title {
+    margin: 0 0 0.75rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.55rem, 3.5vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__lead {
+    margin: 0 0 1.35rem;
+    font-family: $font-marea-body;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 32rem;
+
+    @media (min-width: 900px) {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    @media (max-width: 899px) {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+
+    @media (min-width: 900px) {
+      justify-content: flex-start;
+    }
+  }
+
+  &__cta {
+    background: $marea-coral !important;
+    color: $marea-blanco !important;
+    font-weight: 700;
+
+    mat-icon {
+      margin-right: 0.25rem;
+    }
+
+    &:hover {
+      background: $marea-coral-hover !important;
+    }
+  }
+
+  &__cta-sec {
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    color: $marea-blanco !important;
+
+    mat-icon {
+      margin-right: 0.25rem;
+    }
+  }
+
+  &__panel {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+    padding: 1.25rem 1.15rem 1.35rem;
+    backdrop-filter: blur(8px);
+  }
+
+  &__features {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+
+    @media (min-width: 600px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__feature {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.65rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    transition: background 0.25s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &__feature-icon {
+    flex-shrink: 0;
+    color: $marea-amarillo;
+  }
+
+  &__feature-title {
+    margin: 0 0 0.25rem;
+    font-family: $font-marea-heading;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  &__feature-body {
+    margin: 0;
+    font-family: $font-marea-body;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  &__prompts {
+    margin-top: 1.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  &__prompts-label {
+    margin: 0 0 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__prompt-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__prompt {
+    appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+    color: $marea-blanco;
+    font-family: $font-marea-body;
+    font-size: 0.82rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 217, 61, 0.18);
+      border-color: $marea-amarillo;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+@keyframes mary-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  70% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}

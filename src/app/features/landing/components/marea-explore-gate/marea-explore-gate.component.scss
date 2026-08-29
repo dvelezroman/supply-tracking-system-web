@@ -1,0 +1,169 @@
+@use '../../styles/marea-tokens' as *;
+
+.marea-explore {
+  padding: clamp(1.75rem, 4vw, 2.75rem) 0;
+  margin: 0 -1rem;
+  background: $gradient-surface;
+  border-bottom: 1px solid $border-ocean;
+
+  @media (min-width: 600px) {
+    margin: 0 -1.25rem;
+    border-radius: 0 0 20px 20px;
+  }
+
+  &__inner {
+    max-width: $marea-container;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    @media (min-width: 600px) {
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__head {
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+
+  &__title {
+    margin: 0 0 0.4rem;
+    font-family: $font-marea-heading;
+    font-size: clamp(1.25rem, 2.8vw, 1.55rem);
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__lead {
+    margin: 0 auto;
+    max-width: 34rem;
+    font-family: $font-marea-body;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: $marea-gris-medio;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 720px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__card {
+    appearance: none;
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 1.15rem 1.1rem;
+    border-radius: 16px;
+    border: 1px solid $border-ocean;
+    background: $marea-blanco;
+    box-shadow: $shadow-ocean-sm;
+    font: inherit;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      border-color 0.25s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(10, 38, 71, 0.12);
+      border-color: rgba(44, 116, 179, 0.35);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $marea-azul-claro;
+      outline-offset: 2px;
+    }
+
+    &--recipes:hover {
+      border-color: rgba(255, 107, 107, 0.55);
+    }
+
+    &--mary:hover {
+      border-color: rgba(255, 217, 61, 0.7);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(20, 66, 114, 0.08);
+
+    mat-icon {
+      color: $marea-azul-principal;
+    }
+
+    .marea-explore__card--recipes & {
+      background: rgba(255, 107, 107, 0.12);
+
+      mat-icon {
+        color: $marea-coral;
+      }
+    }
+
+    .marea-explore__card--mary & {
+      background: rgba(255, 217, 61, 0.22);
+
+      mat-icon {
+        color: #b8860b;
+      }
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+
+  &__card-title {
+    font-family: $font-marea-heading;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $marea-azul-profundo;
+  }
+
+  &__card-desc {
+    font-family: $font-marea-body;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: $marea-gris-medio;
+  }
+
+  &__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-top: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: $marea-azul-claro;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    .marea-explore__card--recipes & {
+      color: $marea-coral;
+    }
+  }
+}

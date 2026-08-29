@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-chatbot.component';
+import { MareaPublicDockComponent } from './shared/components/marea-public-dock/marea-public-dock.component';
 import { AuthService } from './features/auth/services/auth.service';
 
 /**
@@ -11,10 +12,11 @@ import { AuthService } from './features/auth/services/auth.service';
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, MareaChatbotComponent],
+  imports: [RouterOutlet, MareaChatbotComponent, MareaPublicDockComponent],
   template: `
     <router-outlet />
     @if (!auth.isAuthenticated()) {
+      <app-marea-public-dock />
       <app-marea-chatbot />
     }
   `,

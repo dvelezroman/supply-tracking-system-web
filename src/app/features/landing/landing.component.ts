@@ -24,10 +24,13 @@ import { MareaTraceabilityFlowComponent } from './components/marea-traceability-
 import { MareaValuesGridComponent } from './components/marea-values-grid/marea-values-grid.component';
 import { MareaTestimonialsComponent } from './components/marea-testimonials/marea-testimonials.component';
 import { MareaFinalCtaComponent } from './components/marea-final-cta/marea-final-cta.component';
+import { MareaMarySectionComponent } from './components/marea-mary-section/marea-mary-section.component';
+import { MareaExploreGateComponent } from './components/marea-explore-gate/marea-explore-gate.component';
 import { MareaRecipesTrendingComponent } from '../recipes/public/marea-recipes-trending/marea-recipes-trending.component';
 import { LandingImageFallbackDirective } from './directives/landing-image-fallback.directive';
 import { MareaLandingImages } from './marea-landing-images';
 import { environment } from '../../../environments/environment';
+import { MAREA_CHAT_OPEN_EVENT } from './components/marea-mary-section/marea-mary-section.component';
 
 /**
  * Public marketing landing. Mobile-first: default layout is for narrow viewports;
@@ -46,11 +49,13 @@ import { environment } from '../../../environments/environment';
     LanguageToggleComponent,
     ThemeToggleComponent,
     MareaHeroSectionComponent,
+    MareaExploreGateComponent,
     MareaStoryOriginComponent,
     MareaLegacyTimelineComponent,
     MareaTraceabilityFlowComponent,
     MareaValuesGridComponent,
     MareaTestimonialsComponent,
+    MareaMarySectionComponent,
     MareaRecipesTrendingComponent,
     MareaFinalCtaComponent,
     LandingImageFallbackDirective,
@@ -110,6 +115,14 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.introVideoSrc.set(fallback);
     void video.load();
     void video.play().catch(() => {});
+  }
+
+  scrollToSection(id: string): void {
+    this.doc.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  openMary(): void {
+    window.dispatchEvent(new CustomEvent(MAREA_CHAT_OPEN_EVENT, { detail: {} }));
   }
 
   private lockBodyScroll(): void {

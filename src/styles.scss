@@ -107,3 +107,8 @@ body {
 mat-card {
   border-radius: 12px !important;
 }
+
+/* Public guest dock: keep content clear of fixed bottom nav */
+html.marea-dock-active body {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}

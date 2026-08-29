@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  OnInit,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -12,8 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { fromEvent } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { RecipesPublicApiService } from '../../../features/recipes/services/recipes-api.service';
+import { MAREA_CHAT_OPEN_EVENT } from '../../../features/landing/components/marea-mary-section/marea-mary-section.component';
 
 export type MareaChatOptionId =
   | 'site'
@@ -81,9 +86,10 @@ const CHAT_OPTIONS: {
   templateUrl: './marea-chatbot.component.html',
   styleUrl: './marea-chatbot.component.scss',
 })
-export class MareaChatbotComponent {
+export class MareaChatbotComponent implements OnInit {
   private api = inject(RecipesPublicApiService);
   private transloco = inject(TranslocoService);
+  private destroyRef = inject(DestroyRef);
 
   readonly logoUrl = environment.labelLogoUrl;
   private readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
@@ -94,11 +100,30 @@ export class MareaChatbotComponent {
   readonly draft = signal('');
   readonly busy = signal(false);
 
+  ngOnInit(): void {
+    fromEvent<CustomEvent<{ promptKey?: string }>>(window, MAREA_CHAT_OPEN_EVENT)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ev) => this.openFromLanding(ev.detail?.promptKey));
+  }
+
   toggle(): void {
     const next = !this.open();
     this.open.set(next);
     if (next && this.lines().length === 0) {
       this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
+    }
+  }
+
+  private openFromLanding(promptKey?: string): void {
+    this.open.set(true);
+    if (this.lines().length === 0) {
+      this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
+    }
+    if (promptKey) {
+      const prompt = this.transloco.translate(promptKey);
+      if (prompt && !this.busy()) {
+        this.sendMessage(prompt);
+      }
     }
   }
 
