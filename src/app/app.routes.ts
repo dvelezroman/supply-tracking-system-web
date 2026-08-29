@@ -39,6 +39,14 @@ export const routes: Routes = [
   },
 
   {
+    path: 'recetas',
+    loadChildren: () =>
+      import('./features/recipes/public/recipes.public.routes').then(
+        (m) => m.RECIPES_PUBLIC_ROUTES,
+      ),
+  },
+
+  {
     path: '',
     component: MainShellComponent,
     canActivate: [authGuard],
@@ -63,6 +71,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/marketplace/admin/marketplace.admin.routes').then(
             (m) => m.MARKETPLACE_ADMIN_ROUTES,
+          ),
+      },
+      {
+        path: 'recipes',
+        loadChildren: () =>
+          import('./features/recipes/admin/recipes.admin.routes').then(
+            (m) => m.RECIPES_ADMIN_ROUTES,
           ),
       },
       {

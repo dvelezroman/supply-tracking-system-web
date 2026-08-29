@@ -89,6 +89,12 @@ export class MainShellComponent implements OnInit {
       route: '/marketplace/settings',
       adminOnly: true,
     },
+    {
+      labelKey: 'shell.nav.recipes',
+      icon: 'menu_book',
+      route: '/recipes/list',
+      adminOnly: true,
+    },
     { labelKey: 'shell.nav.actors', icon: 'groups', route: '/actors' },
     {
       labelKey: 'shell.nav.restaurants',

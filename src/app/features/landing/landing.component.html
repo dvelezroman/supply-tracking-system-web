@@ -81,6 +81,15 @@
             </span>
           </a>
           <a
+            routerLink="/recetas"
+            class="landing__nav-ops"
+            [attr.title]="'recipes.public.searchAll' | transloco"
+            [attr.aria-label]="'recipes.public.searchAll' | transloco"
+          >
+            <mat-icon aria-hidden="true">menu_book</mat-icon>
+            <span>{{ 'recipes.public.searchAll' | transloco }}</span>
+          </a>
+          <a
             routerLink="/auth/login"
             class="landing__nav-ops"
             [attr.title]="'landing.toolbar.operatorHint' | transloco"
@@ -106,6 +115,7 @@
       <app-marea-traceability-flow />
       <app-marea-values-grid />
       <app-marea-testimonials />
+      <app-marea-recipes-trending />
       <app-marea-final-cta />
     </div>
 

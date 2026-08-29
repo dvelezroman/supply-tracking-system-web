@@ -1,0 +1,57 @@
+.page-container {
+  padding: 1rem 1.25rem 2rem;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem 1rem;
+  padding-top: 0.75rem;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.row-ing,
+.row-step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 0.35rem;
+}
+
+.grow {
+  flex: 1 1 200px;
+}
+
+.order {
+  width: 88px;
+  flex: 0 0 88px;
+}
+
+.rag-card .hint {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}

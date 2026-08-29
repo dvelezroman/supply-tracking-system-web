@@ -42,12 +42,23 @@
             }
             <div class="marea-chat__bubble">
               @if (line.role === 'user') {
-                <p class="marea-chat__text marea-chat__text--user">{{ line.textKey | transloco }}</p>
+                <p class="marea-chat__text marea-chat__text--user">
+                  {{ line.plain || (line.textKey | transloco) }}
+                </p>
               } @else {
                 <p class="marea-chat__text" style="white-space: pre-line">
-                  {{ line.textKey | transloco }}
+                  {{ line.plain || (line.textKey | transloco) }}
                 </p>
-                @if (isContactReply(line.textKey)) {
+                @if (line.recipeRefs?.length) {
+                  <div class="marea-chat__refs">
+                    @for (ref of line.recipeRefs; track ref.slug) {
+                      <a mat-stroked-button [routerLink]="['/recetas', ref.slug]" (click)="close()">
+                        {{ ref.name }}
+                      </a>
+                    }
+                  </div>
+                }
+                @if (isContactReply(line)) {
                   <a
                     mat-flat-button
                     class="marea-chat__wa"
@@ -69,6 +80,13 @@
             </div>
           </div>
         }
+        @if (busy()) {
+          <div class="marea-chat__row marea-chat__row--bot">
+            <div class="marea-chat__bubble marea-chat__bubble--busy">
+              <mat-spinner diameter="22" />
+            </div>
+          </div>
+        }
       </div>
 
       <p class="marea-chat__hint">{{ 'chatbot.chooseTopic' | transloco }}</p>
@@ -79,6 +97,27 @@
           </button>
         }
       </div>
+
+      <form class="marea-chat__composer" (submit)="$event.preventDefault(); submit()">
+        <mat-form-field appearance="outline" class="marea-chat__input">
+          <mat-label>{{ 'chatbot.askPlaceholder' | transloco }}</mat-label>
+          <input
+            matInput
+            [ngModel]="draft()"
+            (ngModelChange)="draft.set($event)"
+            [disabled]="busy()"
+          />
+        </mat-form-field>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="busy() || !draft().trim()"
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+      </form>
+
       <button type="button" mat-button class="marea-chat__restart" (click)="reset()">
         {{ 'chatbot.restart' | transloco }}
       </button>

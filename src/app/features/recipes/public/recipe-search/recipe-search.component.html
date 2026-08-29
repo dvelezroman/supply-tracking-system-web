@@ -1,0 +1,60 @@
+<section class="recipes-search">
+  <header class="hero">
+    <h1>{{ 'recipes.public.title' | transloco }}</h1>
+    <p>{{ 'recipes.public.subtitle' | transloco }}</p>
+    <div class="controls">
+      <mat-form-field appearance="outline" class="q">
+        <mat-label>{{ 'common.search' | transloco }}</mat-label>
+        <input
+          matInput
+          [ngModel]="q()"
+          (ngModelChange)="onSearch($event)"
+          [placeholder]="'recipes.public.searchPlaceholder' | transloco"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="sort">
+        <mat-label>Sort</mat-label>
+        <mat-select [ngModel]="sort()" (ngModelChange)="onSort($event)">
+          <mat-option value="popular">{{ 'recipes.public.sortPopular' | transloco }}</mat-option>
+          <mat-option value="recent">{{ 'recipes.public.sortRecent' | transloco }}</mat-option>
+          <mat-option value="relevance">{{ 'recipes.public.sortRelevance' | transloco }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="results">
+    @for (item of items(); track item.id) {
+      <a class="result" [routerLink]="['/recetas', item.slug]">
+        <div class="body">
+          <h2>{{ item.name }}</h2>
+          <p class="cat">{{ item.category || '—' }}</p>
+          <p class="desc">{{ item.description }}</p>
+        </div>
+        <div class="meta">
+          <button mat-stroked-button type="button" (click)="toggleLike(item, $event)">
+            <mat-icon>favorite</mat-icon>
+            {{ item.likeCount }}
+          </button>
+        </div>
+      </a>
+    } @empty {
+      @if (!isLoading()) {
+        <p class="empty">{{ 'recipes.public.empty' | transloco }}</p>
+      }
+    }
+  </div>
+
+  <mat-paginator
+    [length]="total()"
+    [pageIndex]="page() - 1"
+    [pageSize]="pageSize()"
+    [pageSizeOptions]="[12, 24, 48]"
+    (page)="onPage($event)"
+  />
+</section>

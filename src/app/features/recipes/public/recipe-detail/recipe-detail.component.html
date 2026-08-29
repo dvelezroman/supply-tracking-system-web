@@ -1,0 +1,48 @@
+<section class="recipe-detail">
+  <a mat-button routerLink="/recetas">
+    <mat-icon>arrow_back</mat-icon>
+    {{ 'recipes.public.backToSearch' | transloco }}
+  </a>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else if (notFound()) {
+    <p>{{ 'recipes.public.notFound' | transloco }}</p>
+  } @else if (recipe()) {
+    <header>
+      <p class="cat">{{ recipe()!.category }}</p>
+      <h1>{{ recipe()!.name }}</h1>
+      <p class="desc">{{ recipe()!.description }}</p>
+      <button mat-flat-button color="primary" type="button" (click)="toggleLike()">
+        <mat-icon>{{ liked() ? 'favorite' : 'favorite_border' }}</mat-icon>
+        {{
+          (liked() ? 'recipes.public.unlike' : 'recipes.public.like') | transloco
+        }}
+        ({{ recipe()!.likeCount }})
+      </button>
+    </header>
+
+    <section>
+      <h2>{{ 'recipes.public.ingredients' | transloco }}</h2>
+      <ul>
+        @for (ing of ingredients(); track $index) {
+          <li>
+            @if (ing.qty || ing.unit) {
+              <strong>{{ ing.qty }} {{ ing.unit }}</strong>
+            }
+            {{ ing.name }}
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h2>{{ 'recipes.public.steps' | transloco }}</h2>
+      <ol>
+        @for (step of steps(); track step.order) {
+          <li>{{ step.text }}</li>
+        }
+      </ol>
+    </section>
+  }
+</section>

@@ -1,0 +1,245 @@
+<div class="page-container">
+  <app-page-header
+    [title]="
+      (isEditMode() ? 'recipes.admin.editTitle' : 'recipes.admin.createTitle')
+        | transloco
+    "
+    [subtitle]="'recipes.admin.formSubtitle' | transloco"
+  >
+    <a mat-button routerLink="/recipes/list">
+      <mat-icon>arrow_back</mat-icon>
+      {{ 'common.back' | transloco }}
+    </a>
+  </app-page-header>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-grid">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'recipes.admin.sectionBasic' | transloco }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldName' | transloco }}</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldSlug' | transloco }}</mat-label>
+            <input matInput formControlName="slug" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldDescription' | transloco }}</mat-label>
+            <textarea matInput rows="3" formControlName="description"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldCategory' | transloco }}</mat-label>
+            <input matInput formControlName="category" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldCuisine' | transloco }}</mat-label>
+            <input matInput formControlName="cuisine" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldRegion' | transloco }}</mat-label>
+            <input matInput formControlName="region" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldLanguage' | transloco }}</mat-label>
+            <input matInput formControlName="language" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldDifficulty' | transloco }}</mat-label>
+            <input matInput formControlName="difficulty" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldPrep' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="prepMinutes" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldCook' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="cookMinutes" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldServings' | transloco }}</mat-label>
+            <input matInput type="number" formControlName="servings" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldStatus' | transloco }}</mat-label>
+            <mat-select formControlName="status">
+              @for (s of statuses; track s) {
+                <mat-option [value]="s">{{ ('recipes.status.' + s) | transloco }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldPresentations' | transloco }}</mat-label>
+            <mat-select formControlName="suitablePresentations" multiple>
+              @for (p of presentations; track p) {
+                <mat-option [value]="p">{{ p }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldImageUrl' | transloco }}</mat-label>
+            <input matInput formControlName="imageUrl" />
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'recipes.admin.sectionIngredients' | transloco }}</mat-card-title>
+          <button mat-button type="button" (click)="addIngredient()">
+            <mat-icon>add</mat-icon>
+            {{ 'recipes.admin.addIngredient' | transloco }}
+          </button>
+        </mat-card-header>
+        <mat-card-content formArrayName="ingredients">
+          @for (ctrl of ingredients.controls; track ctrl; let i = $index) {
+            <div class="row-ing" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="grow">
+                <mat-label>{{ 'recipes.admin.ingName' | transloco }}</mat-label>
+                <input matInput formControlName="name" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'recipes.admin.ingQty' | transloco }}</mat-label>
+                <input matInput formControlName="qty" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'recipes.admin.ingUnit' | transloco }}</mat-label>
+                <input matInput formControlName="unit" />
+              </mat-form-field>
+              <button mat-icon-button type="button" color="warn" (click)="removeIngredient(i)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'recipes.admin.sectionSteps' | transloco }}</mat-card-title>
+          <button mat-button type="button" (click)="addStep()">
+            <mat-icon>add</mat-icon>
+            {{ 'recipes.admin.addStep' | transloco }}
+          </button>
+        </mat-card-header>
+        <mat-card-content formArrayName="steps">
+          @for (ctrl of steps.controls; track ctrl; let i = $index) {
+            <div class="row-step" [formGroupName]="i">
+              <mat-form-field appearance="outline" class="order">
+                <mat-label>#</mat-label>
+                <input matInput type="number" formControlName="order" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="grow">
+                <mat-label>{{ 'recipes.admin.stepText' | transloco }}</mat-label>
+                <textarea matInput rows="2" formControlName="text"></textarea>
+              </mat-form-field>
+              <button mat-icon-button type="button" color="warn" (click)="removeStep(i)">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ 'recipes.admin.sectionMeta' | transloco }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-grid">
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldTips' | transloco }}</mat-label>
+            <textarea matInput rows="2" formControlName="tips"></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldTechniques' | transloco }}</mat-label>
+            <input matInput formControlName="techniquesCsv" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldTags' | transloco }}</mat-label>
+            <input matInput formControlName="tagsCsv" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldAllergens' | transloco }}</mat-label>
+            <input matInput formControlName="allergensCsv" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldDietary' | transloco }}</mat-label>
+            <input matInput formControlName="dietaryTagsCsv" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldSourceType' | transloco }}</mat-label>
+            <mat-select formControlName="sourceType">
+              <mat-option value="MANUAL">MANUAL</mat-option>
+              <mat-option value="API_IMPORT">API_IMPORT</mat-option>
+              <mat-option value="SCRAPE">SCRAPE</mat-option>
+              <mat-option value="SEED">SEED</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldSourceName' | transloco }}</mat-label>
+            <input matInput formControlName="sourceName" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ 'recipes.admin.fieldSourceUrl' | transloco }}</mat-label>
+            <input matInput formControlName="sourceUrl" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldAttribution' | transloco }}</mat-label>
+            <input matInput formControlName="attribution" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'recipes.admin.fieldLicense' | transloco }}</mat-label>
+            <input matInput formControlName="license" />
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      @if (isEditMode()) {
+        <mat-card class="rag-card">
+          <mat-card-header>
+            <mat-card-title>{{ 'recipes.admin.sectionRag' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{ 'recipes.admin.ragChunks' | transloco }}:
+              <strong>{{ chunkCount() }}</strong>
+              · {{ 'recipes.admin.colLikes' | transloco }}:
+              <strong>{{ likeCount() }}</strong>
+            </p>
+            <p class="hint">{{ 'recipes.admin.ragHint' | transloco }}</p>
+            <button
+              mat-stroked-button
+              type="button"
+              color="primary"
+              [disabled]="isReindexing()"
+              (click)="reindex()"
+            >
+              @if (isReindexing()) {
+                <mat-spinner diameter="18" />
+              } @else {
+                <mat-icon>psychology</mat-icon>
+              }
+              {{ 'recipes.admin.reindex' | transloco }}
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+
+      <div class="actions">
+        <a mat-button routerLink="/recipes/list">{{ 'common.cancel' | transloco }}</a>
+        <button mat-flat-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          @if (isSaving()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            {{ (isEditMode() ? 'common.save' : 'recipes.admin.create' ) | transloco }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

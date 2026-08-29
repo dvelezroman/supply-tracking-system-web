@@ -303,6 +303,31 @@ $marea-chat-header-gap: 10px;
     --mdc-text-button-label-text-color: var(--st-text-muted, rgba(255, 255, 255, 0.65));
   }
 
+  .marea-chat__composer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    padding: 0 0.25rem;
+  }
+
+  .marea-chat__input {
+    flex: 1;
+  }
+
+  .marea-chat__refs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .marea-chat__bubble--busy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+
   .marea-chat__avatar {
     border-color: rgba(255, 255, 255, 0.16);
   }

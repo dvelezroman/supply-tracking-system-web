@@ -1,0 +1,179 @@
+<div class="page-container">
+  <app-page-header
+    [title]="'recipes.admin.title' | transloco"
+    [subtitle]="'recipes.admin.subtitle' | transloco"
+  >
+    <a mat-flat-button color="primary" routerLink="/recipes/new">
+      <mat-icon>add</mat-icon>
+      {{ 'recipes.admin.newRecipe' | transloco }}
+    </a>
+  </app-page-header>
+
+  <section class="rag-panel mat-elevation-z1">
+    <h3>{{ 'recipes.admin.ragPanelTitle' | transloco }}</h3>
+    <p class="hint">{{ 'recipes.admin.ragPanelHint' | transloco }}</p>
+    <div class="rag-row">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>{{ 'recipes.admin.importQuery' | transloco }}</mat-label>
+        <input matInput [ngModel]="importQuery()" (ngModelChange)="importQuery.set($event)" />
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        type="button"
+        color="primary"
+        [disabled]="isImporting()"
+        (click)="runImportApi()"
+      >
+        <mat-icon>cloud_download</mat-icon>
+        {{ 'recipes.admin.importApi' | transloco }}
+      </button>
+    </div>
+    <div class="rag-row">
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>{{ 'recipes.admin.importUrlLabel' | transloco }}</mat-label>
+        <input
+          matInput
+          [ngModel]="importUrl()"
+          (ngModelChange)="importUrl.set($event)"
+          placeholder="https://www.themealdb.com/meal/…"
+        />
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="isImporting() || !importUrl().trim()"
+        (click)="runImportUrl()"
+      >
+        <mat-icon>link</mat-icon>
+        {{ 'recipes.admin.importUrl' | transloco }}
+      </button>
+    </div>
+  </section>
+
+  <div class="filters">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>{{ 'common.search' | transloco }}</mat-label>
+      <input
+        matInput
+        [ngModel]="searchTerm()"
+        (ngModelChange)="onSearch($event)"
+        [placeholder]="'recipes.admin.searchPlaceholder' | transloco"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="status-field">
+      <mat-label>{{ 'recipes.admin.filterStatus' | transloco }}</mat-label>
+      <mat-select
+        [ngModel]="statusFilter()"
+        (ngModelChange)="onStatusChange($event)"
+      >
+        <mat-option value="">{{ 'recipes.admin.statusAll' | transloco }}</mat-option>
+        @for (s of statuses; track s) {
+          <mat-option [value]="s">{{ ('recipes.status.' + s) | transloco }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (isLoading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="table-wrap mat-elevation-z1">
+    <table mat-table [dataSource]="recipes()" class="full-width">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colName' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="name-cell">
+            <strong>{{ row.name }}</strong>
+            <span class="slug">{{ row.slug }}</span>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colCategory' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.category || '—' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colStatus' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip>{{ ('recipes.status.' + row.status) | transloco }}</mat-chip>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="likes">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colLikes' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.likeCount }}</td>
+      </ng-container>
+      <ng-container matColumnDef="source">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colSource' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.sourceType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef>{{ 'recipes.admin.colUpdated' | transloco }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.updatedAt | date: 'short' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" class="actions">
+          <a
+            mat-icon-button
+            [routerLink]="['/recipes', row.id]"
+            [matTooltip]="'common.edit' | transloco"
+          >
+            <mat-icon>edit</mat-icon>
+          </a>
+          @if (row.status !== 'PUBLISHED') {
+            <button
+              mat-icon-button
+              type="button"
+              color="primary"
+              [matTooltip]="'recipes.admin.publish' | transloco"
+              (click)="publish(row)"
+            >
+              <mat-icon>publish</mat-icon>
+            </button>
+          }
+          @if (row.status === 'PUBLISHED') {
+            <button
+              mat-icon-button
+              type="button"
+              [matTooltip]="'recipes.admin.reindex' | transloco"
+              (click)="reindex(row)"
+            >
+              <mat-icon>psychology</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              type="button"
+              [matTooltip]="'recipes.admin.archive' | transloco"
+              (click)="archive(row)"
+            >
+              <mat-icon>archive</mat-icon>
+            </button>
+          }
+          <button
+            mat-icon-button
+            color="warn"
+            type="button"
+            [matTooltip]="'common.delete' | transloco"
+            (click)="confirmDelete(row)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="totalItems()"
+      [pageIndex]="currentPage() - 1"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPage($event)"
+    />
+  </div>
+</div>
