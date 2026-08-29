@@ -8,7 +8,7 @@ export const environment = {
   /** Local intro video when introVideoUrl cannot be loaded. */
   introVideoFallbackUrl: 'assets/images/MareaAlta-INTRO.mp4',
   labelBrandName: 'MAREA ALTA',
-  bitflowLogoUrl: 'https://bitflow-public.s3.us-east-1.amazonaws.com/Bitflow-logo.png',
+  bitflowLogoUrl: 'assets/images/bitflow-logo.png',
   bitflowSiteUrl: 'https://bitflow.bid',
   contactEmail: 'info@bitflow.bid',
 };
