@@ -2,13 +2,15 @@
   padding: 16px;
   margin-bottom: 20px;
   border-radius: 12px;
-  background: #fff;
+  background: var(--mat-sys-surface, var(--st-surface-raised));
+  color: var(--st-text);
   box-sizing: border-box;
 
   &__title {
     margin: 0 0 6px;
     font-size: 1rem;
     font-weight: 500;
+    color: var(--st-text);
   }
 
   &__hint {
@@ -54,6 +56,8 @@
 .table-container {
   border-radius: 12px;
   overflow: hidden;
+  background: var(--mat-sys-surface, var(--st-surface-raised));
+  color: var(--st-text);
   table { width: 100%; }
 }
 
