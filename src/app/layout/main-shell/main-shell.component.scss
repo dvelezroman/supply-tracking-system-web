@@ -163,8 +163,8 @@
   min-height: calc(100vh - 64px);
 
   @media (max-width: 899.98px) {
+    // Clear fixed toolbar
     padding-top: calc(64px + 24px);
-    padding-bottom: calc(100px + 24px);
   }
 }
 
@@ -179,14 +179,6 @@
   color: rgba(255, 255, 255, 0.85);
   background: #0f2f4f;
   border-top: 0;
-
-  @media (max-width: 899.98px) {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 15;
-  }
 }
 
 .platform-footer__label {
