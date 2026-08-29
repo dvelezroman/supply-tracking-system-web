@@ -61,6 +61,8 @@
     "recipeLinks": "Suggested recipes",
     "welcome": "Hi! I’m Mary, Marea Alta’s virtual assistant. Pick a topic or ask about recipes, traceability, or the product.\n\nTo reach our team, choose “Contact / WhatsApp.”",
     "chooseTopic": "Quick topics",
+    "chipsPrev": "Previous topics",
+    "chipsNext": "More topics",
     "optionsAria": "Help topics",
     "restart": "Restart conversation",
     "askPlaceholder": "Ask about recipes, ceviche, garlic shrimp…",

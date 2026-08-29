@@ -518,18 +518,84 @@ $header-gap: 10px;
   color: $gris-medio;
 }
 
+.marea-chat__chips-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.marea-chat__chips-nav {
+  flex-shrink: 0;
+  display: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(15, 52, 96, 0.16);
+  border-radius: 50%;
+  background: #fff;
+  color: $azul-principal;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba(42, 111, 173, 0.1);
+    border-color: $azul-claro;
+  }
+
+  &:disabled,
+  &--hidden {
+    opacity: 0.28;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Flechas solo desktop / trackpad — móvil usa swipe */
+  @media (min-width: 600px) {
+    display: grid;
+  }
+}
+
 .marea-chat__chips {
   display: flex;
   gap: 6px;
   overflow-x: auto;
-  padding-bottom: 10px;
-  margin: 0 -2px;
-  padding-inline: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 2px 2px 8px;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(42, 111, 173, 0.45) transparent;
 
   &::-webkit-scrollbar {
-    display: none;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(15, 52, 96, 0.06);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(42, 111, 173, 0.4);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(42, 111, 173, 0.65);
   }
 }
 
@@ -689,6 +755,24 @@ $header-gap: 10px;
   .marea-chat__footer {
     background: #1a2430;
     border-top-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .marea-chat__chips-nav {
+    background: #243040;
+    border-color: rgba(255, 255, 255, 0.14);
+    color: #c5d4e5;
+  }
+
+  .marea-chat__chips {
+    scrollbar-color: rgba(158, 197, 234, 0.45) transparent;
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(158, 197, 234, 0.4);
+    }
   }
 
   .marea-chat__hint {

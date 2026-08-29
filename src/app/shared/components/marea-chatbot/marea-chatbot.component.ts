@@ -103,6 +103,7 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
   private destroyRef = inject(DestroyRef);
 
   private messagesEl = viewChild<ElementRef<HTMLElement>>('messages');
+  private chipsEl = viewChild<ElementRef<HTMLElement>>('chips');
   private shouldScroll = false;
 
   readonly logoUrl = environment.labelLogoUrl;
@@ -113,6 +114,8 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
   readonly lines = signal<MareaChatLine[]>([]);
   readonly draft = signal('');
   readonly busy = signal(false);
+  readonly chipsCanPrev = signal(false);
+  readonly chipsCanNext = signal(false);
 
   ngOnInit(): void {
     fromEvent<CustomEvent<{ promptKey?: string }>>(window, MAREA_CHAT_OPEN_EVENT)
@@ -134,6 +137,41 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
       this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
       this.shouldScroll = true;
     }
+    if (next) {
+      queueMicrotask(() => this.updateChipsScrollState());
+    }
+  }
+
+  scrollChips(dir: -1 | 1): void {
+    const el = this.chipsEl()?.nativeElement;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.max(160, el.clientWidth * 0.65), behavior: 'smooth' });
+  }
+
+  onChipsScroll(): void {
+    this.updateChipsScrollState();
+  }
+
+  onChipsWheel(event: WheelEvent): void {
+    const el = this.chipsEl()?.nativeElement;
+    if (!el) return;
+    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    if (el.scrollWidth <= el.clientWidth + 2) return;
+    event.preventDefault();
+    el.scrollLeft += event.deltaY;
+    this.updateChipsScrollState();
+  }
+
+  private updateChipsScrollState(): void {
+    const el = this.chipsEl()?.nativeElement;
+    if (!el) {
+      this.chipsCanPrev.set(false);
+      this.chipsCanNext.set(false);
+      return;
+    }
+    const max = el.scrollWidth - el.clientWidth;
+    this.chipsCanPrev.set(el.scrollLeft > 4);
+    this.chipsCanNext.set(max - el.scrollLeft > 4);
   }
 
   private openFromLanding(promptKey?: string): void {
@@ -142,6 +180,7 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
       this.lines.set([{ role: 'bot', textKey: 'chatbot.welcome' }]);
       this.shouldScroll = true;
     }
+    queueMicrotask(() => this.updateChipsScrollState());
     if (promptKey) {
       const prompt = this.transloco.translate(promptKey);
       if (prompt && !this.busy()) {

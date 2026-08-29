@@ -119,18 +119,47 @@
 
       <div class="marea-chat__footer">
         <p class="marea-chat__hint">{{ 'chatbot.chooseTopic' | transloco }}</p>
-        <div class="marea-chat__chips" role="group" [attr.aria-label]="'chatbot.optionsAria' | transloco">
-          @for (opt of optionRows; track opt.id) {
-            <button
-              type="button"
-              class="marea-chat__chip"
-              [disabled]="busy()"
-              (click)="pick(opt.id)"
-            >
-              <mat-icon aria-hidden="true">{{ opt.icon }}</mat-icon>
-              <span>{{ opt.labelKey | transloco }}</span>
-            </button>
-          }
+        <div class="marea-chat__chips-rail">
+          <button
+            type="button"
+            class="marea-chat__chips-nav marea-chat__chips-nav--prev"
+            [class.marea-chat__chips-nav--hidden]="!chipsCanPrev()"
+            [disabled]="!chipsCanPrev()"
+            (click)="scrollChips(-1)"
+            [attr.aria-label]="'chatbot.chipsPrev' | transloco"
+          >
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <div
+            #chips
+            class="marea-chat__chips"
+            role="group"
+            [attr.aria-label]="'chatbot.optionsAria' | transloco"
+            (scroll)="onChipsScroll()"
+            (wheel)="onChipsWheel($event)"
+          >
+            @for (opt of optionRows; track opt.id) {
+              <button
+                type="button"
+                class="marea-chat__chip"
+                [disabled]="busy()"
+                (click)="pick(opt.id)"
+              >
+                <mat-icon aria-hidden="true">{{ opt.icon }}</mat-icon>
+                <span>{{ opt.labelKey | transloco }}</span>
+              </button>
+            }
+          </div>
+          <button
+            type="button"
+            class="marea-chat__chips-nav marea-chat__chips-nav--next"
+            [class.marea-chat__chips-nav--hidden]="!chipsCanNext()"
+            [disabled]="!chipsCanNext()"
+            (click)="scrollChips(1)"
+            [attr.aria-label]="'chatbot.chipsNext' | transloco"
+          >
+            <mat-icon>chevron_right</mat-icon>
+          </button>
         </div>
 
         <form class="marea-chat__composer" (submit)="$event.preventDefault(); submit()">
