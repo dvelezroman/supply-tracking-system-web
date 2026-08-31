@@ -3,12 +3,10 @@
     "documentTitle": "Marea Alta — Trazabilidad y origen"
   },
   "pwa": {
-    "installTitle": "Instalar Marea Alta",
-    "installMessage": "¿Desea instalar la aplicación en su teléfono para un acceso más rápido?",
-    "installIosHint": "En Safari: toque Compartir y luego «Añadir a pantalla de inicio».",
+    "installMessage": "¿Deseas instalar la app para acceso rápido desde tu dispositivo?",
+    "installIosHint": "¿Deseas instalar la app? Toca Compartir y luego Añadir a pantalla de inicio.",
     "installCta": "Instalar",
-    "installLater": "Ahora no",
-    "installDismiss": "Cerrar aviso de instalación"
+    "installLater": "Ahora no"
   },
   "errors": {
     "apiUnreachable": "No podemos conectar con el servidor. Compruebe su conexión, que el servicio esté en marcha e inténtelo de nuevo.",

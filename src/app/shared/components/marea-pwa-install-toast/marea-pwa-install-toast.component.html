@@ -1,55 +1,36 @@
 @if (pwa.promptVisible()) {
-  <aside
-    class="marea-pwa-toast"
-    role="dialog"
-    aria-labelledby="marea-pwa-toast-title"
-    aria-describedby="marea-pwa-toast-desc"
-  >
-    <img
-      class="marea-pwa-toast__icon"
-      src="assets/icons/icon-96x96.png"
-      width="48"
-      height="48"
-      alt=""
-    />
-    <div class="marea-pwa-toast__body">
-      <p id="marea-pwa-toast-title" class="marea-pwa-toast__title">
-        {{ 'pwa.installTitle' | transloco }}
-      </p>
-      <p id="marea-pwa-toast-desc" class="marea-pwa-toast__desc">
+  <div class="marea-pwa-snack" role="status" aria-live="polite">
+    <div class="marea-pwa-snack__alert">
+      <mat-icon class="marea-pwa-snack__icon" aria-hidden="true">
+        {{ pwa.iosHint() ? 'ios_share' : 'get_app' }}
+      </mat-icon>
+      <p class="marea-pwa-snack__msg">
         @if (pwa.iosHint()) {
           {{ 'pwa.installIosHint' | transloco }}
         } @else {
           {{ 'pwa.installMessage' | transloco }}
         }
       </p>
-      <div class="marea-pwa-toast__actions">
-        @if (!pwa.iosHint()) {
-          <button
-            type="button"
-            class="marea-pwa-toast__btn marea-pwa-toast__btn--primary"
-            (click)="onInstall()"
-          >
-            <mat-icon aria-hidden="true">get_app</mat-icon>
-            {{ 'pwa.installCta' | transloco }}
-          </button>
-        }
+      <div class="marea-pwa-snack__actions">
         <button
+          mat-button
           type="button"
-          class="marea-pwa-toast__btn marea-pwa-toast__btn--ghost"
+          class="marea-pwa-snack__btn"
           (click)="onDismiss()"
         >
           {{ 'pwa.installLater' | transloco }}
         </button>
+        @if (!pwa.iosHint()) {
+          <button
+            mat-stroked-button
+            type="button"
+            class="marea-pwa-snack__btn marea-pwa-snack__btn--install"
+            (click)="onInstall()"
+          >
+            {{ 'pwa.installCta' | transloco }}
+          </button>
+        }
       </div>
     </div>
-    <button
-      type="button"
-      class="marea-pwa-toast__close"
-      [attr.aria-label]="'pwa.installDismiss' | transloco"
-      (click)="onDismiss()"
-    >
-      <mat-icon aria-hidden="true">close</mat-icon>
-    </button>
-  </aside>
+  </div>
 }

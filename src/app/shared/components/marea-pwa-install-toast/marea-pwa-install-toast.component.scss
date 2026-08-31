@@ -1,41 +1,20 @@
 $azul-profundo: #061a33;
-$azul-principal: #0f3460;
-$coral: #e85d5d;
-$amarillo: #e8c547;
-$gris-claro: #f3f6f9;
-$font-heading: 'Sora', 'Montserrat', system-ui, sans-serif;
+$azul-claro: #2a6fad;
 $font-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
 
 :host {
   display: contents;
 }
 
-.marea-pwa-toast {
+.marea-pwa-snack {
   position: fixed;
   z-index: 1100;
-  left: max(12px, env(safe-area-inset-left));
-  right: max(12px, env(safe-area-inset-right));
+  left: 50%;
   bottom: max(16px, env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: start;
-  padding: 14px 12px 14px 14px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, $azul-principal 0%, $azul-profundo 100%);
-  color: #fff;
-  box-shadow:
-    0 12px 32px rgba(6, 26, 51, 0.45),
-    0 2px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-family: $font-body;
-  animation: marea-pwa-slide-up 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-
-  @media (min-width: 560px) {
-    left: auto;
-    right: max(20px, env(safe-area-inset-right));
-    width: min(380px, calc(100vw - 40px));
-  }
+  transform: translateX(-50%);
+  width: min(560px, calc(100vw - 24px));
+  pointer-events: none;
+  animation: marea-pwa-slide-up 0.28s ease-out;
 
   @media (max-width: 899px) {
     html.marea-dock-active & {
@@ -44,137 +23,72 @@ $font-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
   }
 }
 
-.marea-pwa-toast__icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-}
-
-.marea-pwa-toast__body {
-  min-width: 0;
-}
-
-.marea-pwa-toast__title {
-  margin: 0 0 4px;
-  font-family: $font-heading;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.25;
-}
-
-.marea-pwa-toast__desc {
-  margin: 0 0 12px;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.marea-pwa-toast__actions {
+.marea-pwa-snack__alert {
+  pointer-events: auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-}
-
-.marea-pwa-toast__btn {
-  appearance: none;
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 999px;
-  border: 0;
-  font-family: $font-heading;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease,
-    transform 0.15s ease;
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $amarillo;
-    outline-offset: 2px;
-  }
-
-  &--primary {
-    background: $coral;
-    color: #fff;
-
-    &:hover {
-      background: #d94848;
-      transform: translateY(-1px);
-    }
-  }
-
-  &--ghost {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.92);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.18);
-    }
-  }
+  gap: 8px 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: #e8f4fc;
+  color: $azul-profundo;
+  border: 1px solid rgba(42, 111, 173, 0.28);
+  box-shadow:
+    0 3px 14px rgba(6, 26, 51, 0.18),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+  font-family: $font-body;
 }
 
-.marea-pwa-toast__close {
-  appearance: none;
+.marea-pwa-snack__icon {
+  flex-shrink: 0;
+  color: $azul-claro;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.marea-pwa-snack__msg {
+  flex: 1 1 160px;
+  margin: 0;
+  min-width: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.marea-pwa-snack__actions {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  margin: -4px -2px 0 0;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
+  gap: 4px;
+  margin-left: auto;
+}
 
-  mat-icon {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-  }
+.marea-pwa-snack__btn {
+  min-height: 36px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: $azul-profundo !important;
 
-  &:hover,
-  &:focus-visible {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.12);
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid $amarillo;
-    outline-offset: 2px;
+  &--install {
+    border-color: rgba(15, 52, 96, 0.45) !important;
   }
 }
 
 @keyframes marea-pwa-slide-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translate(-50%, 12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marea-pwa-toast {
+  .marea-pwa-snack {
     animation: none;
   }
 }
