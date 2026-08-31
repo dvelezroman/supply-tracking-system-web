@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MareaChatbotComponent } from './shared/components/marea-chatbot/marea-chatbot.component';
 import { MareaPublicDockComponent } from './shared/components/marea-public-dock/marea-public-dock.component';
+import { MareaPwaInstallToastComponent } from './shared/components/marea-pwa-install-toast/marea-pwa-install-toast.component';
 import { AuthService } from './features/auth/services/auth.service';
 
 /**
@@ -12,9 +13,15 @@ import { AuthService } from './features/auth/services/auth.service';
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, MareaChatbotComponent, MareaPublicDockComponent],
+  imports: [
+    RouterOutlet,
+    MareaChatbotComponent,
+    MareaPublicDockComponent,
+    MareaPwaInstallToastComponent,
+  ],
   template: `
     <router-outlet />
+    <app-marea-pwa-install-toast />
     @if (!auth.isAuthenticated()) {
       <app-marea-public-dock />
       <app-marea-chatbot />

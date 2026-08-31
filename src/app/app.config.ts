@@ -20,6 +20,7 @@ import { ThemeService } from './core/services/theme.service';
 import { themeAppInit } from './core/theme/theme-init';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { TranslocoPaginatorIntl } from './core/i18n/transloco-paginator-intl';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,27 +28,31 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     provideAnimations(),
     provideTransloco({
-      config: {
-        availableLangs: ['es', 'en'],
-        defaultLang: 'es',
-        fallbackLang: 'en',
-        reRenderOnLangChange: true,
-        prodMode: !isDevMode(),
-      },
-      loader: TranslocoHttpLoader,
+        config: {
+            availableLangs: ['es', 'en'],
+            defaultLang: 'es',
+            fallbackLang: 'en',
+            reRenderOnLangChange: true,
+            prodMode: !isDevMode(),
+        },
+        loader: TranslocoHttpLoader,
     }),
     { provide: MatPaginatorIntl, useClass: TranslocoPaginatorIntl },
     {
-      provide: APP_INITIALIZER,
-      useFactory: translocoAppInit,
-      deps: [TranslocoService, Title],
-      multi: true,
+        provide: APP_INITIALIZER,
+        useFactory: translocoAppInit,
+        deps: [TranslocoService, Title],
+        multi: true,
     },
     {
-      provide: APP_INITIALIZER,
-      useFactory: themeAppInit,
-      deps: [ThemeService],
-      multi: true,
+        provide: APP_INITIALIZER,
+        useFactory: themeAppInit,
+        deps: [ThemeService],
+        multi: true,
     },
-  ],
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    })
+],
 };

@@ -2,6 +2,14 @@
   "app": {
     "documentTitle": "Marea Alta — Traceability & origin"
   },
+  "pwa": {
+    "installTitle": "Install Marea Alta",
+    "installMessage": "Would you like to install the app on your phone for quicker access?",
+    "installIosHint": "In Safari: tap Share, then “Add to Home Screen”.",
+    "installCta": "Install",
+    "installLater": "Not now",
+    "installDismiss": "Dismiss install prompt"
+  },
   "errors": {
     "apiUnreachable": "We can't reach the server right now. Check your connection, make sure the service is running, and try again.",
     "unexpected": "Something went wrong. Please try again.",
