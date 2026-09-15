@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "node -e \"const fs=require('fs');const p='node_modules/@angular/cli/bin/ng.js';if(!fs.existsSync(p)){console.error('\\n[@angular/cli missing] From this folder run: npm ci\\n(do not use npm install --omit=dev)\\n');process.exit(1)}\"",
+    "prebuild": "node -e \"const fs=require('fs');const p='node_modules/@angular/cli/bin/ng.js';if(!fs.existsSync(p)){console.error('\\n[@angular/cli missing] Install deps in THIS folder (where package.json is):\\n  npm ci --include=dev\\nIf it still fails: npm config get production  (must be false)\\n');process.exit(1)}\"",
     "ng": "node ./node_modules/@angular/cli/bin/ng.js",
     "start": "node ./node_modules/@angular/cli/bin/ng.js serve",
     "build": "node ./node_modules/@angular/cli/bin/ng.js build",
