@@ -18,6 +18,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
 import { formatMoney } from '../../utils/money';
+import { primaryMarketplaceImageSrc } from '../../utils/marketplace-media';
 import type { MarketplaceProduct } from '../../models/marketplace.model';
 
 @Component({
@@ -79,6 +80,6 @@ export class StoreCatalogComponent implements OnInit {
   }
 
   imageOf(p: MarketplaceProduct): string | null {
-    return p.images.find((i) => i.isPrimary)?.url ?? p.images[0]?.url ?? null;
+    return primaryMarketplaceImageSrc(p.images);
   }
 }

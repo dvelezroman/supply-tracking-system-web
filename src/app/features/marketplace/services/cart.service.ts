@@ -1,6 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { setCookie } from '../../../core/utils/cookie.util';
 import type { CartLine, MarketplaceProduct } from '../models/marketplace.model';
+import { primaryMarketplaceImageSrc } from '../utils/marketplace-media';
 
 const STORAGE_KEY = 'marea_cart_v1';
 const CART_COOKIE = 'st_cart';
@@ -97,10 +98,7 @@ export class CartService {
   /** Refresh line from live catalog data (checkout sync). */
   upsertFromProduct(product: MarketplaceProduct, imageUrl?: string | null): void {
     const primary =
-      product.images.find((i) => i.isPrimary)?.url ??
-      product.images[0]?.url ??
-      imageUrl ??
-      null;
+      primaryMarketplaceImageSrc(product.images) ?? imageUrl ?? null;
     const line: Omit<CartLine, 'qty'> = {
       productId: product.id,
       slug: product.slug,

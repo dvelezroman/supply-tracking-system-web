@@ -82,7 +82,7 @@
           }
           <div class="upload-row">
             <label class="upload-btn">
-              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" (change)="onFileSelected($event)" hidden />
+              <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" hidden />
               <span mat-stroked-button>
                 <mat-icon>upload</mat-icon>
                 {{ 'marketplace.admin.uploadImage' | transloco }}
@@ -114,7 +114,7 @@
           <div class="image-grid">
             @for (img of images(); track img.id) {
               <figure class="image-tile" [class.image-tile--primary]="img.isPrimary">
-                <img [src]="img.url" [alt]="img.key" width="160" height="160" />
+                <img [src]="imageSrc(img)" [alt]="img.key" width="160" height="160" />
                 <figcaption>
                   @if (img.isPrimary) {
                     <span>{{ 'marketplace.admin.primary' | transloco }}</span>

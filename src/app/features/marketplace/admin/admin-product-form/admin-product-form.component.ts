@@ -23,6 +23,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplaceAdminApiService } from '../../services/marketplace-api.service';
 import type { MarketplaceProductImage } from '../../models/marketplace.model';
+import { marketplaceProductImageSrc } from '../../utils/marketplace-media';
 
 @Component({
   selector: 'app-admin-product-form',
@@ -195,5 +196,9 @@ export class AdminProductFormComponent implements OnInit {
       next: () =>
         this.images.update((imgs) => imgs.filter((i) => i.id !== imageId)),
     });
+  }
+
+  imageSrc(img: MarketplaceProductImage): string {
+    return marketplaceProductImageSrc(img);
   }
 }

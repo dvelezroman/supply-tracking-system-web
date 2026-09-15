@@ -17,8 +17,15 @@ import { MatInputModule } from '@angular/material/input';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
 import { CartService } from '../../services/cart.service';
+import type {
+  MarketplaceProduct,
+  MarketplaceProductImage,
+} from '../../models/marketplace.model';
+import {
+  marketplaceProductImageSrc,
+  primaryMarketplaceImageSrc,
+} from '../../utils/marketplace-media';
 import { formatMoney } from '../../utils/money';
-import type { MarketplaceProduct } from '../../models/marketplace.model';
 
 @Component({
   selector: 'app-store-product-detail',
@@ -56,15 +63,19 @@ export class StoreProductDetailComponent implements OnInit {
     this.api.getBySlug(this.slug).subscribe({
       next: (res) => {
         this.product.set(res.data);
-        const img =
-          res.data.images.find((i) => i.isPrimary)?.url ??
-          res.data.images[0]?.url ??
-          null;
-        this.activeImage.set(img);
+        this.activeImage.set(primaryMarketplaceImageSrc(res.data.images));
         this.isLoading.set(false);
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  imageSrc(img: MarketplaceProductImage): string {
+    return marketplaceProductImageSrc(img);
+  }
+
+  selectImage(img: MarketplaceProductImage): void {
+    this.activeImage.set(marketplaceProductImageSrc(img));
   }
 
   addToCart(): void {

@@ -20,8 +20,8 @@
           @if (p.images.length > 1) {
             <div class="detail__thumbs">
               @for (img of p.images; track img.id) {
-                <button type="button" class="detail__thumb" (click)="activeImage.set(img.url)">
-                  <img [src]="img.url" [alt]="p.name" width="72" height="72" />
+                <button type="button" class="detail__thumb" (click)="selectImage(img)">
+                  <img [src]="imageSrc(img)" [alt]="p.name" width="72" height="72" />
                 </button>
               }
             </div>
