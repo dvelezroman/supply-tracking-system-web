@@ -27,6 +27,8 @@
           <dd><code>{{ p.sku }}</code></dd>
           <dt>{{ 'products.colName' | transloco }}</dt>
           <dd>{{ p.name }}</dd>
+          <dt>{{ 'products.colSegment' | transloco }}</dt>
+          <dd>{{ p.segment?.name ?? '—' }}</dd>
           <dt>{{ 'products.colCategory' | transloco }}</dt>
           <dd>{{ p.category ?? '—' }}</dd>
           <dt>{{ 'products.form.description' | transloco }}</dt>

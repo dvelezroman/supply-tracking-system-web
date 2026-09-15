@@ -590,10 +590,14 @@
       "nameRequired": "El nombre es obligatorio",
       "category": "Categoría",
       "categoryPlaceholder": "ej. Producto fresco",
+      "segment": "Segmento",
+      "segmentNone": "Sin segmento",
+      "newSegment": "Nuevo segmento",
       "description": "Descripción"
     },
     "colSku": "SKU",
     "colName": "Nombre",
+    "colSegment": "Segmento",
     "colCategory": "Categoría",
     "colCreated": "Creado",
     "emptyList": "No hay productos",
@@ -613,6 +617,30 @@
       "arcsa": "Notificación ARCSA",
       "save": "Guardar datos de etiqueta",
       "saveSuccess": "Datos de etiqueta retail guardados"
+    }
+  },
+  "productSegments": {
+    "manage": "Segmentos",
+    "listTitle": "Segmentos de producto",
+    "listSubtitle": "Agrupe productos (ej. Camarón, Otros)",
+    "newTitle": "Nuevo segmento",
+    "editTitle": "Editar segmento",
+    "addSegment": "Añadir segmento",
+    "createSegment": "Crear segmento",
+    "dialogTitle": "Crear segmento",
+    "colName": "Nombre",
+    "colProducts": "Productos",
+    "colCreated": "Creado",
+    "emptyList": "No hay segmentos",
+    "deleteTitle": "Eliminar segmento",
+    "deleteConfirm": "¿Eliminar \"{{name}}\"? Los productos quedarán sin segmento.",
+    "deleteSuccess": "Segmento eliminado",
+    "toastCreated": "Segmento creado",
+    "toastUpdated": "Segmento actualizado",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "ej. Camarón",
+      "nameRequired": "El nombre es obligatorio"
     }
   },
   "actors": {

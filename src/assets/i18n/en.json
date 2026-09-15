@@ -590,10 +590,14 @@
       "nameRequired": "Name is required",
       "category": "Category",
       "categoryPlaceholder": "e.g. Fresh produce",
+      "segment": "Segment",
+      "segmentNone": "No segment",
+      "newSegment": "New segment",
       "description": "Description"
     },
     "colSku": "SKU",
     "colName": "Name",
+    "colSegment": "Segment",
     "colCategory": "Category",
     "colCreated": "Created",
     "emptyList": "No products found",
@@ -613,6 +617,30 @@
       "arcsa": "ARCSA notification",
       "save": "Save label data",
       "saveSuccess": "Retail label data saved"
+    }
+  },
+  "productSegments": {
+    "manage": "Segments",
+    "listTitle": "Product segments",
+    "listSubtitle": "Group products (e.g. Shrimp, Other)",
+    "newTitle": "New segment",
+    "editTitle": "Edit segment",
+    "addSegment": "Add segment",
+    "createSegment": "Create segment",
+    "dialogTitle": "Create segment",
+    "colName": "Name",
+    "colProducts": "Products",
+    "colCreated": "Created",
+    "emptyList": "No segments yet",
+    "deleteTitle": "Delete segment",
+    "deleteConfirm": "Delete \"{{name}}\"? Linked products will have no segment.",
+    "deleteSuccess": "Segment deleted",
+    "toastCreated": "Segment created",
+    "toastUpdated": "Segment updated",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Shrimp",
+      "nameRequired": "Name is required"
     }
   },
   "actors": {

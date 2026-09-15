@@ -32,6 +32,21 @@
           <input matInput formControlName="category" [placeholder]="'products.form.categoryPlaceholder' | transloco" />
         </mat-form-field>
 
+        <div class="segment-field-row">
+          <mat-form-field appearance="outline" class="segment-select">
+            <mat-label>{{ 'products.form.segment' | transloco }}</mat-label>
+            <mat-select formControlName="segmentId">
+              <mat-option [value]="null">{{ 'products.form.segmentNone' | transloco }}</mat-option>
+              @for (seg of segments(); track seg.id) {
+                <mat-option [value]="seg.id">{{ seg.name }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <button mat-stroked-button type="button" (click)="openCreateSegmentDialog()">
+            {{ 'products.form.newSegment' | transloco }}
+          </button>
+        </div>
+
         <mat-form-field appearance="outline" class="span-2">
           <mat-label>{{ 'products.form.description' | transloco }}</mat-label>
           <textarea matInput formControlName="description" rows="3"></textarea>

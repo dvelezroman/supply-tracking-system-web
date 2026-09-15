@@ -26,6 +26,12 @@ import {
   resolvePublicVisibility,
 } from '../../../core/config/public-visibility';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductSegmentsService } from '../services/product-segments.service';
+import { CreateSegmentDialogComponent } from '../create-segment-dialog/create-segment-dialog.component';
+import type { ProductSegment } from '../../../core/models/product-segment.model';
+import type { CreateProductPayload } from '../../../core/models/product.model';
 
 @Component({
   selector: 'app-product-form',
@@ -41,6 +47,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSlideToggleModule,
+    MatSelectModule,
     PageHeaderComponent,
   ],
   templateUrl: './product-form.component.html',
@@ -55,8 +62,11 @@ export class ProductFormComponent implements OnInit {
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
   private auth = inject(AuthService);
+  private segmentsService = inject(ProductSegmentsService);
+  private dialog = inject(MatDialog);
 
   isEditMode = computed(() => !!this.id);
+  segments = signal<ProductSegment[]>([]);
   isLoading = signal(false);
   isSaving = signal(false);
   isSavingVis = signal(false);
@@ -69,14 +79,19 @@ export class ProductFormComponent implements OnInit {
     name: ['', Validators.required],
     description: [''],
     category: [''],
+    segmentId: [null as string | null],
   });
 
   ngOnInit(): void {
+    this.loadSegments();
     if (this.isEditMode()) {
       this.isLoading.set(true);
       this.productsService.getById(this.id!).subscribe({
         next: (res) => {
-          this.form.patchValue(res.data);
+          this.form.patchValue({
+            ...res.data,
+            segmentId: res.data.segmentId ?? res.data.segment?.id ?? null,
+          });
           this.form.controls.sku.disable();
           this.vis.set(resolvePublicVisibility(res.data.publicVisibilityDefaults));
           this.isLoading.set(false);
@@ -86,10 +101,34 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
+  loadSegments(): void {
+    this.segmentsService.getAll().subscribe({
+      next: (res) => this.segments.set(res.data),
+    });
+  }
+
+  openCreateSegmentDialog(): void {
+    const ref = this.dialog.open(CreateSegmentDialogComponent, { width: '22rem' });
+    ref.afterClosed().subscribe((created: ProductSegment | undefined) => {
+      if (!created) return;
+      this.segments.update((list) =>
+        [...list, created].sort((a, b) => a.name.localeCompare(b.name)),
+      );
+      this.form.patchValue({ segmentId: created.id });
+    });
+  }
+
   onSubmit(): void {
     if (this.form.invalid) return;
     this.isSaving.set(true);
-    const payload = this.form.getRawValue() as any;
+    const raw = this.form.getRawValue();
+    const payload: CreateProductPayload = {
+      sku: raw.sku!,
+      name: raw.name!,
+      description: raw.description?.trim() || undefined,
+      category: raw.category?.trim() || undefined,
+      segmentId: raw.segmentId || null,
+    };
 
     const request$ = this.isEditMode()
       ? this.productsService.update(this.id!, payload)

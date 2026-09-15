@@ -66,7 +66,7 @@ export class ProductsListComponent implements OnInit {
 
   private search$ = new Subject<string>();
 
-  readonly columns = ['sku', 'name', 'category', 'lotCount', 'createdAt', 'actions'];
+  readonly columns = ['sku', 'name', 'segment', 'category', 'lotCount', 'createdAt', 'actions'];
 
   ngOnInit(): void {
     this.search$

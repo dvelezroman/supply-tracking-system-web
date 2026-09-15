@@ -6,12 +6,19 @@ export interface ProductLotSummary {
   presentation: string;
 }
 
+export interface ProductSegmentSummary {
+  id: string;
+  name: string;
+}
+
 export interface Product {
   id: string;
   sku: string;
   name: string;
   description?: string;
   category?: string;
+  segmentId?: string | null;
+  segment?: ProductSegmentSummary | null;
   metadata?: Record<string, unknown>;
   /** Default public `/trace` fields for new lots (admin; copied into each new lot). */
   publicVisibilityDefaults?: Record<string, boolean> | null;
@@ -49,5 +56,6 @@ export interface CreateProductPayload {
   name: string;
   description?: string;
   category?: string;
+  segmentId?: string | null;
   metadata?: Record<string, unknown>;
 }

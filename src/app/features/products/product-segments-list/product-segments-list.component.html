@@ -1,0 +1,59 @@
+<app-page-header
+  [title]="'productSegments.listTitle' | transloco"
+  [subtitle]="'productSegments.listSubtitle' | transloco"
+  backRoute="/products"
+>
+  <a mat-flat-button color="primary" routerLink="new">
+    <mat-icon>add</mat-icon> {{ 'productSegments.addSegment' | transloco }}
+  </a>
+</app-page-header>
+
+@if (isLoading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<div class="table-container mat-elevation-z1">
+  <table mat-table [dataSource]="segments()">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>{{ 'productSegments.colName' | transloco }}</th>
+      <td mat-cell *matCellDef="let s"><strong>{{ s.name }}</strong></td>
+    </ng-container>
+
+    <ng-container matColumnDef="productCount">
+      <th mat-header-cell *matHeaderCellDef>{{ 'productSegments.colProducts' | transloco }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.productCount ?? 0 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>{{ 'productSegments.colCreated' | transloco }}</th>
+      <td mat-cell *matCellDef="let s">{{ s.createdAt | date:'mediumDate' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let s" class="actions-cell">
+        <a mat-icon-button [routerLink]="[s.id, 'edit']" [matTooltip]="'common.edit' | transloco">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <button
+          mat-icon-button
+          color="warn"
+          [matTooltip]="'common.delete' | transloco"
+          (click)="deleteSegment(s)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+  </table>
+
+  @if (!isLoading() && segments().length === 0) {
+    <div class="empty-state">
+      <mat-icon>category</mat-icon>
+      <p>{{ 'productSegments.emptyList' | transloco }}</p>
+    </div>
+  }
+</div>

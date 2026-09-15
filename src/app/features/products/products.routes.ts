@@ -16,6 +16,27 @@ export const PRODUCTS_ROUTES: Routes = [
       ),
   },
   {
+    path: 'segments',
+    loadComponent: () =>
+      import('./product-segments-list/product-segments-list.component').then(
+        (m) => m.ProductSegmentsListComponent,
+      ),
+  },
+  {
+    path: 'segments/new',
+    loadComponent: () =>
+      import('./product-segment-form/product-segment-form.component').then(
+        (m) => m.ProductSegmentFormComponent,
+      ),
+  },
+  {
+    path: 'segments/:id/edit',
+    loadComponent: () =>
+      import('./product-segment-form/product-segment-form.component').then(
+        (m) => m.ProductSegmentFormComponent,
+      ),
+  },
+  {
     path: ':id/edit',
     loadComponent: () =>
       import('./product-form/product-form.component').then(
