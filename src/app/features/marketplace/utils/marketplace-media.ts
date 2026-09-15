@@ -1,15 +1,10 @@
 import { environment } from '../../../../environments/environment';
 
-/**
- * Resolve display URL for a marketplace product image.
- * When `url` is empty (private S3 / no CDN), fall back to the API media proxy.
- */
+/** Product images always load via the public API media proxy (never direct S3/CDN). */
 export function marketplaceProductImageSrc(
   image: { id: string; url?: string | null },
   apiBase: string = environment.apiBase,
 ): string {
-  const direct = image.url?.trim();
-  if (direct) return direct;
   return `${apiBase.replace(/\/$/, '')}/marketplace/media/${image.id}`;
 }
 
