@@ -85,7 +85,7 @@
       "contact": "Contacto / WhatsApp"
     },
     "prompts": {
-      "recipes": "Sugiere recetas con camarón Marea Alta: ceviche, cóctel o plato fuerte"
+      "recipes": "Sugiere 2–3 recetas variadas con camarón Marea Alta (entrada, plato fuerte u otra preparación), no solo un tipo de plato"
     },
     "replies": {
       "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o al usar la consulta por código: es una página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
@@ -314,7 +314,7 @@
         "ctaRecipes": "Ver todas las recetas",
         "tryAsking": "Pruebe preguntarle",
         "promptsAria": "Ejemplos de preguntas para Mary",
-        "prompt1": "¿Cómo preparo un ceviche con cola PD?",
+        "prompt1": "¿Qué platos variados puedo hacer con camarón cola PD?",
         "prompt2": "Recetas fáciles para restaurante",
         "prompt3": "¿Qué veo al escanear el QR?",
         "f1Title": "Recetas con camarón",
@@ -1063,6 +1063,10 @@
       "orderSummary": "Resumen",
       "placeOrder": "Enviar pedido",
       "stockConflict": "Stock insuficiente: ajustamos las cantidades del carrito.",
+      "productUnavailable": "Hay productos que ya no están disponibles; los quitamos del carrito.",
+      "storeDisabled": "La tienda no está recibiendo pedidos en este momento.",
+      "mixedCurrency": "No puede mezclar productos con distintas monedas en un mismo pedido.",
+      "cartUpdated": "Actualizamos precios y stock del carrito.",
       "confirmTitle": "¡Pedido recibido!",
       "confirmOrder": "Número {{order}}",
       "confirmBody": "Gracias, {{name}}. El equipo recibirá su solicitud y se pondrá en contacto.",

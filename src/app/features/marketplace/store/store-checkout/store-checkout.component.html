@@ -37,9 +37,9 @@
         <button
           type="submit"
           class="marea-btn marea-btn--primary"
-          [disabled]="form.invalid || isSubmitting()"
+          [disabled]="form.invalid || isSubmitting() || isSyncing()"
         >
-          @if (isSubmitting()) {
+          @if (isSubmitting() || isSyncing()) {
             <mat-spinner diameter="22" />
           } @else {
             {{ 'marketplace.store.placeOrder' | transloco }}

@@ -85,7 +85,7 @@
       "contact": "Contact / WhatsApp"
     },
     "prompts": {
-      "recipes": "Suggest Marea Alta shrimp recipes: ceviche, cocktail, or a main dish"
+      "recipes": "Suggest 2–3 varied Marea Alta shrimp recipes (starter, main, or another preparation)—not just one dish type"
     },
     "replies": {
       "site": "This site connects anyone buying or serving our shrimp with a verifiable story for each lot. The home page introduces Marea Alta. Public traceability opens when you scan the package QR or use the lot lookup: it’s a read-only page—no account needed.\n\nSupply-chain operators use a separate sign-in console to record milestones; you only see what was published for that lot.",
@@ -314,7 +314,7 @@
         "ctaRecipes": "See all recipes",
         "tryAsking": "Try asking",
         "promptsAria": "Sample questions for Mary",
-        "prompt1": "How do I make ceviche with PD tail-off?",
+        "prompt1": "What varied dishes can I make with PD tail-off shrimp?",
         "prompt2": "Easy recipes for restaurants",
         "prompt3": "What do I see after scanning the QR?",
         "f1Title": "Shrimp recipes",
@@ -1063,6 +1063,10 @@
       "orderSummary": "Summary",
       "placeOrder": "Submit order",
       "stockConflict": "Insufficient stock — cart quantities were adjusted.",
+      "productUnavailable": "Some items are no longer available and were removed from your cart.",
+      "storeDisabled": "The store is not accepting orders right now.",
+      "mixedCurrency": "You cannot mix products with different currencies in one order.",
+      "cartUpdated": "Cart prices and stock were refreshed.",
       "confirmTitle": "Order received!",
       "confirmOrder": "Order {{order}}",
       "confirmBody": "Thank you, {{name}}. The team will receive your request and follow up.",

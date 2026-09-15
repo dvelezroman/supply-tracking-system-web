@@ -87,7 +87,20 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         return throwError(() => err);
       }
 
-      snackbar.error(userFacingMessage(err, transloco));
+      const url = err.url ?? '';
+      const checkoutMsg = (err.error as { message?: unknown } | null)?.message;
+      const checkoutHandled =
+        url.includes('/marketplace/orders') &&
+        (err.status === 409 ||
+          (err.status === 400 &&
+            typeof checkoutMsg === 'string' &&
+            (checkoutMsg === 'One or more products are unavailable' ||
+              checkoutMsg === 'Store is currently disabled' ||
+              checkoutMsg ===
+                'Cart contains products with different currencies')));
+      if (!checkoutHandled) {
+        snackbar.error(userFacingMessage(err, transloco));
+      }
       return throwError(() => err);
     }),
   );
