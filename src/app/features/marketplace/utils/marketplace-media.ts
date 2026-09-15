@@ -1,10 +1,17 @@
 import { environment } from '../../../../environments/environment';
 
-/** Product images always load via the public API media proxy (never direct S3/CDN). */
+/**
+ * Stored S3 objects without a public base URL use the API media proxy.
+ * External URLs (and S3 when `url` is set) load directly from `url`.
+ */
 export function marketplaceProductImageSrc(
-  image: { id: string; url?: string | null },
+  image: { id: string; url?: string | null; key?: string },
   apiBase: string = environment.apiBase,
 ): string {
+  const direct = image.url?.trim();
+  if (direct && /^https?:\/\//i.test(direct)) {
+    return direct;
+  }
   return `${apiBase.replace(/\/$/, '')}/marketplace/media/${image.id}`;
 }
 
