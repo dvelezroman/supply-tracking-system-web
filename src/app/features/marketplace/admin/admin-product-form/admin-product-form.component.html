@@ -113,8 +113,25 @@
           </div>
           <div class="image-grid">
             @for (img of images(); track img.id) {
-              <figure class="image-tile" [class.image-tile--primary]="img.isPrimary">
-                <img [src]="imageSrc(img)" [alt]="img.key" width="160" height="160" />
+              <figure
+                class="image-tile"
+                [class.image-tile--primary]="img.isPrimary"
+                [class.image-tile--broken]="isImageBroken(img.id)"
+              >
+                @if (isImageBroken(img.id)) {
+                  <div class="image-tile__missing">
+                    <mat-icon>broken_image</mat-icon>
+                    <p>{{ 'marketplace.admin.imageMissingInStorage' | transloco }}</p>
+                  </div>
+                } @else {
+                  <img
+                    [src]="imageSrc(img)"
+                    [alt]="img.key"
+                    width="160"
+                    height="160"
+                    (error)="markImageBroken(img.id)"
+                  />
+                }
                 <figcaption>
                   @if (img.isPrimary) {
                     <span>{{ 'marketplace.admin.primary' | transloco }}</span>

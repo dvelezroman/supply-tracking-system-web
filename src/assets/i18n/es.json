@@ -999,6 +999,7 @@
       "imagesSubtitle": "Las fotos se optimizan automáticamente (máx. 512 KB) antes de subir a S3. También puede pegar una URL pública.",
       "uploadImage": "Subir imagen",
       "imageUploaded": "Imagen subida",
+      "imageMissingInStorage": "No está en S3. Elimine esta fila y suba de nuevo, o marque otra foto como principal.",
       "imageCompressFailed": "No se pudo optimizar la imagen. Pruebe otra foto o más pequeña.",
       "imageUrl": "URL de imagen",
       "imageUrlPlaceholder": "https://…",

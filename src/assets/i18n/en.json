@@ -999,6 +999,7 @@
       "imagesSubtitle": "Photos are optimized automatically (max 512 KB) before upload to S3. You can also paste a public URL.",
       "uploadImage": "Upload image",
       "imageUploaded": "Image uploaded",
+      "imageMissingInStorage": "Not in S3. Remove this entry and upload again, or set another photo as primary.",
       "imageCompressFailed": "Could not optimize the image. Try another photo or a smaller file.",
       "imageUrl": "Image URL",
       "imageUrlPlaceholder": "https://…",

@@ -63,6 +63,8 @@ export class AdminProductFormComponent implements OnInit {
   isSaving = signal(false);
   isUploading = signal(false);
   images = signal<MarketplaceProductImage[]>([]);
+  /** Image ids whose preview failed (404 from media proxy / broken URL). */
+  brokenImageIds = signal<ReadonlySet<string>>(new Set());
   imageUrlInput = signal('');
 
   form = this.fb.group({
@@ -94,7 +96,7 @@ export class AdminProductFormComponent implements OnInit {
             published: p.published,
             traceProductId: p.traceProductId ?? '',
           });
-          this.images.set(p.images ?? []);
+          this.setImages(p.images ?? []);
           this.isLoading.set(false);
         },
         error: () => this.isLoading.set(false),
@@ -173,7 +175,7 @@ export class AdminProductFormComponent implements OnInit {
       .uploadImage(this.id!, prepared, this.images().length === 0)
       .subscribe({
         next: (res) => {
-          this.images.update((imgs) => [...imgs, res.data]);
+          this.setImages([...this.images(), res.data]);
           this.isUploading.set(false);
           input.value = '';
           this.snackbar.success(
@@ -194,7 +196,7 @@ export class AdminProductFormComponent implements OnInit {
     this.isUploading.set(true);
     this.api.addImageByUrl(this.id, url, this.images().length === 0).subscribe({
       next: (res) => {
-        this.images.update((imgs) => [...imgs, res.data]);
+        this.setImages([...this.images(), res.data]);
         this.imageUrlInput.set('');
         this.isUploading.set(false);
         this.snackbar.success(
@@ -208,7 +210,7 @@ export class AdminProductFormComponent implements OnInit {
   setPrimary(imageId: string): void {
     if (!this.id) return;
     this.api.setPrimaryImage(this.id, imageId).subscribe({
-      next: (res) => this.images.set(res.data.images),
+      next: (res) => this.setImages(res.data.images),
     });
   }
 
@@ -216,11 +218,29 @@ export class AdminProductFormComponent implements OnInit {
     if (!this.id) return;
     this.api.deleteImage(this.id, imageId).subscribe({
       next: () =>
-        this.images.update((imgs) => imgs.filter((i) => i.id !== imageId)),
+        this.setImages(this.images().filter((i) => i.id !== imageId)),
     });
   }
 
   imageSrc(img: MarketplaceProductImage): string {
     return marketplaceProductImageSrc(img);
+  }
+
+  isImageBroken(imageId: string): boolean {
+    return this.brokenImageIds().has(imageId);
+  }
+
+  markImageBroken(imageId: string): void {
+    this.brokenImageIds.update((ids) => {
+      if (ids.has(imageId)) {
+        return ids;
+      }
+      return new Set([...ids, imageId]);
+    });
+  }
+
+  private setImages(images: MarketplaceProductImage[]): void {
+    this.brokenImageIds.set(new Set());
+    this.images.set(images);
   }
 }
