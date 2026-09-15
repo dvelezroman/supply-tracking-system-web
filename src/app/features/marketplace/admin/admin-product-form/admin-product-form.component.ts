@@ -24,6 +24,7 @@ import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplaceAdminApiService } from '../../services/marketplace-api.service';
 import type { MarketplaceProductImage } from '../../models/marketplace.model';
 import { marketplaceProductImageSrc } from '../../utils/marketplace-media';
+import { compressProductImageForUpload } from '../../utils/product-image-compress.util';
 
 @Component({
   selector: 'app-admin-product-form',
@@ -148,21 +149,42 @@ export class AdminProductFormComponent implements OnInit {
     const input = ev.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
+    void this.uploadPreparedImage(file, input);
+  }
+
+  private async uploadPreparedImage(
+    file: File,
+    input: HTMLInputElement,
+  ): Promise<void> {
     this.isUploading.set(true);
-    this.api.uploadImage(this.id, file, this.images().length === 0).subscribe({
-      next: (res) => {
-        this.images.update((imgs) => [...imgs, res.data]);
-        this.isUploading.set(false);
-        input.value = '';
-        this.snackbar.success(
-          this.transloco.translate('marketplace.admin.imageUploaded'),
-        );
-      },
-      error: () => {
-        this.isUploading.set(false);
-        input.value = '';
-      },
-    });
+    let prepared: File;
+    try {
+      prepared = await compressProductImageForUpload(file);
+    } catch {
+      this.isUploading.set(false);
+      input.value = '';
+      this.snackbar.error(
+        this.transloco.translate('marketplace.admin.imageCompressFailed'),
+      );
+      return;
+    }
+
+    this.api
+      .uploadImage(this.id!, prepared, this.images().length === 0)
+      .subscribe({
+        next: (res) => {
+          this.images.update((imgs) => [...imgs, res.data]);
+          this.isUploading.set(false);
+          input.value = '';
+          this.snackbar.success(
+            this.transloco.translate('marketplace.admin.imageUploaded'),
+          );
+        },
+        error: () => {
+          this.isUploading.set(false);
+          input.value = '';
+        },
+      });
   }
 
   addImageByUrl(): void {
