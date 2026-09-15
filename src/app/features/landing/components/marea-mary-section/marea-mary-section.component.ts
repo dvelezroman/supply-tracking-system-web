@@ -17,7 +17,8 @@ export const MAREA_CHAT_OPEN_EVENT = 'marea-chat:open';
   styleUrl: './marea-mary-section.component.scss',
 })
 export class MareaMarySectionComponent {
-  readonly logoUrl = environment.labelLogoUrl;
+  readonly logoUrl =
+    environment.labelLogoUrl?.trim() || environment.labelLogoFallbackUrl?.trim() || '';
   private readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
 
   readonly features = [

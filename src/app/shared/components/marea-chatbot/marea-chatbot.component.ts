@@ -145,7 +145,8 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
   private chipsEl = viewChild<ElementRef<HTMLElement>>('chips');
   private shouldScroll = false;
 
-  readonly logoUrl = environment.labelLogoUrl;
+  readonly logoUrl =
+    environment.labelLogoUrl?.trim() || environment.labelLogoFallbackUrl?.trim() || '';
   private readonly logoFallbackUrl = environment.labelLogoFallbackUrl?.trim() || null;
   readonly optionRows = CHAT_OPTIONS;
 
