@@ -1,6 +1,6 @@
 <div class="store">
-  <mat-toolbar class="store__toolbar">
-    <div class="store__toolbar-inner">
+  <header class="store__header">
+    <div class="store__header-inner">
       <a routerLink="/" class="store__brand">
         @if (brand.logoUrl(); as logoSrc) {
           <img
@@ -15,26 +15,6 @@
         <span class="store__title">{{ brand.landingTitle() }}</span>
       </a>
 
-      <div class="store__actions">
-        <app-language-toggle />
-        <app-theme-toggle />
-        <a
-          mat-icon-button
-          routerLink="/tienda/carrito"
-          class="store__cart"
-          [attr.aria-label]="'marketplace.store.cart' | transloco"
-        >
-          <mat-icon
-            [matBadge]="cart.itemCount()"
-            [matBadgeHidden]="cart.itemCount() === 0"
-            matBadgeColor="warn"
-            matBadgeSize="small"
-          >
-            shopping_cart
-          </mat-icon>
-        </a>
-      </div>
-
       <nav class="store__nav" aria-label="Tienda">
         <a
           routerLink="/tienda"
@@ -44,10 +24,27 @@
         >
           {{ 'marketplace.store.navShop' | transloco }}
         </a>
-        <a routerLink="/" class="store__nav-link">{{ 'marketplace.store.navHome' | transloco }}</a>
+        <a routerLink="/" class="store__nav-link">
+          {{ 'marketplace.store.navHome' | transloco }}
+        </a>
       </nav>
+
+      <div class="store__actions">
+        <app-language-toggle />
+        <app-theme-toggle />
+        <a
+          routerLink="/tienda/carrito"
+          class="store__cart"
+          [attr.aria-label]="'marketplace.store.cart' | transloco"
+        >
+          <mat-icon>shopping_cart</mat-icon>
+          @if (cart.itemCount() > 0) {
+            <span class="store__cart-badge">{{ cart.itemCount() }}</span>
+          }
+        </a>
+      </div>
     </div>
-  </mat-toolbar>
+  </header>
 
   <main class="store__main">
     <router-outlet />

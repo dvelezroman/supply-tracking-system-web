@@ -1,0 +1,67 @@
+@use '../../../../landing/styles/marea-tokens' as *;
+
+.skeleton {
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid $border-ocean;
+  background: $marea-blanco;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.skeleton__media {
+  aspect-ratio: 1 / 0.9;
+  background: $marea-gris-claro;
+  animation: store-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.7rem;
+
+  @media (min-width: $bp-sm) {
+    padding: 1rem;
+    gap: 0.65rem;
+  }
+}
+
+.skeleton__line {
+  height: 0.7rem;
+  border-radius: 4px;
+  background: $marea-gris-claro;
+  animation: store-pulse 1.4s ease-in-out infinite;
+
+  &--lg {
+    width: 80%;
+    height: 0.85rem;
+  }
+
+  &--sm {
+    width: 55%;
+    height: 0.65rem;
+  }
+
+  &--price {
+    width: 35%;
+    height: 1.1rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.skeleton__btn {
+  height: 2.5rem;
+  border-radius: 8px;
+  background: $marea-gris-claro;
+  animation: store-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes store-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}

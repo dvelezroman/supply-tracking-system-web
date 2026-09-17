@@ -1,6 +1,7 @@
 @use '../../../landing/styles/marea-tokens' as *;
 
 .store {
+  --store-header-height: 56px;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -10,47 +11,40 @@
   overflow-x: clip;
 }
 
-.store__toolbar {
-  --mat-toolbar-container-text-color: #{$marea-blanco};
+.store__header {
   position: sticky;
   top: 0;
-  z-index: 20;
-  background: $marea-azul-profundo !important;
-  color: $marea-blanco;
-  height: auto !important;
-  min-height: 52px;
-  padding: max(8px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 8px
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid $border-ocean;
+  padding: max(8px, env(safe-area-inset-top, 0px))
+    max(12px, env(safe-area-inset-right, 0px)) 8px
     max(12px, env(safe-area-inset-left, 0px));
-  box-shadow: 0 2px 12px rgba(10, 38, 71, 0.2);
+  box-shadow: 0 1px 0 rgba(6, 26, 51, 0.04);
 }
 
-.store__toolbar-inner {
+.store__header-inner {
   width: 100%;
-  max-width: $marea-container;
+  max-width: 1400px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    'brand actions'
-    'nav nav';
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  column-gap: 8px;
-  row-gap: 6px;
+  gap: 8px 12px;
+  min-height: 40px;
 
   @media (min-width: $bp-md) {
-    display: flex;
     flex-wrap: nowrap;
-    gap: 12px;
   }
 }
 
 .store__brand {
-  grid-area: brand;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: inherit;
+  color: $marea-azul-profundo;
   min-width: 0;
   max-width: 100%;
 }
@@ -71,8 +65,8 @@
 .store__title {
   font-family: $font-marea-heading;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  font-size: 0.9rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,35 +75,31 @@
   @media (max-width: 379px) {
     display: none;
   }
-
-  @media (min-width: $bp-sm) {
-    font-size: 0.95rem;
-  }
 }
 
 .store__nav {
-  grid-area: nav;
   display: flex;
   gap: 4px;
+  order: 3;
+  width: 100%;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding-bottom: 2px;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
   @media (min-width: $bp-md) {
+    order: 0;
+    width: auto;
     flex: 1;
-    gap: 8px;
+    margin-left: 0.5rem;
     overflow: visible;
-    padding-bottom: 0;
   }
 }
 
 .store__nav-link {
-  color: rgba(255, 255, 255, 0.85);
+  color: $marea-gris-medio;
   text-decoration: none;
   font-family: $font-marea-heading;
   font-size: 0.8rem;
@@ -124,36 +114,58 @@
 
   &.is-active,
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: $marea-blanco;
-  }
-
-  @media (min-width: $bp-sm) {
-    font-size: 0.85rem;
+    background: rgba(15, 52, 96, 0.08);
+    color: $marea-azul-profundo;
   }
 }
 
 .store__actions {
-  grid-area: actions;
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 2px;
+  margin-left: auto;
   flex-shrink: 0;
-
-  @media (min-width: $bp-md) {
-    margin-left: auto;
-    gap: 4px;
-  }
 }
 
 .store__cart {
-  color: $marea-blanco !important;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  color: $marea-azul-profundo;
+  text-decoration: none;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(15, 52, 96, 0.08);
+  }
+}
+
+.store__cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: inline-flex;
+  min-width: 17px;
+  height: 17px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: $marea-coral;
+  color: $marea-blanco;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .store__main {
   flex: 1;
   width: 100%;
-  max-width: $marea-container;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem max(12px, env(safe-area-inset-left), env(safe-area-inset-right))
     max(1.5rem, env(safe-area-inset-bottom));
@@ -165,7 +177,8 @@
   }
 
   @media (min-width: $bp-md) {
-    padding: clamp(1.25rem, 3vw, 2rem) max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
+    padding: clamp(1.25rem, 3vw, 2rem)
+      max(16px, env(safe-area-inset-left), env(safe-area-inset-right));
   }
 }
 

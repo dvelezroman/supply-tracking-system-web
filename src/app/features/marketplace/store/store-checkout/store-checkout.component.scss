@@ -1,4 +1,5 @@
 @use '../../../landing/styles/marea-tokens' as *;
+@use '../styles/store-ui';
 
 .checkout {
   width: 100%;
@@ -101,7 +102,7 @@
   @media (min-width: $bp-lg) {
     order: 0;
     position: sticky;
-    top: 1rem;
+    top: calc(var(--store-header-height, 56px) + 1rem);
   }
 
   h2 {

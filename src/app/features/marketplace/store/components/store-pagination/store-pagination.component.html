@@ -1,0 +1,52 @@
+@if (pageCount() > 1) {
+  <nav class="pager" [attr.aria-label]="'marketplace.store.pagination' | transloco">
+    <button
+      type="button"
+      class="pager__nav"
+      [disabled]="page() <= 1"
+      (click)="go(page() - 1)"
+    >
+      <mat-icon>chevron_left</mat-icon>
+      <span>{{ 'marketplace.store.prevPage' | transloco }}</span>
+    </button>
+
+    @if (firstVisible() > 1) {
+      <button type="button" class="pager__num" (click)="go(1)">1</button>
+      @if (firstVisible() > 2) {
+        <span class="pager__ellipsis" aria-hidden="true">…</span>
+      }
+    }
+
+    @for (n of pages(); track n) {
+      <button
+        type="button"
+        class="pager__num"
+        [class.is-current]="n === page()"
+        [attr.aria-current]="n === page() ? 'page' : null"
+        [attr.aria-label]="'marketplace.store.pageN' | transloco: { n }"
+        (click)="go(n)"
+      >
+        {{ n }}
+      </button>
+    }
+
+    @if (lastVisible() < pageCount()) {
+      @if (lastVisible() < pageCount() - 1) {
+        <span class="pager__ellipsis" aria-hidden="true">…</span>
+      }
+      <button type="button" class="pager__num" (click)="go(pageCount())">
+        {{ pageCount() }}
+      </button>
+    }
+
+    <button
+      type="button"
+      class="pager__nav"
+      [disabled]="page() >= pageCount()"
+      (click)="go(page() + 1)"
+    >
+      <span>{{ 'marketplace.store.nextPage' | transloco }}</span>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </nav>
+}

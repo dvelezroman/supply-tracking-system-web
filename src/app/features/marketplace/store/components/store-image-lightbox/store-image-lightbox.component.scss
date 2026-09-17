@@ -1,0 +1,90 @@
+@use '../../../../landing/styles/marea-tokens' as *;
+
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.lightbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: rgba(6, 26, 51, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: $marea-blanco;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.22);
+  }
+}
+
+.lightbox__stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 960px;
+  min-height: 0;
+
+  img {
+    max-width: 100%;
+    max-height: min(72vh, 720px);
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.lightbox__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.lightbox__thumb {
+  flex-shrink: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.7;
+
+  &.is-active {
+    border-color: $marea-blanco;
+    opacity: 1;
+  }
+
+  img {
+    display: block;
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+  }
+}

@@ -1,70 +1,119 @@
 <section class="cart">
-  <h1>{{ 'marketplace.store.cartTitle' | transloco }}</h1>
+  <header class="cart__header">
+    <h1>{{ 'marketplace.store.cartTitle' | transloco }}</h1>
+    @if (cart.lines().length > 0) {
+      <p class="cart__count">
+        {{
+          'marketplace.store.cartItemCount'
+            | transloco: { count: cart.itemCount() }
+        }}
+      </p>
+    }
+  </header>
 
   @if (cart.lines().length === 0) {
     <div class="cart__empty">
-      <p>{{ 'marketplace.store.cartEmpty' | transloco }}</p>
+      <mat-icon class="cart__empty-icon" aria-hidden="true">shopping_bag</mat-icon>
+      <p class="cart__empty-title">{{ 'marketplace.store.cartEmptyTitle' | transloco }}</p>
+      <p class="cart__empty-body">{{ 'marketplace.store.cartEmpty' | transloco }}</p>
       <a routerLink="/tienda" class="marea-btn marea-btn--primary">
         {{ 'marketplace.store.continueShopping' | transloco }}
       </a>
     </div>
   } @else {
-    <ul class="cart__list">
-      @for (line of cart.lines(); track line.productId) {
-        <li class="cart__row">
-          <a [routerLink]="['/tienda', line.slug]" class="cart__media">
-            @if (line.imageUrl) {
-              <img [src]="line.imageUrl" [alt]="line.name" width="80" height="80" />
-            } @else {
-              <mat-icon>inventory_2</mat-icon>
-            }
-          </a>
-          <div class="cart__info">
-            <a [routerLink]="['/tienda', line.slug]">{{ line.name }}</a>
-            <small>{{ line.sku }}</small>
-            <p class="cart__unit">{{ formatMoney(line.unitPriceCents, line.currency) }}</p>
-          </div>
-          <mat-form-field appearance="outline" class="cart__qty" subscriptSizing="dynamic">
-            <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
-            <input
-              matInput
-              type="number"
-              inputmode="numeric"
-              min="1"
-              [max]="line.stockQty"
-              [ngModel]="line.qty"
-              (ngModelChange)="cart.setQty(line.productId, +$event || 1)"
-            />
-          </mat-form-field>
-          <div class="cart__line-total">
-            {{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}
-          </div>
-          <button
-            mat-icon-button
-            type="button"
-            class="cart__remove"
-            (click)="cart.remove(line.productId)"
-            [attr.aria-label]="'common.delete' | transloco"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </li>
-      }
-    </ul>
+    <div class="cart__layout">
+      <ul class="cart__list">
+        @for (line of cart.lines(); track line.productId) {
+          <li class="cart__row">
+            <a [routerLink]="['/tienda', line.slug]" class="cart__media">
+              @if (line.imageUrl) {
+                <img [src]="line.imageUrl" [alt]="line.name" width="88" height="88" />
+              } @else {
+                <mat-icon>inventory_2</mat-icon>
+              }
+            </a>
 
-    <div class="cart__footer">
-      <p class="cart__subtotal">
-        {{ 'marketplace.store.subtotal' | transloco }}:
-        <strong>{{ formatMoney(cart.subtotalCents()) }}</strong>
-      </p>
-      <div class="cart__actions">
-        <a routerLink="/tienda" class="marea-btn marea-btn--ghost">
-          {{ 'marketplace.store.continueShopping' | transloco }}
-        </a>
-        <a routerLink="/tienda/checkout" class="marea-btn marea-btn--primary">
-          {{ 'marketplace.store.checkout' | transloco }}
-        </a>
-      </div>
+            <div class="cart__info">
+              <a [routerLink]="['/tienda', line.slug]" class="cart__name">
+                {{ line.name }}
+              </a>
+              <p class="cart__unit">
+                {{ formatMoney(line.unitPriceCents, line.currency) }}
+              </p>
+
+              <div class="cart__qty-row">
+                <div class="cart__stepper" role="group" [attr.aria-label]="'marketplace.store.qty' | transloco">
+                  <button
+                    type="button"
+                    class="cart__step"
+                    (click)="cart.setQty(line.productId, line.qty - 1)"
+                    [attr.aria-label]="'marketplace.store.decreaseQty' | transloco"
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <span class="cart__qty-value">{{ line.qty }}</span>
+                  <button
+                    type="button"
+                    class="cart__step"
+                    [disabled]="line.qty >= line.stockQty"
+                    (click)="cart.setQty(line.productId, line.qty + 1)"
+                    [attr.aria-label]="'marketplace.store.increaseQty' | transloco"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  class="cart__remove"
+                  (click)="cart.remove(line.productId)"
+                  [attr.aria-label]="'common.delete' | transloco"
+                >
+                  <mat-icon>delete_outline</mat-icon>
+                  <span>{{ 'marketplace.store.removeLine' | transloco }}</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="cart__line-total">
+              {{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}
+            </div>
+          </li>
+        }
+      </ul>
+
+      <aside class="cart__summary">
+        <h2>{{ 'marketplace.store.orderSummary' | transloco }}</h2>
+        <div class="cart__summary-row">
+          <span>{{ 'marketplace.store.subtotal' | transloco }}</span>
+          <strong>{{ formatMoney(cart.subtotalCents()) }}</strong>
+        </div>
+        <p class="cart__summary-note">{{ 'marketplace.store.cartSummaryNote' | transloco }}</p>
+
+        <div class="cart__summary-actions">
+          <a routerLink="/tienda/checkout" class="marea-btn marea-btn--primary marea-btn--block">
+            {{ 'marketplace.store.checkout' | transloco }}
+          </a>
+          <a routerLink="/tienda" class="marea-btn marea-btn--ghost marea-btn--block">
+            {{ 'marketplace.store.continueShopping' | transloco }}
+          </a>
+        </div>
+
+        <ul class="cart__trust">
+          <li>
+            <mat-icon>verified</mat-icon>
+            <span>{{ 'marketplace.store.trustTrace' | transloco }}</span>
+          </li>
+          <li>
+            <mat-icon>mail_outline</mat-icon>
+            <span>{{ 'marketplace.store.trustEmail' | transloco }}</span>
+          </li>
+          <li>
+            <mat-icon>inventory_2</mat-icon>
+            <span>{{ 'marketplace.store.trustStock' | transloco }}</span>
+          </li>
+        </ul>
+      </aside>
     </div>
   }
 </section>

@@ -1,0 +1,156 @@
+<!-- Mobile -->
+<div class="filters-mobile">
+  <div class="filters-mobile__row">
+    <label class="store-search">
+      <span class="sr-only">{{ 'marketplace.store.search' | transloco }}</span>
+      <mat-icon class="store-search__icon" aria-hidden="true">search</mat-icon>
+      <input
+        type="search"
+        class="store-search__input"
+        autocomplete="off"
+        [placeholder]="'marketplace.store.searchPlaceholder' | transloco"
+        [ngModel]="query()"
+        (ngModelChange)="onQuery($event)"
+      />
+      @if (query()) {
+        <button
+          type="button"
+          class="store-search__clear"
+          (click)="onQuery('')"
+          [attr.aria-label]="'marketplace.store.clearSearch' | transloco"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </label>
+
+    <a
+      routerLink="/tienda/carrito"
+      class="filters-mobile__cart"
+      [attr.aria-label]="'marketplace.store.cart' | transloco"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+      @if (cartCount() > 0) {
+        <span class="filters-mobile__badge">{{ cartCount() }}</span>
+      }
+    </a>
+  </div>
+
+  <div class="filters-mobile__chips">
+    <div class="filters-mobile__chips-track">
+      @for (cat of mobileCategories(); track cat.label) {
+        <button
+          type="button"
+          class="store-chip"
+          [class.is-active]="category() === cat.id"
+          [attr.aria-pressed]="category() === cat.id"
+          (click)="setCategory(cat.id)"
+        >
+          {{
+            cat.id === null
+              ? ('marketplace.store.filterAllCategories' | transloco)
+              : cat.label
+          }}
+        </button>
+      }
+
+      <div class="store-select">
+        <select
+          [ngModel]="sort()"
+          (ngModelChange)="setSort($event)"
+          [attr.aria-label]="'marketplace.store.sortBy' | transloco"
+        >
+          <option value="DEFAULT">{{ 'marketplace.store.sortDefault' | transloco }}</option>
+          <option value="PRICE_ASC">{{ 'marketplace.store.sortPriceAsc' | transloco }}</option>
+          <option value="PRICE_DESC">{{ 'marketplace.store.sortPriceDesc' | transloco }}</option>
+          <option value="NAME_ASC">{{ 'marketplace.store.sortNameAsc' | transloco }}</option>
+        </select>
+        <mat-icon class="store-select__chevron" aria-hidden="true">expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-mobile__meta">
+    <p>
+      @if (loading()) {
+        {{ 'marketplace.store.loadingProducts' | transloco }}
+      } @else {
+        {{ 'marketplace.store.productCount' | transloco: { count: totalFiltered() } }}
+      }
+    </p>
+  </div>
+</div>
+
+<!-- Desktop sidebar -->
+<aside class="filters-desktop">
+  <div class="filters-desktop__sticky">
+    <div class="filters-desktop__head">
+      <h2>{{ 'marketplace.store.filtersTitle' | transloco }}</h2>
+      @if (hasFilters()) {
+        <button type="button" class="filters-desktop__clear" (click)="clear()">
+          {{ 'marketplace.store.clearAll' | transloco }}
+        </button>
+      }
+    </div>
+
+    <div class="filters-desktop__section">
+      <h3>{{ 'marketplace.store.categoriesTitle' | transloco }}</h3>
+      <div class="filters-desktop__list">
+        <button
+          type="button"
+          class="store-check-row"
+          [class.is-active]="category() === null"
+          (click)="setCategory(null)"
+        >
+          <span class="store-check-row__box"><mat-icon>check</mat-icon></span>
+          <span class="store-check-row__label">
+            {{ 'marketplace.store.filterAllCategories' | transloco }}
+          </span>
+          <span class="store-check-row__count">({{ categoryCounts()['ALL'] }})</span>
+        </button>
+
+        @for (cat of categories(); track cat) {
+          <button
+            type="button"
+            class="store-check-row"
+            [class.is-active]="category() === cat"
+            (click)="setCategory(cat)"
+          >
+            <span class="store-check-row__box"><mat-icon>check</mat-icon></span>
+            <span class="store-check-row__label">{{ cat }}</span>
+            <span class="store-check-row__count">({{ categoryCounts()[cat] || 0 }})</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="filters-desktop__section">
+      <h3>{{ 'marketplace.store.availabilityTitle' | transloco }}</h3>
+      <div class="filters-desktop__list">
+        @for (opt of availabilityOptions; track opt.id) {
+          <button
+            type="button"
+            class="store-check-row"
+            [class.is-active]="availability() === opt.id"
+            (click)="setAvailability(opt.id)"
+          >
+            <span class="store-check-row__box"><mat-icon>check</mat-icon></span>
+            <span class="store-check-row__label">{{ opt.labelKey | transloco }}</span>
+            <span class="store-check-row__count">
+              ({{ availabilityCounts()[opt.id] }})
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="filters-desktop__tip">
+      <p class="filters-desktop__tip-title">
+        {{ 'marketplace.store.filterTipTitle' | transloco }}
+      </p>
+      <p class="filters-desktop__tip-body">
+        {{ 'marketplace.store.filterTipBody' | transloco }}
+      </p>
+    </div>
+  </div>
+</aside>

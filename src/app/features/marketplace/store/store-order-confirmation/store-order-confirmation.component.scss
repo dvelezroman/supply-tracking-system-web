@@ -1,14 +1,15 @@
 @use '../../../landing/styles/marea-tokens' as *;
+@use '../styles/store-ui';
 
 .confirm {
   max-width: 560px;
   margin: 0 auto;
   text-align: center;
-  padding: 1.5rem 1.1rem;
+  padding: 1.75rem 1.25rem;
   background: $marea-blanco;
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid $border-ocean;
-  box-shadow: $shadow-ocean-sm;
+  box-shadow: 0 8px 28px rgba(6, 26, 51, 0.08);
 
   @media (min-width: $bp-sm) {
     padding: 2rem 1.25rem;

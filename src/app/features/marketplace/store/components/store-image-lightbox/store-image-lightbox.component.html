@@ -1,0 +1,37 @@
+<div
+  class="lightbox"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-label]="'marketplace.store.galleryTitle' | transloco: { name: product().name }"
+  (click)="onBackdrop($event)"
+>
+  <button
+    type="button"
+    class="lightbox__close"
+    (click)="close()"
+    [attr.aria-label]="'marketplace.store.closeGallery' | transloco"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="lightbox__stage">
+    @if (activeSrc(); as src) {
+      <img [src]="src" [alt]="product().name" />
+    }
+  </div>
+
+  @if (product().images.length > 1) {
+    <div class="lightbox__thumbs">
+      @for (img of product().images; track img.id) {
+        <button
+          type="button"
+          class="lightbox__thumb"
+          [class.is-active]="imageSrc(img) === activeSrc()"
+          (click)="select(img)"
+        >
+          <img [src]="imageSrc(img)" [alt]="product().name" width="64" height="64" />
+        </button>
+      }
+    </div>
+  }
+</div>

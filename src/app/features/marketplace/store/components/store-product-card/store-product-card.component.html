@@ -1,0 +1,74 @@
+<article class="product-card">
+  <div class="product-card__media">
+    @if (imageSrc(); as src) {
+      <button
+        type="button"
+        class="product-card__zoom"
+        (click)="openLightbox($event)"
+        [attr.aria-label]="'marketplace.store.viewGallery' | transloco: { name: product().name }"
+      >
+        <img [src]="src" [alt]="product().name" loading="lazy" width="400" height="360" />
+      </button>
+    } @else {
+      <div class="product-card__placeholder">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+    }
+
+    @if (soldOut()) {
+      <span class="product-card__badge">{{ 'marketplace.store.outOfStock' | transloco }}</span>
+    }
+  </div>
+
+  <div class="product-card__body">
+    <div class="product-card__meta">
+      @if (product().category) {
+        <span class="product-card__cat">{{ product().category }}</span>
+      }
+      <a class="product-card__title" [routerLink]="['/tienda', product().slug]">
+        {{ product().name }}
+      </a>
+    </div>
+
+    <div class="product-card__footer">
+      <p class="product-card__price">
+        {{ formatMoney(product().priceCents, product().currency) }}
+      </p>
+
+      @if (lowStock() && !added()) {
+        <p class="product-card__low">
+          {{ 'marketplace.store.lowStock' | transloco: { qty: stock() } }}
+        </p>
+      }
+
+      <button
+        type="button"
+        class="marea-btn marea-btn--ocean marea-btn--block marea-btn--sm"
+        [class.marea-btn--success]="added()"
+        [disabled]="soldOut() || isAdding() || added()"
+        (click)="addToCart($event)"
+      >
+        @if (soldOut()) {
+          {{ 'marketplace.store.outOfStock' | transloco }}
+        } @else if (isAdding()) {
+          <mat-icon class="product-card__spin">progress_activity</mat-icon>
+          <span>{{ 'marketplace.store.addingToCart' | transloco }}</span>
+        } @else if (added()) {
+          <mat-icon>check</mat-icon>
+          <span>{{ 'marketplace.store.addedShort' | transloco }}</span>
+        } @else {
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="product-card__cta-short">{{ 'marketplace.store.addShort' | transloco }}</span>
+          <span class="product-card__cta-long">{{ 'marketplace.store.addToCart' | transloco }}</span>
+        }
+      </button>
+    </div>
+  </div>
+</article>
+
+@if (lightboxOpen()) {
+  <app-store-image-lightbox
+    [product]="product()"
+    (closed)="closeLightbox()"
+  />
+}

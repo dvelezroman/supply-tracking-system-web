@@ -1,5 +1,12 @@
 @if (isLoading()) {
-  <mat-progress-bar mode="indeterminate" />
+  <div class="detail-loading" aria-busy="true">
+    <div class="detail-loading__media"></div>
+    <div class="detail-loading__info">
+      <div class="detail-loading__line"></div>
+      <div class="detail-loading__line detail-loading__line--sm"></div>
+      <div class="detail-loading__line detail-loading__line--price"></div>
+    </div>
+  </div>
 } @else {
   @if (product(); as p) {
     <div class="detail">
@@ -10,17 +17,28 @@
 
       <div class="detail__grid">
         <div class="detail__gallery">
-          <div class="detail__main-img">
+          <button
+            type="button"
+            class="detail__main-img"
+            [disabled]="!activeImage()"
+            (click)="openLightbox()"
+            [attr.aria-label]="'marketplace.store.viewGallery' | transloco: { name: p.name }"
+          >
             @if (activeImage(); as src) {
               <img [src]="src" [alt]="p.name" width="640" height="480" />
             } @else {
               <div class="detail__placeholder"><mat-icon>inventory_2</mat-icon></div>
             }
-          </div>
+          </button>
           @if (p.images.length > 1) {
             <div class="detail__thumbs">
               @for (img of p.images; track img.id) {
-                <button type="button" class="detail__thumb" (click)="selectImage(img)">
+                <button
+                  type="button"
+                  class="detail__thumb"
+                  [class.is-active]="imageSrc(img) === activeImage()"
+                  (click)="selectImage(img)"
+                >
                   <img [src]="imageSrc(img)" [alt]="p.name" width="72" height="72" />
                 </button>
               }
@@ -37,37 +55,71 @@
           @if (p.description) {
             <p class="detail__desc">{{ p.description }}</p>
           }
-          <p class="detail__stock">
-            {{
-              p.stockQty > 0
-                ? ('marketplace.store.inStock' | transloco: { qty: p.stockQty })
-                : ('marketplace.store.outOfStock' | transloco)
-            }}
-          </p>
+
+          @if (p.stockQty > 0 && p.stockQty <= 2) {
+            <p class="detail__low">
+              {{ 'marketplace.store.lowStock' | transloco: { qty: p.stockQty } }}
+            </p>
+          } @else {
+            <p class="detail__stock">
+              {{
+                p.stockQty > 0
+                  ? ('marketplace.store.inStock' | transloco: { qty: p.stockQty })
+                  : ('marketplace.store.outOfStock' | transloco)
+              }}
+            </p>
+          }
 
           @if (p.stockQty > 0) {
             <div class="detail__buy">
-              <mat-form-field appearance="outline" class="detail__qty" subscriptSizing="dynamic">
-                <mat-label>{{ 'marketplace.store.qty' | transloco }}</mat-label>
-                <input
-                  matInput
-                  type="number"
-                  inputmode="numeric"
-                  min="1"
-                  [max]="p.stockQty"
-                  [ngModel]="qty()"
-                  (ngModelChange)="qty.set(+$event || 1)"
-                />
-              </mat-form-field>
-              <button type="button" class="marea-btn marea-btn--primary" (click)="addToCart()">
-                <mat-icon>add_shopping_cart</mat-icon>
-                {{ 'marketplace.store.addToCart' | transloco }}
+              <div class="detail__stepper" role="group" [attr.aria-label]="'marketplace.store.qty' | transloco">
+                <button
+                  type="button"
+                  class="detail__step"
+                  (click)="setQty(qty() - 1)"
+                  [attr.aria-label]="'marketplace.store.decreaseQty' | transloco"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span class="detail__qty-value">{{ qty() }}</span>
+                <button
+                  type="button"
+                  class="detail__step"
+                  [disabled]="qty() >= p.stockQty"
+                  (click)="setQty(qty() + 1)"
+                  [attr.aria-label]="'marketplace.store.increaseQty' | transloco"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                class="marea-btn marea-btn--ocean"
+                [class.marea-btn--success]="added()"
+                [disabled]="isAdding() || added()"
+                (click)="addToCart()"
+              >
+                @if (isAdding()) {
+                  <mat-icon class="detail__spin">progress_activity</mat-icon>
+                  {{ 'marketplace.store.addingToCart' | transloco }}
+                } @else if (added()) {
+                  <mat-icon>check</mat-icon>
+                  {{ 'marketplace.store.addedShort' | transloco }}
+                } @else {
+                  <mat-icon>add_shopping_cart</mat-icon>
+                  {{ 'marketplace.store.addToCart' | transloco }}
+                }
               </button>
             </div>
           }
         </div>
       </div>
     </div>
+
+    @if (lightboxOpen()) {
+      <app-store-image-lightbox [product]="p" (closed)="closeLightbox()" />
+    }
   } @else {
     <p class="detail__missing">{{ 'marketplace.store.notFound' | transloco }}</p>
   }

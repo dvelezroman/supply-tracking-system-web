@@ -1,0 +1,24 @@
+<section class="store-hero" aria-labelledby="store-hero-title">
+  <div class="store-hero__media" aria-hidden="true">
+    <img
+      class="store-hero__photo"
+      [src]="heroImage"
+      alt=""
+      width="1600"
+      height="900"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="store-hero__veil"></div>
+  </div>
+
+  <div class="store-hero__inner">
+    <p class="store-hero__brand">{{ brand.landingTitle() }}</p>
+    <h1 id="store-hero-title" class="store-hero__title">
+      {{ 'marketplace.store.catalogTitle' | transloco }}
+    </h1>
+    <p class="store-hero__subtitle">
+      {{ 'marketplace.store.catalogSubtitle' | transloco }}
+    </p>
+  </div>
+</section>

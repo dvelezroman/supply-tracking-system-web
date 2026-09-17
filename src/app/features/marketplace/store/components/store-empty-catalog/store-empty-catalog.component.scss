@@ -1,0 +1,42 @@
+@use '../../../../landing/styles/marea-tokens' as *;
+@use '../../styles/store-ui';
+
+.empty {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(15, 52, 96, 0.28);
+  background: $marea-gris-claro;
+
+  @media (min-width: $bp-sm) {
+    padding: 4.5rem 1.5rem;
+  }
+}
+
+.empty__icon {
+  margin-bottom: 1rem;
+  font-size: 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: rgba(15, 52, 96, 0.28);
+}
+
+.empty__title {
+  margin: 0;
+  font-family: $font-marea-heading;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $marea-azul-profundo;
+}
+
+.empty__body {
+  margin: 0.35rem auto 0;
+  max-width: 24rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: $marea-gris-medio;
+}
+
+.empty .marea-btn {
+  margin-top: 1.25rem;
+}

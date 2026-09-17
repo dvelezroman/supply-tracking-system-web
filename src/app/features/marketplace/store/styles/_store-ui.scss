@@ -1,0 +1,317 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+// Shared storefront UI primitives (catalog filters, search, chips, cards).
+
+.store-search {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: 0.85rem;
+    transform: translateY(-50%);
+    color: $marea-gris-medio;
+    font-size: 1.15rem !important;
+    width: 1.15rem;
+    height: 1.15rem;
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 100%;
+    height: 2.75rem;
+    box-sizing: border-box;
+    border: 1px solid $border-ocean;
+    border-radius: 12px;
+    background: $marea-blanco;
+    padding: 0 2.5rem 0 2.65rem;
+    font-family: $font-marea-body;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: $marea-gris-oscuro;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &::placeholder {
+      color: $marea-gris-medio;
+      font-weight: 400;
+    }
+
+    &:hover {
+      border-color: rgba(15, 52, 96, 0.28);
+    }
+
+    &:focus {
+      border-color: $marea-azul-claro;
+      box-shadow: 0 0 0 3px rgba(42, 111, 173, 0.15);
+    }
+
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: $marea-gris-medio;
+    cursor: pointer;
+
+    &:hover {
+      background: $marea-gris-claro;
+      color: $marea-azul-profundo;
+    }
+  }
+}
+
+.store-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 2.125rem;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  border: 1px solid $border-ocean;
+  background: $marea-blanco;
+  color: $marea-gris-medio;
+  font-family: $font-marea-heading;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &.is-active {
+    border-color: rgba(15, 52, 96, 0.45);
+    background: rgba(15, 52, 96, 0.1);
+    color: $marea-azul-principal;
+  }
+
+  &:hover:not(.is-active) {
+    border-color: rgba(15, 52, 96, 0.28);
+    color: $marea-azul-profundo;
+  }
+}
+
+.store-select {
+  position: relative;
+  display: inline-block;
+
+  select {
+    appearance: none;
+    height: 2.125rem;
+    padding: 0 2rem 0 0.9rem;
+    border-radius: 999px;
+    border: 1px solid $border-ocean;
+    background: $marea-blanco;
+    color: $marea-gris-oscuro;
+    font-family: $font-marea-heading;
+    font-size: 0.8rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      border-color: rgba(15, 52, 96, 0.35);
+    }
+  }
+
+  &__chevron {
+    position: absolute;
+    top: 50%;
+    right: 0.55rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: $marea-gris-medio;
+    font-size: 1rem !important;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &--lg select {
+    height: 2.75rem;
+    min-width: 170px;
+    border-radius: 12px;
+    padding: 0 2.5rem 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  &--lg .store-select__chevron {
+    right: 0.75rem;
+  }
+}
+
+.store-check-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: $font-marea-body;
+
+  &__box {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 19px;
+    height: 19px;
+    border-radius: 4px;
+    border: 1px solid rgba(15, 52, 96, 0.28);
+    background: $marea-blanco;
+    color: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &.is-active .store-check-row__box {
+    border-color: $marea-azul-principal;
+    background: $marea-azul-principal;
+    color: $marea-blanco;
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $marea-gris-medio;
+  }
+
+  &.is-active .store-check-row__label {
+    font-weight: 600;
+    color: $marea-azul-profundo;
+  }
+
+  &__count {
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: $marea-gris-medio;
+    opacity: 0.85;
+  }
+
+  &:hover:not(.is-active) .store-check-row__box {
+    border-color: $marea-azul-claro;
+  }
+
+  &:hover:not(.is-active) .store-check-row__label {
+    color: $marea-azul-profundo;
+  }
+}
+
+.store-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: $marea-gris-claro;
+  color: $marea-gris-oscuro;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: #e8eef3;
+  }
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.marea-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-family: $font-marea-heading;
+  font-weight: 600;
+  text-decoration: none;
+  min-height: 44px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background 0.15s ease, transform 0.12s ease;
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: $marea-coral;
+    color: $marea-blanco;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(:disabled) {
+        background: $marea-coral-hover;
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $marea-azul-principal;
+    border: 1px solid rgba(20, 66, 114, 0.25);
+  }
+
+  &--ocean {
+    background: $marea-azul-principal;
+    color: $marea-blanco;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(:disabled) {
+        background: $marea-azul-profundo;
+      }
+    }
+  }
+
+  &--success {
+    background: $marea-aguamarina;
+    color: $marea-blanco;
+  }
+
+  &--block {
+    width: 100%;
+  }
+
+  &--sm {
+    min-height: 2.5rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8125rem;
+  }
+}
