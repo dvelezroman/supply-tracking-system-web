@@ -15,7 +15,11 @@
       </div>
     }
 
-    @if (soldOut()) {
+    @if (hasDiscount() && !soldOut()) {
+      <span class="product-card__badge product-card__badge--sale">
+        -{{ totalDiscount() }}%
+      </span>
+    } @else if (soldOut()) {
       <span class="product-card__badge">{{ 'marketplace.store.outOfStock' | transloco }}</span>
     }
   </div>
@@ -32,7 +36,16 @@
 
     <div class="product-card__footer">
       <p class="product-card__price">
-        {{ formatMoney(product().priceCents, product().currency) }}
+        @if (hasDiscount()) {
+          <span class="product-card__price-was">
+            {{ formatMoney(product().priceCents, product().currency) }}
+          </span>
+          <span class="product-card__price-now">
+            {{ formatMoney(salePriceCents(), product().currency) }}
+          </span>
+        } @else {
+          {{ formatMoney(product().priceCents, product().currency) }}
+        }
       </p>
 
       @if (lowStock() && !added()) {

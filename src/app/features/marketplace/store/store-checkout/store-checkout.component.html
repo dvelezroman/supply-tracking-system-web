@@ -52,11 +52,48 @@
         <ul>
           @for (line of lines(); track line.productId) {
             <li>
-              <span>{{ line.name }} ×{{ line.qty }}</span>
-              <strong>{{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}</strong>
+              <div class="checkout__line-main">
+                <span>{{ line.name }} ×{{ line.qty }}</span>
+                <strong>{{ formatMoney(line.unitPriceCents * line.qty, line.currency) }}</strong>
+              </div>
+              @if (lineHasDiscount(line)) {
+                <p class="checkout__line-discount">
+                  {{
+                    'marketplace.store.checkoutLineDiscount'
+                      | transloco
+                        : {
+                            pvp: formatMoney(listUnitPrice(line), line.currency),
+                            percent: totalDiscountPercent(line),
+                            saved: formatMoney(lineDiscount(line), line.currency),
+                          }
+                  }}
+                </p>
+                @if (line.promoDiscountPercent > 0) {
+                  <p class="checkout__line-promo">
+                    {{
+                      'marketplace.store.promoStack'
+                        | transloco
+                          : {
+                              base: line.discountPercent,
+                              promo: line.promoDiscountPercent,
+                            }
+                    }}
+                  </p>
+                }
+              }
             </li>
           }
         </ul>
+        @if (discountTotalCents() > 0) {
+          <p class="checkout__summary-row checkout__summary-row--muted">
+            <span>{{ 'marketplace.store.listSubtotal' | transloco }}</span>
+            <span>{{ formatMoney(listSubtotalCents()) }}</span>
+          </p>
+          <p class="checkout__summary-row checkout__summary-row--savings">
+            <span>{{ 'marketplace.store.discountTotal' | transloco }}</span>
+            <strong>-{{ formatMoney(discountTotalCents()) }}</strong>
+          </p>
+        }
         <p class="checkout__total">
           {{ 'marketplace.store.subtotal' | transloco }}:
           <strong>{{ formatMoney(subtotalCents()) }}</strong>

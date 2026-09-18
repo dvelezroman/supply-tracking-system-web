@@ -163,10 +163,30 @@
   letter-spacing: -0.02em;
   line-height: 1;
   color: $marea-azul-profundo;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.5rem;
 
   @media (min-width: $bp-sm) {
     font-size: 1.45rem;
   }
+}
+
+.product-card__price-was {
+  font-size: 0.85em;
+  font-weight: 500;
+  text-decoration: line-through;
+  color: $marea-gris-medio;
+}
+
+.product-card__price-now {
+  color: #0f766e;
+}
+
+.product-card__badge--sale {
+  background: #ecfdf5;
+  color: #059669;
 }
 
 .product-card__low {

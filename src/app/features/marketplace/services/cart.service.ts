@@ -2,6 +2,12 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { setCookie } from '../../../core/utils/cookie.util';
 import type { CartLine, MarketplaceProduct } from '../models/marketplace.model';
 import { primaryMarketplaceImageSrc } from '../utils/marketplace-media';
+import {
+  cartLineFromProduct,
+  clampDiscountPercent,
+  effectiveUnitPriceCents,
+  lineDiscountCents,
+} from '../utils/marketplace-pricing.util';
 
 const STORAGE_KEY = 'marea_cart_v1';
 const CART_COOKIE = 'st_cart';
@@ -16,6 +22,15 @@ export class CartService {
   );
   readonly subtotalCents = computed(() =>
     this.linesSignal().reduce((sum, l) => sum + l.unitPriceCents * l.qty, 0),
+  );
+  readonly listSubtotalCents = computed(() =>
+    this.linesSignal().reduce(
+      (sum, l) => sum + this.listUnitPrice(l) * l.qty,
+      0,
+    ),
+  );
+  readonly discountTotalCents = computed(() =>
+    this.linesSignal().reduce((sum, l) => sum + lineDiscountCents(l), 0),
   );
 
   add(line: Omit<CartLine, 'qty'>, qty = 1): void {
@@ -99,16 +114,7 @@ export class CartService {
   upsertFromProduct(product: MarketplaceProduct, imageUrl?: string | null): void {
     const primary =
       primaryMarketplaceImageSrc(product.images) ?? imageUrl ?? null;
-    const line: Omit<CartLine, 'qty'> = {
-      productId: product.id,
-      slug: product.slug,
-      name: product.name,
-      sku: product.sku,
-      unitPriceCents: product.priceCents,
-      currency: product.currency,
-      stockQty: product.stockQty,
-      imageUrl: primary,
-    };
+    const line = cartLineFromProduct(product, primary);
     this.linesSignal.update((current) => {
       const idx = current.findIndex(
         (l) => l.productId === product.id || l.slug === product.slug,
@@ -179,6 +185,22 @@ export class CartService {
       qty,
       unitPriceCents,
     });
+    const listUnitPriceCents = Math.max(
+      0,
+      Math.floor(Number(raw.listUnitPriceCents)) ||
+        unitPriceCents,
+    );
+    const discountPercent = clampDiscountPercent(raw.discountPercent);
+    const promoDiscountPercent = clampDiscountPercent(raw.promoDiscountPercent);
+    const effectiveUnit =
+      discountPercent > 0 || promoDiscountPercent > 0
+        ? effectiveUnitPriceCents({
+            priceCents: listUnitPriceCents,
+            discountPercent,
+            promoDiscountPercent,
+          })
+        : unitPriceCents;
+
     return {
       ...raw,
       productId: raw.productId.trim(),
@@ -187,8 +209,21 @@ export class CartService {
       sku: typeof raw.sku === 'string' ? raw.sku : '',
       currency: typeof raw.currency === 'string' ? raw.currency : 'USD',
       qty: Math.min(stockQty, qty),
-      unitPriceCents,
+      listUnitPriceCents,
+      discountPercent,
+      promoDiscountPercent,
+      unitPriceCents: effectiveUnit,
       stockQty,
     };
+  }
+
+  private listUnitPrice(line: CartLine): number {
+    if (
+      typeof line.listUnitPriceCents === 'number' &&
+      Number.isFinite(line.listUnitPriceCents)
+    ) {
+      return line.listUnitPriceCents;
+    }
+    return line.unitPriceCents;
   }
 }

@@ -13,6 +13,11 @@ import { CartService } from '../../../services/cart.service';
 import type { MarketplaceProduct } from '../../../models/marketplace.model';
 import { primaryMarketplaceImageSrc } from '../../../utils/marketplace-media';
 import { formatMoney } from '../../../utils/money';
+import {
+  cartLineFromProduct,
+  effectiveUnitPriceCents,
+  totalDiscountPercent,
+} from '../../../utils/marketplace-pricing.util';
 import { isLowStock, isOutOfStock, productStock } from '../../utils/catalog.util';
 import { StoreImageLightboxComponent } from '../store-image-lightbox/store-image-lightbox.component';
 
@@ -56,6 +61,18 @@ export class StoreProductCardComponent implements OnDestroy {
     return isLowStock(this.product());
   }
 
+  salePriceCents(): number {
+    return effectiveUnitPriceCents(this.product());
+  }
+
+  hasDiscount(): boolean {
+    return totalDiscountPercent(this.product()) > 0;
+  }
+
+  totalDiscount(): number {
+    return totalDiscountPercent(this.product());
+  }
+
   openLightbox(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -76,19 +93,7 @@ export class StoreProductCardComponent implements OnDestroy {
     this.isAdding.set(true);
     this.added.set(false);
 
-    this.cart.add(
-      {
-        productId: p.id,
-        slug: p.slug,
-        name: p.name,
-        sku: p.sku,
-        unitPriceCents: p.priceCents,
-        currency: p.currency,
-        imageUrl: this.imageSrc(),
-        stockQty: p.stockQty,
-      },
-      1,
-    );
+    this.cart.add(cartLineFromProduct(p, this.imageSrc()), 1);
 
     // Brief UX delay so the spinner is visible
     window.setTimeout(() => {

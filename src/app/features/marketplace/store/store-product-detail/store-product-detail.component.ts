@@ -21,6 +21,11 @@ import {
   primaryMarketplaceImageSrc,
 } from '../../utils/marketplace-media';
 import { formatMoney } from '../../utils/money';
+import {
+  cartLineFromProduct,
+  effectiveUnitPriceCents,
+  totalDiscountPercent,
+} from '../../utils/marketplace-pricing.util';
 import { StoreImageLightboxComponent } from '../components/store-image-lightbox/store-image-lightbox.component';
 
 @Component({
@@ -51,6 +56,18 @@ export class StoreProductDetailComponent implements OnInit, OnDestroy {
   added = signal(false);
   lightboxOpen = signal(false);
   readonly formatMoney = formatMoney;
+
+  salePriceCents(p: MarketplaceProduct): number {
+    return effectiveUnitPriceCents(p);
+  }
+
+  hasDiscount(p: MarketplaceProduct): boolean {
+    return totalDiscountPercent(p) > 0;
+  }
+
+  totalDiscount(p: MarketplaceProduct): number {
+    return totalDiscountPercent(p);
+  }
 
   ngOnInit(): void {
     this.isLoading.set(true);
@@ -97,19 +114,7 @@ export class StoreProductDetailComponent implements OnInit, OnDestroy {
     if (!p || p.stockQty < 1 || this.isAdding() || this.added()) return;
 
     this.isAdding.set(true);
-    this.cart.add(
-      {
-        productId: p.id,
-        slug: p.slug,
-        name: p.name,
-        sku: p.sku,
-        unitPriceCents: p.priceCents,
-        currency: p.currency,
-        imageUrl: this.activeImage(),
-        stockQty: p.stockQty,
-      },
-      this.qty(),
-    );
+    this.cart.add(cartLineFromProduct(p, this.activeImage()), this.qty());
 
     window.setTimeout(() => {
       this.isAdding.set(false);

@@ -37,9 +37,40 @@
               <a [routerLink]="['/tienda', line.slug]" class="cart__name">
                 {{ line.name }}
               </a>
-              <p class="cart__unit">
-                {{ formatMoney(line.unitPriceCents, line.currency) }}
-              </p>
+              <div class="cart__unit">
+                @if (lineHasDiscount(line)) {
+                  <span class="cart__price-was">
+                    {{ formatMoney(listUnitPrice(line), line.currency) }}
+                  </span>
+                  <span class="cart__price-now">
+                    {{ formatMoney(line.unitPriceCents, line.currency) }}
+                  </span>
+                  <span class="cart__discount-tag">
+                    {{
+                      'marketplace.store.lineDiscount'
+                        | transloco
+                          : {
+                              percent: totalDiscountPercent(line),
+                              amount: formatMoney(lineDiscount(line), line.currency),
+                            }
+                    }}
+                  </span>
+                  @if (line.promoDiscountPercent > 0) {
+                    <span class="cart__promo-note">
+                      {{
+                        'marketplace.store.promoStack'
+                          | transloco
+                            : {
+                                base: line.discountPercent,
+                                promo: line.promoDiscountPercent,
+                              }
+                      }}
+                    </span>
+                  }
+                } @else {
+                  <span>{{ formatMoney(line.unitPriceCents, line.currency) }}</span>
+                }
+              </div>
 
               <div class="cart__qty-row">
                 <div class="cart__stepper" role="group" [attr.aria-label]="'marketplace.store.qty' | transloco">
@@ -84,6 +115,16 @@
 
       <aside class="cart__summary">
         <h2>{{ 'marketplace.store.orderSummary' | transloco }}</h2>
+        @if (discountTotalCents() > 0) {
+          <div class="cart__summary-row cart__summary-row--muted">
+            <span>{{ 'marketplace.store.listSubtotal' | transloco }}</span>
+            <span>{{ formatMoney(listSubtotalCents()) }}</span>
+          </div>
+          <div class="cart__summary-row cart__summary-row--savings">
+            <span>{{ 'marketplace.store.discountTotal' | transloco }}</span>
+            <strong>-{{ formatMoney(discountTotalCents()) }}</strong>
+          </div>
+        }
         <div class="cart__summary-row">
           <span>{{ 'marketplace.store.subtotal' | transloco }}</span>
           <strong>{{ formatMoney(cart.subtotalCents()) }}</strong>

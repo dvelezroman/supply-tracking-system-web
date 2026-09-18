@@ -59,10 +59,30 @@
                   </div>
                   <div class="line-meta">
                     ×{{ item.qty }} · {{ formatMoney(item.unitPriceCents * item.qty, o.currency) }}
+                    @if (item.discountPercent > 0 || item.promoDiscountPercent > 0) {
+                      <small class="line-discount">
+                        PVP {{ formatMoney(item.listUnitPriceCents, o.currency) }}
+                        (−{{ item.discountPercent + item.promoDiscountPercent > 100 ? 100 : item.discountPercent + item.promoDiscountPercent }}%
+                        @if (item.promoDiscountPercent > 0) {
+                          · {{ item.discountPercent }}% + {{ item.promoDiscountPercent }}% promo
+                        }
+                        )
+                      </small>
+                    }
                   </div>
                 </li>
               }
             </ul>
+            @if (o.discountTotalCents > 0) {
+              <p class="subtotal subtotal--muted">
+                {{ 'marketplace.store.listSubtotal' | transloco }}:
+                {{ formatMoney(o.listSubtotalCents, o.currency) }}
+              </p>
+              <p class="subtotal subtotal--savings">
+                {{ 'marketplace.store.discountTotal' | transloco }}:
+                <strong>-{{ formatMoney(o.discountTotalCents, o.currency) }}</strong>
+              </p>
+            }
             <p class="subtotal">
               {{ 'marketplace.admin.colSubtotal' | transloco }}:
               <strong>{{ formatMoney(o.subtotalCents, o.currency) }}</strong>

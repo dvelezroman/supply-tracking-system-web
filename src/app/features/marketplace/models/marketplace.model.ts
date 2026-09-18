@@ -16,6 +16,8 @@ export interface MarketplaceProduct {
   description?: string | null;
   category?: string | null;
   priceCents: number;
+  discountPercent: number;
+  promoDiscountPercent: number;
   currency: string;
   stockQty: number;
   published: boolean;
@@ -33,6 +35,8 @@ export interface CreateMarketplaceProductPayload {
   description?: string;
   category?: string;
   priceCents: number;
+  discountPercent?: number;
+  promoDiscountPercent?: number;
   currency?: string;
   stockQty?: number;
   published?: boolean;
@@ -56,6 +60,9 @@ export interface MarketplaceOrderItem {
   productId?: string | null;
   name: string;
   sku: string;
+  listUnitPriceCents: number;
+  discountPercent: number;
+  promoDiscountPercent: number;
   unitPriceCents: number;
   qty: number;
   imageUrl?: string | null;
@@ -71,6 +78,8 @@ export interface MarketplaceOrder {
   customerAddress?: string | null;
   notes?: string | null;
   subtotalCents: number;
+  listSubtotalCents: number;
+  discountTotalCents: number;
   currency: string;
   emailError?: string | null;
   items: MarketplaceOrderItem[];
@@ -83,6 +92,8 @@ export interface PublicOrderConfirmation {
   status: string;
   customerName: string;
   subtotalCents: number;
+  listSubtotalCents: number;
+  discountTotalCents: number;
   currency: string;
   items: MarketplaceOrderItem[];
   createdAt: string;
@@ -102,6 +113,10 @@ export interface CartLine {
   slug: string;
   name: string;
   sku: string;
+  /** PVP per unit when added to cart. */
+  listUnitPriceCents: number;
+  discountPercent: number;
+  promoDiscountPercent: number;
   unitPriceCents: number;
   currency: string;
   qty: number;

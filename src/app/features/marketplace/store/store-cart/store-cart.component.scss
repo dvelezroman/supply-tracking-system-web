@@ -267,6 +267,37 @@
     font-size: 1.25rem;
     color: $marea-azul-profundo;
   }
+
+  &--muted {
+    font-size: 0.875rem;
+    color: $marea-gris-medio;
+    margin-bottom: 0.35rem;
+  }
+
+  &--savings strong {
+    font-size: 1rem;
+    color: #059669;
+  }
+}
+
+.cart__price-was {
+  text-decoration: line-through;
+  color: $marea-gris-medio;
+  font-size: 0.85rem;
+  margin-right: 0.35rem;
+}
+
+.cart__price-now {
+  font-weight: 600;
+  color: $marea-azul-profundo;
+}
+
+.cart__discount-tag {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: #059669;
+  font-weight: 500;
 }
 
 .cart__summary-note {

@@ -51,7 +51,20 @@
             <span class="detail__cat">{{ p.category }}</span>
           }
           <h1>{{ p.name }}</h1>
-          <p class="detail__price">{{ formatMoney(p.priceCents, p.currency) }}</p>
+          <p class="detail__price">
+            @if (hasDiscount(p)) {
+              <span class="detail__price-was">{{ formatMoney(p.priceCents, p.currency) }}</span>
+              <span class="detail__price-now">{{ formatMoney(salePriceCents(p), p.currency) }}</span>
+              <span class="detail__discount-badge">-{{ totalDiscount(p) }}%</span>
+              @if (p.promoDiscountPercent > 0) {
+                <span class="detail__promo-note">
+                  {{ 'marketplace.store.promoStack' | transloco: { base: p.discountPercent, promo: p.promoDiscountPercent } }}
+                </span>
+              }
+            } @else {
+              {{ formatMoney(p.priceCents, p.currency) }}
+            }
+          </p>
           @if (p.description) {
             <p class="detail__desc">{{ p.description }}</p>
           }

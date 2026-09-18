@@ -16,6 +16,13 @@ import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
 import { CartService } from '../../services/cart.service';
 import { formatMoney } from '../../utils/money';
+import type { CartLine } from '../../models/marketplace.model';
+import {
+  effectiveUnitPriceCents,
+  hasLineDiscount,
+  lineDiscountCents,
+  lineTotalDiscountPercent,
+} from '../../utils/marketplace-pricing.util';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -46,7 +53,25 @@ export class StoreCheckoutComponent implements OnInit {
   isSyncing = signal(false);
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
+  readonly listSubtotalCents = this.cart.listSubtotalCents;
+  readonly discountTotalCents = this.cart.discountTotalCents;
   readonly formatMoney = formatMoney;
+
+  lineHasDiscount(line: CartLine): boolean {
+    return hasLineDiscount(line);
+  }
+
+  lineDiscount(line: CartLine): number {
+    return lineDiscountCents(line);
+  }
+
+  listUnitPrice(line: CartLine): number {
+    return line.listUnitPriceCents ?? line.unitPriceCents;
+  }
+
+  totalDiscountPercent(line: CartLine): number {
+    return lineTotalDiscountPercent(line);
+  }
 
   form = this.fb.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
@@ -139,7 +164,12 @@ export class StoreCheckoutComponent implements OnInit {
           if (
             beforeLen !== this.cart.lines().length ||
             (after && beforeQty !== undefined && after.qty !== beforeQty) ||
-            after?.unitPriceCents !== res.data.priceCents
+            after?.unitPriceCents !==
+              effectiveUnitPriceCents(res.data) ||
+            after?.listUnitPriceCents !== res.data.priceCents ||
+            (after?.discountPercent ?? 0) !== (res.data.discountPercent ?? 0) ||
+            (after?.promoDiscountPercent ?? 0) !==
+              (res.data.promoDiscountPercent ?? 0)
           ) {
             changed = true;
           }

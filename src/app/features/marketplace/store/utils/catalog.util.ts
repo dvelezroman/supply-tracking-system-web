@@ -1,4 +1,5 @@
 import type { MarketplaceProduct } from '../../models/marketplace.model';
+import { effectiveUnitPriceCents } from '../../utils/marketplace-pricing.util';
 
 export const STORE_PAGE_SIZE = 12;
 export const STORE_API_PAGE_LIMIT = 100;
@@ -99,9 +100,13 @@ export function sortProducts(
   const next = [...products];
 
   if (sort === 'PRICE_ASC') {
-    next.sort((a, b) => a.priceCents - b.priceCents);
+    next.sort(
+      (a, b) => effectiveUnitPriceCents(a) - effectiveUnitPriceCents(b),
+    );
   } else if (sort === 'PRICE_DESC') {
-    next.sort((a, b) => b.priceCents - a.priceCents);
+    next.sort(
+      (a, b) => effectiveUnitPriceCents(b) - effectiveUnitPriceCents(a),
+    );
   } else if (sort === 'NAME_ASC') {
     next.sort((a, b) => a.name.localeCompare(b.name, 'es'));
   } else {

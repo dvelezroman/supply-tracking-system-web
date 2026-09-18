@@ -15,11 +15,48 @@
       <ul class="confirm__lines">
         @for (item of o.items; track item.sku + item.qty) {
           <li>
-            <span>{{ item.name }} ×{{ item.qty }}</span>
-            <strong>{{ formatMoney(item.unitPriceCents * item.qty, o.currency) }}</strong>
+            <div class="confirm__line-main">
+              <span>{{ item.name }} ×{{ item.qty }}</span>
+              <strong>{{ formatMoney(item.unitPriceCents * item.qty, o.currency) }}</strong>
+            </div>
+            @if (totalDiscountPercent(item) > 0 && item.listUnitPriceCents > item.unitPriceCents) {
+              <p class="confirm__line-discount">
+                {{
+                  'marketplace.store.checkoutLineDiscount'
+                    | transloco
+                      : {
+                          pvp: formatMoney(item.listUnitPriceCents, o.currency),
+                          percent: totalDiscountPercent(item),
+                          saved: formatMoney(itemSavedCents(item), o.currency),
+                        }
+                }}
+              </p>
+              @if (item.promoDiscountPercent > 0) {
+                <p class="confirm__line-promo">
+                  {{
+                    'marketplace.store.promoStack'
+                      | transloco
+                        : {
+                            base: item.discountPercent,
+                            promo: item.promoDiscountPercent,
+                          }
+                  }}
+                </p>
+              }
+            }
           </li>
         }
       </ul>
+      @if (o.discountTotalCents > 0) {
+        <p class="confirm__summary-row">
+          {{ 'marketplace.store.listSubtotal' | transloco }}:
+          {{ formatMoney(o.listSubtotalCents, o.currency) }}
+        </p>
+        <p class="confirm__summary-row confirm__summary-row--savings">
+          {{ 'marketplace.store.discountTotal' | transloco }}:
+          <strong>-{{ formatMoney(o.discountTotalCents, o.currency) }}</strong>
+        </p>
+      }
       <p class="confirm__total">
         {{ 'marketplace.store.subtotal' | transloco }}:
         <strong>{{ formatMoney(o.subtotalCents, o.currency) }}</strong>
