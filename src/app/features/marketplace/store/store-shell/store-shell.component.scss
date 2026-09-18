@@ -5,8 +5,8 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: $gradient-surface;
-  color: $marea-gris-oscuro;
+  background: var(--marea-page-bg, #{$gradient-surface});
+  color: var(--marea-page-fg, #{$marea-gris-oscuro});
   font-family: $font-marea-body;
   overflow-x: clip;
 }
@@ -15,9 +15,9 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--marea-chrome-bg, rgba(255, 255, 255, 0.92));
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid $border-ocean;
+  border-bottom: 1px solid var(--marea-chrome-border, #{$border-ocean});
   padding: max(8px, env(safe-area-inset-top, 0px))
     max(12px, env(safe-area-inset-right, 0px)) 8px
     max(12px, env(safe-area-inset-left, 0px));

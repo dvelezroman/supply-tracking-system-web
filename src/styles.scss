@@ -43,6 +43,14 @@ html {
   --st-warn-fg: #bf360c;
   --st-info-bg: rgba(26, 35, 126, 0.08);
   --st-info-fg: #1a237e;
+  --marea-page-bg: linear-gradient(180deg, #eef3f8 0%, #f3f6f9 48%, #e6edf4 100%);
+  --marea-page-fg: #1e2a36;
+  --marea-chrome-bg: rgba(255, 255, 255, 0.92);
+  --marea-chrome-border: rgba(15, 52, 96, 0.14);
+  --st-auth-bg: linear-gradient(135deg, #3f51b5 0%, #303f9f 100%);
+  --mat-app-background-color: var(--st-surface);
+  --mat-sidenav-content-background-color: var(--st-surface);
+  --mat-sidenav-container-background-color: var(--st-surface-raised);
 }
 
 html.theme-dark {
@@ -64,6 +72,28 @@ html.theme-dark {
   --st-warn-fg: #ffcc80;
   --st-info-bg: rgba(159, 168, 218, 0.16);
   --st-info-fg: #c5cae9;
+  --marea-page-bg: linear-gradient(165deg, #1e293b 0%, #0f172a 40%, #1e293b 100%);
+  --marea-page-fg: #e2e8f0;
+  --marea-chrome-bg: rgba(30, 41, 59, 0.92);
+  --marea-chrome-border: rgba(148, 163, 184, 0.25);
+  --st-auth-bg: linear-gradient(135deg, #0f172a 0%, #1e3a5f 55%, #283593 100%);
+  --mat-app-background-color: var(--st-surface);
+  --mat-sidenav-content-background-color: var(--st-surface);
+  --mat-sidenav-container-background-color: var(--st-surface-raised);
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+  background-color: var(--st-surface);
+  color: var(--st-text);
+}
+
+app-main-shell .sidenav-container,
+app-main-shell .shell-content,
+app-main-shell .content {
+  background-color: var(--st-surface);
+  color: var(--st-text);
 }
 
 html, body {

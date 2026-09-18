@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background: var(--marea-page-bg, #f3f6f9);
+  color: var(--marea-page-fg, #1e2a36);
+}
+
 .recipes-page {
   max-width: 1100px;
   margin: 0 auto;

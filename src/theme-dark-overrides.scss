@@ -88,12 +88,6 @@ html.theme-dark app-register .auth-footer-links {
   }
 }
 
-// Marketing landing: cool neutral surfaces (sections use custom Marea SCSS)
-html.theme-dark app-landing .landing {
-  background: linear-gradient(165deg, #1e293b 0%, #0f172a 40%, #1e293b 100%);
-  color: #e2e8f0;
-}
-
 html.theme-dark app-landing .diagram {
   background: rgba(30, 41, 59, 0.92);
   border-color: rgba(148, 163, 184, 0.25);
