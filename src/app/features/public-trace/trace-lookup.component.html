@@ -73,13 +73,107 @@
       </mat-card-header>
       <mat-card-content>
         <form class="lookup-form" (submit)="$event.preventDefault(); submit()">
-          <app-lot-code-input
-            inputId="lot-code-input"
-            hintId="lot-code-hint"
-            [ngModel]="lotCode()"
-            (ngModelChange)="onLotCodeChange($event)"
-            (enterPressed)="submit()"
-          />
+          <div class="lookup-fields">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'traceLookup.poolLabel' | transloco }}</mat-label>
+              <mat-select
+                [ngModel]="poolNumber()"
+                (ngModelChange)="poolNumber.set($event); onSegmentChange()"
+                name="poolNumber"
+                [attr.aria-label]="'traceLookup.poolLabel' | transloco"
+              >
+                @for (n of poolNumbers; track n) {
+                  <mat-option [value]="n">{{ 'traceLookup.poolOption' | transloco: { n } }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <div class="lookup-harvest">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'traceLookup.harvestMonthLabel' | transloco }}</mat-label>
+                <mat-select
+                  [ngModel]="harvestMonth()"
+                  (ngModelChange)="harvestMonth.set($event); onSegmentChange()"
+                  name="harvestMonth"
+                >
+                  @for (m of harvestMonths; track m) {
+                    <mat-option [value]="m">{{ 'traceLookup.monthOption' | transloco: { m } }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'traceLookup.harvestYearLabel' | transloco }}</mat-label>
+                <mat-select
+                  [ngModel]="harvestYear()"
+                  (ngModelChange)="harvestYear.set($event); onSegmentChange()"
+                  name="harvestYear"
+                >
+                  @for (y of harvestYears; track y) {
+                    <mat-option [value]="y">{{ y }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'traceLookup.presentationLabel' | transloco }}</mat-label>
+              <mat-select
+                [ngModel]="presentationSegment()"
+                (ngModelChange)="presentationSegment.set($event); onSegmentChange()"
+                name="presentationSegment"
+              >
+                @for (seg of presentationSegments; track seg) {
+                  <mat-option [value]="seg">
+                    {{ seg }} — {{ ('traceLookup.presentationSegment.' + seg) | transloco }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'traceLookup.packagingLabel' | transloco }}</mat-label>
+              <mat-select
+                [ngModel]="packagingSegment()"
+                (ngModelChange)="packagingSegment.set($event); onSegmentChange()"
+                name="packagingSegment"
+              >
+                @for (seg of packagingSegments; track seg) {
+                  <mat-option [value]="seg">
+                    {{ seg }} — {{ ('traceLookup.packagingSegment.' + seg) | transloco }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            @if (matchedLotCodes().length > 1) {
+              <mat-form-field appearance="outline" class="lookup-variant">
+                <mat-label>{{ 'traceLookup.variantLabel' | transloco }}</mat-label>
+                <mat-select
+                  [ngModel]="selectedLotCode()"
+                  (ngModelChange)="selectedLotCode.set($event)"
+                  name="lotVariant"
+                  required
+                >
+                  @for (code of matchedLotCodes(); track code) {
+                    <mat-option [value]="code">{{ code }}</mat-option>
+                  }
+                </mat-select>
+                <mat-hint>{{ 'traceLookup.variantHint' | transloco }}</mat-hint>
+              </mat-form-field>
+            }
+          </div>
+
+          @if (previewLotCode()) {
+            <p class="lookup-preview">
+              {{ 'traceLookup.previewLabel' | transloco }}
+              <code>{{ previewLotCode() }}</code>
+            </p>
+          }
+
+          @if (resolveError()) {
+            <p class="lookup-error" role="alert">{{ 'traceLookup.notFoundInline' | transloco }}</p>
+          }
 
           <button
             mat-flat-button
@@ -88,17 +182,17 @@
             class="lookup-submit"
             [disabled]="!canSubmit()"
           >
-            <mat-icon>verified</mat-icon>
+            @if (resolving()) {
+              <mat-spinner diameter="22" />
+            } @else {
+              <mat-icon>verified</mat-icon>
+            }
             {{ 'traceLookup.submit' | transloco }}
           </button>
 
           <p class="lookup-example">
             {{ 'traceLookup.exampleLabel' | transloco }}
-            <button
-              type="button"
-              class="lookup-example__code"
-              (click)="useExample('P1-0726-PD-IQF')"
-            >
+            <button type="button" class="lookup-example__code" (click)="useExample()">
               P1-0726-PD-IQF
             </button>
           </p>

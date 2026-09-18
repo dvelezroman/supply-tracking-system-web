@@ -74,6 +74,25 @@ export class PublicTraceService {
     );
   }
 
+  resolveLotCodes(params: {
+    poolNumber: number;
+    harvestMmyy: string;
+    presentationSegment: string;
+    packagingSegment: string;
+  }) {
+    return this.http.get<{ lotCodes: string[]; base: string }>(
+      `${environment.apiBase}/public/trace/resolve`,
+      {
+        params: {
+          poolNumber: String(params.poolNumber),
+          harvestMmyy: params.harvestMmyy,
+          presentationSegment: params.presentationSegment,
+          packagingSegment: params.packagingSegment,
+        },
+      },
+    );
+  }
+
   getTraceByRestaurantSlug(slug: string) {
     return this.http.get<PublicTraceResponse>(
       `${environment.apiBase}/public/trace/restaurant/${encodeURIComponent(slug)}`,
