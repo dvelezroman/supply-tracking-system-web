@@ -6,9 +6,9 @@
   margin: 0 auto;
   text-align: center;
   padding: 1.75rem 1.25rem;
-  background: $marea-blanco;
+  background: var(--store-surface, #{$marea-blanco});
   border-radius: 16px;
-  border: 1px solid $border-ocean;
+  border: 1px solid var(--store-border, #{$border-ocean});
   box-shadow: 0 8px 28px rgba(6, 26, 51, 0.08);
 
   @media (min-width: $bp-sm) {
@@ -17,7 +17,7 @@
 
   h1 {
     font-family: $font-marea-heading;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
     margin: 0.5rem 0;
     font-size: clamp(1.35rem, 5vw, 1.75rem);
     line-height: 1.25;
@@ -25,7 +25,7 @@
 
   > p {
     margin: 0.5rem 0;
-    color: $marea-gris-oscuro;
+    color: var(--store-text, #{$marea-gris-oscuro});
     line-height: 1.5;
     font-size: 0.95rem;
   }
@@ -62,7 +62,7 @@
     justify-content: space-between;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid $border-ocean;
+    border-bottom: 1px solid var(--store-border, #{$border-ocean});
     font-size: 0.9rem;
 
     span {

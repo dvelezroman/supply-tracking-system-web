@@ -20,6 +20,7 @@ import { environment } from '../../../../environments/environment';
 import { RecipesPublicApiService } from '../../../features/recipes/services/recipes-api.service';
 import { MAREA_CHAT_OPEN_EVENT } from '../../../features/landing/components/marea-mary-section/marea-mary-section.component';
 import { RECIPE_CONTENT_EN } from '../../../features/recipes/public/shared/recipe-content-i18n';
+import { isTraceabilityQuestion } from './traceability-intent';
 
 export type MareaChatOptionId =
   | 'site'
@@ -100,7 +101,7 @@ const CHAT_OPTIONS: {
     id: 'qr',
     labelKey: 'chatbot.options.qr',
     icon: 'qr_code_scanner',
-    replyKey: 'chatbot.replies.qr',
+    replyKey: 'chatbot.replies.lotLookup',
   },
   {
     id: 'info',
@@ -263,9 +264,19 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
       ...prev,
       { role: 'user', plain: userLabel ?? message },
     ]);
+    const lang = this.transloco.getActiveLang() === 'en' ? 'en' : 'es';
+
+    if (isTraceabilityQuestion(message, lang)) {
+      this.lines.update((prev) => [
+        ...prev,
+        { role: 'bot', textKey: 'chatbot.replies.lotLookup' },
+      ]);
+      this.shouldScroll = true;
+      return;
+    }
+
     this.busy.set(true);
     this.shouldScroll = true;
-    const lang = this.transloco.getActiveLang() === 'en' ? 'en' : 'es';
     this.api.chat(message, { lang }).subscribe({
       next: (res) => {
         this.busy.set(false);
@@ -301,6 +312,10 @@ export class MareaChatbotComponent implements OnInit, AfterViewChecked {
 
   isContactReply(line: MareaChatLine): boolean {
     return line.textKey === 'chatbot.replies.contact';
+  }
+
+  isTraceLookupReply(line: MareaChatLine): boolean {
+    return line.textKey === 'chatbot.replies.lotLookup';
   }
 
   private lineText(line: MareaChatLine): string {

@@ -22,8 +22,8 @@
   margin: 1.5rem max(12px, env(safe-area-inset-left), env(safe-area-inset-right));
   padding: 2rem 1.15rem;
   text-align: center;
-  background: $marea-blanco;
-  border: 1px solid $border-ocean;
+  background: var(--store-surface, #{$marea-blanco});
+  border: 1px solid var(--store-border, #{$border-ocean});
   border-radius: 14px;
   box-shadow: $shadow-ocean-sm;
 
@@ -31,12 +31,12 @@
     margin: 0 0 0.5rem;
     font-family: $font-marea-heading;
     font-size: clamp(1.15rem, 4vw, 1.4rem);
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 
   p {
     margin: 0;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     line-height: 1.5;
   }
 }
@@ -97,13 +97,13 @@
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 
   p {
     margin: 0.25rem 0 0;
     font-size: 0.875rem;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
   }
 }
 
@@ -117,7 +117,7 @@
 .catalog__sort-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
 }
 
 .catalog__cart-count {
@@ -146,7 +146,7 @@
   padding: 0;
   font-size: 0.75rem;
   font-weight: 600;
-  color: $marea-azul-claro;
+  color: var(--store-accent-light, #{$marea-azul-claro});
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;

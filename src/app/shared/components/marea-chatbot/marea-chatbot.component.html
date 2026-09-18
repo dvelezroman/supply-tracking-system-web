@@ -81,6 +81,13 @@
                     </div>
                   }
                 }
+                @if (isTraceLookupReply(line)) {
+                  <a class="marea-chat__ref marea-chat__ref--trace" routerLink="/trace" (click)="close()">
+                    <mat-icon aria-hidden="true">verified</mat-icon>
+                    <span>{{ 'chatbot.openTraceLookup' | transloco }}</span>
+                    <mat-icon class="marea-chat__ref-arrow" aria-hidden="true">chevron_right</mat-icon>
+                  </a>
+                }
                 @if (isContactReply(line)) {
                   <a
                     class="marea-chat__wa"

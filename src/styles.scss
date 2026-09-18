@@ -51,6 +51,15 @@ html {
   --mat-app-background-color: var(--st-surface);
   --mat-sidenav-content-background-color: var(--st-surface);
   --mat-sidenav-container-background-color: var(--st-surface-raised);
+  --store-text: #1e2a36;
+  --store-text-muted: #5c6b7a;
+  --store-heading: #061a33;
+  --store-accent: #0f3460;
+  --store-accent-light: #2a6fad;
+  --store-surface: #ffffff;
+  --store-surface-muted: #f3f6f9;
+  --store-border: rgba(15, 52, 96, 0.14);
+  --store-nav-hover-bg: rgba(15, 52, 96, 0.08);
 }
 
 html.theme-dark {
@@ -80,6 +89,15 @@ html.theme-dark {
   --mat-app-background-color: var(--st-surface);
   --mat-sidenav-content-background-color: var(--st-surface);
   --mat-sidenav-container-background-color: var(--st-surface-raised);
+  --store-text: #e2e8f0;
+  --store-text-muted: #94a3b8;
+  --store-heading: #f1f5f9;
+  --store-accent: #93c5fd;
+  --store-accent-light: #7dd3fc;
+  --store-surface: #1e293b;
+  --store-surface-muted: #334155;
+  --store-border: rgba(148, 163, 184, 0.28);
+  --store-nav-hover-bg: rgba(148, 163, 184, 0.12);
 }
 
 app-root {
@@ -136,6 +154,37 @@ body {
 
 mat-card {
   border-radius: 12px !important;
+}
+
+/* Material outline fields on custom surfaces (avoid global dark ink on light cards). */
+.lookup-page,
+app-public-trace .trace-page,
+app-recipe-search,
+app-store-shell .store {
+  --mdc-outlined-text-field-label-text-color: var(--st-text-muted);
+  --mdc-outlined-text-field-input-text-color: var(--st-text);
+  --mdc-outlined-text-field-outline-color: var(--st-border);
+  --mdc-outlined-text-field-hover-outline-color: var(--st-accent-mid);
+  --mdc-outlined-text-field-focus-outline-color: var(--st-accent-mid);
+  --mdc-outlined-text-field-focus-label-text-color: var(--st-accent-mid);
+  --mdc-outlined-text-field-disabled-label-text-color: var(--st-text-disabled);
+  --mdc-outlined-text-field-disabled-input-text-color: var(--st-text-disabled);
+  --mdc-outlined-text-field-disabled-outline-color: var(--st-border);
+  --mat-form-field-subscript-text-color: var(--st-text-muted);
+}
+
+app-store-shell .store,
+app-recipe-search {
+  --mdc-outlined-text-field-label-text-color: var(--store-text-muted, var(--st-text-muted));
+  --mdc-outlined-text-field-input-text-color: var(--store-text, var(--st-text));
+  --mdc-outlined-text-field-outline-color: var(--store-border, var(--st-border));
+  --mdc-outlined-text-field-hover-outline-color: var(--store-accent-light, var(--st-accent-mid));
+  --mdc-outlined-text-field-focus-outline-color: var(--store-accent-light, var(--st-accent-mid));
+  --mdc-outlined-text-field-focus-label-text-color: var(--store-accent-light, var(--st-accent-mid));
+  --mdc-outlined-text-field-disabled-label-text-color: var(--store-text-muted, var(--st-text-muted));
+  --mdc-outlined-text-field-disabled-input-text-color: var(--store-text-muted, var(--st-text-muted));
+  --mdc-outlined-text-field-disabled-outline-color: var(--store-border, var(--st-border));
+  --mat-form-field-subscript-text-color: var(--store-text-muted, var(--st-text-muted));
 }
 
 /* Public guest dock: only on small screens — keep content clear of fixed bottom nav */

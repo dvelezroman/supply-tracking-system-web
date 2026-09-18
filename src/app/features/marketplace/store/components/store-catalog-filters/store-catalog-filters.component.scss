@@ -23,8 +23,8 @@
   gap: 0.75rem;
   margin-inline: calc(-1 * max(12px, env(safe-area-inset-left), env(safe-area-inset-right)));
   padding: 0.75rem max(12px, env(safe-area-inset-left), env(safe-area-inset-right));
-  border-bottom: 1px solid $border-ocean;
-  background: $marea-blanco;
+  border-bottom: 1px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
 
   @media (min-width: $bp-lg) {
     display: none;
@@ -46,9 +46,9 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 12px;
-  border: 1px solid $border-ocean;
-  background: $marea-blanco;
-  color: $marea-azul-profundo;
+  border: 1px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
+  color: var(--store-heading, #{$marea-azul-profundo});
   text-decoration: none;
 }
 
@@ -97,7 +97,7 @@
     margin: 0;
     font-size: 0.8rem;
     font-weight: 500;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
   }
 }
 
@@ -129,7 +129,7 @@
     font-family: $font-marea-heading;
     font-size: 1.125rem;
     font-weight: 700;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 }
 
@@ -139,7 +139,7 @@
   padding: 0;
   font-size: 0.75rem;
   font-weight: 600;
-  color: $marea-azul-claro;
+  color: var(--store-accent-light, #{$marea-azul-claro});
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -154,7 +154,7 @@
     font-family: $font-marea-heading;
     font-size: 0.875rem;
     font-weight: 700;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 }
 
@@ -167,20 +167,20 @@
 .filters-desktop__tip {
   margin-top: 0.25rem;
   border-radius: 12px;
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
   padding: 1rem;
 
   &-title {
     margin: 0;
     font-size: 0.75rem;
     font-weight: 600;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 
   &-body {
     margin: 0.35rem 0 0;
     font-size: 0.75rem;
     line-height: 1.45;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
   }
 }

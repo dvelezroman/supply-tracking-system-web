@@ -73,12 +73,13 @@
     "chipsNext": "Más temas",
     "optionsAria": "Temas de ayuda",
     "restart": "Reiniciar conversación",
-    "askPlaceholder": "Pregunte por recetas, ceviche, ajillo…",
+    "askPlaceholder": "Recetas, trazabilidad del lote, QR del empaque…",
+    "openTraceLookup": "Ir a consultar trazabilidad",
     "ragError": "No pude consultar el conocimiento ahora. Pruebe el buscador en /recetas o WhatsApp.",
     "options": {
       "site": "Sitio y trazabilidad",
       "product": "El producto Marea Alta",
-      "qr": "Cómo escanear el QR",
+      "qr": "Cómo consultar el lote",
       "info": "Qué información ve al escanear",
       "restaurants": "Para restaurantes",
       "recipes": "Recetas con camarón",
@@ -88,10 +89,10 @@
       "recipes": "Sugiere 2–3 recetas variadas con camarón Marea Alta (entrada, plato fuerte u otra preparación), no solo un tipo de plato"
     },
     "replies": {
-      "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o al usar la consulta por código: es una página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
+      "site": "Este sitio conecta a quien compra o sirve nuestro camarón con la historia verificable de cada lote. La portada presenta a Marea Alta. La trazabilidad pública se abre al escanear el QR del envase o en /trace: elija los datos del lote como en la etiqueta — página de solo lectura, sin cuenta.\n\nLos operadores de la cadena usan una consola con inicio de sesión para registrar hitos; usted solo ve lo publicado para ese lote.",
       "product": "Marea Alta es camarón de origen en Ecuador, con foco en producto natural, trazabilidad por lote y cadena con socios de cultivo, laboratorio y co-packing. Cada lote puede publicar datos del producto (presentación, talla, color SalmoFan, certificaciones, etc.) y una línea de tiempo para que su cliente tenga transparencia.\n\nPara abastecimiento, co-packing o condiciones comerciales, el canal directo con el equipo es WhatsApp.",
-      "qr": "En la etiqueta encontrará un código QR (el mismo para todos los productos) y un código de lote único impreso.\n\n1) Escanee el QR con la cámara del teléfono.\n\n2) Se abrirá la página de consulta de trazabilidad.\n\n3) Ingrese el código de lote impreso en el empaque (ej. P1-0726-PD-IQF).\n\n4) Verá la trazabilidad verificada de ese lote — sin app ni registro.\n\nSi ya tiene un enlace directo al lote (QR antiguo), también funcionará.",
-      "info": "Tras ingresar el código de lote verá, para ese lote, datos como producto y SKU, presentación y empaque, talla comercial, unidades por libra, color SalmoFan, certificaciones publicadas, identificación del lote y la línea de tiempo con etapas y socios que la cadena haya registrado y dejado visibles al público.\n\nNo necesita iniciar sesión: es información de solo lectura pensada para consumidores y negocios.",
+      "lotLookup": "Para consultar un lote desde el empaque:\n\n1) Escanee el QR con la cámara del teléfono (es el mismo QR en todos los productos).\n\n2) Se abrirá la página de consulta (/trace).\n\n3) Seleccione lo impreso en la etiqueta:\n   · Piscina (ej. P1)\n   · Mes y año de cosecha → MMYY (ej. julio 2026 = 0726)\n   · Presentación (ej. PD)\n   · Empaque (ej. IQF)\n\n4) Pulse «Consultar trazabilidad». Si hay varias variantes del mismo código base, elija el código completo de su empaque (ej. P2-0226-PD-IQF-A).\n\n5) Verá origen, especificaciones e historial verificado — sin app ni registro.\n\nEnlace directo antiguo al lote (/trace/código) también funciona.",
+      "info": "Tras consultar el lote en /trace verá, para ese empaque, datos como producto y SKU, presentación y empaque, talla comercial, unidades por libra, color SalmoFan, certificaciones publicadas, identificación del lote y la línea de tiempo con etapas y socios que la cadena haya registrado y dejado visibles al público.\n\nNo necesita iniciar sesión: es información de solo lectura pensada para consumidores y negocios.",
       "restaurants": "En restaurante y food service puede usar el QR en carta, menú o empaque para que el comensal verifique origen y lote, reforzar confianza y diferenciar su oferta. Trabajamos presentaciones y tallas de mercado, co-packing y abastecimiento continuo según su operación.\n\nPara volúmenes, alianzas, menú o logística, el siguiente paso es escribir por WhatsApp y coordinar con el equipo comercial.",
       "contact": "Para pedidos, precios, abastecimiento, co-packing o dudas comerciales, escríbanos por WhatsApp. El botón abre la app o la web de WhatsApp con nuestro número."
     }
@@ -316,7 +317,7 @@
         "promptsAria": "Ejemplos de preguntas para Mary",
         "prompt1": "¿Qué platos variados puedo hacer con camarón cola PD?",
         "prompt2": "Recetas fáciles para restaurante",
-        "prompt3": "¿Qué veo al escanear el QR?",
+        "prompt3": "¿Cómo consulto el lote con el QR?",
         "f1Title": "Recetas con camarón",
         "f1Body": "Ideas de ceviche, cóctel, ajillo y platos fuertes según presentación.",
         "f2Title": "Respuestas con IA",

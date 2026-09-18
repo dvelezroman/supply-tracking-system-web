@@ -1,3 +1,6 @@
+@use '../../../landing/styles/marea-tokens' as *;
+@use '../styles/store-theme' as theme;
+
 .paypal-mock {
   min-height: 60vh;
   display: grid;
@@ -6,13 +9,14 @@
   background:
     radial-gradient(ellipse at 20% 0%, rgba(0, 112, 224, 0.08), transparent 50%),
     radial-gradient(ellipse at 80% 100%, rgba(0, 48, 135, 0.06), transparent 45%),
-    #f7f9fc;
+    var(--marea-page-bg, #f7f9fc);
+  color: var(--store-text, #{$marea-gris-oscuro});
+  @include theme.store-material-form-fields;
 }
 
 .paypal-mock__card {
   width: min(420px, 100%);
-  background: #fff;
-  border: 1px solid rgba(0, 48, 135, 0.12);
+  @include theme.store-panel-surface;
   border-radius: 12px;
   padding: 2rem 1.5rem;
   text-align: center;
@@ -37,13 +41,13 @@
 .paypal-mock h1 {
   margin: 0.25rem 0 0;
   font-size: 1.35rem;
-  color: #0b1b33;
+  color: var(--store-heading, #0b1b33);
 }
 
 .paypal-mock__hint,
 .paypal-mock__meta {
   margin: 0;
-  color: #4a5568;
+  color: var(--store-text-muted, #4a5568);
   font-size: 0.95rem;
 }
 

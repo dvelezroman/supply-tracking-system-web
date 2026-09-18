@@ -1,8 +1,11 @@
+@use '../../../marketplace/store/styles/store-theme' as theme;
+
 :host {
   display: block;
   min-height: 100dvh;
   background: var(--marea-page-bg, #f3f6f9);
   color: var(--marea-page-fg, #1e2a36);
+  @include theme.store-material-form-fields;
 }
 
 .recipes-page {
@@ -48,7 +51,7 @@
     font-family: Montserrat, Roboto, system-ui, sans-serif;
     font-size: clamp(1.45rem, 5vw, 2.1rem);
     font-weight: 700;
-    color: #0a2647;
+    color: var(--store-heading, #0a2647);
     line-height: 1.2;
   }
 
@@ -56,7 +59,7 @@
     margin: 0 0 1rem;
     font-size: 0.95rem;
     line-height: 1.5;
-    color: #718096;
+    color: var(--store-text-muted, #718096);
   }
 
   &__controls {
@@ -104,9 +107,9 @@
     min-height: 40px;
     padding: 0.45rem 0.9rem;
     border-radius: 999px;
-    border: 1px solid rgba(20, 66, 114, 0.18);
-    background: #f7f9fc;
-    color: #144272;
+    border: 1px solid var(--store-border, rgba(20, 66, 114, 0.18));
+    background: var(--store-surface-muted, #f7f9fc);
+    color: var(--store-heading, #144272);
     font-size: 0.82rem;
     font-weight: 600;
     cursor: pointer;
@@ -127,7 +130,7 @@
       font-family: Montserrat, Roboto, system-ui, sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
-      color: #0a2647;
+      color: var(--store-heading, #0a2647);
     }
   }
 
@@ -137,7 +140,7 @@
       font-family: Montserrat, Roboto, system-ui, sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
-      color: #0a2647;
+      color: var(--store-heading, #0a2647);
     }
   }
 
@@ -166,6 +169,6 @@
     margin: 0;
     padding: 2rem 0;
     text-align: center;
-    color: #718096;
+    color: var(--store-text-muted, #718096);
   }
 }

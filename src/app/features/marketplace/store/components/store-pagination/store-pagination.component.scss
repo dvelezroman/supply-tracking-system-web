@@ -17,9 +17,9 @@
   min-height: 2.25rem;
   padding: 0 0.75rem;
   border-radius: 8px;
-  border: 1px solid $border-ocean;
-  background: $marea-blanco;
-  color: $marea-azul-profundo;
+  border: 1px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
+  color: var(--store-heading, #{$marea-azul-profundo});
   font-family: $font-marea-heading;
   font-size: 0.8rem;
   font-weight: 600;
@@ -32,19 +32,19 @@
 
   &:hover:not(:disabled):not(.is-current) {
     border-color: rgba(15, 52, 96, 0.35);
-    background: $marea-gris-claro;
+    background: var(--store-surface-muted, #{$marea-gris-claro});
   }
 }
 
 .pager__num.is-current {
   background: $marea-azul-principal;
-  border-color: $marea-azul-principal;
+  border-color: var(--store-accent, #{$marea-azul-principal});
   color: $marea-blanco;
 }
 
 .pager__ellipsis {
   padding: 0 0.25rem;
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
 }
 
 .pager__nav mat-icon {

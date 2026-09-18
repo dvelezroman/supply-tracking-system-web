@@ -6,7 +6,7 @@
   padding: 3.5rem 1.5rem;
   border-radius: 16px;
   border: 1px dashed rgba(15, 52, 96, 0.28);
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
 
   @media (min-width: $bp-sm) {
     padding: 4.5rem 1.5rem;
@@ -26,7 +26,7 @@
   font-family: $font-marea-heading;
   font-size: 1rem;
   font-weight: 600;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
 }
 
 .empty__body {
@@ -34,7 +34,7 @@
   max-width: 24rem;
   font-size: 0.875rem;
   line-height: 1.5;
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
 }
 
 .empty .marea-btn {

@@ -3,14 +3,14 @@
 .skeleton {
   overflow: hidden;
   border-radius: 14px;
-  border: 1px solid $border-ocean;
-  background: $marea-blanco;
+  border: 1px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .skeleton__media {
   aspect-ratio: 1 / 0.9;
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
   animation: store-pulse 1.4s ease-in-out infinite;
 }
 
@@ -29,7 +29,7 @@
 .skeleton__line {
   height: 0.7rem;
   border-radius: 4px;
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
   animation: store-pulse 1.4s ease-in-out infinite;
 
   &--lg {
@@ -52,7 +52,7 @@
 .skeleton__btn {
   height: 2.5rem;
   border-radius: 8px;
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
   animation: store-pulse 1.4s ease-in-out infinite;
 }
 

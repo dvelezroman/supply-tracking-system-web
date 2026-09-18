@@ -12,7 +12,7 @@
     top: 50%;
     left: 0.85rem;
     transform: translateY(-50%);
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     font-size: 1.15rem !important;
     width: 1.15rem;
     height: 1.15rem;
@@ -23,28 +23,28 @@
     width: 100%;
     height: 2.75rem;
     box-sizing: border-box;
-    border: 1px solid $border-ocean;
+    border: 1px solid var(--store-border, #{$border-ocean});
     border-radius: 12px;
-    background: $marea-blanco;
+    background: var(--store-surface, #{$marea-blanco});
     padding: 0 2.5rem 0 2.65rem;
     font-family: $font-marea-body;
     font-size: 0.95rem;
     font-weight: 500;
-    color: $marea-gris-oscuro;
+    color: var(--store-text, #{$marea-gris-oscuro});
     outline: none;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
     &::placeholder {
-      color: $marea-gris-medio;
+      color: var(--store-text-muted, #{$marea-gris-medio});
       font-weight: 400;
     }
 
     &:hover {
-      border-color: rgba(15, 52, 96, 0.28);
+      border-color: var(--store-border, rgba(15, 52, 96, 0.28));
     }
 
     &:focus {
-      border-color: $marea-azul-claro;
+      border-color: var(--store-accent-light, #{$marea-azul-claro});
       box-shadow: 0 0 0 3px rgba(42, 111, 173, 0.15);
     }
 
@@ -66,12 +66,12 @@
     border: none;
     border-radius: 8px;
     background: transparent;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     cursor: pointer;
 
     &:hover {
-      background: $marea-gris-claro;
-      color: $marea-azul-profundo;
+      background: var(--store-surface-muted, #{$marea-gris-claro});
+      color: var(--store-heading, #{$marea-azul-profundo});
     }
   }
 }
@@ -84,9 +84,9 @@
   height: 2.125rem;
   padding: 0 0.9rem;
   border-radius: 999px;
-  border: 1px solid $border-ocean;
-  background: $marea-blanco;
-  color: $marea-gris-medio;
+  border: 1px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
+  color: var(--store-text-muted, #{$marea-gris-medio});
   font-family: $font-marea-heading;
   font-size: 0.8rem;
   font-weight: 600;
@@ -94,14 +94,14 @@
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
   &.is-active {
-    border-color: rgba(15, 52, 96, 0.45);
-    background: rgba(15, 52, 96, 0.1);
-    color: $marea-azul-principal;
+    border-color: var(--store-border, rgba(15, 52, 96, 0.45));
+    background: var(--store-nav-hover-bg, rgba(15, 52, 96, 0.1));
+    color: var(--store-accent, #{$marea-azul-principal});
   }
 
   &:hover:not(.is-active) {
-    border-color: rgba(15, 52, 96, 0.28);
-    color: $marea-azul-profundo;
+    border-color: var(--store-border, rgba(15, 52, 96, 0.28));
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 }
 
@@ -114,9 +114,9 @@
     height: 2.125rem;
     padding: 0 2rem 0 0.9rem;
     border-radius: 999px;
-    border: 1px solid $border-ocean;
-    background: $marea-blanco;
-    color: $marea-gris-oscuro;
+    border: 1px solid var(--store-border, #{$border-ocean});
+    background: var(--store-surface, #{$marea-blanco});
+    color: var(--store-text, #{$marea-gris-oscuro});
     font-family: $font-marea-heading;
     font-size: 0.8rem;
     font-weight: 600;
@@ -125,7 +125,7 @@
 
     &:hover,
     &:focus {
-      border-color: rgba(15, 52, 96, 0.35);
+      border-color: var(--store-border, rgba(15, 52, 96, 0.35));
     }
   }
 
@@ -135,7 +135,7 @@
     right: 0.55rem;
     transform: translateY(-50%);
     pointer-events: none;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     font-size: 1rem !important;
     width: 1rem;
     height: 1rem;
@@ -175,8 +175,8 @@
     width: 19px;
     height: 19px;
     border-radius: 4px;
-    border: 1px solid rgba(15, 52, 96, 0.28);
-    background: $marea-blanco;
+    border: 1px solid var(--store-border, rgba(15, 52, 96, 0.28));
+    background: var(--store-surface, #{$marea-blanco});
     color: transparent;
     transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
@@ -188,8 +188,8 @@
   }
 
   &.is-active .store-check-row__box {
-    border-color: $marea-azul-principal;
-    background: $marea-azul-principal;
+    border-color: var(--store-accent, #{$marea-azul-principal});
+    background: var(--store-accent, #{$marea-azul-principal});
     color: $marea-blanco;
   }
 
@@ -198,27 +198,27 @@
     min-width: 0;
     font-size: 0.875rem;
     font-weight: 500;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
   }
 
   &.is-active .store-check-row__label {
     font-weight: 600;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 
   &__count {
     font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     opacity: 0.85;
   }
 
   &:hover:not(.is-active) .store-check-row__box {
-    border-color: $marea-azul-claro;
+    border-color: var(--store-accent-light, #{$marea-azul-claro});
   }
 
   &:hover:not(.is-active) .store-check-row__label {
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 }
 
@@ -230,14 +230,14 @@
   padding: 0 0.75rem;
   border: none;
   border-radius: 8px;
-  background: $marea-gris-claro;
-  color: $marea-gris-oscuro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
+  color: var(--store-text, #{$marea-gris-oscuro});
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
 
   &:hover {
-    background: #e8eef3;
+    background: var(--store-nav-hover-bg, #e8eef3);
   }
 
   mat-icon {
@@ -285,8 +285,8 @@
 
   &--ghost {
     background: transparent;
-    color: $marea-azul-principal;
-    border: 1px solid rgba(20, 66, 114, 0.25);
+    color: var(--store-accent, #{$marea-azul-principal});
+    border: 1px solid var(--store-border, rgba(20, 66, 114, 0.25));
   }
 
   &--ocean {

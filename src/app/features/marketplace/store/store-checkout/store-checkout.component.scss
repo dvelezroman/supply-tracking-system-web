@@ -1,14 +1,16 @@
 @use '../../../landing/styles/marea-tokens' as *;
 @use '../styles/store-ui';
+@use '../styles/store-theme' as theme;
 
 .checkout {
   width: 100%;
   min-width: 0;
+  color: var(--store-text, #{$marea-gris-oscuro});
 }
 
 .checkout h1 {
   font-family: $font-marea-heading;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
   margin: 0 0 1rem;
   font-size: clamp(1.35rem, 5vw, 1.85rem);
   line-height: 1.2;
@@ -21,9 +23,8 @@
 .checkout__empty {
   text-align: center;
   padding: 1.75rem 1.15rem;
-  background: $marea-blanco;
+  @include theme.store-panel-surface;
   border-radius: 14px;
-  border: 1px solid $border-ocean;
 
   @media (min-width: $bp-sm) {
     padding: 2rem;
@@ -31,7 +32,7 @@
 
   p {
     margin: 0 0 1.25rem;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
   }
 
   .marea-btn {
@@ -62,9 +63,8 @@
   flex-direction: column;
   gap: 4px;
   padding: 1rem 1.1rem;
-  background: $marea-blanco;
+  @include theme.store-panel-surface;
   border-radius: 14px;
-  border: 1px solid $border-ocean;
   order: 2;
 
   @media (min-width: $bp-sm) {
@@ -81,7 +81,7 @@
 }
 
 .checkout__hint {
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
   font-size: 0.875rem;
   line-height: 1.45;
   margin: 0.35rem 0 0.5rem;
@@ -98,7 +98,7 @@
   legend {
     font-family: $font-marea-heading;
     font-weight: 600;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
     margin-bottom: 0.35rem;
     padding: 0;
   }
@@ -113,21 +113,22 @@
   text-align: left;
   padding: 0.85rem 1rem;
   border-radius: 12px;
-  border: 1.5px solid $border-ocean;
-  background: #fff;
+  border: 1.5px solid var(--store-border, #{$border-ocean});
+  background: var(--store-surface, #{$marea-blanco});
+  color: var(--store-text, #{$marea-gris-oscuro});
   cursor: pointer;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
   strong {
     display: block;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
     font-size: 0.95rem;
   }
 
   small {
     display: block;
     margin-top: 0.2rem;
-    color: $marea-gris-medio;
+    color: var(--store-text-muted, #{$marea-gris-medio});
     font-size: 0.8rem;
     line-height: 1.35;
   }
@@ -139,7 +140,7 @@
     .checkout__pay-radio {
       border-color: $marea-coral;
       background: $marea-coral;
-      box-shadow: inset 0 0 0 3px #fff;
+      box-shadow: inset 0 0 0 3px var(--store-surface, #{$marea-blanco});
     }
   }
 
@@ -160,7 +161,7 @@
   height: 18px;
   margin-top: 2px;
   border-radius: 50%;
-  border: 2px solid $border-ocean;
+  border: 2px solid var(--store-border, #{$border-ocean});
   box-sizing: border-box;
 }
 
@@ -195,9 +196,8 @@
 
 .checkout__summary {
   padding: 1rem 1.1rem;
-  background: $marea-blanco;
+  @include theme.store-panel-surface;
   border-radius: 14px;
-  border: 1px solid $border-ocean;
   height: fit-content;
   order: 1;
 
@@ -214,7 +214,7 @@
   h2 {
     margin: 0 0 0.85rem;
     font-family: $font-marea-heading;
-    color: $marea-azul-profundo;
+    color: var(--store-heading, #{$marea-azul-profundo});
     font-size: 1.05rem;
   }
 
@@ -225,11 +225,12 @@
 
     li {
       display: flex;
-      justify-content: space-between;
-      gap: 12px;
+      flex-direction: column;
+      gap: 0.25rem;
       padding: 8px 0;
-      border-bottom: 1px solid $border-ocean;
+      border-bottom: 1px solid var(--store-border, #{$border-ocean});
       font-size: 0.9rem;
+      color: var(--store-text, #{$marea-gris-oscuro});
 
       span {
         min-width: 0;
@@ -239,8 +240,33 @@
       strong {
         flex-shrink: 0;
         white-space: nowrap;
+        color: var(--store-heading, #{$marea-azul-profundo});
       }
     }
+  }
+}
+
+.checkout__line-discount,
+.checkout__line-promo {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--store-text-muted, #{$marea-gris-medio});
+}
+
+.checkout__summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--store-text, #{$marea-gris-oscuro});
+
+  &--muted {
+    color: var(--store-text-muted, #{$marea-gris-medio});
+  }
+
+  &--savings strong {
+    color: #059669;
   }
 }
 
@@ -248,6 +274,11 @@
   margin: 1rem 0 0;
   text-align: left;
   font-size: 1.05rem;
+  color: var(--store-text, #{$marea-gris-oscuro});
+
+  strong {
+    color: var(--store-heading, #{$marea-azul-profundo});
+  }
 
   @media (min-width: $bp-sm) {
     text-align: right;

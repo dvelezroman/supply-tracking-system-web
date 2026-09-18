@@ -1,4 +1,5 @@
 @use '../../../landing/styles/marea-tokens' as *;
+@use '../styles/store-theme' as theme;
 
 .store {
   --store-header-height: 56px;
@@ -6,9 +7,10 @@
   display: flex;
   flex-direction: column;
   background: var(--marea-page-bg, #{$gradient-surface});
-  color: var(--marea-page-fg, #{$marea-gris-oscuro});
+  color: var(--store-text, var(--marea-page-fg, #{$marea-gris-oscuro}));
   font-family: $font-marea-body;
   overflow-x: clip;
+  @include theme.store-material-form-fields;
 }
 
 .store__header {
@@ -44,7 +46,7 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
   min-width: 0;
   max-width: 100%;
 }
@@ -99,7 +101,7 @@
 }
 
 .store__nav-link {
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
   text-decoration: none;
   font-family: $font-marea-heading;
   font-size: 0.8rem;
@@ -114,8 +116,8 @@
 
   &.is-active,
   &:hover {
-    background: rgba(15, 52, 96, 0.08);
-    color: $marea-azul-profundo;
+    background: var(--store-nav-hover-bg, rgba(15, 52, 96, 0.08));
+    color: var(--store-heading, #{$marea-azul-profundo});
   }
 }
 
@@ -135,12 +137,12 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 10px;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
   text-decoration: none;
   transition: background 0.15s ease;
 
   &:hover {
-    background: rgba(15, 52, 96, 0.08);
+    background: var(--store-nav-hover-bg, rgba(15, 52, 96, 0.08));
   }
 }
 

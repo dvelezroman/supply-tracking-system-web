@@ -6,8 +6,8 @@
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background: $marea-blanco;
-  border: 1px solid $border-ocean;
+  background: var(--store-surface, #{$marea-blanco});
+  border: 1px solid var(--store-border, #{$border-ocean});
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -28,7 +28,7 @@
   position: relative;
   aspect-ratio: 1 / 0.9;
   overflow: hidden;
-  background: $marea-gris-claro;
+  background: var(--store-surface-muted, #{$marea-gris-claro});
 }
 
 .product-card__zoom {
@@ -53,7 +53,7 @@
   height: 100%;
   display: grid;
   place-items: center;
-  color: $marea-azul-claro;
+  color: var(--store-accent-light, #{$marea-azul-claro});
   opacity: 0.45;
 
   mat-icon {
@@ -107,7 +107,7 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: $marea-azul-claro;
+  color: var(--store-accent-light, #{$marea-azul-claro});
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -123,7 +123,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1.25;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
   text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -138,7 +138,7 @@
   }
 
   &:hover {
-    color: $marea-azul-claro;
+    color: var(--store-accent-light, #{$marea-azul-claro});
   }
 }
 
@@ -162,7 +162,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: $marea-azul-profundo;
+  color: var(--store-heading, #{$marea-azul-profundo});
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -177,7 +177,7 @@
   font-size: 0.85em;
   font-weight: 500;
   text-decoration: line-through;
-  color: $marea-gris-medio;
+  color: var(--store-text-muted, #{$marea-gris-medio});
 }
 
 .product-card__price-now {

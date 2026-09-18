@@ -1,0 +1,24 @@
+@use '../../../landing/styles/marea-tokens' as *;
+
+/// Outline Material fields on storefront panels (decoupled from global `html.theme-dark`).
+@mixin store-material-form-fields {
+  --mdc-outlined-text-field-label-text-color: var(--store-text-muted, #{$marea-gris-medio});
+  --mdc-outlined-text-field-input-text-color: var(--store-text, #{$marea-gris-oscuro});
+  --mdc-outlined-text-field-outline-color: var(--store-border, #{$border-ocean});
+  --mdc-outlined-text-field-hover-outline-color: var(--store-accent-light, #{$marea-azul-claro});
+  --mdc-outlined-text-field-focus-outline-color: var(--store-accent-light, #{$marea-azul-claro});
+  --mdc-outlined-text-field-focus-label-text-color: var(--store-accent-light, #{$marea-azul-claro});
+  --mdc-outlined-text-field-disabled-label-text-color: var(--store-text-muted, #{$marea-gris-medio});
+  --mdc-outlined-text-field-disabled-input-text-color: var(--store-text-muted, #{$marea-gris-medio});
+  --mdc-outlined-text-field-disabled-outline-color: var(--store-border, #{$border-ocean});
+  --mat-form-field-subscript-text-color: var(--store-text-muted, #{$marea-gris-medio});
+  --mat-form-field-focus-select-arrow-color: var(--store-accent-light, #{$marea-azul-claro});
+  --mat-select-enabled-trigger-text-color: var(--store-text, #{$marea-gris-oscuro});
+  --mat-select-disabled-trigger-text-color: var(--store-text-muted, #{$marea-gris-medio});
+}
+
+@mixin store-panel-surface {
+  background: var(--store-surface, #{$marea-blanco});
+  border: 1px solid var(--store-border, #{$border-ocean});
+  color: var(--store-text, #{$marea-gris-oscuro});
+}
