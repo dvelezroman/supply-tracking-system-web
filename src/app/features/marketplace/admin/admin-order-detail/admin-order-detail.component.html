@@ -32,8 +32,28 @@
             }
             <p>
               <mat-chip>{{ o.status }}</mat-chip>
+              @if (o.paymentMethod) {
+                <mat-chip>{{ o.paymentMethod }}</mat-chip>
+              }
               <span class="muted">{{ o.createdAt | date: 'medium' }}</span>
             </p>
+            @if (o.paypalOrderId) {
+              <p>
+                <strong>{{ 'marketplace.admin.paypalOrderId' | transloco }}:</strong>
+                {{ o.paypalOrderId }}
+              </p>
+            }
+            @if (o.paypalCaptureId) {
+              <p>
+                <strong>{{ 'marketplace.admin.paypalCaptureId' | transloco }}:</strong>
+                {{ o.paypalCaptureId }}
+              </p>
+            }
+            @if (o.paymentError) {
+              <p class="error">
+                {{ 'marketplace.admin.paymentError' | transloco }}: {{ o.paymentError }}
+              </p>
+            }
             @if (o.emailError) {
               <p class="error">{{ o.emailError }}</p>
             }

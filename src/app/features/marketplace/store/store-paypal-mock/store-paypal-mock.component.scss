@@ -1,0 +1,74 @@
+.paypal-mock {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(0, 112, 224, 0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(0, 48, 135, 0.06), transparent 45%),
+    #f7f9fc;
+}
+
+.paypal-mock__card {
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid rgba(0, 48, 135, 0.12);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.paypal-mock__badge {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #003087;
+  background: rgba(0, 112, 224, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.paypal-mock h1 {
+  margin: 0.25rem 0 0;
+  font-size: 1.35rem;
+  color: #0b1b33;
+}
+
+.paypal-mock__hint,
+.paypal-mock__meta {
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.paypal-mock__amount {
+  margin: 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #003087;
+}
+
+.paypal-mock__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.paypal-mock__actions .marea-btn {
+  width: 100%;
+  min-height: 44px;
+}
+
+.paypal-mock__back {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #0070e0;
+}

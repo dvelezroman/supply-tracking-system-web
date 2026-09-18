@@ -32,15 +32,64 @@
           <textarea matInput rows="3" formControlName="notes"></textarea>
         </mat-form-field>
 
-        <p class="checkout__hint">{{ 'marketplace.store.checkoutHint' | transloco }}</p>
+        <fieldset class="checkout__payment">
+          <legend>{{ 'marketplace.store.paymentMethod' | transloco }}</legend>
+
+          <button
+            type="button"
+            class="checkout__pay-option"
+            [class.checkout__pay-option--active]="paymentMethod() === 'EMAIL'"
+            (click)="selectPayment('EMAIL')"
+          >
+            <span class="checkout__pay-radio" aria-hidden="true"></span>
+            <span>
+              <strong>{{ 'marketplace.store.payByEmail' | transloco }}</strong>
+              <small>{{ 'marketplace.store.payByEmailHint' | transloco }}</small>
+            </span>
+          </button>
+
+          @if (paypalAvailable()) {
+            <button
+              type="button"
+              class="checkout__pay-option checkout__pay-option--paypal"
+              [class.checkout__pay-option--active]="paymentMethod() === 'PAYPAL'"
+              (click)="selectPayment('PAYPAL')"
+            >
+              <span class="checkout__pay-radio" aria-hidden="true"></span>
+              <span class="checkout__pay-paypal">
+                <app-paypal-logo size="md" />
+                @if (paypalMode() === 'mock') {
+                  <span class="checkout__mock-badge">
+                    {{ 'marketplace.store.paypalMockBadge' | transloco }}
+                  </span>
+                }
+                <small>{{ 'marketplace.store.payWithPaypalHint' | transloco }}</small>
+              </span>
+            </button>
+          }
+        </fieldset>
+
+        <p class="checkout__hint">
+          @if (paymentMethod() === 'PAYPAL') {
+            {{ 'marketplace.store.checkoutHintPaypal' | transloco }}
+          } @else {
+            {{ 'marketplace.store.checkoutHint' | transloco }}
+          }
+        </p>
 
         <button
           type="submit"
-          class="marea-btn marea-btn--primary"
+          class="marea-btn marea-btn--primary checkout__submit"
+          [class.checkout__submit--paypal]="paymentMethod() === 'PAYPAL'"
           [disabled]="form.invalid || isSubmitting() || isSyncing()"
         >
           @if (isSubmitting() || isSyncing()) {
             <mat-spinner diameter="22" />
+          } @else if (paymentMethod() === 'PAYPAL') {
+            <span class="checkout__submit-paypal">
+              <app-paypal-logo size="sm" />
+              <span>{{ 'marketplace.store.payWithPaypal' | transloco }}</span>
+            </span>
           } @else {
             {{ 'marketplace.store.placeOrder' | transloco }}
           }

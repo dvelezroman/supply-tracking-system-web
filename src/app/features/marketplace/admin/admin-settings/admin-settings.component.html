@@ -14,6 +14,11 @@
             {{ 'marketplace.admin.storeEnabled' | transloco }}
           </mat-slide-toggle>
 
+          <mat-slide-toggle formControlName="onlinePaymentsEnabled">
+            {{ 'marketplace.admin.onlinePaymentsEnabled' | transloco }}
+          </mat-slide-toggle>
+          <p class="hint">{{ 'marketplace.admin.onlinePaymentsHint' | transloco }}</p>
+
           <mat-form-field appearance="outline">
             <mat-label>{{ 'marketplace.admin.orderEmail' | transloco }}</mat-label>
             <input matInput type="email" formControlName="orderNotificationEmail" />

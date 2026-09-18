@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   OnInit,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -16,13 +16,17 @@ import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
 import { CartService } from '../../services/cart.service';
 import { formatMoney } from '../../utils/money';
-import type { CartLine } from '../../models/marketplace.model';
+import type {
+  CartLine,
+  MarketplacePaymentMethod,
+} from '../../models/marketplace.model';
 import {
   effectiveUnitPriceCents,
   hasLineDiscount,
   lineDiscountCents,
   lineTotalDiscountPercent,
 } from '../../utils/marketplace-pricing.util';
+import { PaypalLogoComponent } from '../shared/paypal-logo.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -37,6 +41,7 @@ import { catchError } from 'rxjs/operators';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    PaypalLogoComponent,
   ],
   templateUrl: './store-checkout.component.html',
   styleUrl: './store-checkout.component.scss',
@@ -46,11 +51,15 @@ export class StoreCheckoutComponent implements OnInit {
   private api = inject(MarketplacePublicApiService);
   private cart = inject(CartService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
 
   isSubmitting = signal(false);
   isSyncing = signal(false);
+  paypalAvailable = signal(false);
+  paypalMode = signal<'mock' | 'live' | 'off'>('off');
+  paymentMethod = signal<MarketplacePaymentMethod>('EMAIL');
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
   readonly listSubtotalCents = this.cart.listSubtotalCents;
@@ -82,7 +91,26 @@ export class StoreCheckoutComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    if (this.route.snapshot.queryParamMap.get('cancelled') === '1') {
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.paypalCancelled'),
+      );
+    }
+    this.api.getSettings().subscribe({
+      next: (res) => {
+        this.paypalAvailable.set(!!res.data?.paypalAvailable);
+        this.paypalMode.set(res.data?.paypalMode ?? 'off');
+        if (!res.data?.paypalAvailable) {
+          this.paymentMethod.set('EMAIL');
+        }
+      },
+    });
     this.syncCartWithCatalog();
+  }
+
+  selectPayment(method: MarketplacePaymentMethod): void {
+    if (method === 'PAYPAL' && !this.paypalAvailable()) return;
+    this.paymentMethod.set(method);
   }
 
   submit(): void {
@@ -100,6 +128,7 @@ export class StoreCheckoutComponent implements OnInit {
     }
     this.isSubmitting.set(true);
     const raw = this.form.getRawValue();
+    const method = this.paymentMethod();
     this.api
       .placeOrder({
         customerName: raw.customerName!.trim(),
@@ -107,6 +136,7 @@ export class StoreCheckoutComponent implements OnInit {
         customerPhone: raw.customerPhone?.trim() || undefined,
         customerAddress: raw.customerAddress?.trim() || undefined,
         notes: raw.notes?.trim() || undefined,
+        paymentMethod: method,
         items: this.lines().map((l) => ({
           productId: l.productId,
           qty: Math.max(1, Math.floor(l.qty)),
@@ -122,8 +152,13 @@ export class StoreCheckoutComponent implements OnInit {
             );
             return;
           }
+          if (method === 'PAYPAL' && res.data?.approveUrl) {
+            this.cart.clear();
+            window.location.href = res.data.approveUrl;
+            return;
+          }
           this.cart.clear();
-          this.router.navigate(['/tienda/pedido', orderNumber]);
+          void this.router.navigate(['/tienda/pedido', orderNumber]);
         },
         error: (err: HttpErrorResponse) => {
           this.isSubmitting.set(false);
@@ -221,6 +256,16 @@ export class StoreCheckoutComponent implements OnInit {
       this.snackbar.error(
         this.transloco.translate('marketplace.store.storeDisabled'),
       );
+      return;
+    }
+    if (
+      err.status === 400 &&
+      body?.message === 'Online payments are not available'
+    ) {
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.paypalUnavailable'),
+      );
+      this.paymentMethod.set('EMAIL');
       return;
     }
     if (

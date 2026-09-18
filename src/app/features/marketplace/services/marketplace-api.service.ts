@@ -45,6 +45,17 @@ export class MarketplacePublicApiService {
     );
   }
 
+  capturePayPalOrder(
+    orderNumber: string,
+    paypalOrderId: string,
+    sig?: string,
+  ) {
+    return this.http.post<ApiResponse<MarketplaceOrder>>(
+      `${this.base}/orders/${encodeURIComponent(orderNumber)}/paypal/capture`,
+      { paypalOrderId, ...(sig ? { sig } : {}) },
+    );
+  }
+
   getOrderConfirmation(orderNumber: string) {
     return this.http.get<ApiResponse<PublicOrderConfirmation>>(
       `${this.base}/orders/${encodeURIComponent(orderNumber)}`,

@@ -1,0 +1,14 @@
+<section class="paypal-return">
+  <div class="paypal-return__card">
+    <app-paypal-logo size="md" />
+    @if (isCapturing()) {
+      <mat-spinner diameter="36" />
+      <p>{{ 'marketplace.store.paypalCapturing' | transloco }}</p>
+    } @else if (failed()) {
+      <h1>{{ 'marketplace.store.paypalCaptureFailed' | transloco }}</h1>
+      <a routerLink="/tienda/checkout" class="marea-btn marea-btn--primary">
+        {{ 'marketplace.store.checkout' | transloco }}
+      </a>
+    }
+  </div>
+</section>

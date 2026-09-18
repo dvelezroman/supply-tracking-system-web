@@ -10,7 +10,17 @@
       <p class="confirm__number">
         {{ 'marketplace.store.confirmOrder' | transloco: { order: o.orderNumber } }}
       </p>
-      <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
+      @if (o.status === 'AWAITING_PAYMENT') {
+        <p>{{ 'marketplace.store.confirmBodyAwaiting' | transloco: { name: o.customerName } }}</p>
+      } @else if (o.paymentMethod === 'PAYPAL' || o.status === 'PAID' || o.status === 'EMAILED') {
+        @if (o.paymentMethod === 'PAYPAL') {
+          <p>{{ 'marketplace.store.confirmBodyPaid' | transloco: { name: o.customerName } }}</p>
+        } @else {
+          <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
+        }
+      } @else {
+        <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
+      }
 
       <ul class="confirm__lines">
         @for (item of o.items; track item.sku + item.qty) {

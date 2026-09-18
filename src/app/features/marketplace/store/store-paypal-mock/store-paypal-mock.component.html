@@ -1,0 +1,33 @@
+<section class="paypal-mock">
+  <div class="paypal-mock__card">
+    <app-paypal-logo size="lg" />
+    <p class="paypal-mock__badge">{{ 'marketplace.store.paypalMockBadge' | transloco }}</p>
+    <h1>{{ 'marketplace.store.paypalMockTitle' | transloco }}</h1>
+    <p class="paypal-mock__hint">{{ 'marketplace.store.paypalMockHint' | transloco }}</p>
+
+    @if (orderNumber()) {
+      <p class="paypal-mock__meta">
+        {{ 'marketplace.store.orderNumber' | transloco }}:
+        <strong>{{ orderNumber() }}</strong>
+      </p>
+    }
+    @if (amountCents() > 0) {
+      <p class="paypal-mock__amount">
+        {{ formatMoney(amountCents(), currency()) }}
+      </p>
+    }
+
+    <div class="paypal-mock__actions">
+      <button type="button" class="marea-btn marea-btn--primary" (click)="approve()">
+        {{ 'marketplace.store.paypalMockApprove' | transloco }}
+      </button>
+      <button type="button" class="marea-btn marea-btn--ghost" (click)="cancel()">
+        {{ 'marketplace.store.paypalMockCancel' | transloco }}
+      </button>
+    </div>
+
+    <a routerLink="/tienda" class="paypal-mock__back">
+      {{ 'marketplace.store.backToShop' | transloco }}
+    </a>
+  </div>
+</section>

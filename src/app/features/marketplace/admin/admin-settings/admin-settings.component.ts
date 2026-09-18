@@ -47,6 +47,7 @@ export class AdminSettingsComponent implements OnInit {
   form = this.fb.group({
     orderNotificationEmail: ['', [Validators.email]],
     storeEnabled: [true],
+    onlinePaymentsEnabled: [false],
     fromName: [''],
   });
 
@@ -57,6 +58,7 @@ export class AdminSettingsComponent implements OnInit {
         this.form.patchValue({
           orderNotificationEmail: res.data.orderNotificationEmail ?? '',
           storeEnabled: res.data.storeEnabled,
+          onlinePaymentsEnabled: !!res.data.onlinePaymentsEnabled,
           fromName: res.data.fromName ?? '',
         });
         this.isLoading.set(false);
@@ -73,6 +75,7 @@ export class AdminSettingsComponent implements OnInit {
       .updateSettings({
         orderNotificationEmail: raw.orderNotificationEmail?.trim() || null,
         storeEnabled: !!raw.storeEnabled,
+        onlinePaymentsEnabled: !!raw.onlinePaymentsEnabled,
         fromName: raw.fromName?.trim() || null,
       })
       .subscribe({

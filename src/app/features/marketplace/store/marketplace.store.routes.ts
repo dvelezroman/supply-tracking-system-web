@@ -30,6 +30,20 @@ export const MARKETPLACE_STORE_ROUTES: Routes = [
           ),
       },
       {
+        path: 'paypal/mock',
+        loadComponent: () =>
+          import('./store-paypal-mock/store-paypal-mock.component').then(
+            (m) => m.StorePaypalMockComponent,
+          ),
+      },
+      {
+        path: 'pedido/:orderNumber/pago',
+        loadComponent: () =>
+          import('./store-paypal-return/store-paypal-return.component').then(
+            (m) => m.StorePaypalReturnComponent,
+          ),
+      },
+      {
         path: 'pedido/:orderNumber',
         loadComponent: () =>
           import('./store-order-confirmation/store-order-confirmation.component').then(
