@@ -1,0 +1,143 @@
+<section class="bank-panel" aria-labelledby="bank-panel-title">
+  <h3 id="bank-panel-title">{{ 'marketplace.store.bankPanelTitle' | transloco }}</h3>
+
+  @if (showSteps) {
+    <ol class="bank-panel__steps">
+      <li>{{ 'marketplace.store.bankStepAmount' | transloco: { amount: amountLabel() } }}</li>
+      <li>{{ 'marketplace.store.bankStepReference' | transloco: { order: orderNumber } }}</li>
+      <li>{{ 'marketplace.store.bankStepProof' | transloco }}</li>
+      <li>{{ 'marketplace.store.bankStepWait' | transloco }}</li>
+    </ol>
+  } @else {
+    <p class="bank-panel__hint">{{ 'marketplace.store.bankCheckoutHint' | transloco }}</p>
+  }
+
+  <dl class="bank-panel__rows">
+    <div class="bank-panel__row">
+      <dt>{{ 'marketplace.store.bankName' | transloco }}</dt>
+      <dd>
+        <span>{{ bank.bankName }}</span>
+        <button
+          type="button"
+          class="bank-panel__copy"
+          [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+          (click)="copy(bank.bankName, 'bankName')"
+        >
+          <mat-icon>{{ copiedKey() === 'bankName' ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
+      </dd>
+    </div>
+    <div class="bank-panel__row">
+      <dt>{{ 'marketplace.store.bankAccountType' | transloco }}</dt>
+      <dd>
+        <span>{{ bank.bankAccountType }}</span>
+      </dd>
+    </div>
+    <div class="bank-panel__row">
+      <dt>{{ 'marketplace.store.bankAccountNumber' | transloco }}</dt>
+      <dd>
+        <span class="bank-panel__mono">{{ bank.bankAccountNumber }}</span>
+        <button
+          type="button"
+          class="bank-panel__copy"
+          [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+          (click)="copy(bank.bankAccountNumber, 'account')"
+        >
+          <mat-icon>{{ copiedKey() === 'account' ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
+      </dd>
+    </div>
+    <div class="bank-panel__row">
+      <dt>{{ 'marketplace.store.bankBeneficiary' | transloco }}</dt>
+      <dd>
+        <span>{{ bank.bankBeneficiaryName }}</span>
+        <button
+          type="button"
+          class="bank-panel__copy"
+          [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+          (click)="copy(bank.bankBeneficiaryName, 'beneficiary')"
+        >
+          <mat-icon>{{ copiedKey() === 'beneficiary' ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
+      </dd>
+    </div>
+    <div class="bank-panel__row">
+      <dt>{{ 'marketplace.store.bankRuc' | transloco }}</dt>
+      <dd>
+        <span class="bank-panel__mono">{{ bank.bankBeneficiaryRuc }}</span>
+        <button
+          type="button"
+          class="bank-panel__copy"
+          [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+          (click)="copy(bank.bankBeneficiaryRuc, 'ruc')"
+        >
+          <mat-icon>{{ copiedKey() === 'ruc' ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
+      </dd>
+    </div>
+    <div class="bank-panel__row bank-panel__row--amount">
+      <dt>{{ 'marketplace.store.bankAmount' | transloco }}</dt>
+      <dd>
+        <strong>{{ amountLabel() }}</strong>
+        <button
+          type="button"
+          class="bank-panel__copy"
+          [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+          (click)="copy(amountLabel(), 'amount')"
+        >
+          <mat-icon>{{ copiedKey() === 'amount' ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
+      </dd>
+    </div>
+    @if (orderNumber) {
+      <div class="bank-panel__row bank-panel__row--ref">
+        <dt>{{ 'marketplace.store.bankReference' | transloco }}</dt>
+        <dd>
+          <strong class="bank-panel__mono">{{ orderNumber }}</strong>
+          <button
+            type="button"
+            class="bank-panel__copy"
+            [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+            (click)="copy(orderNumber!, 'ref')"
+          >
+            <mat-icon>{{ copiedKey() === 'ref' ? 'check' : 'content_copy' }}</mat-icon>
+          </button>
+        </dd>
+      </div>
+    }
+    @if (bank.bankContactEmail) {
+      <div class="bank-panel__row">
+        <dt>{{ 'marketplace.store.bankContactEmail' | transloco }}</dt>
+        <dd>
+          <span>{{ bank.bankContactEmail }}</span>
+          <button
+            type="button"
+            class="bank-panel__copy"
+            [attr.aria-label]="'marketplace.store.bankCopy' | transloco"
+            (click)="copy(bank.bankContactEmail!, 'email')"
+          >
+            <mat-icon>{{ copiedKey() === 'email' ? 'check' : 'content_copy' }}</mat-icon>
+          </button>
+        </dd>
+      </div>
+    }
+  </dl>
+
+  <p class="bank-panel__sr" aria-live="polite">
+    @if (copiedKey()) {
+      {{ 'marketplace.store.bankCopied' | transloco }}
+    }
+  </p>
+
+  @if (showSteps && orderNumber) {
+    <a
+      class="marea-btn marea-btn--primary bank-panel__whatsapp"
+      [href]="whatsappHref()"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <mat-icon>chat</mat-icon>
+      {{ 'marketplace.store.bankWhatsappCta' | transloco }}
+    </a>
+  }
+</section>

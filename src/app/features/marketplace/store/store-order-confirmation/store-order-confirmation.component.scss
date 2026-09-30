@@ -41,6 +41,23 @@
   }
 }
 
+.confirm__status {
+  display: inline-block;
+  margin: 0.35rem 0 0.75rem !important;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba($marea-amarillo, 0.2);
+  color: $marea-azul-profundo;
+  font-size: 0.8rem !important;
+  font-weight: 600;
+}
+
+:host ::ng-deep app-store-bank-transfer-panel {
+  display: block;
+  text-align: left;
+  margin: 1rem 0 1.25rem;
+}
+
 .confirm__number {
   font-weight: 700;
   color: $marea-coral;

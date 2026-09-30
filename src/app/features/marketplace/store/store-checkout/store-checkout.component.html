@@ -48,6 +48,27 @@
             </span>
           </button>
 
+          @if (bankTransferEnabled() && bankTransfer(); as bank) {
+            <button
+              type="button"
+              class="checkout__pay-option"
+              [class.checkout__pay-option--active]="paymentMethod() === 'BANK_TRANSFER'"
+              (click)="selectPayment('BANK_TRANSFER')"
+            >
+              <span class="checkout__pay-radio" aria-hidden="true"></span>
+              <span>
+                <strong>{{ 'marketplace.store.payByBank' | transloco }}</strong>
+                <small>{{ 'marketplace.store.payByBankHint' | transloco }}</small>
+              </span>
+            </button>
+            @if (paymentMethod() === 'BANK_TRANSFER') {
+              <app-store-bank-transfer-panel
+                [bank]="bank"
+                [amountCents]="subtotalCents()"
+              />
+            }
+          }
+
           @if (paypalAvailable()) {
             <button
               type="button"
@@ -72,6 +93,8 @@
         <p class="checkout__hint">
           @if (paymentMethod() === 'PAYPAL') {
             {{ 'marketplace.store.checkoutHintPaypal' | transloco }}
+          } @else if (paymentMethod() === 'BANK_TRANSFER') {
+            {{ 'marketplace.store.checkoutHintBank' | transloco }}
           } @else {
             {{ 'marketplace.store.checkoutHint' | transloco }}
           }
@@ -90,6 +113,8 @@
               <app-paypal-logo size="sm" />
               <span>{{ 'marketplace.store.payWithPaypal' | transloco }}</span>
             </span>
+          } @else if (paymentMethod() === 'BANK_TRANSFER') {
+            {{ 'marketplace.store.placeOrderBank' | transloco }}
           } @else {
             {{ 'marketplace.store.placeOrder' | transloco }}
           }

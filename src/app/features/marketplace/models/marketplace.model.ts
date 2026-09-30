@@ -48,8 +48,24 @@ export interface MarketplaceSettings {
   orderNotificationEmail?: string | null;
   storeEnabled: boolean;
   onlinePaymentsEnabled?: boolean;
+  bankTransferEnabled?: boolean;
+  bankName?: string | null;
+  bankAccountType?: string | null;
+  bankAccountNumber?: string | null;
+  bankBeneficiaryName?: string | null;
+  bankBeneficiaryRuc?: string | null;
+  bankContactEmail?: string | null;
   fromName?: string | null;
   updatedAt?: string;
+}
+
+export interface BankTransferDetails {
+  bankName: string;
+  bankAccountType: string;
+  bankAccountNumber: string;
+  bankBeneficiaryName: string;
+  bankBeneficiaryRuc: string;
+  bankContactEmail?: string | null;
 }
 
 export interface PublicStoreSettings {
@@ -57,6 +73,8 @@ export interface PublicStoreSettings {
   onlinePaymentsEnabled?: boolean;
   paypalAvailable?: boolean;
   paypalMode?: 'mock' | 'live' | 'off';
+  bankTransferEnabled?: boolean;
+  bankTransfer?: BankTransferDetails | null;
 }
 
 export interface MarketplaceOrderItem {
@@ -80,7 +98,7 @@ export type MarketplaceOrderStatus =
   | 'PAID'
   | 'PAYMENT_FAILED';
 
-export type MarketplacePaymentMethod = 'EMAIL' | 'PAYPAL';
+export type MarketplacePaymentMethod = 'EMAIL' | 'PAYPAL' | 'BANK_TRANSFER';
 
 export interface MarketplaceOrder {
   id: string;
@@ -118,6 +136,7 @@ export interface PublicOrderConfirmation {
   discountTotalCents: number;
   currency: string;
   paidAt?: string | null;
+  bankTransfer?: BankTransferDetails | null;
   items: MarketplaceOrderItem[];
   createdAt: string;
 }

@@ -17,6 +17,7 @@ import { MarketplacePublicApiService } from '../../services/marketplace-api.serv
 import { CartService } from '../../services/cart.service';
 import { formatMoney } from '../../utils/money';
 import type {
+  BankTransferDetails,
   CartLine,
   MarketplacePaymentMethod,
 } from '../../models/marketplace.model';
@@ -27,6 +28,7 @@ import {
   lineTotalDiscountPercent,
 } from '../../utils/marketplace-pricing.util';
 import { PaypalLogoComponent } from '../shared/paypal-logo.component';
+import { StoreBankTransferPanelComponent } from '../shared/store-bank-transfer-panel.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -42,6 +44,7 @@ import { catchError } from 'rxjs/operators';
     MatInputModule,
     MatProgressSpinnerModule,
     PaypalLogoComponent,
+    StoreBankTransferPanelComponent,
   ],
   templateUrl: './store-checkout.component.html',
   styleUrl: './store-checkout.component.scss',
@@ -59,6 +62,8 @@ export class StoreCheckoutComponent implements OnInit {
   isSyncing = signal(false);
   paypalAvailable = signal(false);
   paypalMode = signal<'mock' | 'live' | 'off'>('off');
+  bankTransferEnabled = signal(false);
+  bankTransfer = signal<BankTransferDetails | null>(null);
   paymentMethod = signal<MarketplacePaymentMethod>('EMAIL');
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
@@ -100,7 +105,9 @@ export class StoreCheckoutComponent implements OnInit {
       next: (res) => {
         this.paypalAvailable.set(!!res.data?.paypalAvailable);
         this.paypalMode.set(res.data?.paypalMode ?? 'off');
-        if (!res.data?.paypalAvailable) {
+        this.bankTransferEnabled.set(!!res.data?.bankTransferEnabled);
+        this.bankTransfer.set(res.data?.bankTransfer ?? null);
+        if (!res.data?.paypalAvailable && this.paymentMethod() === 'PAYPAL') {
           this.paymentMethod.set('EMAIL');
         }
       },
@@ -110,6 +117,7 @@ export class StoreCheckoutComponent implements OnInit {
 
   selectPayment(method: MarketplacePaymentMethod): void {
     if (method === 'PAYPAL' && !this.paypalAvailable()) return;
+    if (method === 'BANK_TRANSFER' && !this.bankTransferEnabled()) return;
     this.paymentMethod.set(method);
   }
 
@@ -264,6 +272,16 @@ export class StoreCheckoutComponent implements OnInit {
     ) {
       this.snackbar.error(
         this.transloco.translate('marketplace.store.paypalUnavailable'),
+      );
+      this.paymentMethod.set('EMAIL');
+      return;
+    }
+    if (
+      err.status === 400 &&
+      body?.message === 'Bank transfer is not available'
+    ) {
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.bankUnavailable'),
       );
       this.paymentMethod.set('EMAIL');
       return;

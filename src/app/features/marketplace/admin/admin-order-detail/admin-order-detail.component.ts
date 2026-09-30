@@ -50,6 +50,7 @@ export class AdminOrderDetailComponent implements OnInit {
 
   isLoading = signal(false);
   isCancelling = signal(false);
+  isConfirming = signal(false);
   order = signal<MarketplaceOrder | null>(null);
   readonly formatMoney = formatMoney;
 
@@ -66,6 +67,58 @@ export class AdminOrderDetailComponent implements OnInit {
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  paymentMethodLabel(method?: string | null): string {
+    switch (method) {
+      case 'BANK_TRANSFER':
+        return this.transloco.translate('marketplace.admin.paymentMethodBank');
+      case 'PAYPAL':
+        return this.transloco.translate('marketplace.admin.paymentMethodPaypal');
+      case 'EMAIL':
+        return this.transloco.translate('marketplace.admin.paymentMethodEmail');
+      default:
+        return method ?? '';
+    }
+  }
+
+  canConfirmPayment(o: MarketplaceOrder): boolean {
+    return (
+      o.status === 'AWAITING_PAYMENT' &&
+      (o.paymentMethod === 'EMAIL' || o.paymentMethod === 'BANK_TRANSFER')
+    );
+  }
+
+  confirmPayment(): void {
+    const o = this.order();
+    if (!o || !this.canConfirmPayment(o)) return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: this.transloco.translate(
+            'marketplace.admin.confirmPaymentTitle',
+          ),
+          message: this.transloco.translate(
+            'marketplace.admin.confirmPaymentMsg',
+            { order: o.orderNumber },
+          ),
+        },
+      })
+      .afterClosed()
+      .subscribe((ok) => {
+        if (!ok) return;
+        this.isConfirming.set(true);
+        this.api.confirmPayment(o.id).subscribe({
+          next: (res) => {
+            this.order.set(res.data);
+            this.isConfirming.set(false);
+            this.snackbar.success(
+              this.transloco.translate('marketplace.admin.paymentConfirmed'),
+            );
+          },
+          error: () => this.isConfirming.set(false),
+        });
+      });
   }
 
   cancel(): void {

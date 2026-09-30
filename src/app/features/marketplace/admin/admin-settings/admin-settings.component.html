@@ -19,6 +19,41 @@
           </mat-slide-toggle>
           <p class="hint">{{ 'marketplace.admin.onlinePaymentsHint' | transloco }}</p>
 
+          <mat-slide-toggle formControlName="bankTransferEnabled">
+            {{ 'marketplace.admin.bankTransferEnabled' | transloco }}
+          </mat-slide-toggle>
+          <p class="hint">{{ 'marketplace.admin.bankTransferHint' | transloco }}</p>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankName' | transloco }}</mat-label>
+            <input matInput formControlName="bankName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankAccountType' | transloco }}</mat-label>
+            <input matInput formControlName="bankAccountType" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankAccountNumber' | transloco }}</mat-label>
+            <input matInput formControlName="bankAccountNumber" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankBeneficiaryName' | transloco }}</mat-label>
+            <input matInput formControlName="bankBeneficiaryName" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankBeneficiaryRuc' | transloco }}</mat-label>
+            <input matInput formControlName="bankBeneficiaryRuc" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'marketplace.admin.bankContactEmail' | transloco }}</mat-label>
+            <input matInput type="email" formControlName="bankContactEmail" />
+          </mat-form-field>
+
           <mat-form-field appearance="outline">
             <mat-label>{{ 'marketplace.admin.orderEmail' | transloco }}</mat-label>
             <input matInput type="email" formControlName="orderNotificationEmail" />

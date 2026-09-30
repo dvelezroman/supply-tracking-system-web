@@ -17,6 +17,13 @@
   color: #c62828;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
 .notes {
   white-space: pre-wrap;
 }

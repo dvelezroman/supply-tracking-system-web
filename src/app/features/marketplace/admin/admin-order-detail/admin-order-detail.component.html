@@ -33,7 +33,7 @@
             <p>
               <mat-chip>{{ o.status }}</mat-chip>
               @if (o.paymentMethod) {
-                <mat-chip>{{ o.paymentMethod }}</mat-chip>
+                <mat-chip>{{ paymentMethodLabel(o.paymentMethod) }}</mat-chip>
               }
               <span class="muted">{{ o.createdAt | date: 'medium' }}</span>
             </p>
@@ -57,11 +57,30 @@
             @if (o.emailError) {
               <p class="error">{{ o.emailError }}</p>
             }
-            @if (o.status !== 'CANCELLED') {
-              <button mat-stroked-button color="warn" type="button" [disabled]="isCancelling()" (click)="cancel()">
-                {{ 'marketplace.admin.cancelOrder' | transloco }}
-              </button>
-            }
+            <div class="actions">
+              @if (canConfirmPayment(o)) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="button"
+                  [disabled]="isConfirming()"
+                  (click)="confirmPayment()"
+                >
+                  {{ 'marketplace.admin.confirmPayment' | transloco }}
+                </button>
+              }
+              @if (o.status !== 'CANCELLED') {
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  type="button"
+                  [disabled]="isCancelling()"
+                  (click)="cancel()"
+                >
+                  {{ 'marketplace.admin.cancelOrder' | transloco }}
+                </button>
+              }
+            </div>
           </mat-card-content>
         </mat-card>
 

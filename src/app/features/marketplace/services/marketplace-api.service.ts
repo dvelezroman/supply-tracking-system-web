@@ -174,4 +174,11 @@ export class MarketplaceAdminApiService {
       {},
     );
   }
+
+  confirmPayment(id: string) {
+    return this.http.post<ApiResponse<MarketplaceOrder>>(
+      `${this.base}/orders/${id}/confirm-payment`,
+      {},
+    );
+  }
 }

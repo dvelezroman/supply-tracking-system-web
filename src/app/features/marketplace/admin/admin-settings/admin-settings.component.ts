@@ -48,6 +48,13 @@ export class AdminSettingsComponent implements OnInit {
     orderNotificationEmail: ['', [Validators.email]],
     storeEnabled: [true],
     onlinePaymentsEnabled: [false],
+    bankTransferEnabled: [true],
+    bankName: [''],
+    bankAccountType: [''],
+    bankAccountNumber: [''],
+    bankBeneficiaryName: [''],
+    bankBeneficiaryRuc: [''],
+    bankContactEmail: ['', [Validators.email]],
     fromName: [''],
   });
 
@@ -59,6 +66,13 @@ export class AdminSettingsComponent implements OnInit {
           orderNotificationEmail: res.data.orderNotificationEmail ?? '',
           storeEnabled: res.data.storeEnabled,
           onlinePaymentsEnabled: !!res.data.onlinePaymentsEnabled,
+          bankTransferEnabled: res.data.bankTransferEnabled !== false,
+          bankName: res.data.bankName ?? '',
+          bankAccountType: res.data.bankAccountType ?? '',
+          bankAccountNumber: res.data.bankAccountNumber ?? '',
+          bankBeneficiaryName: res.data.bankBeneficiaryName ?? '',
+          bankBeneficiaryRuc: res.data.bankBeneficiaryRuc ?? '',
+          bankContactEmail: res.data.bankContactEmail ?? '',
           fromName: res.data.fromName ?? '',
         });
         this.isLoading.set(false);
@@ -76,6 +90,13 @@ export class AdminSettingsComponent implements OnInit {
         orderNotificationEmail: raw.orderNotificationEmail?.trim() || null,
         storeEnabled: !!raw.storeEnabled,
         onlinePaymentsEnabled: !!raw.onlinePaymentsEnabled,
+        bankTransferEnabled: !!raw.bankTransferEnabled,
+        bankName: raw.bankName?.trim() || null,
+        bankAccountType: raw.bankAccountType?.trim() || null,
+        bankAccountNumber: raw.bankAccountNumber?.trim() || null,
+        bankBeneficiaryName: raw.bankBeneficiaryName?.trim() || null,
+        bankBeneficiaryRuc: raw.bankBeneficiaryRuc?.trim() || null,
+        bankContactEmail: raw.bankContactEmail?.trim() || null,
         fromName: raw.fromName?.trim() || null,
       })
       .subscribe({

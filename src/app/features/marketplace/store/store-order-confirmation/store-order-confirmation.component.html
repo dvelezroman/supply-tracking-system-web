@@ -4,16 +4,57 @@
   @if (order(); as o) {
     <section class="confirm">
       <div class="confirm__badge">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon>
+          {{
+            o.status === 'PAID' || o.status === 'EMAILED'
+              ? 'check_circle'
+              : 'schedule'
+          }}
+        </mat-icon>
       </div>
-      <h1>{{ 'marketplace.store.confirmTitle' | transloco }}</h1>
+      <h1>
+        @if (o.paymentMethod === 'BANK_TRANSFER' && o.status === 'AWAITING_PAYMENT') {
+          {{ 'marketplace.store.confirmTitleBank' | transloco }}
+        } @else {
+          {{ 'marketplace.store.confirmTitle' | transloco }}
+        }
+      </h1>
       <p class="confirm__number">
         {{ 'marketplace.store.confirmOrder' | transloco: { order: o.orderNumber } }}
       </p>
+
       @if (o.status === 'AWAITING_PAYMENT') {
-        <p>{{ 'marketplace.store.confirmBodyAwaiting' | transloco: { name: o.customerName } }}</p>
+        @if (o.paymentMethod === 'BANK_TRANSFER') {
+          <p class="confirm__status">
+            {{ 'marketplace.store.awaitingPayment' | transloco }}
+          </p>
+          <p>
+            {{
+              'marketplace.store.confirmBodyBank'
+                | transloco: { name: o.customerName }
+            }}
+          </p>
+          @if (o.bankTransfer; as bank) {
+            <app-store-bank-transfer-panel
+              [bank]="bank"
+              [amountCents]="o.subtotalCents"
+              [currency]="o.currency"
+              [orderNumber]="o.orderNumber"
+              [customerName]="o.customerName"
+              [showSteps]="true"
+              [whatsappUrl]="whatsappUrl"
+            />
+          }
+        } @else {
+          <p>
+            {{
+              'marketplace.store.confirmBodyAwaitingEmail'
+                | transloco: { name: o.customerName }
+            }}
+          </p>
+        }
       } @else if (o.paymentMethod === 'PAYPAL' || o.status === 'PAID' || o.status === 'EMAILED') {
-        @if (o.paymentMethod === 'PAYPAL') {
+        @if (o.paymentMethod === 'PAYPAL' || o.status === 'PAID') {
           <p>{{ 'marketplace.store.confirmBodyPaid' | transloco: { name: o.customerName } }}</p>
         } @else {
           <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
