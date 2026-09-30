@@ -49,6 +49,22 @@
                 {{ o.paypalCaptureId }}
               </p>
             }
+            @if (o.payphoneClientTxId) {
+              <p>
+                <strong>Payphone Tx:</strong>
+                {{ o.payphoneClientTxId }}
+              </p>
+            }
+            @if ((o.taxCents ?? 0) > 0) {
+              <p>
+                {{ 'marketplace.store.taxIva' | transloco }}:
+                {{ formatMoney(o.taxCents!, o.currency) }}
+              </p>
+              <p>
+                {{ 'marketplace.store.grandTotal' | transloco }}:
+                <strong>{{ formatMoney(o.totalCents ?? o.subtotalCents, o.currency) }}</strong>
+              </p>
+            }
             @if (o.paymentError) {
               <p class="error">
                 {{ 'marketplace.admin.paymentError' | transloco }}: {{ o.paymentError }}

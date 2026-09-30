@@ -88,6 +88,21 @@
             }
           }
 
+          @if (payphoneAvailable()) {
+            <button
+              type="button"
+              class="checkout__pay-option"
+              [class.checkout__pay-option--active]="paymentMethod() === 'CARD'"
+              (click)="selectPayment('CARD')"
+            >
+              <span class="checkout__pay-radio" aria-hidden="true"></span>
+              <span>
+                <strong>{{ 'marketplace.store.payWithCard' | transloco }}</strong>
+                <small>{{ 'marketplace.store.payWithCardHint' | transloco }}</small>
+              </span>
+            </button>
+          }
+
           @if (paypalAvailable()) {
             <button
               type="button"
@@ -114,6 +129,8 @@
             {{ 'marketplace.store.checkoutHintPaypal' | transloco }}
           } @else if (paymentMethod() === 'BANK_TRANSFER') {
             {{ 'marketplace.store.checkoutHintBank' | transloco }}
+          } @else if (paymentMethod() === 'CARD') {
+            {{ 'marketplace.store.checkoutHintCard' | transloco }}
           } @else {
             {{ 'marketplace.store.checkoutHint' | transloco }}
           }
@@ -123,7 +140,7 @@
           type="submit"
           class="marea-btn marea-btn--primary checkout__submit"
           [class.checkout__submit--paypal]="paymentMethod() === 'PAYPAL'"
-          [disabled]="form.invalid || isSubmitting() || isSyncing()"
+          [disabled]="form.invalid || isSubmitting() || isSyncing() || showPayphoneModal()"
         >
           @if (isSubmitting() || isSyncing()) {
             <mat-spinner diameter="22" />
@@ -132,6 +149,8 @@
               <app-paypal-logo size="sm" />
               <span>{{ 'marketplace.store.payWithPaypal' | transloco }}</span>
             </span>
+          } @else if (paymentMethod() === 'CARD') {
+            {{ 'marketplace.store.payWithCard' | transloco }}
           } @else if (paymentMethod() === 'BANK_TRANSFER') {
             {{ 'marketplace.store.placeOrderBank' | transloco }}
           } @else {
@@ -187,11 +206,57 @@
             <strong>-{{ formatMoney(discountTotalCents()) }}</strong>
           </p>
         }
-        <p class="checkout__total">
-          {{ 'marketplace.store.subtotal' | transloco }}:
+        <p class="checkout__summary-row">
+          <span>{{ 'marketplace.store.subtotal' | transloco }}</span>
           <strong>{{ formatMoney(subtotalCents()) }}</strong>
         </p>
+        @if (paymentMethod() === 'CARD') {
+          <p class="checkout__summary-row checkout__summary-row--muted">
+            <span>{{ 'marketplace.store.taxIva' | transloco }}</span>
+            <span>{{ formatMoney(taxCents()) }}</span>
+          </p>
+          <p class="checkout__total">
+            {{ 'marketplace.store.grandTotal' | transloco }}:
+            <strong>{{ formatMoney(grandTotalCents()) }}</strong>
+          </p>
+        } @else {
+          <p class="checkout__total">
+            {{ 'marketplace.store.subtotal' | transloco }}:
+            <strong>{{ formatMoney(subtotalCents()) }}</strong>
+          </p>
+        }
       </aside>
     </div>
   }
 </section>
+
+@if (showPayphoneModal()) {
+  <div
+    class="checkout__pp-overlay"
+    role="presentation"
+    (click)="closePayphoneModal()"
+  ></div>
+  <div
+    class="checkout__pp-modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="'marketplace.store.payWithCard' | transloco"
+  >
+    <button
+      type="button"
+      class="checkout__pp-close"
+      (click)="closePayphoneModal()"
+      [attr.aria-label]="'common.cancel' | transloco"
+    >
+      ×
+    </button>
+    <h2>{{ 'marketplace.store.payphoneModalTitle' | transloco }}</h2>
+    <p class="checkout__pp-hint">{{ 'marketplace.store.payphoneModalHint' | transloco }}</p>
+    @if (payphoneLoading()) {
+      <div class="checkout__pp-loading">
+        <mat-spinner diameter="36" />
+      </div>
+    }
+    <div id="pp-button" class="checkout__pp-button"></div>
+  </div>
+}

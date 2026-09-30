@@ -12,6 +12,7 @@ import type {
   PublicOrderConfirmation,
   PublicStoreSettings,
   CreateOrderPayload,
+  PayphoneConfirmResult,
 } from '../models/marketplace.model';
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +54,13 @@ export class MarketplacePublicApiService {
     return this.http.post<ApiResponse<MarketplaceOrder>>(
       `${this.base}/orders/${encodeURIComponent(orderNumber)}/paypal/capture`,
       { paypalOrderId, ...(sig ? { sig } : {}) },
+    );
+  }
+
+  confirmPayphonePayment(payphoneId: number, clientTransactionId: string) {
+    return this.http.post<ApiResponse<PayphoneConfirmResult>>(
+      `${this.base}/orders/payphone/confirm`,
+      { payphoneId, clientTransactionId },
     );
   }
 

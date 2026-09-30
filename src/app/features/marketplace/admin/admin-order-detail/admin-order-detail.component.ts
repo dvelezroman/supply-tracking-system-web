@@ -98,6 +98,8 @@ export class AdminOrderDetailComponent implements OnInit {
         return this.transloco.translate('marketplace.admin.paymentMethodBank');
       case 'PAYPAL':
         return this.transloco.translate('marketplace.admin.paymentMethodPaypal');
+      case 'CARD':
+        return this.transloco.translate('marketplace.admin.paymentMethodCard');
       case 'EMAIL':
         return this.transloco.translate('marketplace.admin.paymentMethodEmail');
       default:

@@ -4,6 +4,7 @@ import {
   signal,
   ChangeDetectionStrategy,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -15,12 +16,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
+import { PayphoneSdkLoaderService } from '../../services/payphone-sdk-loader.service';
 import { CartService } from '../../services/cart.service';
 import { formatMoney } from '../../utils/money';
 import type {
   BankTransferDetails,
   CartLine,
   MarketplacePaymentMethod,
+  PayphoneBoxPaymentConfig,
 } from '../../models/marketplace.model';
 import {
   effectiveUnitPriceCents,
@@ -33,6 +36,10 @@ import {
   ecuadorWhatsappPhoneValidator,
   toEcuadorWhatsappE164,
 } from '../../utils/ecuador-phone.validators';
+import {
+  taxCentsFromSubtotalExclusive,
+  totalWithExclusiveTax,
+} from '../../utils/payphone-tax.util';
 import { PaypalLogoComponent } from '../shared/paypal-logo.component';
 import { StoreBankTransferPanelComponent } from '../shared/store-bank-transfer-panel.component';
 import { forkJoin, of } from 'rxjs';
@@ -56,7 +63,7 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './store-checkout.component.html',
   styleUrl: './store-checkout.component.scss',
 })
-export class StoreCheckoutComponent implements OnInit {
+export class StoreCheckoutComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private api = inject(MarketplacePublicApiService);
   private cart = inject(CartService);
@@ -64,19 +71,34 @@ export class StoreCheckoutComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
+  private payphoneSdk = inject(PayphoneSdkLoaderService);
 
   isSubmitting = signal(false);
   isSyncing = signal(false);
   paypalAvailable = signal(false);
   paypalMode = signal<'mock' | 'live' | 'off'>('off');
+  payphoneAvailable = signal(false);
   bankTransferEnabled = signal(false);
   bankTransfer = signal<BankTransferDetails | null>(null);
   paymentMethod = signal<MarketplacePaymentMethod>('EMAIL');
+  showPayphoneModal = signal(false);
+  payphoneLoading = signal(false);
+  payphoneConfig = signal<PayphoneBoxPaymentConfig | null>(null);
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
   readonly listSubtotalCents = this.cart.listSubtotalCents;
   readonly discountTotalCents = this.cart.discountTotalCents;
   readonly formatMoney = formatMoney;
+
+  taxCents(): number {
+    if (this.paymentMethod() !== 'CARD') return 0;
+    return taxCentsFromSubtotalExclusive(this.subtotalCents());
+  }
+
+  grandTotalCents(): number {
+    if (this.paymentMethod() !== 'CARD') return this.subtotalCents();
+    return totalWithExclusiveTax(this.subtotalCents());
+  }
 
   lineHasDiscount(line: CartLine): boolean {
     return hasLineDiscount(line);
@@ -122,9 +144,13 @@ export class StoreCheckoutComponent implements OnInit {
       next: (res) => {
         this.paypalAvailable.set(!!res.data?.paypalAvailable);
         this.paypalMode.set(res.data?.paypalMode ?? 'off');
+        this.payphoneAvailable.set(!!res.data?.payphoneAvailable);
         this.bankTransferEnabled.set(!!res.data?.bankTransferEnabled);
         this.bankTransfer.set(res.data?.bankTransfer ?? null);
         if (!res.data?.paypalAvailable && this.paymentMethod() === 'PAYPAL') {
+          this.paymentMethod.set('EMAIL');
+        }
+        if (!res.data?.payphoneAvailable && this.paymentMethod() === 'CARD') {
           this.paymentMethod.set('EMAIL');
         }
         this.syncPhoneValidators(this.paymentMethod());
@@ -133,8 +159,13 @@ export class StoreCheckoutComponent implements OnInit {
     this.syncCartWithCatalog();
   }
 
+  ngOnDestroy(): void {
+    this.closePayphoneModal();
+  }
+
   selectPayment(method: MarketplacePaymentMethod): void {
     if (method === 'PAYPAL' && !this.paypalAvailable()) return;
+    if (method === 'CARD' && !this.payphoneAvailable()) return;
     if (method === 'BANK_TRANSFER' && !this.bankTransferEnabled()) return;
     this.paymentMethod.set(method);
     this.syncPhoneValidators(method);
@@ -152,6 +183,29 @@ export class StoreCheckoutComponent implements OnInit {
       ]);
     }
     ctrl.updateValueAndValidity({ emitEvent: false });
+  }
+
+  closePayphoneModal(): void {
+    this.showPayphoneModal.set(false);
+    this.payphoneConfig.set(null);
+    this.payphoneLoading.set(false);
+    this.isSubmitting.set(false);
+  }
+
+  private async renderPayphoneBox(config: PayphoneBoxPaymentConfig): Promise<void> {
+    await this.payphoneSdk.load();
+    const Ctor = window.PPaymentButtonBox;
+    if (!Ctor) {
+      throw new Error('PPaymentButtonBox missing');
+    }
+    const container = document.getElementById('pp-button');
+    if (container) {
+      container.innerHTML = '';
+    }
+    new Ctor({
+      ...config,
+      defaultMethod: 'card',
+    }).render('pp-button');
   }
 
   submit(): void {
@@ -200,6 +254,23 @@ export class StoreCheckoutComponent implements OnInit {
           if (method === 'PAYPAL' && res.data?.approveUrl) {
             this.cart.clear();
             window.location.href = res.data.approveUrl;
+            return;
+          }
+          if (method === 'CARD' && res.data?.payment) {
+            this.payphoneConfig.set(res.data.payment);
+            this.showPayphoneModal.set(true);
+            this.payphoneLoading.set(true);
+            void this.renderPayphoneBox(res.data.payment)
+              .then(() => this.payphoneLoading.set(false))
+              .catch(() => {
+                this.payphoneLoading.set(false);
+                this.closePayphoneModal();
+                this.snackbar.error(
+                  this.transloco.translate(
+                    'marketplace.store.payphoneSdkFailed',
+                  ),
+                );
+              });
             return;
           }
           this.cart.clear();
@@ -309,6 +380,16 @@ export class StoreCheckoutComponent implements OnInit {
     ) {
       this.snackbar.error(
         this.transloco.translate('marketplace.store.paypalUnavailable'),
+      );
+      this.paymentMethod.set('EMAIL');
+      return;
+    }
+    if (
+      err.status === 400 &&
+      body?.message === 'Card payments are not available'
+    ) {
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.payphoneUnavailable'),
       );
       this.paymentMethod.set('EMAIL');
       return;

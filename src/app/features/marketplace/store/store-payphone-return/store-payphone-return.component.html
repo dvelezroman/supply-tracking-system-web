@@ -1,0 +1,17 @@
+<section class="payphone-return">
+  @if (isLoading()) {
+    <div class="payphone-return__loading">
+      <mat-spinner diameter="48" />
+      <p>{{ 'marketplace.store.payphoneConfirming' | transloco }}</p>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="payphone-return__error">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>
+      <h1>{{ 'marketplace.store.payphoneResultTitle' | transloco }}</h1>
+      <p>{{ errorMessage() }}</p>
+      <a routerLink="/tienda/checkout" class="marea-btn marea-btn--primary">
+        {{ 'marketplace.store.backToCheckout' | transloco }}
+      </a>
+    </div>
+  }
+</section>

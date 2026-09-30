@@ -48,6 +48,7 @@ export interface MarketplaceSettings {
   orderNotificationEmail?: string | null;
   storeEnabled: boolean;
   onlinePaymentsEnabled?: boolean;
+  cardPaymentsEnabled?: boolean;
   bankTransferEnabled?: boolean;
   bankName?: string | null;
   bankAccountType?: string | null;
@@ -73,6 +74,8 @@ export interface PublicStoreSettings {
   onlinePaymentsEnabled?: boolean;
   paypalAvailable?: boolean;
   paypalMode?: 'mock' | 'live' | 'off';
+  cardPaymentsEnabled?: boolean;
+  payphoneAvailable?: boolean;
   bankTransferEnabled?: boolean;
   bankTransfer?: BankTransferDetails | null;
 }
@@ -98,7 +101,11 @@ export type MarketplaceOrderStatus =
   | 'PAID'
   | 'PAYMENT_FAILED';
 
-export type MarketplacePaymentMethod = 'EMAIL' | 'PAYPAL' | 'BANK_TRANSFER';
+export type MarketplacePaymentMethod =
+  | 'EMAIL'
+  | 'PAYPAL'
+  | 'BANK_TRANSFER'
+  | 'CARD';
 
 export interface MarketplaceOrder {
   id: string;
@@ -113,10 +120,15 @@ export interface MarketplaceOrder {
   subtotalCents: number;
   listSubtotalCents: number;
   discountTotalCents: number;
+  taxCents?: number;
+  totalCents?: number;
   currency: string;
   emailError?: string | null;
   paypalOrderId?: string | null;
   paypalCaptureId?: string | null;
+  payphoneClientTxId?: string | null;
+  clientTransactionId?: string;
+  payment?: PayphoneBoxPaymentConfig;
   paidAt?: string | null;
   paymentError?: string | null;
   approveUrl?: string;
@@ -124,6 +136,28 @@ export interface MarketplaceOrder {
   items: MarketplaceOrderItem[];
   createdAt: string;
   updatedAt?: string;
+}
+
+export interface PayphoneBoxPaymentConfig {
+  token: string;
+  storeId: string;
+  clientTransactionId: string;
+  amount: number;
+  amountWithTax: number;
+  amountWithoutTax: number;
+  tax: number;
+  service: number;
+  tip: number;
+  currency: string;
+  reference: string;
+  lang: string;
+  defaultMethod: 'card';
+  timeZone: number;
+  lat?: string;
+  lng?: string;
+  email?: string;
+  phoneNumber?: string;
+  optionalParameter?: string;
 }
 
 export interface PublicOrderConfirmation {
@@ -134,11 +168,19 @@ export interface PublicOrderConfirmation {
   subtotalCents: number;
   listSubtotalCents: number;
   discountTotalCents: number;
+  taxCents?: number;
+  totalCents?: number;
   currency: string;
   paidAt?: string | null;
   bankTransfer?: BankTransferDetails | null;
   items: MarketplaceOrderItem[];
   createdAt: string;
+}
+
+export interface PayphoneConfirmResult {
+  orderNumber: string;
+  status: string;
+  paymentStatus: string;
 }
 
 export interface CreateOrderPayload {

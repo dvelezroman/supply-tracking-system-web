@@ -53,8 +53,17 @@
             }}
           </p>
         }
-      } @else if (o.paymentMethod === 'PAYPAL' || o.status === 'PAID' || o.status === 'EMAILED') {
-        @if (o.paymentMethod === 'PAYPAL' || o.status === 'PAID') {
+      } @else if (
+        o.paymentMethod === 'PAYPAL' ||
+        o.paymentMethod === 'CARD' ||
+        o.status === 'PAID' ||
+        o.status === 'EMAILED'
+      ) {
+        @if (
+          o.paymentMethod === 'PAYPAL' ||
+          o.paymentMethod === 'CARD' ||
+          o.status === 'PAID'
+        ) {
           <p>{{ 'marketplace.store.confirmBodyPaid' | transloco: { name: o.customerName } }}</p>
         } @else {
           <p>{{ 'marketplace.store.confirmBody' | transloco: { name: o.customerName } }}</p>
@@ -112,6 +121,16 @@
         {{ 'marketplace.store.subtotal' | transloco }}:
         <strong>{{ formatMoney(o.subtotalCents, o.currency) }}</strong>
       </p>
+      @if ((o.taxCents ?? 0) > 0) {
+        <p class="confirm__summary-row">
+          {{ 'marketplace.store.taxIva' | transloco }}:
+          {{ formatMoney(o.taxCents!, o.currency) }}
+        </p>
+        <p class="confirm__total">
+          {{ 'marketplace.store.grandTotal' | transloco }}:
+          <strong>{{ formatMoney(o.totalCents ?? o.subtotalCents, o.currency) }}</strong>
+        </p>
+      }
 
       <a routerLink="/tienda" class="marea-btn marea-btn--primary">
         {{ 'marketplace.store.continueShopping' | transloco }}
