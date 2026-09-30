@@ -72,6 +72,7 @@ export class UserFormComponent implements OnInit {
   form = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    phone: [''],
     password: ['', (c: AbstractControl) => this.validatePassword(c)],
     role: ['VIEWER' as UserRole, Validators.required],
     actorId: ['' as string],
@@ -103,6 +104,7 @@ export class UserFormComponent implements OnInit {
           this.form.patchValue({
             name: u.name,
             email: u.email,
+            phone: u.phone ?? '',
             password: '',
             role: u.role,
             actorId: u.actorId ?? '',
@@ -120,6 +122,7 @@ export class UserFormComponent implements OnInit {
     const v = this.form.getRawValue() as {
       name: string;
       email: string;
+      phone: string;
       password: string;
       role: UserRole;
       actorId: string;
@@ -129,6 +132,7 @@ export class UserFormComponent implements OnInit {
       const payload: AdminUpdateUserPayload = {
         email: v.email,
         name: v.name,
+        phone: v.phone?.trim() ? v.phone.trim() : null,
         role: v.role,
         actorId: v.actorId ? v.actorId : null,
       };
@@ -151,6 +155,7 @@ export class UserFormComponent implements OnInit {
           password: v.password,
           name: v.name,
           role: v.role,
+          ...(v.phone?.trim() ? { phone: v.phone.trim() } : {}),
           ...(v.actorId ? { actorId: v.actorId } : {}),
         })
         .subscribe({

@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
@@ -42,6 +43,7 @@ import { catchError } from 'rxjs/operators';
     TranslocoPipe,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
     MatProgressSpinnerModule,
     PaypalLogoComponent,
     StoreBankTransferPanelComponent,
@@ -90,9 +92,10 @@ export class StoreCheckoutComponent implements OnInit {
   form = this.fb.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     customerEmail: ['', [Validators.required, Validators.email]],
-    customerPhone: [''],
+    customerPhone: ['', [Validators.required]],
     customerAddress: [''],
     notes: [''],
+    notifyWhatsapp: [true],
   });
 
   ngOnInit(): void {
@@ -110,6 +113,7 @@ export class StoreCheckoutComponent implements OnInit {
         if (!res.data?.paypalAvailable && this.paymentMethod() === 'PAYPAL') {
           this.paymentMethod.set('EMAIL');
         }
+        this.syncPhoneValidators(this.paymentMethod());
       },
     });
     this.syncCartWithCatalog();
@@ -119,10 +123,23 @@ export class StoreCheckoutComponent implements OnInit {
     if (method === 'PAYPAL' && !this.paypalAvailable()) return;
     if (method === 'BANK_TRANSFER' && !this.bankTransferEnabled()) return;
     this.paymentMethod.set(method);
+    this.syncPhoneValidators(method);
+  }
+
+  private syncPhoneValidators(method: MarketplacePaymentMethod): void {
+    const ctrl = this.form.controls.customerPhone;
+    if (method === 'PAYPAL') {
+      ctrl.clearValidators();
+    } else {
+      ctrl.setValidators([Validators.required]);
+    }
+    ctrl.updateValueAndValidity({ emitEvent: false });
   }
 
   submit(): void {
+    this.syncPhoneValidators(this.paymentMethod());
     if (this.form.invalid || this.lines().length === 0 || this.isSyncing()) {
+      this.form.markAllAsTouched();
       return;
     }
     const currencies = new Set(
@@ -145,6 +162,7 @@ export class StoreCheckoutComponent implements OnInit {
         customerAddress: raw.customerAddress?.trim() || undefined,
         notes: raw.notes?.trim() || undefined,
         paymentMethod: method,
+        notifyWhatsapp: raw.notifyWhatsapp !== false,
         items: this.lines().map((l) => ({
           productId: l.productId,
           qty: Math.max(1, Math.floor(l.qty)),

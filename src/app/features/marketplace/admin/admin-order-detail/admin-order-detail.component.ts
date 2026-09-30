@@ -19,6 +19,11 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MarketplaceAdminApiService } from '../../services/marketplace-api.service';
+import {
+  WhatsappAdminApiService,
+  type WhatsappLogItem,
+  type WhatsappOccasion,
+} from '../../services/whatsapp-api.service';
 import { formatMoney } from '../../utils/money';
 import type { MarketplaceOrder } from '../../models/marketplace.model';
 
@@ -44,6 +49,7 @@ export class AdminOrderDetailComponent implements OnInit {
   @Input() id!: string;
 
   private api = inject(MarketplaceAdminApiService);
+  private whatsappApi = inject(WhatsappAdminApiService);
   private dialog = inject(MatDialog);
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
@@ -51,7 +57,10 @@ export class AdminOrderDetailComponent implements OnInit {
   isLoading = signal(false);
   isCancelling = signal(false);
   isConfirming = signal(false);
+  isResending = signal(false);
   order = signal<MarketplaceOrder | null>(null);
+  whatsappLogs = signal<WhatsappLogItem[]>([]);
+  whatsappConfigured = signal(false);
   readonly formatMoney = formatMoney;
 
   ngOnInit(): void {
@@ -64,9 +73,23 @@ export class AdminOrderDetailComponent implements OnInit {
       next: (res) => {
         this.order.set(res.data);
         this.isLoading.set(false);
+        this.loadWhatsapp(res.data.id);
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  private loadWhatsapp(orderId: string): void {
+    this.whatsappApi.getStatus().subscribe({
+      next: (res) => this.whatsappConfigured.set(!!res.data?.configured),
+      error: () => this.whatsappConfigured.set(false),
+    });
+    this.whatsappApi
+      .listLogs({ marketplaceOrderId: orderId, limit: 50 })
+      .subscribe({
+        next: (res) => this.whatsappLogs.set(res.data?.items ?? []),
+        error: () => this.whatsappLogs.set([]),
+      });
   }
 
   paymentMethodLabel(method?: string | null): string {
@@ -115,10 +138,32 @@ export class AdminOrderDetailComponent implements OnInit {
             this.snackbar.success(
               this.transloco.translate('marketplace.admin.paymentConfirmed'),
             );
+            this.loadWhatsapp(o.id);
           },
           error: () => this.isConfirming.set(false),
         });
       });
+  }
+
+  resendWhatsapp(occasion: WhatsappOccasion): void {
+    const o = this.order();
+    if (!o) return;
+    this.isResending.set(true);
+    this.whatsappApi.resend(o.id, occasion, true).subscribe({
+      next: () => {
+        this.isResending.set(false);
+        this.snackbar.success(
+          this.transloco.translate('marketplace.admin.whatsappResent'),
+        );
+        this.loadWhatsapp(o.id);
+      },
+      error: () => {
+        this.isResending.set(false);
+        this.snackbar.error(
+          this.transloco.translate('marketplace.admin.whatsappResendFailed'),
+        );
+      },
+    });
   }
 
   cancel(): void {

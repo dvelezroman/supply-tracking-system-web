@@ -148,6 +148,7 @@ export interface CreateOrderPayload {
   customerAddress?: string;
   notes?: string;
   paymentMethod?: MarketplacePaymentMethod;
+  notifyWhatsapp?: boolean;
   items: Array<{ productId: string; qty: number }>;
 }
 

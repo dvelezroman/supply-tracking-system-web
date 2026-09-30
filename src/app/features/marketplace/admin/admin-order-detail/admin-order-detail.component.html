@@ -128,6 +128,64 @@
             </p>
           </mat-card-content>
         </mat-card>
+
+        <mat-card class="whatsapp-card">
+          <mat-card-header>
+            <mat-card-title>{{ 'marketplace.admin.whatsappTitle' | transloco }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="muted">
+              {{
+                (whatsappConfigured()
+                  ? 'marketplace.admin.whatsappConfigured'
+                  : 'marketplace.admin.whatsappNotConfigured'
+                ) | transloco
+              }}
+            </p>
+            <div class="actions">
+              <button
+                mat-stroked-button
+                type="button"
+                [disabled]="isResending() || !whatsappConfigured()"
+                (click)="resendWhatsapp('MARKETPLACE_PENDING_ADMIN')"
+              >
+                {{ 'marketplace.admin.whatsappResendAdmin' | transloco }}
+              </button>
+              <button
+                mat-stroked-button
+                type="button"
+                [disabled]="isResending() || !whatsappConfigured()"
+                (click)="resendWhatsapp('MARKETPLACE_ORDER_RECEIVED_CUSTOMER')"
+              >
+                {{ 'marketplace.admin.whatsappResendReceived' | transloco }}
+              </button>
+              @if (o.status === 'PAID') {
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [disabled]="isResending() || !whatsappConfigured()"
+                  (click)="resendWhatsapp('MARKETPLACE_PAYMENT_APPROVED_CUSTOMER')"
+                >
+                  {{ 'marketplace.admin.whatsappResendPaid' | transloco }}
+                </button>
+              }
+            </div>
+            @if (whatsappLogs().length === 0) {
+              <p class="muted">{{ 'marketplace.admin.whatsappNoLogs' | transloco }}</p>
+            } @else {
+              <ul class="whatsapp-logs">
+                @for (log of whatsappLogs(); track log.id) {
+                  <li>
+                    <strong>{{ log.occasionLabel }}</strong>
+                    <span class="muted">{{ log.sentAt | date: 'short' }}</span>
+                    <span>{{ log.recipientLabel }}</span>
+                    <mat-chip>{{ log.source }}</mat-chip>
+                  </li>
+                }
+              </ul>
+            }
+          </mat-card-content>
+        </mat-card>
       </div>
     }
   }

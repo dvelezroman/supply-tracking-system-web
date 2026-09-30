@@ -4,6 +4,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  phone?: string | null;
   role: UserRole;
   actorId?: string;
   createdAt: string;
@@ -25,6 +26,7 @@ export interface AdminCreateUserPayload {
   email: string;
   password: string;
   name: string;
+  phone?: string;
   role: UserRole;
   actorId?: string;
 }
@@ -33,6 +35,7 @@ export interface AdminUpdateUserPayload {
   email?: string;
   password?: string;
   name?: string;
+  phone?: string | null;
   role?: UserRole;
   actorId?: string | null;
 }

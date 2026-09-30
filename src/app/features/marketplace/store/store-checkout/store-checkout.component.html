@@ -21,7 +21,11 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>{{ 'marketplace.store.customerPhone' | transloco }}</mat-label>
-          <input matInput formControlName="customerPhone" autocomplete="tel" />
+          <input matInput formControlName="customerPhone" autocomplete="tel" placeholder="09xxxxxxxx" />
+          <mat-hint>{{ 'marketplace.store.customerPhoneHint' | transloco }}</mat-hint>
+          @if (form.controls.customerPhone.hasError('required')) {
+            <mat-error>{{ 'marketplace.store.customerPhoneRequired' | transloco }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>{{ 'marketplace.store.customerAddress' | transloco }}</mat-label>
@@ -31,6 +35,10 @@
           <mat-label>{{ 'marketplace.store.notes' | transloco }}</mat-label>
           <textarea matInput rows="3" formControlName="notes"></textarea>
         </mat-form-field>
+
+        <mat-checkbox formControlName="notifyWhatsapp" class="checkout__whatsapp-opt">
+          {{ 'marketplace.store.notifyWhatsapp' | transloco }}
+        </mat-checkbox>
 
         <fieldset class="checkout__payment">
           <legend>{{ 'marketplace.store.paymentMethod' | transloco }}</legend>
