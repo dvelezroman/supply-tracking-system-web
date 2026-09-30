@@ -28,6 +28,11 @@ import {
   lineDiscountCents,
   lineTotalDiscountPercent,
 } from '../../utils/marketplace-pricing.util';
+import {
+  ecuadorNationalDigits,
+  ecuadorWhatsappPhoneValidator,
+  toEcuadorWhatsappE164,
+} from '../../utils/ecuador-phone.validators';
 import { PaypalLogoComponent } from '../shared/paypal-logo.component';
 import { StoreBankTransferPanelComponent } from '../shared/store-bank-transfer-panel.component';
 import { forkJoin, of } from 'rxjs';
@@ -92,11 +97,20 @@ export class StoreCheckoutComponent implements OnInit {
   form = this.fb.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     customerEmail: ['', [Validators.required, Validators.email]],
-    customerPhone: ['', [Validators.required]],
+    customerPhone: ['', [Validators.required, ecuadorWhatsappPhoneValidator()]],
     customerAddress: [''],
     notes: [''],
     notifyWhatsapp: [true],
   });
+
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const national = ecuadorNationalDigits(input.value);
+    if (input.value !== national) {
+      input.value = national;
+    }
+    this.form.controls.customerPhone.setValue(national, { emitEvent: false });
+  }
 
   ngOnInit(): void {
     if (this.route.snapshot.queryParamMap.get('cancelled') === '1') {
@@ -130,8 +144,12 @@ export class StoreCheckoutComponent implements OnInit {
     const ctrl = this.form.controls.customerPhone;
     if (method === 'PAYPAL') {
       ctrl.clearValidators();
+      ctrl.setValidators([ecuadorWhatsappPhoneValidator()]);
     } else {
-      ctrl.setValidators([Validators.required]);
+      ctrl.setValidators([
+        Validators.required,
+        ecuadorWhatsappPhoneValidator(),
+      ]);
     }
     ctrl.updateValueAndValidity({ emitEvent: false });
   }
@@ -154,11 +172,12 @@ export class StoreCheckoutComponent implements OnInit {
     this.isSubmitting.set(true);
     const raw = this.form.getRawValue();
     const method = this.paymentMethod();
+    const phoneE164 = toEcuadorWhatsappE164(raw.customerPhone);
     this.api
       .placeOrder({
         customerName: raw.customerName!.trim(),
         customerEmail: raw.customerEmail!.trim(),
-        customerPhone: raw.customerPhone?.trim() || undefined,
+        customerPhone: phoneE164 || undefined,
         customerAddress: raw.customerAddress?.trim() || undefined,
         notes: raw.notes?.trim() || undefined,
         paymentMethod: method,

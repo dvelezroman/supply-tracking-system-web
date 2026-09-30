@@ -32,8 +32,20 @@
 
         <mat-form-field appearance="outline" class="span-2">
           <mat-label>{{ 'users.form.phone' | transloco }}</mat-label>
-          <input matInput formControlName="phone" autocomplete="tel" />
+          <span matTextPrefix aria-hidden="true">+593&nbsp;</span>
+          <input
+            matInput
+            formControlName="phone"
+            autocomplete="tel-national"
+            inputmode="numeric"
+            maxlength="9"
+            placeholder="9xxxxxxxx"
+            (input)="onPhoneInput($event)"
+          />
           <mat-hint>{{ 'users.form.phoneHint' | transloco }}</mat-hint>
+          @if (form.controls.phone.hasError('ecuadorPhone')) {
+            <mat-error>{{ 'users.form.phoneInvalid' | transloco }}</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="span-2">

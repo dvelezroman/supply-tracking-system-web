@@ -32,6 +32,11 @@ import type {
   UserRole,
 } from '../../../core/models/auth.model';
 import type { Actor } from '../../../core/models/actor.model';
+import {
+  ecuadorNationalDigits,
+  ecuadorWhatsappPhoneValidator,
+  toEcuadorWhatsappE164,
+} from '../../marketplace/utils/ecuador-phone.validators';
 
 @Component({
   selector: 'app-user-form',
@@ -72,7 +77,7 @@ export class UserFormComponent implements OnInit {
   form = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    phone: [''],
+    phone: ['', [ecuadorWhatsappPhoneValidator()]],
     password: ['', (c: AbstractControl) => this.validatePassword(c)],
     role: ['VIEWER' as UserRole, Validators.required],
     actorId: ['' as string],
@@ -91,6 +96,15 @@ export class UserFormComponent implements OnInit {
     return null;
   }
 
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const national = ecuadorNationalDigits(input.value);
+    if (input.value !== national) {
+      input.value = national;
+    }
+    this.form.controls.phone.setValue(national, { emitEvent: false });
+  }
+
   ngOnInit(): void {
     this.actorsService.getAll(1, 500).subscribe({
       next: (res) => this.actors.set(res.data.items),
@@ -104,7 +118,7 @@ export class UserFormComponent implements OnInit {
           this.form.patchValue({
             name: u.name,
             email: u.email,
-            phone: u.phone ?? '',
+            phone: ecuadorNationalDigits(u.phone ?? ''),
             password: '',
             role: u.role,
             actorId: u.actorId ?? '',
@@ -114,6 +128,12 @@ export class UserFormComponent implements OnInit {
         error: () => this.isLoading.set(false),
       });
     }
+  }
+
+  private phonePayload(raw: string | null | undefined): string | null {
+    const trimmed = raw?.trim();
+    if (!trimmed) return null;
+    return toEcuadorWhatsappE164(trimmed);
   }
 
   onSubmit(): void {
@@ -127,12 +147,13 @@ export class UserFormComponent implements OnInit {
       role: UserRole;
       actorId: string;
     };
+    const phone = this.phonePayload(v.phone);
 
     if (this.isEditMode()) {
       const payload: AdminUpdateUserPayload = {
         email: v.email,
         name: v.name,
-        phone: v.phone?.trim() ? v.phone.trim() : null,
+        phone,
         role: v.role,
         actorId: v.actorId ? v.actorId : null,
       };
@@ -155,7 +176,7 @@ export class UserFormComponent implements OnInit {
           password: v.password,
           name: v.name,
           role: v.role,
-          ...(v.phone?.trim() ? { phone: v.phone.trim() } : {}),
+          ...(phone ? { phone } : {}),
           ...(v.actorId ? { actorId: v.actorId } : {}),
         })
         .subscribe({

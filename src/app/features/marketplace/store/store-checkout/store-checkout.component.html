@@ -19,12 +19,23 @@
           <mat-label>{{ 'marketplace.store.customerEmail' | transloco }}</mat-label>
           <input matInput type="email" formControlName="customerEmail" autocomplete="email" />
         </mat-form-field>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="checkout__phone">
           <mat-label>{{ 'marketplace.store.customerPhone' | transloco }}</mat-label>
-          <input matInput formControlName="customerPhone" autocomplete="tel" placeholder="09xxxxxxxx" />
+          <span matTextPrefix class="checkout__phone-prefix" aria-hidden="true">+593&nbsp;</span>
+          <input
+            matInput
+            formControlName="customerPhone"
+            autocomplete="tel-national"
+            inputmode="numeric"
+            maxlength="9"
+            placeholder="9xxxxxxxx"
+            (input)="onPhoneInput($event)"
+          />
           <mat-hint>{{ 'marketplace.store.customerPhoneHint' | transloco }}</mat-hint>
           @if (form.controls.customerPhone.hasError('required')) {
             <mat-error>{{ 'marketplace.store.customerPhoneRequired' | transloco }}</mat-error>
+          } @else if (form.controls.customerPhone.hasError('ecuadorPhone')) {
+            <mat-error>{{ 'marketplace.store.customerPhoneInvalid' | transloco }}</mat-error>
           }
         </mat-form-field>
         <mat-form-field appearance="outline">

@@ -80,6 +80,12 @@
   }
 }
 
+.checkout__phone-prefix {
+  font-weight: 600;
+  color: var(--store-heading, #{$marea-azul-profundo});
+  white-space: nowrap;
+}
+
 .checkout__hint {
   color: var(--store-text-muted, #{$marea-gris-medio});
   font-size: 0.875rem;
