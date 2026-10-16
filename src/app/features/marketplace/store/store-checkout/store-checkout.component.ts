@@ -84,6 +84,8 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   showPayphoneModal = signal(false);
   payphoneLoading = signal(false);
   payphoneConfig = signal<PayphoneBoxPaymentConfig | null>(null);
+  /** CARD draft order; discarded if cajita closes / fails (not a real order). */
+  private pendingCardOrderNumber: string | null = null;
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
   readonly listSubtotalCents = this.cart.listSubtotalCents;
@@ -140,6 +142,17 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
         this.transloco.translate('marketplace.store.paypalCancelled'),
       );
     }
+    if (this.route.snapshot.queryParamMap.get('payphoneFailed') === '1') {
+      this.paymentMethod.set('EMAIL');
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.payphoneChooseOther'),
+      );
+      void this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {},
+        replaceUrl: true,
+      });
+    }
     this.api.getSettings().subscribe({
       next: (res) => {
         this.paypalAvailable.set(!!res.data?.paypalAvailable);
@@ -160,7 +173,11 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.closePayphoneModal();
+    // Discard unpaid CARD draft without snackbar (navigation away).
+    this.abandonPendingCardCheckout({ notify: false, resetMethod: false });
+    this.showPayphoneModal.set(false);
+    this.payphoneConfig.set(null);
+    this.payphoneLoading.set(false);
   }
 
   selectPayment(method: MarketplacePaymentMethod): void {
@@ -185,11 +202,36 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
     ctrl.updateValueAndValidity({ emitEvent: false });
   }
 
+  /** User closed cajita or SDK failed → discard draft + ask another method. */
   closePayphoneModal(): void {
+    this.abandonPendingCardCheckout({ notify: true, resetMethod: true });
     this.showPayphoneModal.set(false);
     this.payphoneConfig.set(null);
     this.payphoneLoading.set(false);
     this.isSubmitting.set(false);
+  }
+
+  private abandonPendingCardCheckout(opts: {
+    notify: boolean;
+    resetMethod: boolean;
+  }): void {
+    const orderNumber = this.pendingCardOrderNumber;
+    this.pendingCardOrderNumber = null;
+    if (opts.resetMethod) {
+      this.paymentMethod.set('EMAIL');
+      this.syncPhoneValidators('EMAIL');
+    }
+    if (opts.notify) {
+      this.snackbar.error(
+        this.transloco.translate('marketplace.store.payphoneChooseOther'),
+      );
+    }
+    if (!orderNumber) return;
+    this.api.abandonPayphoneCheckout(orderNumber).subscribe({
+      error: () => {
+        /* already gone or network — cart/checkout still usable */
+      },
+    });
   }
 
   private async renderPayphoneBox(config: PayphoneBoxPaymentConfig): Promise<void> {
@@ -257,6 +299,7 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
             return;
           }
           if (method === 'CARD' && res.data?.payment) {
+            this.pendingCardOrderNumber = orderNumber;
             this.payphoneConfig.set(res.data.payment);
             this.showPayphoneModal.set(true);
             this.payphoneLoading.set(true);
@@ -265,11 +308,6 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
               .catch(() => {
                 this.payphoneLoading.set(false);
                 this.closePayphoneModal();
-                this.snackbar.error(
-                  this.transloco.translate(
-                    'marketplace.store.payphoneSdkFailed',
-                  ),
-                );
               });
             return;
           }

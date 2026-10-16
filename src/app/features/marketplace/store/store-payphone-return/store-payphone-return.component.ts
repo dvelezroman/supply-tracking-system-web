@@ -39,8 +39,7 @@ export class StorePayphoneReturnComponent implements OnInit {
     const payphoneId = idRaw ? Number(idRaw) : NaN;
 
     if (!Number.isFinite(payphoneId) || payphoneId < 1 || !clientTransactionId) {
-      this.isLoading.set(false);
-      this.errorMessage.set(
+      this.goCheckoutChooseOther(
         this.transloco.translate('marketplace.store.payphoneMissingParams'),
       );
       return;
@@ -51,8 +50,7 @@ export class StorePayphoneReturnComponent implements OnInit {
         this.cart.clear();
         const orderNumber = res.data?.orderNumber;
         if (!orderNumber) {
-          this.isLoading.set(false);
-          this.errorMessage.set(
+          this.goCheckoutChooseOther(
             this.transloco.translate('errors.unexpected'),
           );
           return;
@@ -63,11 +61,21 @@ export class StorePayphoneReturnComponent implements OnInit {
         void this.router.navigate(['/tienda/pedido', orderNumber]);
       },
       error: () => {
-        this.isLoading.set(false);
-        this.errorMessage.set(
-          this.transloco.translate('marketplace.store.payphoneConfirmFailed'),
+        // Backend discards unpaid CARD draft; keep cart and ask another method.
+        this.goCheckoutChooseOther(
+          this.transloco.translate('marketplace.store.payphoneChooseOther'),
         );
       },
+    });
+  }
+
+  private goCheckoutChooseOther(message: string): void {
+    this.isLoading.set(false);
+    this.errorMessage.set(message);
+    this.snackbar.error(message);
+    void this.router.navigate(['/tienda/checkout'], {
+      queryParams: { payphoneFailed: '1' },
+      replaceUrl: true,
     });
   }
 }

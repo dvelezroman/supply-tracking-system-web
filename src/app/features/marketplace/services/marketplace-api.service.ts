@@ -64,6 +64,14 @@ export class MarketplacePublicApiService {
     );
   }
 
+  /** Discard unpaid CARD draft when cajita is closed or payment fails. */
+  abandonPayphoneCheckout(orderNumber: string) {
+    return this.http.post<ApiResponse<{ abandoned: boolean; orderNumber: string }>>(
+      `${this.base}/orders/${encodeURIComponent(orderNumber)}/payphone/abandon`,
+      {},
+    );
+  }
+
   getOrderConfirmation(orderNumber: string) {
     return this.http.get<ApiResponse<PublicOrderConfirmation>>(
       `${this.base}/orders/${encodeURIComponent(orderNumber)}`,
