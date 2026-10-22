@@ -1284,6 +1284,10 @@
       "confirmBodyAwaiting": "Gracias, {{name}}. Complete el pago para confirmar su pedido.",
       "confirmBodyBank": "Gracias, {{name}}. Transfiera el monto exacto usando el número de pedido como referencia.",
       "confirmBodyAwaitingEmail": "Gracias, {{name}}. Le contactaremos por correo para coordinar el pago.",
+      "paymentDetailsTitle": "Detalle del pago",
+      "paymentMethodLabel": "Forma de pago",
+      "transactionReference": "N.º de transacción",
+      "authorizationCode": "Código de autorización",
       "orderNotFound": "Pedido no encontrado"
     }
   },

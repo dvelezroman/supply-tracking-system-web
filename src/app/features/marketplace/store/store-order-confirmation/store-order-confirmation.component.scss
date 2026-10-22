@@ -94,6 +94,34 @@
   }
 }
 
+.confirm__payment {
+  margin: 1.25rem 0 0;
+  padding: 1rem 1.1rem;
+  text-align: left;
+  background: rgba($marea-aguamarina, 0.08);
+  border: 1px solid rgba($marea-aguamarina, 0.35);
+  border-radius: 12px;
+
+  h2 {
+    margin: 0 0 0.65rem;
+    font-family: $font-marea-heading;
+    font-size: 0.95rem;
+    color: var(--store-heading, #{$marea-azul-profundo});
+  }
+}
+
+.confirm__summary-row {
+  text-align: left;
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  word-break: break-word;
+
+  strong {
+    color: var(--store-heading, #{$marea-azul-profundo});
+  }
+}
+
 .confirm__total {
   text-align: left;
   font-size: 1.05rem;

@@ -132,6 +132,33 @@
         </p>
       }
 
+      @if (
+        (o.status === 'PAID' || o.status === 'EMAILED') &&
+        (o.paymentMethodLabel || o.transactionReference || o.authorizationCode)
+      ) {
+        <div class="confirm__payment">
+          <h2>{{ 'marketplace.store.paymentDetailsTitle' | transloco }}</h2>
+          @if (o.paymentMethodLabel) {
+            <p class="confirm__summary-row">
+              {{ 'marketplace.store.paymentMethodLabel' | transloco }}:
+              <strong>{{ o.paymentMethodLabel }}</strong>
+            </p>
+          }
+          @if (o.transactionReference) {
+            <p class="confirm__summary-row">
+              {{ 'marketplace.store.transactionReference' | transloco }}:
+              <strong>{{ o.transactionReference }}</strong>
+            </p>
+          }
+          @if (o.authorizationCode) {
+            <p class="confirm__summary-row">
+              {{ 'marketplace.store.authorizationCode' | transloco }}:
+              <strong>{{ o.authorizationCode }}</strong>
+            </p>
+          }
+        </div>
+      }
+
       <a routerLink="/tienda" class="marea-btn marea-btn--primary">
         {{ 'marketplace.store.continueShopping' | transloco }}
       </a>

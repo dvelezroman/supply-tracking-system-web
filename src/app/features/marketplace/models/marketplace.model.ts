@@ -164,6 +164,9 @@ export interface PublicOrderConfirmation {
   orderNumber: string;
   status: string;
   paymentMethod?: MarketplacePaymentMethod;
+  paymentMethodLabel?: string;
+  transactionReference?: string;
+  authorizationCode?: string;
   customerName: string;
   subtotalCents: number;
   listSubtotalCents: number;

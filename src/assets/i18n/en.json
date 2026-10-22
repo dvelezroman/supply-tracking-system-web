@@ -1284,6 +1284,10 @@
       "confirmBodyAwaiting": "Thank you, {{name}}. Complete payment to confirm your order.",
       "confirmBodyBank": "Thank you, {{name}}. Transfer the exact amount using the order number as reference.",
       "confirmBodyAwaitingEmail": "Thank you, {{name}}. We will contact you by email to arrange payment.",
+      "paymentDetailsTitle": "Payment details",
+      "paymentMethodLabel": "Payment method",
+      "transactionReference": "Transaction no.",
+      "authorizationCode": "Authorization code",
       "orderNotFound": "Order not found"
     }
   },
