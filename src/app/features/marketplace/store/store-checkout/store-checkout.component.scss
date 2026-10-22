@@ -20,6 +20,16 @@
   }
 }
 
+.checkout__pending-order {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(10, 38, 71, 0.06);
+  font-size: 0.925rem;
+  line-height: 1.45;
+  color: var(--store-heading, #{$marea-azul-profundo});
+}
+
 .checkout__empty {
   text-align: center;
   padding: 1.75rem 1.15rem;

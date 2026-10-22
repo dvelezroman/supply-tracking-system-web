@@ -37,6 +37,11 @@ import {
   toEcuadorWhatsappE164,
 } from '../../utils/ecuador-phone.validators';
 import {
+  clearCardCheckoutInFlight,
+  getCardCheckoutInFlight,
+  setCardCheckoutInFlight,
+} from '../../utils/card-checkout-session.util';
+import {
   taxCentsFromSubtotalExclusive,
   totalWithExclusiveTax,
 } from '../../utils/payphone-tax.util';
@@ -84,8 +89,7 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   showPayphoneModal = signal(false);
   payphoneLoading = signal(false);
   payphoneConfig = signal<PayphoneBoxPaymentConfig | null>(null);
-  /** CARD draft order; discarded if cajita closes / fails (not a real order). */
-  private pendingCardOrderNumber: string | null = null;
+  private pendingCardClientTxId: string | null = null;
   readonly lines = this.cart.lines;
   readonly subtotalCents = this.cart.subtotalCents;
   readonly listSubtotalCents = this.cart.listSubtotalCents;
@@ -137,13 +141,17 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.pendingCardClientTxId = getCardCheckoutInFlight();
     if (this.route.snapshot.queryParamMap.get('cancelled') === '1') {
       this.snackbar.error(
         this.transloco.translate('marketplace.store.paypalCancelled'),
       );
     }
     if (this.route.snapshot.queryParamMap.get('payphoneFailed') === '1') {
-      this.paymentMethod.set('EMAIL');
+      clearCardCheckoutInFlight();
+      this.pendingCardClientTxId = null;
+      this.paymentMethod.set('CARD');
+      this.syncPhoneValidators('CARD');
       this.snackbar.error(
         this.transloco.translate('marketplace.store.payphoneChooseOther'),
       );
@@ -173,8 +181,6 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Discard unpaid CARD draft without snackbar (navigation away).
-    this.abandonPendingCardCheckout({ notify: false, resetMethod: false });
     this.showPayphoneModal.set(false);
     this.payphoneConfig.set(null);
     this.payphoneLoading.set(false);
@@ -202,36 +208,38 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
     ctrl.updateValueAndValidity({ emitEvent: false });
   }
 
-  /** User closed cajita or SDK failed → discard draft + ask another method. */
+  /** User closed cajita — drop pre-payment session; retry = new checkout submit. */
   closePayphoneModal(): void {
-    this.abandonPendingCardCheckout({ notify: true, resetMethod: true });
+    const clientTxId = this.pendingCardClientTxId;
+    this.pendingCardClientTxId = null;
+    clearCardCheckoutInFlight();
     this.showPayphoneModal.set(false);
     this.payphoneConfig.set(null);
     this.payphoneLoading.set(false);
     this.isSubmitting.set(false);
+    if (clientTxId) {
+      this.api.abandonPayphoneCheckout(clientTxId).subscribe({ error: () => undefined });
+    }
+    this.snackbar.error(
+      this.transloco.translate('marketplace.store.payphoneChooseOther'),
+    );
   }
 
-  private abandonPendingCardCheckout(opts: {
-    notify: boolean;
-    resetMethod: boolean;
-  }): void {
-    const orderNumber = this.pendingCardOrderNumber;
-    this.pendingCardOrderNumber = null;
-    if (opts.resetMethod) {
-      this.paymentMethod.set('EMAIL');
-      this.syncPhoneValidators('EMAIL');
-    }
-    if (opts.notify) {
-      this.snackbar.error(
-        this.transloco.translate('marketplace.store.payphoneChooseOther'),
-      );
-    }
-    if (!orderNumber) return;
-    this.api.abandonPayphoneCheckout(orderNumber).subscribe({
-      error: () => {
-        /* already gone or network — cart/checkout still usable */
-      },
-    });
+  private openPayphoneCheckout(
+    clientTransactionId: string,
+    payment: PayphoneBoxPaymentConfig,
+  ): void {
+    this.pendingCardClientTxId = clientTransactionId;
+    setCardCheckoutInFlight(clientTransactionId);
+    this.payphoneConfig.set(payment);
+    this.showPayphoneModal.set(true);
+    this.payphoneLoading.set(true);
+    void this.renderPayphoneBox(payment)
+      .then(() => this.payphoneLoading.set(false))
+      .catch(() => {
+        this.payphoneLoading.set(false);
+        this.closePayphoneModal();
+      });
   }
 
   private async renderPayphoneBox(config: PayphoneBoxPaymentConfig): Promise<void> {
@@ -252,7 +260,8 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.syncPhoneValidators(this.paymentMethod());
-    if (this.form.invalid || this.lines().length === 0 || this.isSyncing()) {
+    const method = this.paymentMethod();
+    if (this.form.invalid || this.isSyncing() || this.lines().length === 0) {
       this.form.markAllAsTouched();
       return;
     }
@@ -267,8 +276,8 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
     }
     this.isSubmitting.set(true);
     const raw = this.form.getRawValue();
-    const method = this.paymentMethod();
     const phoneE164 = toEcuadorWhatsappE164(raw.customerPhone);
+
     this.api
       .placeOrder({
         customerName: raw.customerName!.trim(),
@@ -285,30 +294,25 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (res) => {
+          if (method === 'PAYPAL' && res.data?.approveUrl && res.data.orderNumber) {
+            this.cart.clear();
+            window.location.href = res.data.approveUrl;
+            return;
+          }
+          if (method === 'CARD' && res.data?.payment && res.data.clientTransactionId) {
+            this.isSubmitting.set(false);
+            this.openPayphoneCheckout(
+              res.data.clientTransactionId,
+              res.data.payment,
+            );
+            return;
+          }
           const orderNumber = res.data?.orderNumber;
           if (!orderNumber) {
             this.isSubmitting.set(false);
             this.snackbar.error(
               this.transloco.translate('errors.unexpected'),
             );
-            return;
-          }
-          if (method === 'PAYPAL' && res.data?.approveUrl) {
-            this.cart.clear();
-            window.location.href = res.data.approveUrl;
-            return;
-          }
-          if (method === 'CARD' && res.data?.payment) {
-            this.pendingCardOrderNumber = orderNumber;
-            this.payphoneConfig.set(res.data.payment);
-            this.showPayphoneModal.set(true);
-            this.payphoneLoading.set(true);
-            void this.renderPayphoneBox(res.data.payment)
-              .then(() => this.payphoneLoading.set(false))
-              .catch(() => {
-                this.payphoneLoading.set(false);
-                this.closePayphoneModal();
-              });
             return;
           }
           this.cart.clear();

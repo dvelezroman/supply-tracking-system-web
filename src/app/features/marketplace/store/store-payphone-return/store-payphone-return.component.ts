@@ -10,6 +10,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MarketplacePublicApiService } from '../../services/marketplace-api.service';
+import { clearCardCheckoutInFlight } from '../../utils/card-checkout-session.util';
 import { CartService } from '../../services/cart.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 
@@ -47,6 +48,7 @@ export class StorePayphoneReturnComponent implements OnInit {
 
     this.api.confirmPayphonePayment(payphoneId, clientTransactionId).subscribe({
       next: (res) => {
+        clearCardCheckoutInFlight();
         this.cart.clear();
         const orderNumber = res.data?.orderNumber;
         if (!orderNumber) {
@@ -61,7 +63,7 @@ export class StorePayphoneReturnComponent implements OnInit {
         void this.router.navigate(['/tienda/pedido', orderNumber]);
       },
       error: () => {
-        // Backend discards unpaid CARD draft; keep cart and ask another method.
+        clearCardCheckoutInFlight();
         this.goCheckoutChooseOther(
           this.transloco.translate('marketplace.store.payphoneChooseOther'),
         );
