@@ -5,6 +5,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
+  afterNextRender,
+  Injector,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -77,6 +79,7 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
   private snackbar = inject(SnackbarService);
   private transloco = inject(TranslocoService);
   private payphoneSdk = inject(PayphoneSdkLoaderService);
+  private injector = inject(Injector);
 
   isSubmitting = signal(false);
   isSyncing = signal(false);
@@ -234,28 +237,68 @@ export class StoreCheckoutComponent implements OnInit, OnDestroy {
     this.payphoneConfig.set(payment);
     this.showPayphoneModal.set(true);
     this.payphoneLoading.set(true);
-    void this.renderPayphoneBox(payment)
-      .then(() => this.payphoneLoading.set(false))
-      .catch(() => {
-        this.payphoneLoading.set(false);
-        this.closePayphoneModal();
-      });
+    afterNextRender(
+      () => {
+        void this.renderPayphoneBox(payment)
+          .then(() => this.payphoneLoading.set(false))
+          .catch(() => {
+            this.payphoneLoading.set(false);
+            this.failPayphoneRender();
+          });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  /** Cajita failed to mount or SDK missing — distinct from user closing the modal. */
+  private failPayphoneRender(): void {
+    const clientTxId = this.pendingCardClientTxId;
+    this.pendingCardClientTxId = null;
+    clearCardCheckoutInFlight();
+    this.showPayphoneModal.set(false);
+    this.payphoneConfig.set(null);
+    this.isSubmitting.set(false);
+    if (clientTxId) {
+      this.api.abandonPayphoneCheckout(clientTxId).subscribe({ error: () => undefined });
+    }
+    this.snackbar.error(
+      this.transloco.translate('marketplace.store.payphoneSdkFailed'),
+    );
   }
 
   private async renderPayphoneBox(config: PayphoneBoxPaymentConfig): Promise<void> {
     await this.payphoneSdk.load();
+    await this.waitForPayphoneMount();
     const Ctor = window.PPaymentButtonBox;
     if (!Ctor) {
       throw new Error('PPaymentButtonBox missing');
     }
     const container = document.getElementById('pp-button');
-    if (container) {
-      container.innerHTML = '';
+    if (!container) {
+      throw new Error('Payphone mount #pp-button missing');
     }
+    container.innerHTML = '';
     new Ctor({
       ...config,
       defaultMethod: 'card',
     }).render('pp-button');
+  }
+
+  private waitForPayphoneMount(maxAttempts = 20): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const tick = (left: number) => {
+        if (document.getElementById('pp-button')) {
+          resolve();
+          return;
+        }
+        if (left <= 0) {
+          reject(new Error('Payphone mount #pp-button missing'));
+          return;
+        }
+        requestAnimationFrame(() => tick(left - 1));
+      };
+      tick(maxAttempts);
+    });
   }
 
   submit(): void {
