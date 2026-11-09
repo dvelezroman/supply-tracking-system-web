@@ -20,6 +20,8 @@ export interface MarketplaceProduct {
   promoDiscountPercent: number;
   currency: string;
   stockQty: number;
+  /** Units held by open CARD checkouts (admin). Storefront stockQty is already net of this. */
+  reservedQty?: number;
   published: boolean;
   traceProductId?: string | null;
   traceProduct?: { id: string; sku: string; name: string } | null;
@@ -99,7 +101,22 @@ export type MarketplaceOrderStatus =
   | 'CANCELLED'
   | 'AWAITING_PAYMENT'
   | 'PAID'
-  | 'PAYMENT_FAILED';
+  | 'PAYMENT_FAILED'
+  | 'FULFILLED';
+
+export interface MarketplacePayment {
+  id: string;
+  payphoneId?: number | null;
+  clientTransactionId: string;
+  status: string;
+  amountCents: number;
+  taxCents?: number;
+  currency?: string;
+  authorizationCode?: string | null;
+  transactionId?: string | null;
+  confirmedAt?: string | null;
+  createdAt?: string;
+}
 
 export type MarketplacePaymentMethod =
   | 'EMAIL'
@@ -129,7 +146,9 @@ export interface MarketplaceOrder {
   payphoneClientTxId?: string | null;
   clientTransactionId?: string;
   payment?: PayphoneBoxPaymentConfig;
+  payments?: MarketplacePayment[];
   paidAt?: string | null;
+  fulfilledAt?: string | null;
   paymentError?: string | null;
   approveUrl?: string;
   paypalMode?: 'mock' | 'live' | 'off';

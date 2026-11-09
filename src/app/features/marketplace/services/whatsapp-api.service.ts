@@ -5,6 +5,7 @@ import type { ApiResponse } from '../../../core/models/api-response.model';
 
 export type WhatsappOccasion =
   | 'MARKETPLACE_PENDING_ADMIN'
+  | 'MARKETPLACE_PAID_ADMIN'
   | 'MARKETPLACE_ORDER_RECEIVED_CUSTOMER'
   | 'MARKETPLACE_PAYMENT_APPROVED_CUSTOMER'
   | 'MARKETPLACE_ORDER_CANCELLED_CUSTOMER'

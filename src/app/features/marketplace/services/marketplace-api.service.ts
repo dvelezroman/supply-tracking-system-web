@@ -195,4 +195,11 @@ export class MarketplaceAdminApiService {
       {},
     );
   }
+
+  fulfillOrder(id: string) {
+    return this.http.patch<ApiResponse<MarketplaceOrder>>(
+      `${this.base}/orders/${id}/fulfill`,
+      {},
+    );
+  }
 }

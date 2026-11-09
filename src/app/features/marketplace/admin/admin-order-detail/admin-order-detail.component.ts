@@ -57,6 +57,7 @@ export class AdminOrderDetailComponent implements OnInit {
   isLoading = signal(false);
   isCancelling = signal(false);
   isConfirming = signal(false);
+  isFulfilling = signal(false);
   isResending = signal(false);
   order = signal<MarketplaceOrder | null>(null);
   whatsappLogs = signal<WhatsappLogItem[]>([]);
@@ -114,6 +115,20 @@ export class AdminOrderDetailComponent implements OnInit {
     );
   }
 
+  canFulfill(o: MarketplaceOrder): boolean {
+    return o.status === 'PAID' || o.status === 'EMAILED';
+  }
+
+  canCancel(o: MarketplaceOrder): boolean {
+    return o.status !== 'CANCELLED' && o.status !== 'FULFILLED';
+  }
+
+  latestCardPayment(o: MarketplaceOrder) {
+    return (o.payments ?? []).find(
+      (p) => p.status === 'CONFIRMED' || !!p.authorizationCode || !!p.transactionId,
+    );
+  }
+
   confirmPayment(): void {
     const o = this.order();
     if (!o || !this.canConfirmPayment(o)) return;
@@ -168,9 +183,38 @@ export class AdminOrderDetailComponent implements OnInit {
     });
   }
 
+  fulfill(): void {
+    const o = this.order();
+    if (!o || !this.canFulfill(o)) return;
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: this.transloco.translate('marketplace.admin.fulfillTitle'),
+          message: this.transloco.translate('marketplace.admin.fulfillMsg', {
+            order: o.orderNumber,
+          }),
+        },
+      })
+      .afterClosed()
+      .subscribe((ok) => {
+        if (!ok) return;
+        this.isFulfilling.set(true);
+        this.api.fulfillOrder(o.id).subscribe({
+          next: (res) => {
+            this.order.set(res.data);
+            this.isFulfilling.set(false);
+            this.snackbar.success(
+              this.transloco.translate('marketplace.admin.fulfilled'),
+            );
+          },
+          error: () => this.isFulfilling.set(false),
+        });
+      });
+  }
+
   cancel(): void {
     const o = this.order();
-    if (!o || o.status === 'CANCELLED') return;
+    if (!o || !this.canCancel(o)) return;
     this.dialog
       .open(ConfirmDialogComponent, {
         data: {

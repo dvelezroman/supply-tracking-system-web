@@ -51,8 +51,34 @@
             }
             @if (o.payphoneClientTxId) {
               <p>
-                <strong>Payphone Tx:</strong>
+                <strong>{{ 'marketplace.admin.payphoneClientTx' | transloco }}:</strong>
                 {{ o.payphoneClientTxId }}
+              </p>
+            }
+            @if (latestCardPayment(o); as pay) {
+              @if (pay.transactionId) {
+                <p>
+                  <strong>{{ 'marketplace.admin.payphoneTransactionId' | transloco }}:</strong>
+                  {{ pay.transactionId }}
+                </p>
+              }
+              @if (pay.authorizationCode) {
+                <p>
+                  <strong>{{ 'marketplace.admin.payphoneAuthCode' | transloco }}:</strong>
+                  {{ pay.authorizationCode }}
+                </p>
+              }
+              @if (pay.payphoneId) {
+                <p>
+                  <strong>{{ 'marketplace.admin.payphoneId' | transloco }}:</strong>
+                  {{ pay.payphoneId }}
+                </p>
+              }
+            }
+            @if (o.fulfilledAt) {
+              <p>
+                <strong>{{ 'marketplace.admin.fulfilledAt' | transloco }}:</strong>
+                {{ o.fulfilledAt | date: 'medium' }}
               </p>
             }
             @if ((o.taxCents ?? 0) > 0) {
@@ -85,7 +111,18 @@
                   {{ 'marketplace.admin.confirmPayment' | transloco }}
                 </button>
               }
-              @if (o.status !== 'CANCELLED') {
+              @if (canFulfill(o)) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  type="button"
+                  [disabled]="isFulfilling()"
+                  (click)="fulfill()"
+                >
+                  {{ 'marketplace.admin.markFulfilled' | transloco }}
+                </button>
+              }
+              @if (canCancel(o)) {
                 <button
                   mat-stroked-button
                   color="warn"
@@ -175,7 +212,15 @@
               >
                 {{ 'marketplace.admin.whatsappResendReceived' | transloco }}
               </button>
-              @if (o.status === 'PAID') {
+              @if (o.status === 'PAID' || o.status === 'FULFILLED') {
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [disabled]="isResending() || !whatsappConfigured()"
+                  (click)="resendWhatsapp('MARKETPLACE_PAID_ADMIN')"
+                >
+                  {{ 'marketplace.admin.whatsappResendPaidAdmin' | transloco }}
+                </button>
                 <button
                   mat-stroked-button
                   type="button"
