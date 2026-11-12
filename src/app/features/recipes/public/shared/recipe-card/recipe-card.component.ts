@@ -151,7 +151,8 @@ import { localizeRecipeFields } from '../recipe-content-i18n';
       }
       .recipe-card__title {
         margin: 0;
-        font-family: Montserrat, Roboto, system-ui, sans-serif;
+        font-family: 'Open Sans', system-ui, sans-serif;
+        font-stretch: condensed;
         font-size: 1.05rem;
         font-weight: 700;
         color: #0a2647;

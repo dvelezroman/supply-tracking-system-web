@@ -126,7 +126,7 @@
 
   h2 {
     margin: 0;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 1.125rem;
     font-weight: 700;
     color: var(--store-heading, #{$marea-azul-profundo});
@@ -151,7 +151,7 @@
 
   h3 {
     margin: 0 0 1rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 0.875rem;
     font-weight: 700;
     color: var(--store-heading, #{$marea-azul-profundo});

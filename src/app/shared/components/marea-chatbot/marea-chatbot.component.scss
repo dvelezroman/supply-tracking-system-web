@@ -5,8 +5,8 @@ $coral: #e85d5d;
 $amarillo: #e8c547;
 $gris-claro: #f3f6f9;
 $gris-medio: #5c6b7a;
-$font-heading: 'Sora', 'Montserrat', system-ui, sans-serif;
-$font-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
+$font-heading: 'Open Sans', system-ui, sans-serif;
+$font-body: 'Open Sans', system-ui, sans-serif;
 
 $fab-size: 58px;
 $fab-gap: 12px;
@@ -227,6 +227,7 @@ $header-gap: 10px;
 
 .marea-chat__head-title {
   font-family: $font-heading;
+  font-stretch: condensed;
   font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: 0.01em;

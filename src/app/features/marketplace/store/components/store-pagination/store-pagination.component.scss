@@ -20,7 +20,7 @@
   border: 1px solid var(--store-border, #{$border-ocean});
   background: var(--store-surface, #{$marea-blanco});
   color: var(--store-heading, #{$marea-azul-profundo});
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;

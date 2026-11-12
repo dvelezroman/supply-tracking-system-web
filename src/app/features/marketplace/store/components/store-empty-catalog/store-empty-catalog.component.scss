@@ -23,7 +23,7 @@
 
 .empty__title {
   margin: 0;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 1rem;
   font-weight: 600;
   color: var(--store-heading, #{$marea-azul-profundo});

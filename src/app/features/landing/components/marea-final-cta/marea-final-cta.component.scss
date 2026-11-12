@@ -14,7 +14,7 @@
 
   &__title {
     margin: 0 0 0.75rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 700;
     color: $marea-blanco;

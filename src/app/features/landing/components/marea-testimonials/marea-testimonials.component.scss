@@ -19,7 +19,7 @@
 
   &__title {
     margin: 0 0 0.5rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: clamp(1.45rem, 3vw, 1.85rem);
     font-weight: 700;
     color: $marea-azul-profundo;
@@ -154,7 +154,7 @@
 
     p {
       margin: 0;
-      font-family: $font-marea-quote;
+      @include marea-quote-font;
       font-size: 1.05rem;
       font-style: italic;
       line-height: 1.65;

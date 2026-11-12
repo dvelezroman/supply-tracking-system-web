@@ -29,7 +29,7 @@
 
   h2 {
     margin: 0 0 0.5rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: clamp(1.15rem, 4vw, 1.4rem);
     color: var(--store-heading, #{$marea-azul-profundo});
   }
@@ -93,7 +93,7 @@
 
   h2 {
     margin: 0;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;

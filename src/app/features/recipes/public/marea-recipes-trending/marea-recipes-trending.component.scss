@@ -24,7 +24,7 @@
 
   h2 {
     margin: 0 0 0.4rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: clamp(1.45rem, 3vw, 1.9rem);
     font-weight: 700;
     color: $marea-azul-profundo;
@@ -62,7 +62,7 @@
     border: 1px solid $border-ocean;
     background: $marea-blanco;
     color: $marea-azul-principal;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;

@@ -22,7 +22,7 @@
   &__title {
     margin: 0 0 0.65rem;
     text-align: center;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: clamp(1.45rem, 3vw, 1.85rem);
     font-weight: 700;
     color: $marea-azul-profundo;
@@ -94,7 +94,7 @@
 
   &__card-title {
     margin: 0 0 0.65rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 1.05rem;
     font-weight: 700;
     color: $marea-azul-profundo;

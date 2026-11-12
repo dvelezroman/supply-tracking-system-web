@@ -16,7 +16,7 @@
   }
 
   h1 {
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     color: var(--store-heading, #{$marea-azul-profundo});
     margin: 0.5rem 0;
     font-size: clamp(1.35rem, 5vw, 1.75rem);
@@ -104,7 +104,7 @@
 
   h2 {
     margin: 0 0 0.65rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 0.95rem;
     color: var(--store-heading, #{$marea-azul-profundo});
   }
@@ -140,7 +140,7 @@
   justify-content: center;
   border-radius: 10px;
   padding: 14px 20px;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 600;
   text-decoration: none;
   min-height: 48px;

@@ -119,7 +119,7 @@
 }
 
 .product-card__title {
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1.25;
@@ -157,7 +157,7 @@
 
 .product-card__price {
   margin: 0;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.02em;

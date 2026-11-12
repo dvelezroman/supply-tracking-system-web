@@ -25,11 +25,27 @@ $gradient-hero-overlay: linear-gradient(
 $gradient-surface: linear-gradient(180deg, #eef3f8 0%, $marea-gris-claro 48%, #e6edf4 100%);
 $gradient-cta-warm: linear-gradient(120deg, rgba(232, 238, 244, 0.9) 0%, $marea-gris-claro 55%);
 
-// Distinctive pair — not Inter/Roboto/system default stack
-$font-marea-heading: 'Sora', 'Montserrat', system-ui, sans-serif;
-$font-marea-body: 'Figtree', 'Open Sans', system-ui, sans-serif;
-$font-marea-quote: 'Fraunces', Georgia, serif;
-$font-marea-brand: 'Sora', system-ui, sans-serif;
+// Rotary free pair: Open Sans Condensed (Frutiger stand-in) + Open Sans.
+// Georgia stands in for Sentinel on pull quotes.
+$font-marea-heading: 'Open Sans', system-ui, sans-serif;
+$font-marea-body: 'Open Sans', system-ui, sans-serif;
+$font-marea-quote: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+$font-marea-brand: 'Open Sans', system-ui, sans-serif;
+
+@mixin marea-heading-font {
+  font-family: $font-marea-heading;
+  font-stretch: condensed;
+}
+
+@mixin marea-brand-font {
+  font-family: $font-marea-brand;
+  font-stretch: condensed;
+}
+
+@mixin marea-quote-font {
+  font-family: $font-marea-quote;
+  font-stretch: normal;
+}
 
 $marea-container: 1120px;
 $section-pad-y: clamp(2.75rem, 7vw, 5rem);

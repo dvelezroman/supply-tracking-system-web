@@ -65,7 +65,7 @@
 }
 
 .store__title {
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 700;
   letter-spacing: 0.02em;
   font-size: 0.9rem;
@@ -103,7 +103,7 @@
 .store__nav-link {
   color: var(--store-text-muted, #{$marea-gris-medio});
   text-decoration: none;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 8px 12px;

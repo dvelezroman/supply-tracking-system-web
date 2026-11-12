@@ -52,7 +52,7 @@
 
   &__brand {
     margin: 0 0 1rem;
-    font-family: $font-marea-brand;
+    @include marea-brand-font;
     font-size: clamp(1.65rem, 7.5vw, 2.75rem);
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -64,7 +64,7 @@
 
   &__title {
     margin: 0 0 1rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-weight: 600;
     font-size: clamp(1.2rem, 4.2vw, 1.85rem);
     line-height: 1.25;
@@ -84,7 +84,7 @@
     display: block;
 
     &--emphasis {
-      font-family: $font-marea-quote;
+      @include marea-quote-font;
       font-weight: 500;
       font-size: clamp(1.05rem, 3.6vw, 1.55rem);
       font-style: italic;
@@ -164,7 +164,7 @@
   width: 100%;
   min-height: 48px;
   box-sizing: border-box;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 600;
   font-size: 0.9375rem;
   padding: 0.8rem 1.25rem;

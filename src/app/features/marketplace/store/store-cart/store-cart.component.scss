@@ -12,7 +12,7 @@
 
   h1 {
     margin: 0;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     color: var(--store-heading, #{$marea-azul-profundo});
     font-size: clamp(1.4rem, 5vw, 1.9rem);
     line-height: 1.2;
@@ -43,7 +43,7 @@
 
 .cart__empty-title {
   margin: 0;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--store-heading, #{$marea-azul-profundo});
@@ -125,7 +125,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   color: var(--store-heading, #{$marea-azul-profundo});
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
@@ -220,7 +220,7 @@
 
 .cart__line-total {
   display: none;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 700;
   font-size: 1rem;
   color: var(--store-heading, #{$marea-azul-profundo});
@@ -249,7 +249,7 @@
 
   h2 {
     margin: 0 0 1rem;
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 1.05rem;
     color: var(--store-heading, #{$marea-azul-profundo});
   }
@@ -263,7 +263,7 @@
   font-size: 1rem;
 
   strong {
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 1.25rem;
     color: var(--store-heading, #{$marea-azul-profundo});
   }

@@ -87,7 +87,7 @@
   border: 1px solid var(--store-border, #{$border-ocean});
   background: var(--store-surface, #{$marea-blanco});
   color: var(--store-text-muted, #{$marea-gris-medio});
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
@@ -117,7 +117,7 @@
     border: 1px solid var(--store-border, #{$border-ocean});
     background: var(--store-surface, #{$marea-blanco});
     color: var(--store-text, #{$marea-gris-oscuro});
-    font-family: $font-marea-heading;
+    @include marea-heading-font;
     font-size: 0.8rem;
     font-weight: 600;
     outline: none;
@@ -254,7 +254,7 @@
   gap: 8px;
   border-radius: 10px;
   padding: 12px 20px;
-  font-family: $font-marea-heading;
+  @include marea-heading-font;
   font-weight: 600;
   text-decoration: none;
   min-height: 44px;

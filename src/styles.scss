@@ -9,7 +9,7 @@ $warn:    mat.define-palette(mat.$red-palette);
 $theme: mat.define-light-theme((
   color: (primary: $primary, accent: $accent, warn: $warn),
   typography: mat.define-typography-config(
-    $font-family: 'Roboto, sans-serif'
+    $font-family: "'Open Sans', system-ui, sans-serif"
   ),
   density: 0
 ));
@@ -17,7 +17,7 @@ $theme: mat.define-light-theme((
 $dark-theme: mat.define-dark-theme((
   color: (primary: $primary, accent: $accent, warn: $warn),
   typography: mat.define-typography-config(
-    $font-family: 'Roboto, sans-serif'
+    $font-family: "'Open Sans', system-ui, sans-serif"
   ),
   density: 0
 ));
@@ -117,7 +117,7 @@ app-main-shell .content {
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Roboto, sans-serif;
+  font-family: 'Open Sans', system-ui, sans-serif;
   background-color: var(--st-surface);
   color: var(--st-text);
 }
